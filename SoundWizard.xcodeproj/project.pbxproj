@@ -3,19 +3,33 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DEBF5CE2254A49A200818B86 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBF5CE1254A49A200818B86 /* Extensions.swift */; };
 		DEC1862F254A399D00D730CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1862E254A399D00D730CC /* AppDelegate.swift */; };
 		DEC18631254A399D00D730CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC18630254A399D00D730CC /* SceneDelegate.swift */; };
 		DEC18633254A399D00D730CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC18632254A399D00D730CC /* ViewController.swift */; };
-		DEC18636254A399D00D730CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEC18634254A399D00D730CC /* Main.storyboard */; };
 		DEC18639254A399D00D730CC /* SoundWizard.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DEC18637254A399D00D730CC /* SoundWizard.xcdatamodeld */; };
 		DEC1863B254A399F00D730CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEC1863A254A399F00D730CC /* Assets.xcassets */; };
 		DEC1863E254A399F00D730CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEC1863C254A399F00D730CC /* LaunchScreen.storyboard */; };
 		DEC18649254A399F00D730CC /* SoundWizardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC18648254A399F00D730CC /* SoundWizardTests.swift */; };
 		DEC18654254A399F00D730CC /* SoundWizardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC18653254A399F00D730CC /* SoundWizardUITests.swift */; };
+		DEC1866F254A39DB00D730CC /* FrequencyGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1866C254A39C800D730CC /* FrequencyGraphView.swift */; };
+		DEC18670254A39DB00D730CC /* EQDetectiveTurn.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC18669254A39C800D730CC /* EQDetectiveTurn.swift */; };
+		DEC18671254A39DB00D730CC /* EQDetectiveEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1866A254A39C800D730CC /* EQDetectiveEngine.swift */; };
+		DEC18672254A39DB00D730CC /* EQDetectiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1866D254A39C800D730CC /* EQDetectiveViewController.swift */; };
+		DEC18673254A39DB00D730CC /* EQDetectiveRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1866B254A39C800D730CC /* EQDetectiveRound.swift */; };
+		DEC18674254A39DB00D730CC /* EQDetectiveRoundData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1866E254A39C800D730CC /* EQDetectiveRoundData.swift */; };
+		DEC18680254A3A1A00D730CC /* AudioCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1867F254A3A1600D730CC /* AudioCalculator.swift */; };
+		DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1867D254A3A1600D730CC /* FilterConductor.swift */; };
+		DEC18682254A3A1A00D730CC /* Cookbook.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1867E254A3A1600D730CC /* Cookbook.swift */; };
+		DEC18689254A3A2500D730CC /* Drums.wav in Resources */ = {isa = PBXBuildFile; fileRef = DEC18688254A3A2200D730CC /* Drums.wav */; };
+		DEC1868A254A3A2500D730CC /* Pink.aif in Resources */ = {isa = PBXBuildFile; fileRef = DEC18687254A3A2200D730CC /* Pink.aif */; };
+		DEC18690254A3ABE00D730CC /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = DEC1868F254A3ABE00D730CC /* AudioKit */; };
+		DEC186A1254A3C6500D730CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEC18678254A39FF00D730CC /* Main.storyboard */; };
+		DEC186AB254A3CB600D730CC /* EQDetectiveEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC186AA254A3CB600D730CC /* EQDetectiveEngineTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,11 +50,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DEBF5CE1254A49A200818B86 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DEC1862B254A399D00D730CC /* SoundWizard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundWizard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEC1862E254A399D00D730CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DEC18630254A399D00D730CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DEC18632254A399D00D730CC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		DEC18635254A399D00D730CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DEC18638254A399D00D730CC /* SoundWizard.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SoundWizard.xcdatamodel; sourceTree = "<group>"; };
 		DEC1863A254A399F00D730CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEC1863D254A399F00D730CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +65,19 @@
 		DEC1864F254A399F00D730CC /* SoundWizardUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundWizardUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEC18653254A399F00D730CC /* SoundWizardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundWizardUITests.swift; sourceTree = "<group>"; };
 		DEC18655254A399F00D730CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEC18669254A39C800D730CC /* EQDetectiveTurn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveTurn.swift; sourceTree = "<group>"; };
+		DEC1866A254A39C800D730CC /* EQDetectiveEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveEngine.swift; sourceTree = "<group>"; };
+		DEC1866B254A39C800D730CC /* EQDetectiveRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveRound.swift; sourceTree = "<group>"; };
+		DEC1866C254A39C800D730CC /* FrequencyGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyGraphView.swift; sourceTree = "<group>"; };
+		DEC1866D254A39C800D730CC /* EQDetectiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveViewController.swift; sourceTree = "<group>"; };
+		DEC1866E254A39C800D730CC /* EQDetectiveRoundData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveRoundData.swift; sourceTree = "<group>"; };
+		DEC18678254A39FF00D730CC /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		DEC1867D254A3A1600D730CC /* FilterConductor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterConductor.swift; sourceTree = "<group>"; };
+		DEC1867E254A3A1600D730CC /* Cookbook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cookbook.swift; sourceTree = "<group>"; };
+		DEC1867F254A3A1600D730CC /* AudioCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCalculator.swift; sourceTree = "<group>"; };
+		DEC18687254A3A2200D730CC /* Pink.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pink.aif; sourceTree = "<group>"; };
+		DEC18688254A3A2200D730CC /* Drums.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Drums.wav; sourceTree = "<group>"; };
+		DEC186AA254A3CB600D730CC /* EQDetectiveEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveEngineTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEC18690254A3ABE00D730CC /* AudioKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,11 +132,14 @@
 				DEC1862E254A399D00D730CC /* AppDelegate.swift */,
 				DEC18630254A399D00D730CC /* SceneDelegate.swift */,
 				DEC18632254A399D00D730CC /* ViewController.swift */,
-				DEC18634254A399D00D730CC /* Main.storyboard */,
+				DEC18691254A3AC700D730CC /* Views */,
+				DEC18667254A39C800D730CC /* Modules */,
 				DEC1863A254A399F00D730CC /* Assets.xcassets */,
 				DEC1863C254A399F00D730CC /* LaunchScreen.storyboard */,
 				DEC1863F254A399F00D730CC /* Info.plist */,
 				DEC18637254A399D00D730CC /* SoundWizard.xcdatamodeld */,
+				DEC18686254A3A2200D730CC /* Audio */,
+				DEC1867C254A3A1600D730CC /* Helper */,
 			);
 			path = SoundWizard;
 			sourceTree = "<group>";
@@ -117,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				DEC18648254A399F00D730CC /* SoundWizardTests.swift */,
+				DEC186A5254A3C8F00D730CC /* Modules */,
 				DEC1864A254A399F00D730CC /* Info.plist */,
 			);
 			path = SoundWizardTests;
@@ -129,6 +161,71 @@
 				DEC18655254A399F00D730CC /* Info.plist */,
 			);
 			path = SoundWizardUITests;
+			sourceTree = "<group>";
+		};
+		DEC18667254A39C800D730CC /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				DEC18668254A39C800D730CC /* EQDetective */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		DEC18668254A39C800D730CC /* EQDetective */ = {
+			isa = PBXGroup;
+			children = (
+				DEC1866A254A39C800D730CC /* EQDetectiveEngine.swift */,
+				DEC18669254A39C800D730CC /* EQDetectiveTurn.swift */,
+				DEC1866B254A39C800D730CC /* EQDetectiveRound.swift */,
+				DEC1866C254A39C800D730CC /* FrequencyGraphView.swift */,
+				DEC1866D254A39C800D730CC /* EQDetectiveViewController.swift */,
+				DEC1866E254A39C800D730CC /* EQDetectiveRoundData.swift */,
+			);
+			path = EQDetective;
+			sourceTree = "<group>";
+		};
+		DEC1867C254A3A1600D730CC /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				DEC1867D254A3A1600D730CC /* FilterConductor.swift */,
+				DEC1867E254A3A1600D730CC /* Cookbook.swift */,
+				DEC1867F254A3A1600D730CC /* AudioCalculator.swift */,
+				DEBF5CE1254A49A200818B86 /* Extensions.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		DEC18686254A3A2200D730CC /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				DEC18687254A3A2200D730CC /* Pink.aif */,
+				DEC18688254A3A2200D730CC /* Drums.wav */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		DEC18691254A3AC700D730CC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DEC18678254A39FF00D730CC /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DEC186A5254A3C8F00D730CC /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				DEC186A6254A3C9600D730CC /* EQDetective */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		DEC186A6254A3C9600D730CC /* EQDetective */ = {
+			isa = PBXGroup;
+			children = (
+				DEC186AA254A3CB600D730CC /* EQDetectiveEngineTests.swift */,
+			);
+			path = EQDetective;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,6 +244,9 @@
 			dependencies = (
 			);
 			name = SoundWizard;
+			packageProductDependencies = (
+				DEC1868F254A3ABE00D730CC /* AudioKit */,
+			);
 			productName = SoundWizard;
 			productReference = DEC1862B254A399D00D730CC /* SoundWizard.app */;
 			productType = "com.apple.product-type.application";
@@ -218,6 +318,9 @@
 				Base,
 			);
 			mainGroup = DEC18622254A399D00D730CC;
+			packageReferences = (
+				DEC1868E254A3ABE00D730CC /* XCRemoteSwiftPackageReference "AudioKit" */,
+			);
 			productRefGroup = DEC1862C254A399D00D730CC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -234,9 +337,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEC1868A254A3A2500D730CC /* Pink.aif in Resources */,
+				DEC186A1254A3C6500D730CC /* Main.storyboard in Resources */,
 				DEC1863E254A399F00D730CC /* LaunchScreen.storyboard in Resources */,
 				DEC1863B254A399F00D730CC /* Assets.xcassets in Resources */,
-				DEC18636254A399D00D730CC /* Main.storyboard in Resources */,
+				DEC18689254A3A2500D730CC /* Drums.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,10 +366,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEC18674254A39DB00D730CC /* EQDetectiveRoundData.swift in Sources */,
+				DEC18670254A39DB00D730CC /* EQDetectiveTurn.swift in Sources */,
 				DEC18633254A399D00D730CC /* ViewController.swift in Sources */,
 				DEC1862F254A399D00D730CC /* AppDelegate.swift in Sources */,
+				DEC18671254A39DB00D730CC /* EQDetectiveEngine.swift in Sources */,
+				DEC18672254A39DB00D730CC /* EQDetectiveViewController.swift in Sources */,
+				DEC1866F254A39DB00D730CC /* FrequencyGraphView.swift in Sources */,
+				DEC18682254A3A1A00D730CC /* Cookbook.swift in Sources */,
 				DEC18639254A399D00D730CC /* SoundWizard.xcdatamodeld in Sources */,
 				DEC18631254A399D00D730CC /* SceneDelegate.swift in Sources */,
+				DEC18673254A39DB00D730CC /* EQDetectiveRound.swift in Sources */,
+				DEC18680254A3A1A00D730CC /* AudioCalculator.swift in Sources */,
+				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
+				DEBF5CE2254A49A200818B86 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +388,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DEC18649254A399F00D730CC /* SoundWizardTests.swift in Sources */,
+				DEC186AB254A3CB600D730CC /* EQDetectiveEngineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,14 +416,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		DEC18634254A399D00D730CC /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DEC18635254A399D00D730CC /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		DEC1863C254A399F00D730CC /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -370,7 +478,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -425,7 +533,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -597,6 +705,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DEC1868E254A3ABE00D730CC /* XCRemoteSwiftPackageReference "AudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/AudioKit";
+			requirement = {
+				branch = "v5-main";
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DEC1868F254A3ABE00D730CC /* AudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DEC1868E254A3ABE00D730CC /* XCRemoteSwiftPackageReference "AudioKit" */;
+			productName = AudioKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		DEC18637254A399D00D730CC /* SoundWizard.xcdatamodeld */ = {
