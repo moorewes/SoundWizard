@@ -14,7 +14,7 @@ class EQDetectiveTurn {
     var octaveErrorRange: Float
     
     var freqGuess: Float?
-    var score: Float = 0.0
+    var score: EQDetectiveTurnScore?
     var timeToComplete: TimeInterval?
     var octaveError: Float = 0.0
     
@@ -33,11 +33,6 @@ class EQDetectiveTurn {
         self.freqGuess = freqGuess
         timeToComplete = Date().timeIntervalSince(startTime)
         octaveError = AudioCalculator.octave(fromFreq: freqGuess, baseOctaveFreq: freqSolution)
-        let absError = abs(octaveError)
-        if octaveError == 0 {
-            score = 100.0
-        } else if absError <= octaveErrorRange {
-            score = 100.0 * (octaveErrorRange - absError) / octaveErrorRange
-        }
+        self.score = EQDetectiveTurnScore(octaveError: abs(octaveError), octaveErrorRange: octaveErrorRange)
     }
 }

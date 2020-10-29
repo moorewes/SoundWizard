@@ -38,6 +38,8 @@ class EQDetectiveEngine {
         
         updateConductor(with: roundData)
         
+        vc.roundDidBegin(roundData: roundData)
+        
         startNewTurn()
         
         playAudio()
@@ -55,11 +57,15 @@ class EQDetectiveEngine {
         guard let round = currentRound,
               let turn = currentTurn else { return }
         
-        turn.freqGuess = freqGuess
-        turn.finish(freqGuess: freqGuess)
-        round.roundData.score += turn.score
+        round.endTurn(freqGuess: freqGuess)
         
-        vc.showResults(score: round.roundData.score, octaveError: turn.octaveError)
+        vc.turnDidEnd(roundScore: round.roundData.score,
+                      turnScore: turn.score!,
+                      octaveError: turn.octaveError)
+        
+        if round.isComplete {
+            vc.roundDidEnd(round: round)
+        }
     }
     
     func toggleMute(mute: Bool) {
@@ -73,6 +79,10 @@ class EQDetectiveEngine {
     func toggleFilter(bypass: Bool) {
         guard let gain = bypass ? 1 : currentRound?.roundData.filterGain else { return }
         conductor.set(filterGain: gain)
+    }
+    
+    func previewFreq(_ freq: Float) {
+        conductor.set(filterFreq: freq)
     }
     
     // MARK: Private

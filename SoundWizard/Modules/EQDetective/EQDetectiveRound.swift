@@ -16,6 +16,7 @@ class EQDetectiveRound {
     // MARK: Internal
     
     var roundData = EQDetectiveRoundData()
+    var isComplete = false
     var turns = [EQDetectiveTurn]()
     var currentTurnNumber: Int { return turns.count + 1 }
     var currentTurn: EQDetectiveTurn { return turns.last! }
@@ -43,8 +44,9 @@ class EQDetectiveRound {
     }
     
     func endTurn(freqGuess: Float) {
-        currentTurn.freqGuess = freqGuess
-        currentTurn.timeToComplete = Date().timeIntervalSince(currentTurn.startTime)
+        currentTurn.finish(freqGuess: freqGuess)
+        roundData.score.value += currentTurn.score!.value
+        isComplete = turns.count == roundData.turnsCount
     }
     
     // MARK: Private

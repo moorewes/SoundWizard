@@ -12,44 +12,57 @@ class FrequencyGraphView: UIView {
     
     // MARK - Properties
     
+    // MARK: Internal
+    
+    var currentLineXPosition: CGFloat = 0.0
+    var currentFreq: Float { return freq(forXPosition: currentLineXPosition) }
+    
+    // MARK: IB Inspectable
+    
     @IBInspectable var currentLineColor: UIColor = UIColor.white
-    @IBInspectable var currentLineWidth: CGFloat = 3
+    @IBInspectable var currentLineWidth: CGFloat = 3.0
     @IBInspectable var currentAreaColor: UIColor = UIColor.init(white: 1, alpha: 0.1)
     
     @IBInspectable var graphLineColor: UIColor = UIColor.systemTeal
-    @IBInspectable var graphLineWidth: CGFloat = 1
-    @IBInspectable var octaveRange: CGFloat = 10
+    @IBInspectable var graphLineWidth: CGFloat = 1.0
+    @IBInspectable var octaveRange: CGFloat = 10.0
     
-    @IBInspectable var solutionLinePerfectColor: UIColor = UIColor.green
-    @IBInspectable var solutionLineSuccessColor: UIColor = UIColor.yellow
-    @IBInspectable var solutionLineFailColor: UIColor = UIColor.red
+    @IBInspectable var solutionLineJustMissedColor: UIColor = UIColor.systemOrange
+    @IBInspectable var solutionLineSuccessColor: UIColor = UIColor.systemGreen
+    @IBInspectable var solutionLineFailColor: UIColor = UIColor.systemRed
     
-    var currentLineXPosition: CGFloat = 200
-    var guessedLineXPosition: CGFloat?
+    // MARK: Private
     
-    var solutionFreq: Float = 0
-    var octaveError: Float = 0
-    
+    private var initialFreq: Float = 1000.0
+    private var solutionLineColor = UIColor.systemGreen
+    private var octaveErrorRange: CGFloat = 0.0
+    private var guessedLineXPosition: CGFloat?
+    private var solutionLineXPosition: CGFloat?
     private var graphBottomY: CGFloat { return bounds.height - 40 }
-    private var shadedAreaWidth: CGFloat { return octaveErrorRange * bounds.width / octaveRange }
+    private var shadedAreaWidth: CGFloat = 0.0
     
-    var octaveErrorRange: CGFloat = 4
-    
-    // MARK: - Methods
+    // MARK: - Drawing
         
     override func draw(_ rect: CGRect) {
         drawGraphLines()
         shadeCurrentArea()
         
-        if let x = guessedLineXPosition {
-            drawSolutionLine()
-            drawGuessedDottedLine(at: x)
+        if let xGuess = guessedLineXPosition,
+           let xSolution = solutionLineXPosition {
+            drawSolutionLine(at: xSolution)
+            drawGuessedDottedLine(at: xGuess)
         }
         
         drawCurrentLine()
     }
     
-    func setUp() {
+    // MARK: - Methods
+    
+    // MARK: Internal
+    
+    func setUp(with roundData: EQDetectiveRoundData) {
+        octaveErrorRange = CGFloat(roundData.octaveErrorRange * 2)
+        shadedAreaWidth = octaveErrorRange * bounds.width / octaveRange
         currentLineXPosition = xPosition(forFreq: 1000.0)
     }
     
@@ -59,25 +72,19 @@ class FrequencyGraphView: UIView {
         setNeedsDisplay()
     }
     
-    func showSolution() {
+    func showSolution(successLevel: ScoreSuccessLevel) {
+        solutionLineColor = lineColor(for: successLevel)
         guessedLineXPosition = currentLineXPosition
-        let guessedFreq = freq(forXPosition: guessedLineXPosition!)
-                
-        octaveError = AudioCalculator.octave(fromFreq: guessedFreq, baseOctaveFreq: solutionFreq)
         setNeedsDisplay()
     }
     
     func reset(solutionFreq: Float) {
-        self.solutionFreq = solutionFreq
+        solutionLineXPosition = xPosition(forFreq: solutionFreq)
         self.guessedLineXPosition = nil
         setNeedsDisplay()
     }
     
-    func currentFreq() -> Float {
-        return freq(forXPosition: currentLineXPosition)
-    }
-    
-    // MARK: - Helper Methods
+    // MARK: Helper - Calculations
     
     private func xPosition(forFreq freq: Float) -> CGFloat {
         let octave = AudioCalculator.octave(fromFreq: freq)
@@ -96,6 +103,19 @@ class FrequencyGraphView: UIView {
     private func octave(forXPosition x: CGFloat) -> Float {
         return Float(octaveRange * x / bounds.width)
     }
+    
+    private func lineColor(for successLevel: ScoreSuccessLevel) -> UIColor {
+        switch successLevel {
+        case .perfect, .great, .fair:
+            return solutionLineSuccessColor
+        case .justMissed:
+            return solutionLineJustMissedColor
+        case .failed:
+            return solutionLineFailColor
+        }
+    }
+    
+    // MARK: Helper - Drawing
     
     private func shadeCurrentArea() {
         let leftX = currentLineXPosition - shadedAreaWidth / 2
@@ -131,21 +151,12 @@ class FrequencyGraphView: UIView {
         path.stroke()
     }
     
-    private func drawSolutionLine() {
+    private func drawSolutionLine(at x: CGFloat) {
         let path = UIBezierPath()
         path.lineWidth = currentLineWidth
         
-        let error = abs(octaveError)
+        solutionLineColor.setStroke()
         
-        if error > Float(octaveErrorRange) {
-            solutionLineFailColor.set()
-        } else if error < 0.2 {
-            solutionLinePerfectColor.set()
-        } else {
-            solutionLineSuccessColor.set()
-        }
-        
-        let x = xPosition(forFreq: solutionFreq)
         path.move(to: CGPoint(x: x, y: 0))
         path.addLine(to: CGPoint(x: x, y: graphBottomY))
         
@@ -163,7 +174,6 @@ class FrequencyGraphView: UIView {
             let x = bounds.width / lines * CGFloat(i) + 1
             path.move(to: CGPoint(x: x, y:0))
             path.addLine(to: CGPoint(x: x, y: graphBottomY))
-            
         }
         
         path.stroke()

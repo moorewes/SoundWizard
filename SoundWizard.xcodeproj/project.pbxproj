@@ -10,7 +10,6 @@
 		DEBF5CE2254A49A200818B86 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBF5CE1254A49A200818B86 /* Extensions.swift */; };
 		DEC1862F254A399D00D730CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1862E254A399D00D730CC /* AppDelegate.swift */; };
 		DEC18631254A399D00D730CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC18630254A399D00D730CC /* SceneDelegate.swift */; };
-		DEC18633254A399D00D730CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC18632254A399D00D730CC /* ViewController.swift */; };
 		DEC18639254A399D00D730CC /* SoundWizard.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DEC18637254A399D00D730CC /* SoundWizard.xcdatamodeld */; };
 		DEC1863B254A399F00D730CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEC1863A254A399F00D730CC /* Assets.xcassets */; };
 		DEC1863E254A399F00D730CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEC1863C254A399F00D730CC /* LaunchScreen.storyboard */; };
@@ -30,6 +29,8 @@
 		DEC18690254A3ABE00D730CC /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = DEC1868F254A3ABE00D730CC /* AudioKit */; };
 		DEC186A1254A3C6500D730CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEC18678254A39FF00D730CC /* Main.storyboard */; };
 		DEC186AB254A3CB600D730CC /* EQDetectiveEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC186AA254A3CB600D730CC /* EQDetectiveEngineTests.swift */; };
+		DEE39BC7254B39E6003C2DE4 /* ScoreFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE39BC6254B39E6003C2DE4 /* ScoreFeedback.swift */; };
+		DEE39BCC254B427B003C2DE4 /* EQDetectiveScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE39BCB254B427B003C2DE4 /* EQDetectiveScore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +55,6 @@
 		DEC1862B254A399D00D730CC /* SoundWizard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundWizard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEC1862E254A399D00D730CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DEC18630254A399D00D730CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DEC18632254A399D00D730CC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DEC18638254A399D00D730CC /* SoundWizard.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SoundWizard.xcdatamodel; sourceTree = "<group>"; };
 		DEC1863A254A399F00D730CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEC1863D254A399F00D730CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -78,6 +78,8 @@
 		DEC18687254A3A2200D730CC /* Pink.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pink.aif; sourceTree = "<group>"; };
 		DEC18688254A3A2200D730CC /* Drums.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Drums.wav; sourceTree = "<group>"; };
 		DEC186AA254A3CB600D730CC /* EQDetectiveEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveEngineTests.swift; sourceTree = "<group>"; };
+		DEE39BC6254B39E6003C2DE4 /* ScoreFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreFeedback.swift; sourceTree = "<group>"; };
+		DEE39BCB254B427B003C2DE4 /* EQDetectiveScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveScore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +133,6 @@
 			children = (
 				DEC1862E254A399D00D730CC /* AppDelegate.swift */,
 				DEC18630254A399D00D730CC /* SceneDelegate.swift */,
-				DEC18632254A399D00D730CC /* ViewController.swift */,
 				DEC18691254A3AC700D730CC /* Views */,
 				DEC18667254A39C800D730CC /* Modules */,
 				DEC1863A254A399F00D730CC /* Assets.xcassets */,
@@ -176,6 +177,7 @@
 			children = (
 				DEC1866A254A39C800D730CC /* EQDetectiveEngine.swift */,
 				DEC18669254A39C800D730CC /* EQDetectiveTurn.swift */,
+				DEE39BCB254B427B003C2DE4 /* EQDetectiveScore.swift */,
 				DEC1866B254A39C800D730CC /* EQDetectiveRound.swift */,
 				DEC1866C254A39C800D730CC /* FrequencyGraphView.swift */,
 				DEC1866D254A39C800D730CC /* EQDetectiveViewController.swift */,
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				DEC1867D254A3A1600D730CC /* FilterConductor.swift */,
+				DEE39BC6254B39E6003C2DE4 /* ScoreFeedback.swift */,
 				DEC1867E254A3A1600D730CC /* Cookbook.swift */,
 				DEC1867F254A3A1600D730CC /* AudioCalculator.swift */,
 				DEBF5CE1254A49A200818B86 /* Extensions.swift */,
@@ -366,9 +369,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEE39BCC254B427B003C2DE4 /* EQDetectiveScore.swift in Sources */,
 				DEC18674254A39DB00D730CC /* EQDetectiveRoundData.swift in Sources */,
 				DEC18670254A39DB00D730CC /* EQDetectiveTurn.swift in Sources */,
-				DEC18633254A399D00D730CC /* ViewController.swift in Sources */,
 				DEC1862F254A399D00D730CC /* AppDelegate.swift in Sources */,
 				DEC18671254A39DB00D730CC /* EQDetectiveEngine.swift in Sources */,
 				DEC18672254A39DB00D730CC /* EQDetectiveViewController.swift in Sources */,
@@ -379,6 +382,7 @@
 				DEC18673254A39DB00D730CC /* EQDetectiveRound.swift in Sources */,
 				DEC18680254A3A1A00D730CC /* AudioCalculator.swift in Sources */,
 				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
+				DEE39BC7254B39E6003C2DE4 /* ScoreFeedback.swift in Sources */,
 				DEBF5CE2254A49A200818B86 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
