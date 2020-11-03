@@ -15,19 +15,23 @@ class EQDetectiveRound {
     
     // MARK: Internal
     
-    var roundData = EQDetectiveRoundData()
-    var isComplete = false
+    var level: EQDetectiveLevel
     var turns = [EQDetectiveTurn]()
-    var currentTurnNumber: Int { return turns.count + 1 }
-    var currentTurn: EQDetectiveTurn { return turns.last! }
+    
+    var isComplete: Bool { turns.count == level.numberOfTurns }
+    var currentTurnNumber: Int { turns.count + 1 }
+    var currentTurn: EQDetectiveTurn { turns.last! }
+    
+    var averageOctaveError: Float?
+    var score = EQDetectiveRoundScore()
     
     // MARK: Private
     
     
     // MARK: - Initializers
     
-    init(roundData: EQDetectiveRoundData = EQDetectiveRoundData()) {
-        self.roundData = roundData
+    init(level: EQDetectiveLevel) {
+        self.level = level
     }
     
     // MARK: - Methods
@@ -35,24 +39,19 @@ class EQDetectiveRound {
     // MARK: Internal
     
     func newTurn() -> EQDetectiveTurn {
-        let freq = AudioCalculator.randomFreq()
+        let freq = AudioCalculator.randomFreq(disfavoring: turns.last?.freqSolution)
         let turn = EQDetectiveTurn(number: turns.count,
                                    freqSolution: freq,
-                                   octaveErrorRange: roundData.octaveErrorRange)
+                                   octaveErrorRange: level.octaveErrorRange)
         turns.append(turn)
         return turn
     }
     
     func endTurn(freqGuess: Float) {
         currentTurn.finish(freqGuess: freqGuess)
-        roundData.score.value += currentTurn.score!.value
-        isComplete = turns.count == roundData.turnsCount
+        score.value += currentTurn.score!.value
     }
-    
-    // MARK: Private
-    
-    
-    
+
 }
 
 

@@ -28,8 +28,8 @@ class EqualizerFilterConductor: ObservableObject {
     
     // MARK: - Initializers
     
-    init(source: AudioSource = AudioSources.drums) {
-        buffer = Cookbook.buffer(for: source)
+    init(source: AudioSource = AudioSource.acousticDrums) {
+        buffer = Cookbook.buffer(for: source.url)
 
         filter = EqualizerFilter(player)
         filter.centerFrequency = 1000
@@ -56,6 +56,7 @@ class EqualizerFilterConductor: ObservableObject {
     
     func stopPlaying() {
         player.stop()
+        engine.stop()
     }
     
     func set(filterFreq: AUValue) {
@@ -64,8 +65,9 @@ class EqualizerFilterConductor: ObservableObject {
         filter.$bandwidth.ramp(to: bandwidth, duration: filterRampTime)
     }
     
-    func set(filterGain: AUValue) {
-        filter.$gain.ramp(to: filterGain, duration: filterRampTime)
+    func set(filterGainDB: AUValue) {
+        let gainPercentage = AudioCalculator.dBToPercent(dB: filterGainDB)
+        filter.$gain.ramp(to: gainPercentage, duration: filterRampTime)
     }
     
     func set(filterQ: AUValue) {

@@ -18,8 +18,13 @@ struct EQDetectiveTurnScore {
     
     init(octaveError: Float, octaveErrorRange: Float) {
         let scoreRatio = (octaveErrorRange - octaveError) / octaveErrorRange
-        self.value = max(0, 100 * scoreRatio)
         successLevel = ScoreSuccessLevel(score: scoreRatio)
+        if scoreRatio <= 0 {
+            value = 0
+        } else {
+            let accuracyModifier = max(0, 80 * scoreRatio)
+            value = 20 + accuracyModifier
+        }
     }
     
     func randomFeedbackString() -> String {

@@ -7,10 +7,12 @@
 
 import UIKit
 
-class EQDetectiveViewController: UIViewController {
+class EQDetectiveViewController: UIViewController, GameplayController {
     
     // MARK: - Properties
     
+    var game: Game!
+    var level: Level!
     var engine: EQDetectiveEngine!
         
     // MARK: IBOutlets
@@ -40,7 +42,6 @@ class EQDetectiveViewController: UIViewController {
     
     // MARK: Private
     
-    var maxTurns: Int = 0
     var filterIsInteractive = false
     
     // MARK: - IBActions
@@ -88,7 +89,7 @@ class EQDetectiveViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        engine = EQDetectiveEngine(vc: self)
+        engine = EQDetectiveEngine(vc: self, level: level as! EQDetectiveLevel)
         setupView()
     }
     
@@ -98,13 +99,18 @@ class EQDetectiveViewController: UIViewController {
         graph.setNeedsDisplay()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        engine.stop()
+    }
+    
     // MARK: - Methods
     
     // MARK: Internal
     
-    func roundDidBegin(roundData: EQDetectiveRoundData) {
-        graph.setUp(with: roundData)
-        maxTurns = roundData.turnsCount
+    func roundDidBegin(level: EQDetectiveLevel) {
+        graph.setUp(for: level)
         progressBar.progress = 0
     }
     
@@ -113,23 +119,29 @@ class EQDetectiveViewController: UIViewController {
         graph.reset(solutionFreq: freq)
         updateSolutionFreqLabel(freq: freq)
         
-        turnLabel.text = "\(turn.number + 1) / \(maxTurns)"
+        turnLabel.text = "\(turn.number + 1) / \(level.numberOfTurns)"
         
-        let progress = Float(turn.number) / Float(self.maxTurns)
-        progressBar.setProgress(progress, animated: true)
+        
+        eqBypassControl.selectedSegmentIndex = 1
         
         filterIsInteractive = false
         updateViewForNewTurn(turn: turn)
     }
     
-    func turnDidEnd(roundScore: EQDetectiveRoundScore, turnScore: EQDetectiveTurnScore, octaveError: Float) {
+    func turnDidEnd(turn: EQDetectiveTurn,
+                    turnScore: EQDetectiveTurnScore,
+                    roundScore: EQDetectiveRoundScore) {
         scoreLabel.text = "\(Int(roundScore.value))"
         scoreAdditionLabel.text = "+ \(Int(turnScore.value))"
-        errorLabel.text = octaveString(octaveError)
+        errorLabel.text = octaveString(turn.octaveError)
         feedbackLabel.text = turnScore.randomFeedbackString()
         feedbackLabel.textColor = feedbackTextColor(for: turnScore.successLevel)
         graph.showSolution(successLevel: turnScore.successLevel)
         filterIsInteractive = true
+        
+        let progress = Float(turn.number + 1) / Float(level.numberOfTurns)
+        progressBar.setProgress(progress, animated: true)
+        
         updateViewForTurnResults()
         
         UIView.animate(withDuration: 4.0) {

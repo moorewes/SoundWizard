@@ -13,8 +13,9 @@ class EQDetectiveEngine {
     
     // MARK: Internal
     
+    var level: EQDetectiveLevel
     var currentRound: EQDetectiveRound?
-    var currentTurn: EQDetectiveTurn? { return currentRound?.currentTurn }
+    var currentTurn: EQDetectiveTurn? { currentRound?.currentTurn }
     
     // MARK: Private
     
@@ -23,9 +24,10 @@ class EQDetectiveEngine {
     
     // MARK: - Initializers
     
-    init(vc: EQDetectiveViewController) {
+    init(vc: EQDetectiveViewController, level: EQDetectiveLevel) {
         self.vc = vc
-        conductor = EqualizerFilterConductor()
+        self.level = level
+        conductor = EqualizerFilterConductor(source: level.audioSource)
     }
     
     // MARK: - Methods
@@ -33,12 +35,11 @@ class EQDetectiveEngine {
     // MARK: Internal
     
     func startNewRound() {
-        let roundData = EQDetectiveRoundData()
-        currentRound = EQDetectiveRound(roundData: roundData)
+        currentRound = EQDetectiveRound(level: level)
         
-        updateConductor(with: roundData)
+        updateConductor(for: level)
         
-        vc.roundDidBegin(roundData: roundData)
+        vc.roundDidBegin(level: level)
         
         startNewTurn()
         
@@ -59,9 +60,7 @@ class EQDetectiveEngine {
         
         round.endTurn(freqGuess: freqGuess)
         
-        vc.turnDidEnd(roundScore: round.roundData.score,
-                      turnScore: turn.score!,
-                      octaveError: turn.octaveError)
+        vc.turnDidEnd(turn: turn, turnScore: turn.score!, roundScore: round.score)
         
         if round.isComplete {
             vc.roundDidEnd(round: round)
@@ -77,23 +76,29 @@ class EQDetectiveEngine {
     }
     
     func toggleFilter(bypass: Bool) {
-        guard let gain = bypass ? 1 : currentRound?.roundData.filterGain else { return }
-        conductor.set(filterGain: gain)
+        guard let gain = bypass ? 1 : currentRound?.level.filterGainDB else { return }
+        conductor.set(filterGainDB: gain)
     }
     
     func previewFreq(_ freq: Float) {
         conductor.set(filterFreq: freq)
     }
     
+    func stop() {
+        stopAudio()
+    }
+    
     // MARK: Private
     
-    private func updateConductor(with roundData: EQDetectiveRoundData) {
-        conductor.set(filterQ: roundData.filterQ)
-        conductor.set(filterGain: roundData.filterGain)
+    private func updateConductor(for level: EQDetectiveLevel) {
+        conductor.set(filterQ: level.filterQ)
+        conductor.set(filterGainDB: level.filterGainDB)
     }
     
     private func updateConductor(with turn: EQDetectiveTurn) {
+        toggleFilter(bypass: true)
         conductor.set(filterFreq: turn.freqSolution)
+        toggleFilter(bypass: false)
     }
     
     private func playAudio() {

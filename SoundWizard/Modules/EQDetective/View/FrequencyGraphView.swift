@@ -38,8 +38,9 @@ class FrequencyGraphView: UIView {
     private var octaveErrorRange: CGFloat = 0.0
     private var guessedLineXPosition: CGFloat?
     private var solutionLineXPosition: CGFloat?
-    private var graphBottomY: CGFloat { return bounds.height - 40 }
+    private var graphBottomY: CGFloat { return bounds.height - 25 }
     private var shadedAreaWidth: CGFloat = 0.0
+    private var graphLineFreqs: [Float] = [31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
     
     // MARK: - Drawing
         
@@ -60,8 +61,8 @@ class FrequencyGraphView: UIView {
     
     // MARK: Internal
     
-    func setUp(with roundData: EQDetectiveRoundData) {
-        octaveErrorRange = CGFloat(roundData.octaveErrorRange * 2)
+    func setUp(for level: EQDetectiveLevel) {
+        octaveErrorRange = CGFloat(level.octaveErrorRange * 2)
         shadedAreaWidth = octaveErrorRange * bounds.width / octaveRange
         currentLineXPosition = xPosition(forFreq: 1000.0)
     }
@@ -170,8 +171,8 @@ class FrequencyGraphView: UIView {
         
         let lines = CGFloat(octaveRange)
         
-        for i in 0...Int(octaveRange) {
-            let x = bounds.width / lines * CGFloat(i) + 1
+        for i in graphLineFreqs {
+            let x = xPosition(forFreq: i)
             path.move(to: CGPoint(x: x, y:0))
             path.addLine(to: CGPoint(x: x, y: graphBottomY))
         }

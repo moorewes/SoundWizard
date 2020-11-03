@@ -45,9 +45,32 @@ struct AudioCalculator {
         return powf(10, dB/10)
     }
     
-    static func randomFreq() -> Float {
-        let octave = Float(Int.random(in: 10...100)) / 10.0
+    static func randomFreq(disfavoring disfavoredFreq: Float? = nil) -> Float {
+        var octave = randomOctave()
+        
+        // Weaken chances of frequencies close to edges
+        if octave < 3.0 || octave > 9.0 {
+            let i = Int.random(in: 0...5)
+            if i < 4 {
+                octave = randomOctave()
+            }
+        }
+        
+        // Weaken chance of frequencies close to disfavored
+        if let avoidFreq = disfavoredFreq {
+            if abs(octave - Self.octave(fromFreq: avoidFreq)) < 0.3 {
+                let i = Int.random(in: 0...5)
+                if i < 5 {
+                    octave = randomOctave()
+                }
+            }
+        }
+        
         return AudioCalculator.freq(fromOctave: octave)
+    }
+    
+    static func randomOctave() -> Float {
+        return Float(Int.random(in: 15...95)) / 10.0
     }
     
 }
