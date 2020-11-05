@@ -88,10 +88,15 @@ class EQDetectiveViewController: UIViewController, GameplayController {
         setupView()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        graph.setNeedsDisplay()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        graph.setNeedsDisplay()
         engine.startNewRound()
     }
     

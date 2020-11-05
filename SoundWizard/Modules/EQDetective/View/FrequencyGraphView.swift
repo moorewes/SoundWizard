@@ -14,7 +14,7 @@ class FrequencyGraphView: UIView {
     
     // MARK: Internal
     
-    var currentLineXPosition: CGFloat = 0.0
+    lazy var currentLineXPosition: CGFloat = xPosition(forFreq: 1000.0)
     var currentFreq: Float { return freq(forXPosition: currentLineXPosition) }
     
     // MARK: IB Inspectable
@@ -65,7 +65,6 @@ class FrequencyGraphView: UIView {
     func setUp(for level: EQDetectiveLevel) {
         octaveErrorRange = CGFloat(level.octaveErrorRange * 2)
         shadedAreaWidth = octaveErrorRange * bounds.width / octaveRange
-        currentLineXPosition = xPosition(forFreq: 1000.0)
     }
     
     func updateCurrentFreq(movement: CGFloat) {

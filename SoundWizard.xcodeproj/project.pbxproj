@@ -42,6 +42,9 @@
 		DEC18690254A3ABE00D730CC /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = DEC1868F254A3ABE00D730CC /* AudioKit */; };
 		DEC186A1254A3C6500D730CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEC18678254A39FF00D730CC /* Main.storyboard */; };
 		DEC186AB254A3CB600D730CC /* EQDetectiveEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC186AA254A3CB600D730CC /* EQDetectiveEngineTests.swift */; };
+		DEC84A0F25546D2500CF46D6 /* EQDetectiveInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC84A0E25546D2500CF46D6 /* EQDetectiveInstructionView.swift */; };
+		DEC84A142554762700CF46D6 /* EQDetectiveInstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC84A132554762700CF46D6 /* EQDetectiveInstructionViewController.swift */; };
+		DEC84A19255477F500CF46D6 /* InstructionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC84A18255477F500CF46D6 /* InstructionController.swift */; };
 		DEE39BC7254B39E6003C2DE4 /* ScoreFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE39BC6254B39E6003C2DE4 /* ScoreFeedback.swift */; };
 		DEE39BCC254B427B003C2DE4 /* EQDetectiveScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE39BCB254B427B003C2DE4 /* EQDetectiveScore.swift */; };
 		DEEBE14A25507CC8001D9002 /* EQDetectiveLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEBE14925507CC8001D9002 /* EQDetectiveLevel.swift */; };
@@ -105,6 +108,9 @@
 		DEC18687254A3A2200D730CC /* Pink.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pink.aif; sourceTree = "<group>"; };
 		DEC18688254A3A2200D730CC /* Drums.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Drums.wav; sourceTree = "<group>"; };
 		DEC186AA254A3CB600D730CC /* EQDetectiveEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveEngineTests.swift; sourceTree = "<group>"; };
+		DEC84A0E25546D2500CF46D6 /* EQDetectiveInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveInstructionView.swift; sourceTree = "<group>"; };
+		DEC84A132554762700CF46D6 /* EQDetectiveInstructionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveInstructionViewController.swift; sourceTree = "<group>"; };
+		DEC84A18255477F500CF46D6 /* InstructionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionController.swift; sourceTree = "<group>"; };
 		DEE39BC6254B39E6003C2DE4 /* ScoreFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreFeedback.swift; sourceTree = "<group>"; };
 		DEE39BCB254B427B003C2DE4 /* EQDetectiveScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveScore.swift; sourceTree = "<group>"; };
 		DEEBE14925507CC8001D9002 /* EQDetectiveLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveLevel.swift; sourceTree = "<group>"; };
@@ -268,6 +274,7 @@
 				DE0295E72550BD8E00D901D0 /* Level.swift */,
 				DEBEF0282551DD7B0095134B /* Round.swift */,
 				DE0295EC2550BEFF00D901D0 /* Game.swift */,
+				DEC84A18255477F500CF46D6 /* InstructionController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -309,6 +316,7 @@
 			children = (
 				DEC1866A254A39C800D730CC /* EQDetectiveEngine.swift */,
 				DEC1866D254A39C800D730CC /* EQDetectiveViewController.swift */,
+				DEC84A132554762700CF46D6 /* EQDetectiveInstructionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -317,6 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				DEC1866C254A39C800D730CC /* FrequencyGraphView.swift */,
+				DEC84A0E25546D2500CF46D6 /* EQDetectiveInstructionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -461,8 +470,10 @@
 			files = (
 				DE4C5081255351980059A74A /* GameplayDelegate.swift in Sources */,
 				DE4C507C25534A5B0059A74A /* LevelSummaryViewController.swift in Sources */,
+				DEC84A0F25546D2500CF46D6 /* EQDetectiveInstructionView.swift in Sources */,
 				DEE39BCC254B427B003C2DE4 /* EQDetectiveScore.swift in Sources */,
 				DEBEF01C2551D33D0095134B /* LevelProgress+CoreDataProperties.swift in Sources */,
+				DEC84A142554762700CF46D6 /* EQDetectiveInstructionViewController.swift in Sources */,
 				DEBEF01B2551D33D0095134B /* LevelProgress+CoreDataClass.swift in Sources */,
 				DEC18670254A39DB00D730CC /* EQDetectiveTurn.swift in Sources */,
 				DEC1862F254A399D00D730CC /* AppDelegate.swift in Sources */,
@@ -485,6 +496,7 @@
 				DEEBE14A25507CC8001D9002 /* EQDetectiveLevel.swift in Sources */,
 				DE3A4D9525509BCF007A4003 /* GameCell.swift in Sources */,
 				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
+				DEC84A19255477F500CF46D6 /* InstructionController.swift in Sources */,
 				DEE39BC7254B39E6003C2DE4 /* ScoreFeedback.swift in Sources */,
 				DEBF5CE2254A49A200818B86 /* Extensions.swift in Sources */,
 				DE0295ED2550BEFF00D901D0 /* Game.swift in Sources */,

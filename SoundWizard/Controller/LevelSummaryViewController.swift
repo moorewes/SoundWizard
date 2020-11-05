@@ -26,6 +26,7 @@ class LevelSummaryViewController: UIViewController {
     @IBOutlet weak var star1ScoreLabel: UILabel!
     @IBOutlet weak var star2ScoreLabel: UILabel!
     @IBOutlet weak var star3ScoreLabel: UILabel!
+    @IBOutlet weak var instructionsContainerView: UIView!
     @IBOutlet weak var instructionsLabel: UILabel!
     
     // MARK: - Methods
@@ -67,11 +68,28 @@ class LevelSummaryViewController: UIViewController {
     func setupView() {
         title = "Level \(level.levelNumber)"
         
-        instructionsLabel.text = level.instructions
-        
+        setupInstructionsView()
+                
         star1ScoreLabel.text = "\(level.starScores[0])"
         star2ScoreLabel.text = "\(level.starScores[1])"
         star3ScoreLabel.text = "\(level.starScores[2])"
+    }
+    
+    func setupInstructionsView() {
+        let id = instructionVCStoryboardID()
+        guard let childVC = storyboard?.instantiateViewController(identifier: id) as? InstructionController else { return }
+        
+        childVC.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        addChild(childVC)
+        childVC.view.frame = instructionsContainerView.bounds
+        instructionsContainerView.addSubview(childVC.view)
+        
+        let viewsDict: [String: Any] = ["subView": childVC.view!]
+        instructionsContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[subView]|", options: [], metrics: nil, views: viewsDict))
+        instructionsContainerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[subView]|", options: [], metrics: nil, views: viewsDict))
+                
+        childVC.level = level
     }
     
     func updateScore() {
@@ -88,6 +106,12 @@ class LevelSummaryViewController: UIViewController {
         star1ImageView.isHighlighted = score >= level.starScores[0]
         star2ImageView.isHighlighted = score >= level.starScores[1]
         star3ImageView.isHighlighted = score >= level.starScores[2]
+    }
+    
+    private func instructionVCStoryboardID() -> String {
+        switch level.game {
+        case .eqDetective: return EQDetectiveInstructionViewController.storyboardID
+        }
     }
 
 }
