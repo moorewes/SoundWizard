@@ -26,4 +26,5 @@ struct EQDetectiveTurnScore {
     func randomFeedbackString() -> String {
         return ScoreFeedback.randomString(for: successLevel)
     }
+    
 }

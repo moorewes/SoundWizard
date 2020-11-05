@@ -1,6 +1,6 @@
 //
 //  EQDetectiveViewController.swift
-//  AudioKitExperiments
+//  SoundWizard
 //
 //  Created by Wes Moore on 10/26/20.
 //
@@ -97,6 +97,7 @@ class EQDetectiveViewController: UIViewController, GameplayController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        graph.setUp(for: level as! EQDetectiveLevel)
         engine.startNewRound()
     }
     
@@ -183,6 +184,8 @@ class EQDetectiveViewController: UIViewController, GameplayController {
     }
     
     private func setupView() {
+        graph.setUp(for: level as! EQDetectiveLevel)
+        updateCurrentFreq()
         inRoundViews.forEach { $0.isHidden = false }
         
         eqBypassControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
@@ -194,8 +197,7 @@ class EQDetectiveViewController: UIViewController, GameplayController {
         scoreLabel.text = "0"
         scoreAdditionLabel.text = ""
         
-        let filterType = (level as! EQDetectiveLevel).filterGainDB
-        instructionLabel.text = "Find the \(filterType) frequency"
+        instructionLabel.text = "Select the center frequency"
     }
     
     private func updateCurrentFreq() {

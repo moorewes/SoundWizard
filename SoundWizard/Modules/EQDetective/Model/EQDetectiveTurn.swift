@@ -1,6 +1,6 @@
 //
 //  EQDetectiveTurn.swift
-//  AudioKitExperiments
+//  SoundWizard
 //
 //  Created by Wes Moore on 10/28/20.
 //
@@ -8,6 +8,7 @@
 import Foundation
 
 class EQDetectiveTurn {
+    
     var number: Int
     var freqSolution: Float
     var startTime: Date

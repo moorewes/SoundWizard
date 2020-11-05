@@ -1,6 +1,6 @@
 //
 //  EQDetectiveEngine.swift
-//  AudioKitExperiments
+//  SoundWizard
 //
 //  Created by Wes Moore on 10/28/20.
 //

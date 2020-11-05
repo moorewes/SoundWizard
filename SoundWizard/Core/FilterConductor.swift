@@ -1,6 +1,6 @@
 //
 //  FilterConductor.swift
-//  AudioKitExperiments
+//  SoundWizard
 //
 //  Created by Wes Moore on 10/23/20.
 //

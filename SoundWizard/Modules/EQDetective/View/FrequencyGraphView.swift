@@ -1,6 +1,6 @@
 //
 //  FrequencyGraphView.swift
-//  AudioKitExperiments
+//  SoundWizard
 //
 //  Created by Wes Moore on 10/26/20.
 //
@@ -65,6 +65,7 @@ class FrequencyGraphView: UIView {
     func setUp(for level: EQDetectiveLevel) {
         octaveErrorRange = CGFloat(level.octaveErrorRange * 2)
         shadedAreaWidth = octaveErrorRange * bounds.width / octaveRange
+        setNeedsDisplay()
     }
     
     func updateCurrentFreq(movement: CGFloat) {
@@ -177,6 +178,5 @@ class FrequencyGraphView: UIView {
         
         path.stroke()
     }
-
 
 }

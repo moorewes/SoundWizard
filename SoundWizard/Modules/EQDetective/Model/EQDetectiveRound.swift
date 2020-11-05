@@ -1,6 +1,6 @@
 //
 //  EQDetectiveRound.swift
-//  AudioKitExperiments
+//  SoundWizard
 //
 //  Created by Wes Moore on 10/27/20.
 //
@@ -26,7 +26,6 @@ class EQDetectiveRound: Round {
     var score: Float = 0
     
     // MARK: Private
-    
     
     // MARK: - Initializers
     

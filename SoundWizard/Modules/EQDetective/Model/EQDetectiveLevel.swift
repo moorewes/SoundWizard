@@ -63,7 +63,7 @@ class EQDetectiveLevel: Level {
     
     // MARK: Private
     
-    func starsEarned() -> Int {
+    private func starsEarned() -> Int {
         guard let topScore = progress.scores.sorted().last else { return 0 }
         if topScore >= starScores[2] {
             return 3
@@ -76,7 +76,7 @@ class EQDetectiveLevel: Level {
         }
     }
     
-    func instructionString() -> String {
+    private func instructionString() -> String {
         let filterType = filterGainDB > 0 ? "boost" : "cut"
         let octaveString = octaveErrorRange == 1 ? "octave" : "octaves"
         
@@ -90,7 +90,7 @@ class EQDetectiveLevel: Level {
             """
     }
     
-    // MARK: - Internal Static Methods
+    // MARK: - Internal Class Methods
     
     class func level(_ levelNumber: Int) -> EQDetectiveLevel? {
         guard levels.count > levelNumber else { return nil }

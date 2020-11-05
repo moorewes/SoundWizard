@@ -16,6 +16,7 @@
 		DE3A4D9F2550AC2A007A4003 /* LevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3A4D9E2550AC2A007A4003 /* LevelCell.swift */; };
 		DE4C507C25534A5B0059A74A /* LevelSummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4C507B25534A5B0059A74A /* LevelSummaryViewController.swift */; };
 		DE4C5081255351980059A74A /* GameplayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4C5080255351980059A74A /* GameplayDelegate.swift */; };
+		DE60962B2554A75D00617228 /* AudioSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE60962A2554A75D00617228 /* AudioSource.swift */; };
 		DEAC409C2553573800A20C78 /* EQDetectiveLevel+Levels.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAC409B2553573800A20C78 /* EQDetectiveLevel+Levels.swift */; };
 		DEBB3B9D2551ED550064A8CE /* UserGameData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DEC18637254A399D00D730CC /* UserGameData.xcdatamodeld */; };
 		DEBEF01B2551D33D0095134B /* LevelProgress+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBEF0192551D33D0095134B /* LevelProgress+CoreDataClass.swift */; };
@@ -77,6 +78,7 @@
 		DE3A4D9E2550AC2A007A4003 /* LevelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelCell.swift; sourceTree = "<group>"; };
 		DE4C507B25534A5B0059A74A /* LevelSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSummaryViewController.swift; sourceTree = "<group>"; };
 		DE4C5080255351980059A74A /* GameplayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayDelegate.swift; sourceTree = "<group>"; };
+		DE60962A2554A75D00617228 /* AudioSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSource.swift; sourceTree = "<group>"; };
 		DEAC409B2553573800A20C78 /* EQDetectiveLevel+Levels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQDetectiveLevel+Levels.swift"; sourceTree = "<group>"; };
 		DEBEF0192551D33D0095134B /* LevelProgress+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LevelProgress+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DEBEF01A2551D33D0095134B /* LevelProgress+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LevelProgress+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -146,7 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				DEC1862D254A399D00D730CC /* SoundWizard */,
-				DEC1863F254A399F00D730CC /* Info.plist */,
 				DEC18647254A399F00D730CC /* SoundWizardTests */,
 				DEC18652254A399F00D730CC /* SoundWizardUITests */,
 				DEC1862C254A399D00D730CC /* Products */,
@@ -166,6 +167,7 @@
 		DEC1862D254A399D00D730CC /* SoundWizard */ = {
 			isa = PBXGroup;
 			children = (
+				DEC1863F254A399F00D730CC /* Info.plist */,
 				DEC1862E254A399D00D730CC /* AppDelegate.swift */,
 				DEC18630254A399D00D730CC /* SceneDelegate.swift */,
 				DEDCF8162550FDAA000AADB1 /* Controller */,
@@ -223,6 +225,7 @@
 				DEC1867D254A3A1600D730CC /* FilterConductor.swift */,
 				DEE39BC6254B39E6003C2DE4 /* ScoreFeedback.swift */,
 				DEC1867E254A3A1600D730CC /* Cookbook.swift */,
+				DE60962A2554A75D00617228 /* AudioSource.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				DEC18631254A399D00D730CC /* SceneDelegate.swift in Sources */,
 				DE0295E82550BD8E00D901D0 /* Level.swift in Sources */,
 				DE0295F52550C6A100D901D0 /* GameplayController.swift in Sources */,
+				DE60962B2554A75D00617228 /* AudioSource.swift in Sources */,
 				DE3A4D9A2550A9ED007A4003 /* LevelsViewController.swift in Sources */,
 				DEC18673254A39DB00D730CC /* EQDetectiveRound.swift in Sources */,
 				DEC18680254A3A1A00D730CC /* AudioCalculator.swift in Sources */,
@@ -670,7 +674,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QMD339GZVQ;
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SoundWizard/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -689,7 +693,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QMD339GZVQ;
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SoundWizard/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

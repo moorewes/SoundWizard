@@ -1,6 +1,6 @@
 //
 //  AudioCalculator.swift
-//  AudioKitExperiments
+//  SoundWizard
 //
 //  Created by Wes Moore on 10/26/20.
 //
@@ -8,6 +8,8 @@
 import Foundation
 
 struct AudioCalculator {
+    
+    // MARK: - Static Methods
     
     /// Octave in relation to the base octave given the frequency
     static func octave(fromFreq freq: Float, baseOctaveFreq: Float = 20, decimalPlaces: Int = 1) -> Float {
