@@ -7,8 +7,8 @@
 
 import Foundation
 
-class EQDetectiveRound {
-    
+class EQDetectiveRound: Round {
+        
     // MARK: - Types
     
     // MARK: - Properties
@@ -23,7 +23,7 @@ class EQDetectiveRound {
     var currentTurn: EQDetectiveTurn { turns.last! }
     
     var averageOctaveError: Float?
-    var score = EQDetectiveRoundScore()
+    var score: Float = 0
     
     // MARK: Private
     
@@ -49,7 +49,7 @@ class EQDetectiveRound {
     
     func endTurn(freqGuess: Float) {
         currentTurn.finish(freqGuess: freqGuess)
-        score.value += currentTurn.score!.value
+        score += currentTurn.score!.value
     }
 
 }

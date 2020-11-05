@@ -12,6 +12,7 @@ class GameCell: UICollectionViewCell {
     static let reuseID = "gameCell"
     
     var game: Game!
+    var starsEarned: Int!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!

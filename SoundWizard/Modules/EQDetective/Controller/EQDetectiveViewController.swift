@@ -11,8 +11,8 @@ class EQDetectiveViewController: UIViewController, GameplayController {
     
     // MARK: - Properties
     
-    var game: Game!
-    var level: Level!
+    weak var delegate: GameplayDelegate!
+    weak var level: Level!
     var engine: EQDetectiveEngine!
         
     // MARK: IBOutlets
@@ -29,7 +29,6 @@ class EQDetectiveViewController: UIViewController, GameplayController {
     @IBOutlet weak var solutionFreqLabel: UILabel!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var muteLabel: UILabel!
-    @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var muteButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var finishButton: UIButton!
@@ -46,10 +45,6 @@ class EQDetectiveViewController: UIViewController, GameplayController {
     
     // MARK: - IBActions
     
-    @IBAction func didTapStart() {
-        engine.startNewRound()
-    }
-    
     @IBAction func didTapContinue() {
         engine.startNewTurn()
     }
@@ -59,7 +54,7 @@ class EQDetectiveViewController: UIViewController, GameplayController {
         engine.submitGuess(guess)
     }
     @IBAction func didTapFinish() {
-        updateViewForRoundResults()
+        delegate.didFinishGame()
     }
     
     
@@ -97,12 +92,13 @@ class EQDetectiveViewController: UIViewController, GameplayController {
         super.viewDidAppear(animated)
         
         graph.setNeedsDisplay()
+        engine.startNewRound()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        engine.stop()
+        prepareToLeaveGame()
     }
     
     // MARK: - Methods
@@ -130,8 +126,8 @@ class EQDetectiveViewController: UIViewController, GameplayController {
     
     func turnDidEnd(turn: EQDetectiveTurn,
                     turnScore: EQDetectiveTurnScore,
-                    roundScore: EQDetectiveRoundScore) {
-        scoreLabel.text = "\(Int(roundScore.value))"
+                    roundScore: Float) {
+        scoreLabel.text = "\(Int(roundScore))"
         scoreAdditionLabel.text = "+ \(Int(turnScore.value))"
         errorLabel.text = octaveString(turn.octaveError)
         feedbackLabel.text = turnScore.randomFeedbackString()
@@ -156,6 +152,7 @@ class EQDetectiveViewController: UIViewController, GameplayController {
     }
     
     func roundDidEnd(round: EQDetectiveRound) {
+        level.updateProgress(round: round)
         continueButton.isHidden = true
         finishButton.isHidden = false
     }
@@ -165,7 +162,6 @@ class EQDetectiveViewController: UIViewController, GameplayController {
     private func updateViewForNewTurn(turn: EQDetectiveTurn) {
         inRoundViews.forEach { $0.isHidden = false }
         resultsView.isHidden = true
-        startButton.isHidden = true
         submitButton.isHidden = false
         continueButton.isHidden = true
     }
@@ -177,12 +173,12 @@ class EQDetectiveViewController: UIViewController, GameplayController {
         instructionLabel.isHidden = true
     }
     
-    private func updateViewForRoundResults() {
-        
+    private func prepareToLeaveGame() {
+        engine.stop()
     }
     
     private func setupView() {
-        inRoundViews.forEach { $0.isHidden = true }
+        inRoundViews.forEach { $0.isHidden = false }
         
         eqBypassControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
         eqBypassControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
@@ -192,6 +188,9 @@ class EQDetectiveViewController: UIViewController, GameplayController {
 
         scoreLabel.text = "0"
         scoreAdditionLabel.text = ""
+        
+        let filterType = (level as! EQDetectiveLevel).filterGainDB
+        instructionLabel.text = "Find the \(filterType) frequency"
     }
     
     private func updateCurrentFreq() {

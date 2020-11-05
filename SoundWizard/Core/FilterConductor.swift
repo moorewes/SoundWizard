@@ -16,12 +16,15 @@ class EqualizerFilterConductor: ObservableObject {
     // MARK: - Properties
     
     // MARK: Internal
+    
+    lazy var volume: AUValue = AudioCalculator.dBToPercent(dB: -0.8)
         
     // MARK: Private
     
     private let engine = AudioEngine()
     private let player = AudioPlayer()
     private let filter: EqualizerFilter
+    private var fader: Fader
     private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.05
     private var filterQ: AUValue = 1
@@ -35,9 +38,11 @@ class EqualizerFilterConductor: ObservableObject {
         filter.centerFrequency = 1000
         filter.gain = 1
         filter.bandwidth = 1000
+        
+        fader = Fader(filter, gain: 0)
 
-        engine.output = filter
-        player.volume = AudioCalculator.dBToPercent(dB: -8.0)
+        engine.output = fader
+        player.volume = volume
         
         startEngine()
     }
@@ -48,13 +53,19 @@ class EqualizerFilterConductor: ObservableObject {
     
     func startPlaying() {
         player.start()
+        fadeIn()
     }
     
-    func pausePlaying() {
-        player.pause()
+    func mute(_ muted: Bool) {
+        if muted {
+            fadeOut()
+        } else {
+            fadeIn()
+        }
     }
     
     func stopPlaying() {
+        fadeOut()
         player.stop()
         engine.stop()
     }
@@ -85,6 +96,21 @@ class EqualizerFilterConductor: ObservableObject {
         }
         
         player.scheduleBuffer(buffer, at: nil, options: .loops)
+    }
+    
+    private func fadeIn() {
+        fade(fadeIn: true)
+    }
+    
+    private func fadeOut() {
+        fade(fadeIn: false)
+    }
+    
+    private func fade(fadeIn: Bool) {
+        let gain: AUValue = fadeIn ? 1 : 0
+        
+        fader.$leftGain.ramp(to: gain, duration: 0.3)
+        fader.$rightGain.ramp(to: gain, duration: 0.3)
     }
 
 }

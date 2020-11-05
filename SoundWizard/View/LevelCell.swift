@@ -26,7 +26,7 @@ class LevelCell: UITableViewCell {
     }
     
     private func updateStarViews() {
-        let stars = level.starsEarned
+        let stars = level.progress.starsEarned
         let starUnfilled = UIImage(systemName: "star")
         let starFilled = UIImage(systemName: "star.fill")
         firstStarImageView.image = stars > 0 ? starFilled : starUnfilled

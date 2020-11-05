@@ -38,8 +38,9 @@ class FrequencyGraphView: UIView {
     private var octaveErrorRange: CGFloat = 0.0
     private var guessedLineXPosition: CGFloat?
     private var solutionLineXPosition: CGFloat?
+    private var graphTopY: CGFloat = 40.0
     private var graphBottomY: CGFloat { return bounds.height - 25 }
-    private var shadedAreaWidth: CGFloat = 0.0
+    private var shadedAreaWidth: CGFloat = 100
     private var graphLineFreqs: [Float] = [31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
     
     // MARK: - Drawing
@@ -120,7 +121,7 @@ class FrequencyGraphView: UIView {
     
     private func shadeCurrentArea() {
         let leftX = currentLineXPosition - shadedAreaWidth / 2
-        let rect = CGRect(x: leftX, y: 0, width: shadedAreaWidth, height: graphBottomY)
+        let rect = CGRect(x: leftX, y: graphTopY, width: shadedAreaWidth, height: graphBottomY - graphTopY)
         let path = UIBezierPath(roundedRect: rect, cornerRadius: 5)
         
         currentAreaColor.setFill()
@@ -134,7 +135,7 @@ class FrequencyGraphView: UIView {
         path.setLineDash([8, 8], count: 2, phase: 0)
         UIColor(white: 1, alpha: 0.8).setStroke()
         
-        path.move(to: CGPoint(x: x, y: 0))
+        path.move(to: CGPoint(x: x, y: graphTopY))
         path.addLine(to: CGPoint(x: x, y: graphBottomY))
         
         path.stroke()
@@ -146,7 +147,7 @@ class FrequencyGraphView: UIView {
         currentLineColor.set()
         
         let x = currentLineXPosition
-        path.move(to: CGPoint(x: x, y: 0))
+        path.move(to: CGPoint(x: x, y: graphTopY))
         path.addLine(to: CGPoint(x: x, y: graphBottomY))
         
         path.stroke()
@@ -158,7 +159,7 @@ class FrequencyGraphView: UIView {
         
         solutionLineColor.setStroke()
         
-        path.move(to: CGPoint(x: x, y: 0))
+        path.move(to: CGPoint(x: x, y: graphTopY))
         path.addLine(to: CGPoint(x: x, y: graphBottomY))
         
         path.stroke()
@@ -168,12 +169,10 @@ class FrequencyGraphView: UIView {
         let path = UIBezierPath()
         path.lineWidth = graphLineWidth
         graphLineColor.set()
-        
-        let lines = CGFloat(octaveRange)
-        
+                
         for i in graphLineFreqs {
             let x = xPosition(forFreq: i)
-            path.move(to: CGPoint(x: x, y:0))
+            path.move(to: CGPoint(x: x, y:graphTopY))
             path.addLine(to: CGPoint(x: x, y: graphBottomY))
         }
         

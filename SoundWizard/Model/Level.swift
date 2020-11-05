@@ -7,11 +7,16 @@
 
 import Foundation
 
-protocol Level {
+protocol Level: class {
+    
+    var game: Game { get }
+    var progress: LevelProgress { get }
     var numberOfTurns: Int { get }
     var levelNumber: Int { get }
     var audioSource: AudioSource { get }
-    var scores: (oneStar: Int, twoStar: Int, threeStar: Int) { get }
-    var userScore: Int { get set }
-    var starsEarned: Int { get }
+    var starScores: [Int] { get }
+    var instructions: String { get }
+    
+    func updateProgress(round: Round)
+    
 }

@@ -12,6 +12,8 @@ class LevelsViewController: UIViewController {
     var game: Game!
     lazy var levels: [Level] = { game.levels }()
     
+    @IBOutlet weak var tableView: UITableView!
+    
     var segueID: String {
         switch game {
         case .eqDetective:
@@ -19,9 +21,7 @@ class LevelsViewController: UIViewController {
         default: return ""
         }
     }
-    
-    @IBOutlet weak var tableView: UITableView!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,9 +31,8 @@ class LevelsViewController: UIViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard var vc = segue.destination as? GameplayController,
+        guard let vc = segue.destination as? LevelSummaryViewController,
               let level = sender as? Level else { return }
-        vc.game = game
         vc.level = level
     }
 

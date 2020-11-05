@@ -10,6 +10,8 @@ import Foundation
 enum Game: Int {
     case eqDetective = 0
     
+    var id: Int { return self.rawValue }
+    
     var name: String {
         switch self {
         case .eqDetective: return "EQ Detective"

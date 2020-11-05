@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct EQDetectiveRoundScore {
-    var value: Float = 0.0
-}
-
 struct EQDetectiveTurnScore {
     
     var value: Float

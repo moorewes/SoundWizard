@@ -8,6 +8,5 @@
 import Foundation
 
 protocol GameplayController {
-    var game: Game! { get set }
     var level: Level! { get set }
 }

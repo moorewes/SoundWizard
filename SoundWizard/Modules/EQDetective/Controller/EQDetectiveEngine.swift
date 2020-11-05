@@ -20,7 +20,7 @@ class EQDetectiveEngine {
     // MARK: Private
     
     private var conductor: EqualizerFilterConductor
-    private var vc: EQDetectiveViewController
+    private unowned var vc: EQDetectiveViewController
     
     // MARK: - Initializers
     
@@ -68,11 +68,7 @@ class EQDetectiveEngine {
     }
     
     func toggleMute(mute: Bool) {
-        if mute {
-            pauseAudio()
-        } else {
-            playAudio()
-        }
+        conductor.mute(mute)
     }
     
     func toggleFilter(bypass: Bool) {
@@ -107,10 +103,6 @@ class EQDetectiveEngine {
     
     private func stopAudio() {
         conductor.stopPlaying()
-    }
-    
-    private func pauseAudio() {
-        conductor.pausePlaying()
     }
     
 }

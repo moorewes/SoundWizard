@@ -12,3 +12,10 @@ extension Comparable {
         return min(max(self, limits.lowerBound), limits.upperBound)
     }
 }
+
+extension Float {
+    var uiString: String {
+        let isInt = self - Float(Int(self)) == 0
+        return isInt ? "\(Int(self))" : String(format: "%.1f", self)
+    }
+}
