@@ -10,7 +10,7 @@ import Foundation
 protocol Level: class {
     
     var game: Game { get }
-    var progress: LevelProgress { get }
+    var progress: LevelProgress { get set }
     var numberOfTurns: Int { get }
     var levelNumber: Int { get }
     var audioSource: AudioSource { get }

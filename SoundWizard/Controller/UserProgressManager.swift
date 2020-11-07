@@ -24,7 +24,7 @@ class UserProgressManager {
     
     // MARK: - Initializers
     
-    private init() {
+    init() {
         self.container = NSPersistentContainer(name: "UserGameData")
         setupPersistentContainer()
     }
@@ -33,9 +33,9 @@ class UserProgressManager {
     
     // MARK: Internal
     
-    func progress(for game: Game) -> [LevelProgress]? {
+    func progress(for game: Game) -> [LevelProgress] {
         let fetchRequest: NSFetchRequest<LevelProgress> = LevelProgress.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "gameID == %@", game.id)
+        fetchRequest.predicate = NSPredicate(format: "gameID == %ld", game.id)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "level", ascending: true)]
         
         do {
@@ -61,15 +61,6 @@ class UserProgressManager {
             fatalError("Failed to fetch entities: \(error)")
         }
     }
-    
-//    func addProgress(for level: Level, newScore: Int) {
-//        let progress = self.progress(for: level)
-//        progress.starsEarned = level.starsEarned
-//        progress.scores.append(newScore)
-//        save()
-//    }
-    
-    
     
     func save() {
         guard container.viewContext.hasChanges else { return }

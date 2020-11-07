@@ -18,6 +18,11 @@
 		DE4C5081255351980059A74A /* GameplayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4C5080255351980059A74A /* GameplayDelegate.swift */; };
 		DE60962B2554A75D00617228 /* AudioSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE60962A2554A75D00617228 /* AudioSource.swift */; };
 		DEAC409C2553573800A20C78 /* EQDetectiveLevel+Levels.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAC409B2553573800A20C78 /* EQDetectiveLevel+Levels.swift */; };
+		DEB64F3B255623AB0023529C /* LevelProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB64F3A255623AB0023529C /* LevelProgressTests.swift */; };
+		DEB64F40255624D60023529C /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB64F3F255624D60023529C /* GameTests.swift */; };
+		DEB64F4A2556279D0023529C /* LevelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB64F492556279D0023529C /* LevelMock.swift */; };
+		DEB64F4F2556362C0023529C /* UserProgressManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB64F4E2556362C0023529C /* UserProgressManagerMock.swift */; };
+		DEB64F54255638240023529C /* UserProgressManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB64F53255638240023529C /* UserProgressManagerTests.swift */; };
 		DEBB3B9D2551ED550064A8CE /* UserGameData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DEC18637254A399D00D730CC /* UserGameData.xcdatamodeld */; };
 		DEBEF01B2551D33D0095134B /* LevelProgress+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBEF0192551D33D0095134B /* LevelProgress+CoreDataClass.swift */; };
 		DEBEF01C2551D33D0095134B /* LevelProgress+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBEF01A2551D33D0095134B /* LevelProgress+CoreDataProperties.swift */; };
@@ -80,6 +85,11 @@
 		DE4C5080255351980059A74A /* GameplayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayDelegate.swift; sourceTree = "<group>"; };
 		DE60962A2554A75D00617228 /* AudioSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSource.swift; sourceTree = "<group>"; };
 		DEAC409B2553573800A20C78 /* EQDetectiveLevel+Levels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQDetectiveLevel+Levels.swift"; sourceTree = "<group>"; };
+		DEB64F3A255623AB0023529C /* LevelProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelProgressTests.swift; sourceTree = "<group>"; };
+		DEB64F3F255624D60023529C /* GameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTests.swift; sourceTree = "<group>"; };
+		DEB64F492556279D0023529C /* LevelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelMock.swift; sourceTree = "<group>"; };
+		DEB64F4E2556362C0023529C /* UserProgressManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgressManagerMock.swift; sourceTree = "<group>"; };
+		DEB64F53255638240023529C /* UserProgressManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgressManagerTests.swift; sourceTree = "<group>"; };
 		DEBEF0192551D33D0095134B /* LevelProgress+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LevelProgress+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DEBEF01A2551D33D0095134B /* LevelProgress+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LevelProgress+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DEBEF0202551D3C70095134B /* UserProgressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgressManager.swift; sourceTree = "<group>"; };
@@ -186,6 +196,11 @@
 			isa = PBXGroup;
 			children = (
 				DEC18648254A399F00D730CC /* SoundWizardTests.swift */,
+				DEB64F3A255623AB0023529C /* LevelProgressTests.swift */,
+				DEB64F53255638240023529C /* UserProgressManagerTests.swift */,
+				DEB64F4E2556362C0023529C /* UserProgressManagerMock.swift */,
+				DEB64F3F255624D60023529C /* GameTests.swift */,
+				DEB64F492556279D0023529C /* LevelMock.swift */,
 				DEC186A5254A3C8F00D730CC /* Modules */,
 				DEC1864A254A399F00D730CC /* Info.plist */,
 			);
@@ -511,8 +526,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEB64F3B255623AB0023529C /* LevelProgressTests.swift in Sources */,
 				DEC18649254A399F00D730CC /* SoundWizardTests.swift in Sources */,
+				DEB64F4A2556279D0023529C /* LevelMock.swift in Sources */,
+				DEB64F54255638240023529C /* UserProgressManagerTests.swift in Sources */,
+				DEB64F4F2556362C0023529C /* UserProgressManagerMock.swift in Sources */,
 				DEC186AB254A3CB600D730CC /* EQDetectiveEngineTests.swift in Sources */,
+				DEB64F40255624D60023529C /* GameTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

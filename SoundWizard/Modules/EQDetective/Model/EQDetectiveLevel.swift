@@ -29,7 +29,7 @@ class EQDetectiveLevel: Level {
     let filterQ: Float
     let octaveErrorRange: Float
     
-    var progressManager: UserProgressManager { UserProgressManager.shared }
+    var progressManager = UserProgressManager.shared
     
     // MARK: - Initializers
     

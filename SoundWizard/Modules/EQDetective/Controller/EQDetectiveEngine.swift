@@ -20,11 +20,11 @@ class EQDetectiveEngine {
     // MARK: Private
     
     private var conductor: EqualizerFilterConductor
-    private unowned var vc: EQDetectiveViewController
+    private weak var vc: EQDetectiveViewController?
     
     // MARK: - Initializers
     
-    init(vc: EQDetectiveViewController, level: EQDetectiveLevel) {
+    init(vc: EQDetectiveViewController? = nil, level: EQDetectiveLevel) {
         self.vc = vc
         self.level = level
         conductor = EqualizerFilterConductor(source: level.audioSource)
@@ -39,7 +39,7 @@ class EQDetectiveEngine {
         
         updateConductor(for: level)
         
-        vc.roundDidBegin(level: level)
+        vc?.roundDidBegin(level: level)
         
         startNewTurn()
         
@@ -51,7 +51,7 @@ class EQDetectiveEngine {
         
         let turn = round.newTurn()
         updateConductor(with: turn)
-        vc.turnDidBegin(turn: turn)
+        vc?.turnDidBegin(turn: turn)
     }
     
     func submitGuess(_ freqGuess: Float) {
@@ -60,10 +60,10 @@ class EQDetectiveEngine {
         
         round.endTurn(freqGuess: freqGuess)
         
-        vc.turnDidEnd(turn: turn, turnScore: turn.score!, roundScore: round.score)
+        vc?.turnDidEnd(turn: turn, turnScore: turn.score!, roundScore: round.score)
         
         if round.isComplete {
-            vc.roundDidEnd(round: round)
+            vc?.roundDidEnd(round: round)
         }
     }
     

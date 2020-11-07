@@ -5,28 +5,49 @@
 //  Created by Wes Moore on 10/28/20.
 //
 
+@testable import SoundWizard
 import XCTest
 
 class EQDetectiveEngineTests: XCTestCase {
+    
+    var sut: EQDetectiveEngine!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        sut = EQDetectiveEngine(level: EQDetectiveLevel.level(1)!)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        sut = nil
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testStartNewRound() throws {
+        sut.startNewRound()
+        
+        XCTAssertNotNil(sut.currentRound)
+        XCTAssertNotNil(sut.currentTurn)
+        XCTAssertEqual(sut.currentTurn?.number, 0)
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testStartNewTurn() throws {
+        sut.startNewRound()
+        sut.startNewTurn()
+        
+        XCTAssertEqual(sut.currentTurn?.number, 1)
+    }
+    
+    func testSubmitGuess() {
+        sut.startNewRound()
+        sut.submitGuess(1000)
+        
+        XCTAssertNotNil(sut.currentTurn?.score)
+        
+        for _ in 0..<sut.level.numberOfTurns - 1 {
+            sut.startNewTurn()
+            sut.submitGuess(1000)
         }
+        
+        XCTAssertEqual(sut.currentRound?.turns.count, 10)
+        XCTAssertEqual(sut.currentRound?.isComplete, true)
     }
 
 }

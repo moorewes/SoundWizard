@@ -27,11 +27,9 @@ class LevelCell: UITableViewCell {
     
     private func updateStarViews() {
         let stars = level.progress.starsEarned
-        let starUnfilled = UIImage(systemName: "star")
-        let starFilled = UIImage(systemName: "star.fill")
-        firstStarImageView.image = stars > 0 ? starFilled : starUnfilled
-        secondStarImageView.image = stars > 1 ? starFilled : starUnfilled
-        thirdStarImageView.image = stars > 2 ? starFilled : starUnfilled
+        firstStarImageView.isHighlighted = stars > 0
+        secondStarImageView.isHighlighted = stars > 1
+        thirdStarImageView.isHighlighted = stars > 2
     }
 
 }
