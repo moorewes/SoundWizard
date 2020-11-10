@@ -68,6 +68,12 @@ class FrequencyGraphView: UIView {
         setNeedsDisplay()
     }
     
+    func updateCurrentFreq(x: CGFloat) {
+        currentLineXPosition = x
+        currentLineXPosition = currentLineXPosition.clamped(to: 0.0...bounds.width)
+        setNeedsDisplay()
+    }
+    
     func updateCurrentFreq(movement: CGFloat) {
         currentLineXPosition += movement
         currentLineXPosition = currentLineXPosition.clamped(to: 0.0...bounds.width)
