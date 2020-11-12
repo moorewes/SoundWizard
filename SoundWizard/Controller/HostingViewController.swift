@@ -12,7 +12,7 @@ class HostingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let childView = UIHostingController(rootView: GameplayView())
+        let childView = UIHostingController(rootView: EQDetectiveGameplayView())
         addChild(childView)
         childView.view.frame = view.frame
         view.addSubview(childView.view)

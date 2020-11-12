@@ -178,7 +178,7 @@ class FrequencyGraphView: UIView {
                 
         for i in graphLineFreqs {
             let x = xPosition(forFreq: i)
-            path.move(to: CGPoint(x: x, y:graphTopY))
+            path.move(to: CGPoint(x: x, y: graphTopY))
             path.addLine(to: CGPoint(x: x, y: graphBottomY))
         }
         
