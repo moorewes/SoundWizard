@@ -5,7 +5,7 @@
 //  Created by Wes Moore on 10/28/20.
 //
 
-import Foundation
+import SwiftUI
 
 extension Comparable {
     func clamped(to limits: ClosedRange<Self>) -> Self {
@@ -17,5 +17,33 @@ extension Float {
     var uiString: String {
         let isInt = self - Float(Int(self)) == 0
         return isInt ? "\(Int(self))" : String(format: "%.1f", self)
+    }
+    
+    var freqDecimalString: String {
+        if self / 1000.0 >= 1 {
+            let freqString = String(format: "%.1f", self / 1000.0)
+            return freqString + " kHz"
+        } else {
+            return "\(Int(self)) Hz"
+        }
+    }
+    
+    var freqIntString: String {
+        if self < 1000 {
+            return String(Int(self))
+        } else {
+            return "\(Int(self / 1000))k"
+        }
+    }
+}
+
+
+
+extension View {
+    @ViewBuilder func hidden(_ shouldHide: Bool) -> some View {
+        switch shouldHide {
+        case true: self.hidden()
+        case false: self
+        }
     }
 }

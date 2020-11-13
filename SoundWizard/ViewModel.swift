@@ -8,65 +8,144 @@
 import Foundation
 import SwiftUI
 
-class EQDetectiveViewModel: ObservableObject {
+class EQDetectiveViewModel: ObservableObject, EQDetectiveEngineDelegate {
     
-    @Published var engine = EQDetectiveEngine(level: EQDetectiveLevel.level(1)!)
+    var engine: EQDetectiveEngine
     
+    @Published var state = EQDetectiveGameState.awaitingGuess {
+        didSet {
+            print(state)
+        }
+    }
     @Published var turnNumber: Int = 1
+    @Published var octaveErrorRange: Float = 2.0
+    @Published var octaveCount: Float = 10.0
+    @Published var score: Int = 0
+    @Published var answerFreq: Float?
+    @Published var feedbackLabelText: String = "Nice"
+    @Published var successColor: Color = Color.green
     
-    @Published var freqSliderPercentage: CGFloat = 0.5
+    @Published var filterOnState: Int = 1 {
+        didSet {
+            engine.toggleFilter(bypass: filterOnState == 0)
+        }
+    }
     
-    @Published var graphDragOffset: CGFloat = 0.0
-    @Published var lastTranslation: CGFloat = 0.0
+    @Published var audioShouldPlay = true {
+        didSet {
+            engine.toggleMute(mute: !audioShouldPlay)
+        }
+    }
     
-    @Published var octaveRange: Float = 2.0
+    var freqSliderPercentage: CGFloat = 0.5 {
+        didSet {
+            if state == .showingResults {
+                engine.previewFreq(selectedFreq)
+            }
+        }
+    }
+
+    var answerOctave: Float? {
+        guard let answer = answerFreq,
+              state == .showingResults else { return nil }
+        return AudioCalculator.octave(fromFreq: answer)
+    }
+    
+    var showResultsView: Bool { return state == .showingResults }
+    
+    var answerFreqString: String {
+        guard let answer = answerFreq else { return "" }
+        return answer.freqDecimalString
+    }
+    
+    var octaveErrorString: String {
+        guard let octaveError = engine.currentTurn?.octaveError else { return "" }
+        return octaveString(octaveError)
+    }
     
     var selectedFreq: Float {
         let octave = Float(10 * freqSliderPercentage)
         return AudioCalculator.freq(fromOctave: octave)
     }
     
-    func didPanGraph(offset: CGFloat) {
-        graphDragOffset = offset - lastTranslation
-        lastTranslation = offset
+    var proceedButtonLabelText: String {
+        switch state {
+        case .notStarted:
+            return "Start"
+        case .awaitingGuess:
+            return "Submit"
+        case .showingResults:
+            return "Next"
+        case .endOfRound:
+            return "Finish"
+        }
     }
     
-    func didEndGraphPan() {
-        lastTranslation = 0.0
+    // MARK: Initializers
+    
+    init() {
+        engine = EQDetectiveEngine(level: EQDetectiveLevel.level(0)!)
+        engine.delegate = self
     }
     
-    func didTapContinue() {
-        //engine.startNewTurn()
+    func viewDidAppear() {
+        engine.startNewRound()
     }
     
-    func didTapSubmit() {
-        //let guess = graph.currentFreq
-        //engine.submitGuess(guess)
-    }
-    func didTapFinish() {
-        //delegate.didFinishGame()
-    }
-    
-    
-    func didToggleDryWet() {
-        //let shouldBypass = sender.selectedSegmentIndex == 0
-        //engine.toggleFilter(bypass: shouldBypass)
-    }
-    
-    func didPanGraphView() {
-        //let movement = sender.translation(in: view).x
-        //sender.setTranslation(CGPoint.zero, in: view)
-
-        //graph.updateCurrentFreq(movement: movement)
-        
-        //updateCurrentFreq()
+    func didTapProceedButton() {
+        switch state {
+        case .notStarted:
+            engine.startNewRound()
+        case .awaitingGuess:
+            engine.submitGuess(selectedFreq)
+            print(selectedFreq)
+        case .showingResults:
+            engine.startNewTurn()
+        case .endOfRound:
+            break
+        }
     }
     
-    func didToggleAudio() {
-        //let shouldMute = sender.isSelected
-        //engine.toggleMute(mute: shouldMute)
-        
-        //muteButton.isSelected.toggle()
+    // MARK: EQDetective Engine Delegate Methods
+    
+    func roundDidBegin() {
+        state = .awaitingGuess
+    }
+    
+    func turnDidBegin(turn: EQDetectiveTurn) {
+        answerFreq = turn.freqSolution
+        turnNumber = turn.number + 1
+        state = .awaitingGuess
+    }
+    
+    func turnDidEnd(score: EQDetectiveTurnScore) {
+        self.score += Int(score.value)
+        feedbackLabelText = score.randomFeedbackString()
+        successColor = feedbackLabelColor(for: score.successLevel)
+        state = .showingResults
+    }
+    
+    func roundDidEnd(round: EQDetectiveRound) {
+        state = .endOfRound
+    }
+    
+    private func octaveString(_ octave: Float) -> String {
+        var text = "\(octave) Octave"
+        if abs(octave) != 1 {
+            text.append("s")
+        }
+        return text
+    }
+    
+    private func feedbackLabelColor(for success: ScoreSuccessLevel) -> Color {
+        switch success {
+        case .failed, .justMissed:
+            return Color.red
+        case .fair:
+            return Color.yellow
+        case .great, .perfect:
+            return Color.green
+        }
     }
     
 }

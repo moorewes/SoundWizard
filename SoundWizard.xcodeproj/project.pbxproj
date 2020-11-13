@@ -10,6 +10,7 @@
 		DE0295E82550BD8E00D901D0 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0295E72550BD8E00D901D0 /* Level.swift */; };
 		DE0295ED2550BEFF00D901D0 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0295EC2550BEFF00D901D0 /* Game.swift */; };
 		DE0295F52550C6A100D901D0 /* GameplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0295F42550C6A100D901D0 /* GameplayController.swift */; };
+		DE364B5D255DF997006C9EC8 /* FrequencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE364B5C255DF997006C9EC8 /* FrequencyPickerView.swift */; };
 		DE3A4D9025509713007A4003 /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3A4D8F25509713007A4003 /* GamesViewController.swift */; };
 		DE3A4D9525509BCF007A4003 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3A4D9425509BCF007A4003 /* GameCell.swift */; };
 		DE3A4D9A2550A9ED007A4003 /* LevelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3A4D992550A9ED007A4003 /* LevelsViewController.swift */; };
@@ -80,6 +81,7 @@
 		DE0295E72550BD8E00D901D0 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		DE0295EC2550BEFF00D901D0 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		DE0295F42550C6A100D901D0 /* GameplayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayController.swift; sourceTree = "<group>"; };
+		DE364B5C255DF997006C9EC8 /* FrequencyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyPickerView.swift; sourceTree = "<group>"; };
 		DE3A4D8F25509713007A4003 /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		DE3A4D9425509BCF007A4003 /* GameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
 		DE3A4D992550A9ED007A4003 /* LevelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsViewController.swift; sourceTree = "<group>"; };
@@ -234,7 +236,6 @@
 		DEC18668254A39C800D730CC /* EQDetective */ = {
 			isa = PBXGroup;
 			children = (
-				DE79EC9C2559E63900515824 /* EQDetectiveGameplayView.swift */,
 				DEEBE14425507C93001D9002 /* Controller */,
 				DEEBE14325507C7E001D9002 /* Model */,
 				DEEBE14525507CA1001D9002 /* View */,
@@ -351,6 +352,8 @@
 		DEEBE14525507CA1001D9002 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DE79EC9C2559E63900515824 /* EQDetectiveGameplayView.swift */,
+				DE364B5C255DF997006C9EC8 /* FrequencyPickerView.swift */,
 				DEC1866C254A39C800D730CC /* FrequencyGraphView.swift */,
 				DEC84A0E25546D2500CF46D6 /* EQDetectiveInstructionView.swift */,
 			);
@@ -496,6 +499,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE4C5081255351980059A74A /* GameplayDelegate.swift in Sources */,
+				DE364B5D255DF997006C9EC8 /* FrequencyPickerView.swift in Sources */,
 				DE4C507C25534A5B0059A74A /* LevelSummaryViewController.swift in Sources */,
 				DE79EC9D2559E63900515824 /* EQDetectiveGameplayView.swift in Sources */,
 				DEC84A0F25546D2500CF46D6 /* EQDetectiveInstructionView.swift in Sources */,

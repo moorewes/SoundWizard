@@ -84,7 +84,7 @@ class EQDetectiveViewController: UIViewController, GameplayController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        engine = EQDetectiveEngine(vc: self, level: level as! EQDetectiveLevel)
+        engine = EQDetectiveEngine(level: level as! EQDetectiveLevel)
         setupView()
     }
     

@@ -7,25 +7,39 @@
 
 import Foundation
 
+protocol EQDetectiveEngineDelegate: class {
+    func roundDidBegin()
+    func turnDidBegin(turn: EQDetectiveTurn)
+    func turnDidEnd(score: EQDetectiveTurnScore)
+    func roundDidEnd(round: EQDetectiveRound)
+}
+
+enum EQDetectiveGameState {
+    case notStarted, awaitingGuess, showingResults, endOfRound
+}
+
 class EQDetectiveEngine {
     
     // MARK: - Properties
     
     // MARK: Internal
     
+    weak var delegate: EQDetectiveEngineDelegate?
     var level: EQDetectiveLevel
     var currentRound: EQDetectiveRound?
     var currentTurn: EQDetectiveTurn? { currentRound?.currentTurn }
+    var isTurnStarted: Bool {
+        guard let turn = currentTurn else { return false }
+        return !turn.isComplete
+    }
     
     // MARK: Private
     
     private var conductor: EqualizerFilterConductor
-    private weak var vc: EQDetectiveViewController?
     
     // MARK: - Initializers
     
-    init(vc: EQDetectiveViewController? = nil, level: EQDetectiveLevel) {
-        self.vc = vc
+    init(level: EQDetectiveLevel) {
         self.level = level
         conductor = EqualizerFilterConductor(source: level.audioSource)
     }
@@ -39,7 +53,7 @@ class EQDetectiveEngine {
         
         updateConductor(for: level)
         
-        vc?.roundDidBegin(level: level)
+        delegate?.roundDidBegin()
         
         startNewTurn()
         
@@ -51,7 +65,7 @@ class EQDetectiveEngine {
         
         let turn = round.newTurn()
         updateConductor(with: turn)
-        vc?.turnDidBegin(turn: turn)
+        delegate?.turnDidBegin(turn: turn)
     }
     
     func submitGuess(_ freqGuess: Float) {
@@ -59,11 +73,10 @@ class EQDetectiveEngine {
               let turn = currentTurn else { return }
         
         round.endTurn(freqGuess: freqGuess)
-        
-        vc?.turnDidEnd(turn: turn, turnScore: turn.score!, roundScore: round.score)
+        delegate?.turnDidEnd(score: turn.score!)
         
         if round.isComplete {
-            vc?.roundDidEnd(round: round)
+            delegate?.roundDidEnd(round: round)
         }
     }
     
