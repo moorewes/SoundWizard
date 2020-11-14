@@ -9,23 +9,28 @@ import Foundation
 import UIKit
 
 enum Game: Int {
+    
     case eqDetective = 0
-    
+
     var id: Int { return self.rawValue }
-    
+
     var name: String {
         switch self {
         case .eqDetective: return "EQ Detective"
         }
     }
-    
+
     var levels: [Level] {
         switch self {
         case .eqDetective:
             return EQDetectiveLevel.levels
         }
     }
-    
-    static var count: Int { return 1 }
+
+    static var allGames: [Game] { [.eqDetective] }
+
+    static var count: Int { allGames.count }
 
 }
+
+

@@ -696,7 +696,7 @@
         <scene sceneID="yV5-qY-K7O">
             <objects>
                 <viewController id="yUa-Dp-tS9" customClass="HostingViewController" customModule="SoundWizard" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="5Mx-f1-XM5" customClass="Hos">
+                    <view key="view" contentMode="scaleToFill" id="5Mx-f1-XM5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="2hq-bS-G0o"/>

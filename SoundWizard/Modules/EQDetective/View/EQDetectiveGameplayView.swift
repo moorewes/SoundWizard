@@ -11,67 +11,74 @@ struct EQDetectiveGameplayView: View {
     
     @ObservedObject var manager = EQDetectiveViewModel()
     
+    init(level: Level) {
+        manager.level = level
+    }
+    
     var body: some View {
-        ZStack {
-            Color(white: 0.2, opacity: 1)
-                .ignoresSafeArea()
-            
-            VStack() {
-                GameplayNavBarView()
-                    .padding(EdgeInsets(top: 5, leading: 30, bottom: 0, trailing: 70))
+            ZStack {
+                Color.darkBackground
+                    .ignoresSafeArea()
+                    .navigationBarTitle("Level \(manager.level.levelNumber)",
+                                        displayMode: .inline)
                 
-                StatusBar(manager: manager)
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                VStack() {
+                    GameplayNavBarView()
+                        .padding(EdgeInsets(top: 5, leading: 30, bottom: 0, trailing: 70))
                     
-                ZStack {
-                    ResultsView(manager: manager)
-                        .padding()
-                        //.hidden(manager.state == .notStarted)
-                        .opacity(manager.showResultsView ? 1 : 0)
-                    
-                    if manager.state == .awaitingGuess {
-                        Text("Choose the \ncenter frequency")
-                            .font(.system(size: 22, weight: .semibold))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
+                    StatusBar(manager: manager)
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                        
+                    ZStack {
+                        ResultsView(manager: manager)
+                            .padding()
+                            //.hidden(manager.state == .notStarted)
+                            .opacity(manager.showResultsView ? 1 : 0)
+                        
+                        if manager.state == .awaitingGuess {
+                            Text("Choose the \ncenter frequency")
+                                .font(.system(size: 22, weight: .semibold))
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                        }
+                        
                     }
+                    
+                    
+                    FrequencyPickerView(percentage: $manager.freqSliderPercentage,
+                                        octavesShaded: $manager.octaveErrorRange,
+                                        octaveCount: $manager.octaveCount,
+                                        answerOctave: manager.answerOctave,
+                                        answerLineColor: manager.successColor)
+                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                    
+                    Button(action: {
+                        manager.didTapProceedButton()
+                    }, label: {
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(.teal)
+                                .cornerRadius(10)
+                                .frame(width: 200, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            Text(manager.proceedButtonLabelText)
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(.darkBackground)
+                        }
+                        
+                    })
+                    
+                    TogglePicker(manager: manager,
+                                 firstItemText: "EQ Off",
+                                 secondItemText: "EQ ON")
+                        .frame(width: 200, height: 80)
+                        .padding()
                     
                 }
-                
-                
-                FrequencyPickerView(percentage: $manager.freqSliderPercentage,
-                                    octavesShaded: $manager.octaveErrorRange,
-                                    octaveCount: $manager.octaveCount,
-                                    answerOctave: manager.answerOctave,
-                                    answerLineColor: manager.successColor)
-                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-                
-                Button(action: {
-                    manager.didTapProceedButton()
-                }, label: {
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(.teal)
-                            .cornerRadius(10)
-                            .frame(width: 200, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        Text(manager.proceedButtonLabelText)
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(Color(white: 0.2, opacity: 1))
-                    }
-                    
+                .onAppear(perform: {
+                    manager.viewDidAppear()
                 })
                 
-                TogglePicker(manager: manager,
-                             firstItemText: "EQ Off",
-                             secondItemText: "EQ ON")
-                    .frame(width: 200, height: 80)
-                    .padding()
-                
             }
-            .onAppear(perform: {
-                manager.viewDidAppear()
-            })
-        }
     }
 }
 
@@ -94,7 +101,7 @@ struct TogglePicker: View {
     var body: some View {
         Picker(selection: $manager.filterOnState, label: Text("EQ Bypass")) {
             Text(firstItemText).tag(0)
-                .foregroundColor(Color(white: 0.2, opacity: 1))
+                .foregroundColor(.darkBackground)
             Text(secondItemText).tag(1)
         }
         .pickerStyle(SegmentedPickerStyle())
@@ -205,14 +212,18 @@ struct GameplayNavBarView: View {
 
 extension Color {
     static let teal = Color(UIColor.systemTeal)
+    static let darkBackground = Color(white: 0.2, opacity: 1)
 }
 
 struct BackButton: View {
+    
+    @Environment(\.presentationMode) var presentation
     
     var body: some View {
         VStack {
             Button(action: {
                 withAnimation {
+                    presentation.wrappedValue.dismiss()
                     
                 }
             }, label: {
@@ -226,7 +237,7 @@ struct BackButton: View {
 
 struct GameplayView_Previews: PreviewProvider {
     static var previews: some View {
-        EQDetectiveGameplayView()
+        EQDetectiveGameplayView(level: EQDetectiveLevel.level(0)!)
             .previewDevice("iPhone 12 Pro")
     }
 }

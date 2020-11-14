@@ -12,10 +12,11 @@ struct FrequencyPickerView: View {
     @Binding var percentage: CGFloat
     @Binding var octavesShaded: Float
     @Binding var octaveCount: Float
-    var answerOctave: Float?
-    var answerLineColor: Color?
     
     @State var lastTranslation: CGFloat = 0.0
+    
+    var answerOctave: Float?
+    var answerLineColor: Color?
     
     var freq: Float {
         let octave = Float(percentage) * octaveCount
@@ -26,14 +27,15 @@ struct FrequencyPickerView: View {
         guard let octave = answerOctave else { return nil }
         return CGFloat(octave / octaveCount)
     }
+    
+    lazy var graphLineOctaves = graphLineFreqs.map { AudioCalculator.octave(fromFreq: $0) }
 
-    var graphLineFreqs: [Float] = [31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
-    var graphLineOctaves: [Float] {
-        graphLineFreqs.map { AudioCalculator.octave(fromFreq: $0) }
-    }
-    var topSpace: CGFloat = 30
-    var bottomSpace: CGFloat = 30
-    var labelWidth: CGFloat = 100
+    let graphLineFreqs: [Float] = [31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]
+    let topSpace: CGFloat = 30
+    let bottomSpace: CGFloat = 30
+    let labelWidth: CGFloat = 100
+    
+    // MARK: - View Body
         
     var body: some View {
         GeometryReader { geometry in
@@ -116,6 +118,8 @@ struct FrequencyPickerView: View {
         }
         
     }
+    
+    // MARK: - Helper Methods
     
     func x(for freq: Float, width: CGFloat) -> CGFloat {
         let count = graphLineFreqs.count

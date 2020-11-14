@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  EQDetectiveViewModel.swift
 //  SoundWizard
 //
 //  Created by Wes Moore on 11/9/20.
@@ -11,6 +11,7 @@ import SwiftUI
 class EQDetectiveViewModel: ObservableObject, EQDetectiveEngineDelegate {
     
     var engine: EQDetectiveEngine
+    var level: Level!
     
     @Published var state = EQDetectiveGameState.awaitingGuess {
         didSet {
@@ -27,7 +28,7 @@ class EQDetectiveViewModel: ObservableObject, EQDetectiveEngineDelegate {
     
     @Published var filterOnState: Int = 1 {
         didSet {
-            engine.toggleFilter(bypass: filterOnState == 0)
+        engine.toggleFilter(bypass: filterOnState == 0)
         }
     }
     
