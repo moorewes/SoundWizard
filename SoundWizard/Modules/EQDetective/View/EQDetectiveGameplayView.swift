@@ -9,22 +9,16 @@ import SwiftUI
 
 struct EQDetectiveGameplayView: View {
     
-    @ObservedObject var manager = EQDetectiveViewModel()
-    
-    init(level: Level) {
-        manager.level = level
-    }
+    @ObservedObject var manager: EQDetectiveViewModel
+    @Binding var gameCompleted: Bool
     
     var body: some View {
+        
             ZStack {
                 Color.darkBackground
                     .ignoresSafeArea()
-                    .navigationBarTitle("Level \(manager.level.levelNumber)",
-                                        displayMode: .inline)
                 
                 VStack() {
-                    GameplayNavBarView()
-                        .padding(EdgeInsets(top: 5, leading: 30, bottom: 0, trailing: 70))
                     
                     StatusBar(manager: manager)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
@@ -53,7 +47,11 @@ struct EQDetectiveGameplayView: View {
                         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                     
                     Button(action: {
+                        if manager.state == .endOfRound {
+                            gameCompleted = true
+                        }
                         manager.didTapProceedButton()
+                        
                     }, label: {
                         ZStack {
                             Rectangle()
@@ -191,6 +189,9 @@ struct StatusBar: View {
 }
 
 struct GameplayNavBarView: View {
+    
+    @State var levelNumber: Int
+    
     var body: some View {
         HStack {
             BackButton()
@@ -199,7 +200,7 @@ struct GameplayNavBarView: View {
             
             Spacer()
             
-            Text("Level 1")
+            Text("Level \(levelNumber)")
                 .foregroundColor(.teal)
                 .font(.system(size: 20, weight: .semibold))
             
@@ -237,7 +238,8 @@ struct BackButton: View {
 
 struct GameplayView_Previews: PreviewProvider {
     static var previews: some View {
-        EQDetectiveGameplayView(level: EQDetectiveLevel.level(0)!)
+        EQDetectiveGameplayView(manager: EQDetectiveViewModel(level: EQDetectiveLevel.level(0)!),
+                                gameCompleted: .constant(false))
             .previewDevice("iPhone 12 Pro")
     }
 }

@@ -8,10 +8,12 @@
 import Foundation
 import SwiftUI
 
-class EQDetectiveViewModel: ObservableObject, EQDetectiveEngineDelegate {
+class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngineDelegate {
     
     var engine: EQDetectiveEngine
-    var level: Level!
+    var level: Level
+    
+    typealias ViewType = EQDetectiveGameplayView
     
     @Published var state = EQDetectiveGameState.awaitingGuess {
         didSet {
@@ -48,11 +50,13 @@ class EQDetectiveViewModel: ObservableObject, EQDetectiveEngineDelegate {
 
     var answerOctave: Float? {
         guard let answer = answerFreq,
-              state == .showingResults else { return nil }
+              showResultsView else { return nil }
         return AudioCalculator.octave(fromFreq: answer)
     }
     
-    var showResultsView: Bool { return state == .showingResults }
+    var showResultsView: Bool {
+        return state == .showingResults || state == .endOfRound
+    }
     
     var answerFreqString: String {
         guard let answer = answerFreq else { return "" }
@@ -84,11 +88,12 @@ class EQDetectiveViewModel: ObservableObject, EQDetectiveEngineDelegate {
     
     // MARK: Initializers
     
-    init() {
-        engine = EQDetectiveEngine(level: EQDetectiveLevel.level(0)!)
+    init(level: Level) {
+        self.level = level
+        engine = EQDetectiveEngine(level: level as! EQDetectiveLevel)
         engine.delegate = self
     }
-    
+
     func viewDidAppear() {
         engine.startNewRound()
     }
@@ -103,8 +108,14 @@ class EQDetectiveViewModel: ObservableObject, EQDetectiveEngineDelegate {
         case .showingResults:
             engine.startNewTurn()
         case .endOfRound:
-            break
+            engine.stop()
         }
+    }
+    
+    // MARK: Level Modeling Conformance
+    
+    func cancelGameplay() {
+        engine.stop()
     }
     
     // MARK: EQDetective Engine Delegate Methods

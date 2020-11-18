@@ -11,9 +11,10 @@ class LevelsViewModel: ObservableObject {
     
     @Published var levels: [Level]
     
-    var game: Game = Game.eqDetective
+    var game: Game
     
-    init() {
+    init(game: Game) {
+        self.game = game
         levels = game.levels
     }
     

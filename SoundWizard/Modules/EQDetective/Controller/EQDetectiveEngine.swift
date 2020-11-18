@@ -76,6 +76,7 @@ class EQDetectiveEngine {
         delegate?.turnDidEnd(score: turn.score!)
         
         if round.isComplete {
+            level.updateProgress(round: round)
             delegate?.roundDidEnd(round: round)
         }
     }

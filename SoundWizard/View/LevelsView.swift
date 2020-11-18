@@ -9,44 +9,52 @@ import SwiftUI
 
 struct LevelsView: View {
     
-    @ObservedObject var manager = LevelsViewModel()
-    @State private var showGame = false
+    @ObservedObject var manager: LevelsViewModel
+    @State private var showLevel = false
         
-    init() {
+    init(game: Game) {
+        manager = LevelsViewModel(game: game)
         configureNavBar()
     }
     
     var body: some View {
-        
-        NavigationView {
-            ZStack {
-                
-                Color(.darkGray)
-                    .ignoresSafeArea()
-                
-                VStack {
-                    List() {
-                        ForEach(manager.levels, id: \.levelNumber) { level in
-                            LevelCellView(level: level)
-                                .fullScreenCover(isPresented: $showGame) {
-                                    EQDetectiveGameplayView(level: level)
-                                }
-                                .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                    showGame = true
-                                })
+        ZStack {
+            Color(.darkGray)
+                .ignoresSafeArea()
+            
+            VStack {
+                List() {
+                    ForEach(manager.levels, id: \.levelNumber) { level in
+                        LevelCellView(level: level)
+                            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                                showLevel = true
+                            })
+                            .fullScreenCover(isPresented: $showLevel) {
+                                gameShellView(for: level)
+                            }
                             
-                        }
-                        .frame(width: nil, height: 50, alignment: .center)
-                        .listRowBackground(Color(white: 0.3, opacity: 1))
                         
                     }
-                    .listStyle(InsetGroupedListStyle())
+                    .frame(width: nil, height: 50, alignment: .center)
+                    .listRowBackground(Color(white: 0.3, opacity: 1))
                     
                 }
-                .navigationBarTitle("EQ Detective", displayMode: .inline)
+                .listStyle(InsetGroupedListStyle())
                 
             }
+            .navigationBarTitle("EQ Detective", displayMode: .inline)
+            
         }
+    }
+    
+    private func gameShellView(for level: Level) -> some View {
+        switch level.game {
+        case .eqDetective:
+            let manager = EQDetectiveViewModel(level: level)
+            return GameShellView(showLevel: $showLevel, manager: manager)
+        }
+        
+       
     }
     
     private func configureNavBar() {
@@ -90,6 +98,6 @@ struct LevelCellView: View {
 
 struct LevelsView_Previews: PreviewProvider {
     static var previews: some View {
-        LevelsView()
+        LevelsView(game: .eqDetective)
     }
 }

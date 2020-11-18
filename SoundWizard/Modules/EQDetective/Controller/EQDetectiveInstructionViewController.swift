@@ -17,7 +17,7 @@ class EQDetectiveInstructionViewController: UIViewController, InstructionControl
         }
     }
     
-    @IBOutlet weak var bellCurveView: EQDetectiveInstructionView!
+    @IBOutlet weak var bellCurveView: EQDetectiveInstructionUIView!
     @IBOutlet weak var dbLabel: UILabel!
     @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var dbLabelTopSpaceConstraint: NSLayoutConstraint!
