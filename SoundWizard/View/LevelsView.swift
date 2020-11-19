@@ -27,10 +27,11 @@ struct LevelsView: View {
                     ForEach(manager.levels, id: \.levelNumber) { level in
                         LevelCellView(level: level)
                             .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                                manager.selectedLevel = level
                                 showLevel = true
                             })
                             .fullScreenCover(isPresented: $showLevel) {
-                                gameShellView(for: level)
+                                gameShellView(for: manager.selectedLevel!)
                             }
                             
                         
@@ -45,7 +46,9 @@ struct LevelsView: View {
             .navigationBarTitle("EQ Detective", displayMode: .inline)
             
         }
+        
     }
+    
     
     private func gameShellView(for level: Level) -> some View {
         switch level.game {
@@ -70,6 +73,7 @@ struct LevelsView: View {
         
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UITableView.appearance().backgroundColor = UIColor(Color.darkBackground)
+        UITableViewCell.appearance().backgroundColor = UIColor(Color.darkBackground)
     }
     
 }
@@ -79,19 +83,39 @@ struct LevelCellView: View {
     var level: Level
     
     var body: some View {
-        HStack {
-            Text("Level \(level.levelNumber)")
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundColor(.teal)
+        ZStack {
+            Color(white: 0.3, opacity: 1)
             
-            Spacer()
-            Spacer()
+            HStack {
+                Text("Level \(level.levelNumber)")
+                    .font(.monoSemiBold(20))
+                    .foregroundColor(.teal)
                 
-            ForEach(0..<3) { i in
-                Image(systemName: "star.fill")
-                    .foregroundColor(level.progress.starsEarned > i ? .yellow : .black)
+                Spacer()
+                Spacer()
+                
+                VStack(alignment: .trailing) {
+                    
+                    Text("\(level.audioSource.description)")
+                        .font(.monoMedium(12))
+                        .foregroundColor(.teal)
+                        .offset(x: 0, y: -5)
+                    
+                    HStack {
+                        ForEach(0..<3) { i in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(level.progress.starsEarned > i ? .yellow : .black)
+                        }
+                    }
+                    
+                    
+                    
+                }
+                .frame(width: 200, height: 60, alignment: .trailing)
+                    
+                
+                .offset(x: -10, y: 0)
             }
-            .offset(x: -10, y: 0)
         }
     }
 }

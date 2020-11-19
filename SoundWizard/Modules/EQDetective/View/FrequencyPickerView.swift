@@ -12,6 +12,7 @@ struct FrequencyPickerView: View {
     @Binding var percentage: CGFloat
     @Binding var octavesShaded: Float
     @Binding var octaveCount: Float
+    @Binding var percentageRange: ClosedRange<CGFloat>
     
     @State var lastTranslation: CGFloat = 0.0
     
@@ -19,8 +20,10 @@ struct FrequencyPickerView: View {
     var answerLineColor: Color?
     
     var freq: Float {
-        let octave = Float(percentage) * octaveCount
+        let octave = Float(10 * percentage)
         return AudioCalculator.freq(fromOctave: octave)
+//        let octave = Float(percentage) * octaveCount
+//        return AudioCalculator.freq(fromOctave: octave)
     }
     
     var answerPercentage: CGFloat? {
@@ -57,7 +60,7 @@ struct FrequencyPickerView: View {
                 let leftX = percentage * geometry.size.width - labelWidth / 2
                 Text(freq.freqIntString)
                     .frame(width: labelWidth, height: 20, alignment: .center)
-                    .font(.system(size: 10, weight: .semibold))
+                    .font(.monoSemiBold(10))
                     .foregroundColor(Color(white: 0.6, opacity: 1))
                     .offset(x: leftX, y: geometry.frame(in: .local).height - bottomSpace)
             }
@@ -97,7 +100,7 @@ struct FrequencyPickerView: View {
             Text(freq.freqDecimalString)
                 .frame(width: labelWidth, height: 20, alignment: .center)
                 .offset(x: percentage * geometry.size.width - labelWidth / 2, y: 0)
-                .font(.system(size: 18, weight: .semibold))
+                .font(.monoSemiBold(18))
                 .foregroundColor(Color.white)
             
             Rectangle()
@@ -109,6 +112,7 @@ struct FrequencyPickerView: View {
                             let translation = value.translation.width - lastTranslation
                             let offset = translation / geometry.size.width
                             percentage += offset
+                            percentage = percentage.clamped(to: percentageRange)
                             lastTranslation = value.translation.width
                         }
                         .onEnded { _ in
@@ -120,7 +124,7 @@ struct FrequencyPickerView: View {
     }
     
     // MARK: - Helper Methods
-    
+        
     func x(for freq: Float, width: CGFloat) -> CGFloat {
         let count = graphLineFreqs.count
         let octave = AudioCalculator.octave(fromFreq: freq)

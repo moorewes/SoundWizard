@@ -38,7 +38,7 @@ class EQDetectiveRound: Round {
     // MARK: Internal
     
     func newTurn() -> EQDetectiveTurn {
-        let freq = AudioCalculator.randomFreq(disfavoring: turns.last?.freqSolution)
+        let freq = AudioCalculator.randomFreq(in: level.freqGuessRange, disfavoring: turns.last?.freqSolution)
         let turn = EQDetectiveTurn(number: turns.count,
                                    freqSolution: freq,
                                    octaveErrorRange: level.octaveErrorRange)

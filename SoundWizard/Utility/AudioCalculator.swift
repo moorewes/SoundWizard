@@ -47,14 +47,15 @@ struct AudioCalculator {
         return powf(10, dB/10)
     }
     
-    static func randomFreq(disfavoring disfavoredFreq: Float? = nil) -> Float {
-        var octave = randomOctave()
+    static func randomFreq(in range: ClosedRange<Float>, disfavoring disfavoredFreq: Float? = nil) -> Float {
+        let octaveRange = AudioCalculator.octaveRange(freqRange: range)
+        var octave = randomOctave(in: octaveRange)
         
         // Weaken chances of frequencies close to edges
         if octave < 3.0 || octave > 9.0 {
             let i = Int.random(in: 0...5)
             if i < 4 {
-                octave = randomOctave()
+                octave = randomOctave(in: octaveRange)
             }
         }
         
@@ -63,7 +64,7 @@ struct AudioCalculator {
             if abs(octave - Self.octave(fromFreq: avoidFreq)) < 0.3 {
                 let i = Int.random(in: 0...5)
                 if i < 5 {
-                    octave = randomOctave()
+                    octave = randomOctave(in: octaveRange)
                 }
             }
         }
@@ -71,8 +72,20 @@ struct AudioCalculator {
         return AudioCalculator.freq(fromOctave: octave)
     }
     
-    static func randomOctave() -> Float {
-        return Float(Int.random(in: 15...95)) / 10.0
+    static func randomOctave(in range: ClosedRange<Float>) -> Float {
+        let multiplier: Float = 1000.0
+        let minBound = Int(range.lowerBound * multiplier)
+        let maxBound = Int(range.upperBound * multiplier)
+        let intRange = minBound...maxBound
+        let random = Int.random(in: intRange)
+        
+        return Float(random) / multiplier
+    }
+    
+    private static func octaveRange(freqRange: ClosedRange<Float>) -> ClosedRange<Float> {
+        let lowerBound = AudioCalculator.octave(fromFreq: freqRange.lowerBound)
+        let upperBound = AudioCalculator.octave(fromFreq: freqRange.upperBound)
+        return lowerBound...upperBound
     }
     
 }

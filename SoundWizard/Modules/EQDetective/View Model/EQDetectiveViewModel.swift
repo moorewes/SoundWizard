@@ -15,11 +15,7 @@ class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngin
     
     typealias ViewType = EQDetectiveGameplayView
     
-    @Published var state = EQDetectiveGameState.awaitingGuess {
-        didSet {
-            print(state)
-        }
-    }
+    @Published var state = EQDetectiveGameState.awaitingGuess
     @Published var turnNumber: Int = 1
     @Published var octaveErrorRange: Float = 2.0
     @Published var octaveCount: Float = 10.0
@@ -39,6 +35,20 @@ class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngin
             engine.toggleMute(mute: !audioShouldPlay)
         }
     }
+    
+    lazy var freqSliderPercentageRange: ClosedRange<CGFloat> = {
+        let range = (level as! EQDetectiveLevel).freqGuessRange
+        
+        let minFreq = range.lowerBound
+        let minOctave = AudioCalculator.octave(fromFreq: minFreq, decimalPlaces: 2)
+        let minPercentage = CGFloat(minOctave / octaveCount)
+        
+        let maxFreq = range.upperBound
+        let maxOctave = AudioCalculator.octave(fromFreq: maxFreq, decimalPlaces: 2)
+        let maxPercentage = CGFloat(maxOctave / octaveCount)
+        
+        return minPercentage...maxPercentage
+    }()
     
     var freqSliderPercentage: CGFloat = 0.5 {
         didSet {
@@ -104,7 +114,6 @@ class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngin
             engine.startNewRound()
         case .awaitingGuess:
             engine.submitGuess(selectedFreq)
-            print(selectedFreq)
         case .showingResults:
             engine.startNewTurn()
         case .endOfRound:

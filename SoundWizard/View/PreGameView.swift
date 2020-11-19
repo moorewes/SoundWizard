@@ -23,13 +23,15 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
                 // Top Score
                 
                 Text("Top Score")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(.teal)
+                    .font(.monoMedium(20))
+                    .foregroundColor(.white)
+                    .opacity(0.6)
                     .padding()
                 
                 Text("\(manager.level.progress.topScore ?? 0)")
-                    .font(.system(size: 48, weight: .black, design: .monospaced))
+                    .font(.monoBold(48))
                     .foregroundColor(.teal)
+                    .padding()
                 
                 // Stars
                 
@@ -44,20 +46,18 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
                         
                         VStack {
                             Image(systemName: "star.fill")
-                                .foregroundColor(manager.level.progress.starsEarned > i ? .yellow : .black)
-                                .scaleEffect(3.0)
-                                .padding(40)
+                                .foregroundColor(manager.level.progress.starsEarned > i ? .yellow : .extraDarkGray)
+                                .scaleEffect(2.5)
+                                .padding(20)
                             
                             Text("\(manager.level.starScores[i])")
                                 .foregroundColor(.teal)
-                                .font(.system(size: 22,
-                                              weight: .bold,
-                                              design: .monospaced))
+                                .font(.monoBold(20))
                         }
                     }
                     
                 }
-                .padding(EdgeInsets(top: 5, leading: 40, bottom: 5, trailing: 40))
+                .padding(EdgeInsets(top: 5, leading: 80, bottom: 5, trailing: 80))
                 
                 // Instruction View
                 
@@ -65,6 +65,9 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
                 
                 instructionView
                     .foregroundColor(.teal)
+                    .background(Color(.darkGray))
+                    .cornerRadius(20)
+                    .padding(EdgeInsets(top: 50, leading: 50, bottom: 50, trailing: 50))
                 
                 Spacer()
                 
@@ -79,14 +82,13 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
                             .cornerRadius(10)
                             .frame(width: 200, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         Text("PLAY")
-                            .font(.system(size: 20, weight: .black))
+                            .font(.monoBold(20))
                             .foregroundColor(.darkBackground)
                     }
                     
                 })
-                
-                
-                
+                .padding()
+                    
             }
         }
     }
@@ -94,7 +96,7 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
     private var instructionView: some View {
         switch manager.level.game {
         case .eqDetective:
-            return EQDetectiveInstructionView()
+            return EQDetectiveInstructionView(level: manager.level)
         
         }
     }
@@ -103,6 +105,6 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
 
 struct EQDetectivePreGameView_Previews: PreviewProvider {
     static var previews: some View {
-        PreGameView(manager: EQDetectiveViewModel(level: EQDetectiveLevel.level(0)!), showGameplay: .constant(false))
+        PreGameView(manager: EQDetectiveViewModel(level: EQDetectiveLevel.level(2)!), showGameplay: .constant(false))
     }
 }

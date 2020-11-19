@@ -18,6 +18,7 @@ class EQDetectiveLevel: Level {
     let levelNumber: Int
     let audioSource: AudioSource
     let starScores: [Int]
+    let freqGuessRange: ClosedRange<Float> = 40.0...16_000.0
     
     lazy var instructions: String = instructionString()
     

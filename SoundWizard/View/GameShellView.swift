@@ -35,7 +35,7 @@ struct GameShellView<Model>: View where Model: GameViewModeling {
                             showLevel = false
                         }
                     }
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.monoBold(18))
                         .foregroundColor(.white)
                     .opacity(0.6)
                     
@@ -43,7 +43,7 @@ struct GameShellView<Model>: View where Model: GameViewModeling {
                     
                     Text("Level \(manager.level.levelNumber)")
                         .foregroundColor(.teal)
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.monoSemiBold(20))
                     
                     Spacer()
                     

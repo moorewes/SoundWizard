@@ -31,8 +31,9 @@ struct EQDetectiveGameplayView: View {
                         
                         if manager.state == .awaitingGuess {
                             Text("Choose the \ncenter frequency")
-                                .font(.system(size: 22, weight: .semibold))
+                                .font(.monoSemiBold(22))
                                 .foregroundColor(.white)
+                                .opacity(0.8)
                                 .multilineTextAlignment(.center)
                         }
                         
@@ -41,7 +42,7 @@ struct EQDetectiveGameplayView: View {
                     
                     FrequencyPickerView(percentage: $manager.freqSliderPercentage,
                                         octavesShaded: $manager.octaveErrorRange,
-                                        octaveCount: $manager.octaveCount,
+                                        octaveCount: $manager.octaveCount, percentageRange: $manager.freqSliderPercentageRange,
                                         answerOctave: manager.answerOctave,
                                         answerLineColor: manager.successColor)
                         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
@@ -59,7 +60,7 @@ struct EQDetectiveGameplayView: View {
                                 .cornerRadius(10)
                                 .frame(width: 200, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             Text(manager.proceedButtonLabelText)
-                                .font(.system(size: 20, weight: .semibold))
+                                .font(.monoBold(20))
                                 .foregroundColor(.darkBackground)
                         }
                         
@@ -94,13 +95,16 @@ struct TogglePicker: View {
         UISegmentedControl.appearance().selectedSegmentTintColor = .systemTeal
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black.withAlphaComponent(0.8)], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.monoMedium(14)], for: .normal)
     }
     
     var body: some View {
         Picker(selection: $manager.filterOnState, label: Text("EQ Bypass")) {
             Text(firstItemText).tag(0)
                 .foregroundColor(.darkBackground)
+                .font(.monoBold(18))
             Text(secondItemText).tag(1)
+                .font(.monoBold(18))
         }
         .pickerStyle(SegmentedPickerStyle())
     }
@@ -112,22 +116,22 @@ struct ResultsView: View {
     var body: some View {
         VStack {
             Text("Answer")
-                .font(.system(size: 16, weight: .bold))
+                .font(.monoBold(16))
                 .foregroundColor(.init(white: 1, opacity: 0.5))
             Text(manager.answerFreqString)
-                .font(.system(size: 32, weight: .bold))
+                .font(.monoBold(32))
                 .foregroundColor(.teal)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
             
             Text("Off by")
-                .font(.system(size: 12, weight: .bold))
+                .font(.monoBold(12))
                 .foregroundColor(.init(white: 1, opacity: 0.5))
             Text(manager.octaveErrorString)
-                .font(.system(size: 18, weight: .heavy))
+                .font(.monoBold(18))
                 .foregroundColor(.teal)
         
             Text(manager.feedbackLabelText)
-                .font(.system(size: 14, weight: .bold))
+                .font(.monoBold(14))
                 .foregroundColor(manager.successColor)
                 .offset(x: 0, y: 10)
             
@@ -148,10 +152,10 @@ struct StatusBar: View {
             
             VStack {
                 Text("SCORE")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.monoBold(16))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
                 Text("\(Int(manager.score))")
-                    .font(.system(size: 22, weight: .heavy))
+                    .font(.monoBold(22))
                     .foregroundColor(.teal)
             }
             //.fixedSize()
@@ -160,8 +164,8 @@ struct StatusBar: View {
             
             
             VStack {
-                Text("Turn \(manager.turnNumber) of 10")
-                    .font(.system(size: 16, weight: .bold))
+                Text("\(manager.turnNumber) of 10")
+                    .font(.monoBold(16))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
                 ProgressView(value: progress)
                     .accentColor(.teal)
@@ -179,7 +183,6 @@ struct StatusBar: View {
                 Image(systemName: highlighted ? "speaker.fill" : "speaker")
                     .foregroundColor(.teal)
                     .scaleEffect(1.3)
-                    //.padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0))
                 
             })
             .frame(width: 80, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -202,7 +205,7 @@ struct GameplayNavBarView: View {
             
             Text("Level \(levelNumber)")
                 .foregroundColor(.teal)
-                .font(.system(size: 20, weight: .semibold))
+                .font(.monoSemiBold(20))
             
             Spacer()
         }
@@ -214,6 +217,7 @@ struct GameplayNavBarView: View {
 extension Color {
     static let teal = Color(UIColor.systemTeal)
     static let darkBackground = Color(white: 0.2, opacity: 1)
+    static let extraDarkGray = Color(white: 0.08)
 }
 
 struct BackButton: View {
@@ -229,7 +233,7 @@ struct BackButton: View {
                 }
             }, label: {
                 Text("Quit")
-                    .font(.system(size: 18, weight: .bold))
+                    .font(.monoBold(18))
             })
             
         }

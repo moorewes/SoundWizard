@@ -5,7 +5,7 @@
 //  Created by Wes Moore on 10/28/20.
 //
 
-import Foundation
+import UIKit
 
 protocol EQDetectiveEngineDelegate: class {
     func roundDidBegin()
@@ -36,11 +36,13 @@ class EQDetectiveEngine {
     // MARK: Private
     
     private var conductor: EqualizerFilterConductor
+    private var hapticGenerator: HapticGenerator
     
     // MARK: - Initializers
     
     init(level: EQDetectiveLevel) {
         self.level = level
+        hapticGenerator = HapticGenerator.main
         conductor = EqualizerFilterConductor(source: level.audioSource)
     }
     
@@ -75,6 +77,8 @@ class EQDetectiveEngine {
         round.endTurn(freqGuess: freqGuess)
         delegate?.turnDidEnd(score: turn.score!)
         
+        fireHaptics(for: turn.score!)
+        
         if round.isComplete {
             level.updateProgress(round: round)
             delegate?.roundDidEnd(round: round)
@@ -96,6 +100,10 @@ class EQDetectiveEngine {
     
     func stop() {
         stopAudio()
+    }
+    
+    func fireHaptics(for score: EQDetectiveTurnScore) {
+        hapticGenerator.fire(successLevel: score.successLevel)
     }
     
     // MARK: Private

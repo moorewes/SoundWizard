@@ -43,8 +43,6 @@ class EqualizerFilterConductor: ObservableObject {
 
         engine.output = fader
         player.volume = volume
-        
-        startEngine()
     }
     
     // MARK: - Methods
@@ -52,6 +50,7 @@ class EqualizerFilterConductor: ObservableObject {
     // MARK: Internal
     
     func startPlaying() {
+        startEngine()
         player.start()
         fadeIn()
     }
@@ -89,6 +88,7 @@ class EqualizerFilterConductor: ObservableObject {
     // MARK: Private
 
     private func startEngine() {
+        
         do {
             try engine.start()
         } catch let err {

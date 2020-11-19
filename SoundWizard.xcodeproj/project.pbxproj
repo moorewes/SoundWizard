@@ -13,6 +13,36 @@
 		DE1F19D02564709900CF923A /* GameShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1F19CF2564709900CF923A /* GameShellView.swift */; };
 		DE1F19D82564778000CF923A /* PreGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1F19D72564778000CF923A /* PreGameView.swift */; };
 		DE1F19E02564935000CF923A /* GameViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1F19DF2564935000CF923A /* GameViewModeling.swift */; };
+		DE3162DF2565A46E008558A4 /* HapticGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3162DE2565A46E008558A4 /* HapticGenerator.swift */; };
+		DE3162F12565B811008558A4 /* Great.ahap in Resources */ = {isa = PBXBuildFile; fileRef = DE3162ED2565B811008558A4 /* Great.ahap */; };
+		DE3162F22565B811008558A4 /* Good.ahap in Resources */ = {isa = PBXBuildFile; fileRef = DE3162EE2565B811008558A4 /* Good.ahap */; };
+		DE3162F32565B811008558A4 /* Perfect.ahap in Resources */ = {isa = PBXBuildFile; fileRef = DE3162EF2565B811008558A4 /* Perfect.ahap */; };
+		DE3162F42565B811008558A4 /* Failure.ahap in Resources */ = {isa = PBXBuildFile; fileRef = DE3162F02565B811008558A4 /* Failure.ahap */; };
+		DE31630F2565FBEE008558A4 /* WorkSans-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3162FD2565FBED008558A4 /* WorkSans-ExtraLight.ttf */; };
+		DE3163102565FBEE008558A4 /* WorkSans-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3162FE2565FBED008558A4 /* WorkSans-BlackItalic.ttf */; };
+		DE3163112565FBEE008558A4 /* WorkSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3162FF2565FBED008558A4 /* WorkSans-SemiBold.ttf */; };
+		DE3163122565FBEE008558A4 /* WorkSans-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163002565FBED008558A4 /* WorkSans-Black.ttf */; };
+		DE3163132565FBEE008558A4 /* WorkSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163012565FBED008558A4 /* WorkSans-ExtraBoldItalic.ttf */; };
+		DE3163142565FBEE008558A4 /* WorkSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163022565FBED008558A4 /* WorkSans-BoldItalic.ttf */; };
+		DE3163152565FBEE008558A4 /* WorkSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163032565FBED008558A4 /* WorkSans-LightItalic.ttf */; };
+		DE3163162565FBEE008558A4 /* WorkSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163042565FBED008558A4 /* WorkSans-ExtraBold.ttf */; };
+		DE3163172565FBEE008558A4 /* WorkSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163052565FBED008558A4 /* WorkSans-Light.ttf */; };
+		DE3163182565FBEE008558A4 /* WorkSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163062565FBED008558A4 /* WorkSans-Italic.ttf */; };
+		DE3163192565FBEE008558A4 /* WorkSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163072565FBED008558A4 /* WorkSans-SemiBoldItalic.ttf */; };
+		DE31631A2565FBEE008558A4 /* WorkSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163082565FBED008558A4 /* WorkSans-Bold.ttf */; };
+		DE31631B2565FBEE008558A4 /* WorkSans-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163092565FBED008558A4 /* WorkSans-ExtraLightItalic.ttf */; };
+		DE31631C2565FBEE008558A4 /* WorkSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE31630A2565FBED008558A4 /* WorkSans-MediumItalic.ttf */; };
+		DE31631D2565FBEE008558A4 /* WorkSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE31630B2565FBED008558A4 /* WorkSans-Medium.ttf */; };
+		DE31631E2565FBEE008558A4 /* WorkSans-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE31630C2565FBED008558A4 /* WorkSans-ThinItalic.ttf */; };
+		DE31631F2565FBEE008558A4 /* WorkSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE31630D2565FBED008558A4 /* WorkSans-Regular.ttf */; };
+		DE3163202565FBEE008558A4 /* WorkSans-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE31630E2565FBEE008558A4 /* WorkSans-Thin.ttf */; };
+		DE3163292565FBFA008558A4 /* FiraCode-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163242565FBFA008558A4 /* FiraCode-Bold.ttf */; };
+		DE31632A2565FBFA008558A4 /* FiraCode-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163252565FBFA008558A4 /* FiraCode-Light.ttf */; };
+		DE31632B2565FBFA008558A4 /* FiraCode-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163262565FBFA008558A4 /* FiraCode-Regular.ttf */; };
+		DE31632C2565FBFA008558A4 /* FiraCode-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163272565FBFA008558A4 /* FiraCode-SemiBold.ttf */; };
+		DE31632D2565FBFA008558A4 /* FiraCode-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE3163282565FBFA008558A4 /* FiraCode-Medium.ttf */; };
+		DE3163322565FCFF008558A4 /* Font+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3163312565FCFF008558A4 /* Font+Custom.swift */; };
+		DE316337256607C6008558A4 /* AudioCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE316336256607C6008558A4 /* AudioCalculatorTests.swift */; };
 		DE364B5D255DF997006C9EC8 /* FrequencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE364B5C255DF997006C9EC8 /* FrequencyPickerView.swift */; };
 		DE3A4D9025509713007A4003 /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3A4D8F25509713007A4003 /* GamesViewController.swift */; };
 		DE3A4D9525509BCF007A4003 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3A4D9425509BCF007A4003 /* GameCell.swift */; };
@@ -92,6 +122,36 @@
 		DE1F19CF2564709900CF923A /* GameShellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameShellView.swift; sourceTree = "<group>"; };
 		DE1F19D72564778000CF923A /* PreGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreGameView.swift; sourceTree = "<group>"; };
 		DE1F19DF2564935000CF923A /* GameViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModeling.swift; sourceTree = "<group>"; };
+		DE3162DE2565A46E008558A4 /* HapticGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticGenerator.swift; sourceTree = "<group>"; };
+		DE3162ED2565B811008558A4 /* Great.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Great.ahap; sourceTree = "<group>"; };
+		DE3162EE2565B811008558A4 /* Good.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Good.ahap; sourceTree = "<group>"; };
+		DE3162EF2565B811008558A4 /* Perfect.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Perfect.ahap; sourceTree = "<group>"; };
+		DE3162F02565B811008558A4 /* Failure.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Failure.ahap; sourceTree = "<group>"; };
+		DE3162FD2565FBED008558A4 /* WorkSans-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-ExtraLight.ttf"; sourceTree = "<group>"; };
+		DE3162FE2565FBED008558A4 /* WorkSans-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-BlackItalic.ttf"; sourceTree = "<group>"; };
+		DE3162FF2565FBED008558A4 /* WorkSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		DE3163002565FBED008558A4 /* WorkSans-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Black.ttf"; sourceTree = "<group>"; };
+		DE3163012565FBED008558A4 /* WorkSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		DE3163022565FBED008558A4 /* WorkSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		DE3163032565FBED008558A4 /* WorkSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		DE3163042565FBED008558A4 /* WorkSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		DE3163052565FBED008558A4 /* WorkSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Light.ttf"; sourceTree = "<group>"; };
+		DE3163062565FBED008558A4 /* WorkSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Italic.ttf"; sourceTree = "<group>"; };
+		DE3163072565FBED008558A4 /* WorkSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		DE3163082565FBED008558A4 /* WorkSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Bold.ttf"; sourceTree = "<group>"; };
+		DE3163092565FBED008558A4 /* WorkSans-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		DE31630A2565FBED008558A4 /* WorkSans-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-MediumItalic.ttf"; sourceTree = "<group>"; };
+		DE31630B2565FBED008558A4 /* WorkSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Medium.ttf"; sourceTree = "<group>"; };
+		DE31630C2565FBED008558A4 /* WorkSans-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-ThinItalic.ttf"; sourceTree = "<group>"; };
+		DE31630D2565FBED008558A4 /* WorkSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Regular.ttf"; sourceTree = "<group>"; };
+		DE31630E2565FBEE008558A4 /* WorkSans-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WorkSans-Thin.ttf"; sourceTree = "<group>"; };
+		DE3163242565FBFA008558A4 /* FiraCode-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-Bold.ttf"; sourceTree = "<group>"; };
+		DE3163252565FBFA008558A4 /* FiraCode-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-Light.ttf"; sourceTree = "<group>"; };
+		DE3163262565FBFA008558A4 /* FiraCode-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-Regular.ttf"; sourceTree = "<group>"; };
+		DE3163272565FBFA008558A4 /* FiraCode-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-SemiBold.ttf"; sourceTree = "<group>"; };
+		DE3163282565FBFA008558A4 /* FiraCode-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-Medium.ttf"; sourceTree = "<group>"; };
+		DE3163312565FCFF008558A4 /* Font+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Custom.swift"; sourceTree = "<group>"; };
+		DE316336256607C6008558A4 /* AudioCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCalculatorTests.swift; sourceTree = "<group>"; };
 		DE364B5C255DF997006C9EC8 /* FrequencyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyPickerView.swift; sourceTree = "<group>"; };
 		DE3A4D8F25509713007A4003 /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
 		DE3A4D9425509BCF007A4003 /* GameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
@@ -189,6 +249,47 @@
 			path = UIKit;
 			sourceTree = "<group>";
 		};
+		DE3162F82565B817008558A4 /* AHAP */ = {
+			isa = PBXGroup;
+			children = (
+				DE3162F02565B811008558A4 /* Failure.ahap */,
+				DE3162EE2565B811008558A4 /* Good.ahap */,
+				DE3162ED2565B811008558A4 /* Great.ahap */,
+				DE3162EF2565B811008558A4 /* Perfect.ahap */,
+			);
+			path = AHAP;
+			sourceTree = "<group>";
+		};
+		DE3162FC2565FBC6008558A4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				DE3163242565FBFA008558A4 /* FiraCode-Bold.ttf */,
+				DE3163252565FBFA008558A4 /* FiraCode-Light.ttf */,
+				DE3163282565FBFA008558A4 /* FiraCode-Medium.ttf */,
+				DE3163262565FBFA008558A4 /* FiraCode-Regular.ttf */,
+				DE3163272565FBFA008558A4 /* FiraCode-SemiBold.ttf */,
+				DE3163002565FBED008558A4 /* WorkSans-Black.ttf */,
+				DE3162FE2565FBED008558A4 /* WorkSans-BlackItalic.ttf */,
+				DE3163082565FBED008558A4 /* WorkSans-Bold.ttf */,
+				DE3163022565FBED008558A4 /* WorkSans-BoldItalic.ttf */,
+				DE3163042565FBED008558A4 /* WorkSans-ExtraBold.ttf */,
+				DE3163012565FBED008558A4 /* WorkSans-ExtraBoldItalic.ttf */,
+				DE3162FD2565FBED008558A4 /* WorkSans-ExtraLight.ttf */,
+				DE3163092565FBED008558A4 /* WorkSans-ExtraLightItalic.ttf */,
+				DE3163062565FBED008558A4 /* WorkSans-Italic.ttf */,
+				DE3163052565FBED008558A4 /* WorkSans-Light.ttf */,
+				DE3163032565FBED008558A4 /* WorkSans-LightItalic.ttf */,
+				DE31630B2565FBED008558A4 /* WorkSans-Medium.ttf */,
+				DE31630A2565FBED008558A4 /* WorkSans-MediumItalic.ttf */,
+				DE31630D2565FBED008558A4 /* WorkSans-Regular.ttf */,
+				DE3162FF2565FBED008558A4 /* WorkSans-SemiBold.ttf */,
+				DE3163072565FBED008558A4 /* WorkSans-SemiBoldItalic.ttf */,
+				DE31630E2565FBEE008558A4 /* WorkSans-Thin.ttf */,
+				DE31630C2565FBED008558A4 /* WorkSans-ThinItalic.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		DE707085255F4D8A0068B808 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +334,8 @@
 				DEC1863F254A399F00D730CC /* Info.plist */,
 				DEC1862E254A399D00D730CC /* AppDelegate.swift */,
 				DEC18630254A399D00D730CC /* SceneDelegate.swift */,
+				DE3162FC2565FBC6008558A4 /* Fonts */,
+				DE3162F82565B817008558A4 /* AHAP */,
 				DE707086255F599D0068B808 /* View Model */,
 				DEDCF8162550FDAA000AADB1 /* Controller */,
 				DEDCF8122550FDA0000AADB1 /* Model */,
@@ -254,6 +357,7 @@
 				DEB64F53255638240023529C /* UserProgressManagerTests.swift */,
 				DEB64F4E2556362C0023529C /* UserProgressManagerMock.swift */,
 				DEB64F3F255624D60023529C /* GameTests.swift */,
+				DE316336256607C6008558A4 /* AudioCalculatorTests.swift */,
 				DEB64F492556279D0023529C /* LevelMock.swift */,
 				DEC186A5254A3C8F00D730CC /* Modules */,
 				DEC1864A254A399F00D730CC /* Info.plist */,
@@ -356,6 +460,7 @@
 		DEDCF8162550FDAA000AADB1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DE3162DE2565A46E008558A4 /* HapticGenerator.swift */,
 				DE3A4D8F25509713007A4003 /* GamesViewController.swift */,
 				DE3A4D992550A9ED007A4003 /* LevelsViewController.swift */,
 				DEBEF0202551D3C70095134B /* UserProgressManager.swift */,
@@ -369,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				DEBF5CE1254A49A200818B86 /* Extensions.swift */,
+				DE3163312565FCFF008558A4 /* Font+Custom.swift */,
 				DEC1867F254A3A1600D730CC /* AudioCalculator.swift */,
 			);
 			path = Utility;
@@ -517,11 +623,38 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE31632C2565FBFA008558A4 /* FiraCode-SemiBold.ttf in Resources */,
+				DE3163122565FBEE008558A4 /* WorkSans-Black.ttf in Resources */,
+				DE3163192565FBEE008558A4 /* WorkSans-SemiBoldItalic.ttf in Resources */,
+				DE31631B2565FBEE008558A4 /* WorkSans-ExtraLightItalic.ttf in Resources */,
+				DE31631F2565FBEE008558A4 /* WorkSans-Regular.ttf in Resources */,
 				DEC1868A254A3A2500D730CC /* Pink.aif in Resources */,
+				DE3163132565FBEE008558A4 /* WorkSans-ExtraBoldItalic.ttf in Resources */,
+				DE3162F42565B811008558A4 /* Failure.ahap in Resources */,
 				DEC186A1254A3C6500D730CC /* Main.storyboard in Resources */,
 				DEC1863E254A399F00D730CC /* LaunchScreen.storyboard in Resources */,
+				DE31631E2565FBEE008558A4 /* WorkSans-ThinItalic.ttf in Resources */,
+				DE3162F22565B811008558A4 /* Good.ahap in Resources */,
+				DE3163152565FBEE008558A4 /* WorkSans-LightItalic.ttf in Resources */,
+				DE3163292565FBFA008558A4 /* FiraCode-Bold.ttf in Resources */,
+				DE3163202565FBEE008558A4 /* WorkSans-Thin.ttf in Resources */,
 				DEC1863B254A399F00D730CC /* Assets.xcassets in Resources */,
+				DE3163162565FBEE008558A4 /* WorkSans-ExtraBold.ttf in Resources */,
+				DE31630F2565FBEE008558A4 /* WorkSans-ExtraLight.ttf in Resources */,
+				DE31631D2565FBEE008558A4 /* WorkSans-Medium.ttf in Resources */,
+				DE3162F32565B811008558A4 /* Perfect.ahap in Resources */,
+				DE3163102565FBEE008558A4 /* WorkSans-BlackItalic.ttf in Resources */,
+				DE3163172565FBEE008558A4 /* WorkSans-Light.ttf in Resources */,
+				DE31631C2565FBEE008558A4 /* WorkSans-MediumItalic.ttf in Resources */,
+				DE31632B2565FBFA008558A4 /* FiraCode-Regular.ttf in Resources */,
+				DE3163112565FBEE008558A4 /* WorkSans-SemiBold.ttf in Resources */,
 				DEC18689254A3A2500D730CC /* Drums.wav in Resources */,
+				DE31632D2565FBFA008558A4 /* FiraCode-Medium.ttf in Resources */,
+				DE3163142565FBEE008558A4 /* WorkSans-BoldItalic.ttf in Resources */,
+				DE31632A2565FBFA008558A4 /* FiraCode-Light.ttf in Resources */,
+				DE3163182565FBEE008558A4 /* WorkSans-Italic.ttf in Resources */,
+				DE3162F12565B811008558A4 /* Great.ahap in Resources */,
+				DE31631A2565FBEE008558A4 /* WorkSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,10 +717,12 @@
 				DE3A4D9525509BCF007A4003 /* GameCell.swift in Sources */,
 				DE1F19D02564709900CF923A /* GameShellView.swift in Sources */,
 				DE707088255F59BA0068B808 /* GamesViewModel.swift in Sources */,
+				DE3163322565FCFF008558A4 /* Font+Custom.swift in Sources */,
 				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
 				DEC84A19255477F500CF46D6 /* InstructionController.swift in Sources */,
 				DEE39BC7254B39E6003C2DE4 /* ScoreFeedback.swift in Sources */,
 				DEBF5CE2254A49A200818B86 /* Extensions.swift in Sources */,
+				DE3162DF2565A46E008558A4 /* HapticGenerator.swift in Sources */,
 				DE0295ED2550BEFF00D901D0 /* Game.swift in Sources */,
 				DE707095255F5B4B0068B808 /* LevelsViewModel.swift in Sources */,
 				DE1F19D82564778000CF923A /* PreGameView.swift in Sources */,
@@ -602,6 +737,7 @@
 				DEC18649254A399F00D730CC /* SoundWizardTests.swift in Sources */,
 				DEB64F4A2556279D0023529C /* LevelMock.swift in Sources */,
 				DEB64F54255638240023529C /* UserProgressManagerTests.swift in Sources */,
+				DE316337256607C6008558A4 /* AudioCalculatorTests.swift in Sources */,
 				DEB64F4F2556362C0023529C /* UserProgressManagerMock.swift in Sources */,
 				DEC186AB254A3CB600D730CC /* EQDetectiveEngineTests.swift in Sources */,
 				DEB64F40255624D60023529C /* GameTests.swift in Sources */,
