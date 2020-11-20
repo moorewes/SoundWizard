@@ -13,10 +13,10 @@ class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngin
     var engine: EQDetectiveEngine
     var level: Level
     
-    typealias ViewType = EQDetectiveGameplayView
-    
-    @Published var state = EQDetectiveGameState.awaitingGuess
-    @Published var turnNumber: Int = 1
+    var completionHandler: (() -> Void)?
+            
+    @Published var gameState = EQDetectiveGameState.awaitingGuess
+    @Published var turnNumber: Int = 0
     @Published var octaveErrorRange: Float = 2.0
     @Published var octaveCount: Float = 10.0
     @Published var score: Int = 0
@@ -52,7 +52,7 @@ class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngin
     
     var freqSliderPercentage: CGFloat = 0.5 {
         didSet {
-            if state == .showingResults {
+            if gameState == .showingResults {
                 engine.previewFreq(selectedFreq)
             }
         }
@@ -65,7 +65,7 @@ class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngin
     }
     
     var showResultsView: Bool {
-        return state == .showingResults || state == .endOfRound
+        return gameState == .showingResults || gameState == .endOfRound
     }
     
     var answerFreqString: String {
@@ -83,8 +83,14 @@ class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngin
         return AudioCalculator.freq(fromOctave: octave)
     }
     
+    var roundProgress: Double {
+        let turns = level.numberOfTurns
+        let turn = gameState == .awaitingGuess ? turnNumber : turnNumber + 1
+        return Double(turn) / Double(turns)
+    }
+    
     var proceedButtonLabelText: String {
-        switch state {
+        switch gameState {
         case .notStarted:
             return "Start"
         case .awaitingGuess:
@@ -103,13 +109,18 @@ class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngin
         engine = EQDetectiveEngine(level: level as! EQDetectiveLevel)
         engine.delegate = self
     }
+    
+    deinit {
+        print("discarded vm")
+    }
 
     func viewDidAppear() {
         engine.startNewRound()
     }
     
-    func didTapProceedButton() {
-        switch state {
+    func didTapProceedButton(completion: @escaping () -> Void) {
+        completionHandler = completion
+        switch gameState {
         case .notStarted:
             engine.startNewRound()
         case .awaitingGuess:
@@ -124,30 +135,44 @@ class EQDetectiveViewModel: ObservableObject, GameViewModeling, EQDetectiveEngin
     // MARK: Level Modeling Conformance
     
     func cancelGameplay() {
-        engine.stop()
+        engine.quitRound()
     }
     
     // MARK: EQDetective Engine Delegate Methods
     
     func roundDidBegin() {
-        state = .awaitingGuess
+        score = 0
+        gameState = .awaitingGuess
     }
     
     func turnDidBegin(turn: EQDetectiveTurn) {
         answerFreq = turn.freqSolution
-        turnNumber = turn.number + 1
-        state = .awaitingGuess
+        turnNumber = turn.number
+        gameState = .awaitingGuess
     }
     
-    func turnDidEnd(score: EQDetectiveTurnScore) {
-        self.score += Int(score.value)
-        feedbackLabelText = score.randomFeedbackString()
-        successColor = feedbackLabelColor(for: score.successLevel)
-        state = .showingResults
+    func turnDidEnd(turnScore: EQDetectiveTurnScore, totalScore: Int) {
+        score = totalScore
+        
+        fireFeedback(successLevel: turnScore.successLevel)
+        
+        feedbackLabelText = turnScore.randomFeedbackString()
+        successColor = feedbackLabelColor(for: turnScore.successLevel)
+        gameState = .showingResults
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [unowned self] in
+            if self.gameState == .endOfRound {
+                self.completionHandler?()
+            } else {
+                self.engine.startNewTurn()
+            }
+            
+        }
     }
     
     func roundDidEnd(round: EQDetectiveRound) {
-        state = .endOfRound
+        gameState = .endOfRound
+        engine.stop()
     }
     
     private func octaveString(_ octave: Float) -> String {

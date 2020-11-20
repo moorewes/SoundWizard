@@ -28,6 +28,7 @@ class EqualizerFilterConductor: ObservableObject {
     private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.05
     private var filterQ: AUValue = 1
+    private let dimVolume: AUValue = AudioCalculator.dBToPercent(dB: -6)
     
     // MARK: - Initializers
     
@@ -61,6 +62,13 @@ class EqualizerFilterConductor: ObservableObject {
         } else {
             fadeIn()
         }
+    }
+    
+    func setDim(dimmed: Bool) {
+        let gain = dimmed ? dimVolume : volume
+        
+        fader.$leftGain.ramp(to: gain, duration: 0.3)
+        fader.$rightGain.ramp(to: gain, duration: 0.3)
     }
     
     func stopPlaying() {
@@ -112,5 +120,6 @@ class EqualizerFilterConductor: ObservableObject {
         fader.$leftGain.ramp(to: gain, duration: 0.3)
         fader.$rightGain.ramp(to: gain, duration: 0.3)
     }
+
 
 }

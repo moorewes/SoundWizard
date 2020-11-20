@@ -9,6 +9,5 @@ import SwiftUI
 
 class GamesViewModel: ObservableObject {
     
-    @Published var games: [Game] = Game.allGames
-    
+    @Published var games: [Game] = Game.allCases
 }

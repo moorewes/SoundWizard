@@ -10,8 +10,8 @@ import SwiftUI
 struct PreGameView<Model>: View where Model: GameViewModeling {
         
     @ObservedObject var manager: Model
-    
-    @Binding var showGameplay: Bool
+    @Binding var gameViewState: GameViewState
+    @State var firstStarAchieved: Bool = false
         
     var body: some View {
         ZStack {
@@ -46,9 +46,12 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
                         
                         VStack {
                             Image(systemName: "star.fill")
-                                .foregroundColor(manager.level.progress.starsEarned > i ? .yellow : .extraDarkGray)
+                                .foregroundColor(manager.level.progress.starsEarned > i ?
+                                                    .yellow :
+                                                    .extraDarkGray)
                                 .scaleEffect(2.5)
                                 .padding(20)
+                                .animation(.default)
                             
                             Text("\(manager.level.starScores[i])")
                                 .foregroundColor(.teal)
@@ -60,21 +63,17 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
                 .padding(EdgeInsets(top: 5, leading: 80, bottom: 5, trailing: 80))
                 
                 // Instruction View
-                
-                Spacer()
-                
+                                
                 instructionView
                     .foregroundColor(.teal)
                     .background(Color(.darkGray))
                     .cornerRadius(20)
                     .padding(EdgeInsets(top: 50, leading: 50, bottom: 50, trailing: 50))
-                
-                Spacer()
-                
+                                
                 // Start Button
                 
                 Button(action: {
-                    showGameplay = true
+                    gameViewState = .inGame
                 }, label: {
                     ZStack {
                         Rectangle()
@@ -88,10 +87,10 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
                     
                 })
                 .padding()
-                    
             }
         }
     }
+    
     
     private var instructionView: some View {
         switch manager.level.game {
@@ -105,6 +104,6 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
 
 struct EQDetectivePreGameView_Previews: PreviewProvider {
     static var previews: some View {
-        PreGameView(manager: EQDetectiveViewModel(level: EQDetectiveLevel.level(2)!), showGameplay: .constant(false))
+        PreGameView(manager: EQDetectiveViewModel(level: EQDetectiveLevel.level(0)!), gameViewState: .constant(.preGame))
     }
 }

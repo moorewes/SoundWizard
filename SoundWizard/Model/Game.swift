@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-enum Game: Int {
+enum Game: Int, CaseIterable {
     
     case eqDetective = 0
 
@@ -26,11 +26,14 @@ enum Game: Int {
             return EQDetectiveLevel.levels
         }
     }
-
-    static var allGames: [Game] { [.eqDetective] }
-
-    static var count: Int { allGames.count }
-
+    
+    func viewModel(level: Level) -> EQDetectiveViewModel {
+        switch level.game {
+        case .eqDetective:
+            return EQDetectiveViewModel(level: level)
+        }
+    }
+    
 }
 
 

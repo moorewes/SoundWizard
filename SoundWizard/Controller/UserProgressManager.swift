@@ -55,8 +55,8 @@ class UserProgressManager {
         fetchRequest.predicate = andPredicate
         
         do {
-            let result = try container.viewContext.fetch(fetchRequest)
-            return result.first ?? createProgress(for: level)
+            let objects = try container.viewContext.fetch(fetchRequest)
+            return objects.first ?? createProgress(for: level)
         } catch {
             fatalError("Failed to fetch entities: \(error)")
         }

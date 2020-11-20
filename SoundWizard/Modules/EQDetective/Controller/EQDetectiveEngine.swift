@@ -10,7 +10,7 @@ import UIKit
 protocol EQDetectiveEngineDelegate: class {
     func roundDidBegin()
     func turnDidBegin(turn: EQDetectiveTurn)
-    func turnDidEnd(score: EQDetectiveTurnScore)
+    func turnDidEnd(turnScore: EQDetectiveTurnScore, totalScore: Int)
     func roundDidEnd(round: EQDetectiveRound)
 }
 
@@ -36,13 +36,11 @@ class EQDetectiveEngine {
     // MARK: Private
     
     private var conductor: EqualizerFilterConductor
-    private var hapticGenerator: HapticGenerator
     
     // MARK: - Initializers
     
     init(level: EQDetectiveLevel) {
         self.level = level
-        hapticGenerator = HapticGenerator.main
         conductor = EqualizerFilterConductor(source: level.audioSource)
     }
     
@@ -67,6 +65,7 @@ class EQDetectiveEngine {
         
         let turn = round.newTurn()
         updateConductor(with: turn)
+        conductor.setDim(dimmed: false)
         delegate?.turnDidBegin(turn: turn)
     }
     
@@ -75,14 +74,18 @@ class EQDetectiveEngine {
               let turn = currentTurn else { return }
         
         round.endTurn(freqGuess: freqGuess)
-        delegate?.turnDidEnd(score: turn.score!)
-        
-        fireHaptics(for: turn.score!)
+        conductor.setDim(dimmed: true)
+        delegate?.turnDidEnd(turnScore: turn.score!, totalScore: Int(round.score))
         
         if round.isComplete {
             level.updateProgress(round: round)
             delegate?.roundDidEnd(round: round)
         }
+    }
+    
+    func quitRound() {
+        stopAudio()
+        currentRound = nil
     }
     
     func toggleMute(mute: Bool) {
@@ -100,10 +103,6 @@ class EQDetectiveEngine {
     
     func stop() {
         stopAudio()
-    }
-    
-    func fireHaptics(for score: EQDetectiveTurnScore) {
-        hapticGenerator.fire(successLevel: score.successLevel)
     }
     
     // MARK: Private

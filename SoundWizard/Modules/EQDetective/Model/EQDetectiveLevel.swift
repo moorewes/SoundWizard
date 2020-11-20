@@ -22,7 +22,11 @@ class EQDetectiveLevel: Level {
     
     lazy var instructions: String = instructionString()
     
-    lazy var progress: LevelProgress = progressManager.progress(for: self)
+    lazy var progress: LevelProgress = {
+        let progress = progressManager.progress(for: self)
+        progress.updateStarsEarned(starScores: starScores)
+        return progress
+    }()
     
     // MARK: Internal
     
@@ -54,7 +58,7 @@ class EQDetectiveLevel: Level {
     
     func updateProgress(round: Round) {
         progress.scores.append(Int(round.score))
-        progress.starsEarned = starsEarned()
+        progress.updateStarsEarned(starScores: starScores)
         save()
     }
     
@@ -62,20 +66,11 @@ class EQDetectiveLevel: Level {
         progressManager.save()
     }
     
-    // MARK: Private
-    
-    private func starsEarned() -> Int {
-        guard let topScore = progress.scores.sorted().last else { return 0 }
-        if topScore >= starScores[2] {
-            return 3
-        } else if topScore >= starScores[1] {
-            return 2
-        } else if topScore >= starScores[0] {
-            return 1
-        } else {
-            return 0
-        }
+    func viewModel() -> some GameViewModeling {
+        return EQDetectiveViewModel(level: self)
     }
+    
+    // MARK: Private
     
     private func instructionString() -> String {
         let filterType = filterGainDB > 0 ? "boost" : "cut"

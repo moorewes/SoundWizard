@@ -10,7 +10,7 @@ import SwiftUI
 struct EQDetectiveGameplayView: View {
     
     @ObservedObject var manager: EQDetectiveViewModel
-    @Binding var gameCompleted: Bool
+    @Binding var gameViewState: GameViewState
     
     var body: some View {
         
@@ -29,7 +29,7 @@ struct EQDetectiveGameplayView: View {
                             //.hidden(manager.state == .notStarted)
                             .opacity(manager.showResultsView ? 1 : 0)
                         
-                        if manager.state == .awaitingGuess {
+                        if manager.gameState == .awaitingGuess {
                             Text("Choose the \ncenter frequency")
                                 .font(.monoSemiBold(22))
                                 .foregroundColor(.white)
@@ -48,10 +48,12 @@ struct EQDetectiveGameplayView: View {
                         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                     
                     Button(action: {
-                        if manager.state == .endOfRound {
-                            gameCompleted = true
+
+                        // Block is called when game is complete so we can dismiss the view.
+                        // TODO: Would like to find a cleaner way to accomplish this
+                        manager.didTapProceedButton() {
+                            gameViewState = .gameCompleted
                         }
-                        manager.didTapProceedButton()
                         
                     }, label: {
                         ZStack {
@@ -65,6 +67,7 @@ struct EQDetectiveGameplayView: View {
                         }
                         
                     })
+                    .opacity(manager.gameState == .showingResults ? 0 : 1)
                     
                     TogglePicker(manager: manager,
                                  firstItemText: "EQ Off",
@@ -123,12 +126,12 @@ struct ResultsView: View {
                 .foregroundColor(.teal)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
             
-            Text("Off by")
-                .font(.monoBold(12))
-                .foregroundColor(.init(white: 1, opacity: 0.5))
-            Text(manager.octaveErrorString)
-                .font(.monoBold(18))
-                .foregroundColor(.teal)
+//            Text("Off by")
+//                .font(.monoBold(12))
+//                .foregroundColor(.init(white: 1, opacity: 0.5))
+//            Text(manager.octaveErrorString)
+//                .font(.monoBold(18))
+//                .foregroundColor(.teal)
         
             Text(manager.feedbackLabelText)
                 .font(.monoBold(14))
@@ -144,8 +147,6 @@ struct StatusBar: View {
     @ObservedObject var manager: EQDetectiveViewModel
     @State var highlighted = true
     
-    var progress: Double { Double(manager.turnNumber) / 10.0 }
-    
     var body: some View {
         HStack {
             // Score
@@ -154,20 +155,22 @@ struct StatusBar: View {
                 Text("SCORE")
                     .font(.monoBold(16))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
-                Text("\(Int(manager.score))")
-                    .font(.monoBold(22))
-                    .foregroundColor(.teal)
+                MovingCounter(number: manager.score)
+                    .animation(.linear(duration: 0.5))
+//                Text("\(Int(manager.score))")
+//                    .font(.monoBold(22))
+//                    .foregroundColor(.teal)
+//                    .animation(.default)
             }
-            //.fixedSize()
             .frame(width: 80, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             
             
             
             VStack {
-                Text("\(manager.turnNumber) of 10")
+                Text("\(manager.turnNumber + 1) of 10")
                     .font(.monoBold(16))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
-                ProgressView(value: progress)
+                ProgressView(value: manager.roundProgress)
                     .accentColor(.teal)
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
                     
@@ -243,7 +246,7 @@ struct BackButton: View {
 struct GameplayView_Previews: PreviewProvider {
     static var previews: some View {
         EQDetectiveGameplayView(manager: EQDetectiveViewModel(level: EQDetectiveLevel.level(0)!),
-                                gameCompleted: .constant(false))
+                                gameViewState: .constant(.inGame))
             .previewDevice("iPhone 12 Pro")
     }
 }

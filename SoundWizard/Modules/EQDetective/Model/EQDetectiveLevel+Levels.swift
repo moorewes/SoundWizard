@@ -15,7 +15,7 @@ extension EQDetectiveLevel {
         
         EQDetectiveLevel(levelNumber: 1,
                         audioSource: .acousticDrums,
-                        starScores: [300, 400, 1600],
+                        starScores: [500, 800, 1200],
                         filterGainDB: 6.0,
                         filterQ: 2.0,
                         octaveErrorRange: 2.0),
@@ -23,7 +23,7 @@ extension EQDetectiveLevel {
         EQDetectiveLevel(levelNumber: 2,
                          audioSource: .pinkNoise,
                          starScores: [300, 400, 600],
-                        filterGainDB: 4.0,
+                        filterGainDB: 6.0,
                         filterQ: 4.0,
                         octaveErrorRange: 2.0),
         

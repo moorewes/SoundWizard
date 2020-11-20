@@ -12,7 +12,7 @@ enum ScoreSuccessLevel: Int {
     case perfect = 0, great, fair, justMissed, failed
     
     init(score: Float) {
-        if score == 1.0 {
+        if score >= 0.9 {
             self = .perfect
         } else if score >= 0.8 {
             self = .great
@@ -30,7 +30,7 @@ enum ScoreFeedback {
     
     // MARK: - Properties
     
-    private static let perfectScoreStrings = ["perfect", "nailed it", "bullseye", "wow"]
+    private static let perfectScoreStrings = ["amazing", "nailed it", "bullseye", "wow"]
     private static let greatScoreStrings = ["great", "very nice", "very close", "nearly perfect", "very nice"]
     private static let fairScoreStrings = ["good", "in the ballpark", "not bad"]
     private static let justMissedScoreStrings = ["not quite", "just missed", "so close", "almost"]

@@ -9,11 +9,21 @@ import SwiftUI
 
 struct GameShellView<Model>: View where Model: GameViewModeling {
     
+    @State var gameViewState: GameViewState = .preGame
     @Binding var showLevel: Bool
     @State var showGameplay = false
     @State var gameCompleted = false
     
     @ObservedObject var manager: Model
+    
+    var quitText: String {
+        switch gameViewState {
+        case .inGame:
+            return "Quit"
+        default:
+            return "Back"
+        }
+    }
 
     let navPadding = EdgeInsets(top: 5, leading: 30, bottom: 0, trailing: 70)
     
@@ -27,10 +37,10 @@ struct GameShellView<Model>: View where Model: GameViewModeling {
                 // Nav Bar
                 
                 HStack {
-                    Button(showGameplay ? "Quit" : "Back") {
-                        if showGameplay {
-                            showGameplay = false
+                    Button(quitText) {
+                        if gameViewState == .inGame {
                             manager.cancelGameplay()
+                            gameViewState = .gameQuitted
                         } else {
                             showLevel = false
                         }
@@ -55,11 +65,17 @@ struct GameShellView<Model>: View where Model: GameViewModeling {
                 
                 // Game or Game Preview
                 
-                if showGameplay && !gameCompleted {
+                if gameViewState == .inGame {
                     gameplayView()
                 } else {
-                    PreGameView(manager: manager, showGameplay: $showGameplay)
+                    PreGameView(manager: manager, gameViewState: $gameViewState)
                 }
+                
+//                if showGameplay && !gameCompleted {
+//                    gameplayView()
+//                } else {
+//                    PreGameView(manager: manager, showGameplay: $showGameplay)
+//                }
 
             }
             
@@ -71,7 +87,7 @@ struct GameShellView<Model>: View where Model: GameViewModeling {
     func gameplayView() -> some View {
         if let manager = manager as? EQDetectiveViewModel {
             EQDetectiveGameplayView(manager: manager,
-                                    gameCompleted: $gameCompleted)
+                                    gameViewState: $gameViewState)
         } else {
             Text("no game found")
         }

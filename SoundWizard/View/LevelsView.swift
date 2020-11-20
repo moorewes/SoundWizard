@@ -25,16 +25,11 @@ struct LevelsView: View {
             VStack {
                 List() {
                     ForEach(manager.levels, id: \.levelNumber) { level in
-                        LevelCellView(level: level)
-                            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                manager.selectedLevel = level
-                                showLevel = true
-                            })
-                            .fullScreenCover(isPresented: $showLevel) {
-                                gameShellView(for: manager.selectedLevel!)
-                            }
-                            
-                        
+                        LevelCellView(level: level) {
+                            print("tapped on level \(level.levelNumber)")
+                            manager.selectedLevel = level
+                            showLevel = true
+                        }
                     }
                     .frame(width: nil, height: 50, alignment: .center)
                     .listRowBackground(Color(white: 0.3, opacity: 1))
@@ -44,6 +39,12 @@ struct LevelsView: View {
                 
             }
             .navigationBarTitle("EQ Detective", displayMode: .inline)
+            .fullScreenCover(isPresented: $showLevel, onDismiss: {
+                manager.selectedLevel = nil
+            }, content: {
+                gameShellView(for: manager.selectedLevel!)
+            })
+
             
         }
         
@@ -51,13 +52,8 @@ struct LevelsView: View {
     
     
     private func gameShellView(for level: Level) -> some View {
-        switch level.game {
-        case .eqDetective:
-            let manager = EQDetectiveViewModel(level: level)
-            return GameShellView(showLevel: $showLevel, manager: manager)
-        }
-        
-       
+        let manager = level.game.viewModel(level: level)
+        return GameShellView(showLevel: $showLevel, manager: manager)
     }
     
     private func configureNavBar() {
@@ -81,10 +77,12 @@ struct LevelsView: View {
 struct LevelCellView: View {
     
     var level: Level
+    var tapHandler: () -> Void
     
     var body: some View {
         ZStack {
             Color(white: 0.3, opacity: 1)
+                .onTapGesture(perform: tapHandler)
             
             HStack {
                 Text("Level \(level.levelNumber)")
@@ -116,6 +114,7 @@ struct LevelCellView: View {
                 
                 .offset(x: -10, y: 0)
             }
+            
         }
     }
 }
