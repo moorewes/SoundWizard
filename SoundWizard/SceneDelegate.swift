@@ -17,10 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-//        let window = UIWindow(frame: UIScreen.main.bounds)
-//        window.rootViewController = UIHostingController(rootView: EQDetectiveGameplayView(level: EQDetectiveLevel.level(0)!))
-//        self.window = window
-//        window.makeKeyAndVisible()
+
+        configureNavBar()
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
@@ -28,6 +26,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+    }
+    
+    private func configureNavBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(Color.darkBackground)
+        let attrs: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(Color.darkBackground),
+            .font: UIFont.systemFont(ofSize: 20, weight: .black)
+        ]
+
+        appearance.largeTitleTextAttributes = attrs
+
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UITableView.appearance().backgroundColor = UIColor(Color.darkBackground)
+        UITableViewCell.appearance().backgroundColor = UIColor(Color.darkBackground)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

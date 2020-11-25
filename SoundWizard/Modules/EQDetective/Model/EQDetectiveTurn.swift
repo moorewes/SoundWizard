@@ -7,33 +7,45 @@
 
 import Foundation
 
-class EQDetectiveTurn {
+struct EQDetectiveTurn {
     
     var number: Int
-    var freqSolution: Float
-    var startTime: Date
     var octaveErrorRange: Float
+    var solution: Frequency
     
-    var freqGuess: Float?
-    var score: EQDetectiveTurnScore?
-    var timeToComplete: TimeInterval?
-    var octaveError: Float = 0.0
+    private var startTime = Date()
+    private(set) var completionTime: TimeInterval?
+    private(set) var guess: Frequency?
+    private(set) var score: TurnScore?
+    private(set) var octaveError: Float?
     
-    var isComplete: Bool {
-        return freqGuess != nil
-    }
+    var isComplete: Bool { guess != nil }
     
-    init(number: Int, freqSolution: Float, octaveErrorRange: Float) {
+    init(number: Int, level: EQDetectiveLevel) {
         self.number = number
-        self.freqSolution = freqSolution
-        self.octaveErrorRange = octaveErrorRange
-        startTime = Date()
+        self.octaveErrorRange = level.octaveErrorRange
+        
+        solution = AudioCalculator.randomFreq(in: level.freqGuessRange)
+    }
+
+    mutating func finish(guess: Frequency) {
+        self.guess = guess
+        octaveError = abs(AudioCalculator.octave(fromFreq: guess, baseOctaveFreq: solution))
+        completionTime = Date().timeIntervalSince(startTime)
+        score = score(for: octaveError!)
     }
     
-    func finish(freqGuess: Float) {
-        self.freqGuess = freqGuess
-        timeToComplete = Date().timeIntervalSince(startTime)
-        octaveError = AudioCalculator.octave(fromFreq: freqGuess, baseOctaveFreq: freqSolution)
-        self.score = EQDetectiveTurnScore(octaveError: abs(octaveError), octaveErrorRange: octaveErrorRange)
+    mutating private func score(for octaveError: Float) -> TurnScore {
+        let scoreRatio = (octaveErrorRange - octaveError) / octaveErrorRange
+        let successLevel = ScoreSuccessLevel(score: scoreRatio)
+        
+        var value: Float = 0
+        if scoreRatio > 0 {
+            let accuracyModifier = max(0, 80 * scoreRatio)
+            value = 20 + accuracyModifier
+        }
+        
+        return TurnScore(value: value, successLevel: successLevel)
     }
+    
 }

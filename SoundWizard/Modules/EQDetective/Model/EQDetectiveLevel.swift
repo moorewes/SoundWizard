@@ -19,6 +19,7 @@ class EQDetectiveLevel: Level {
     let audioSource: AudioSource
     let starScores: [Int]
     let freqGuessRange: ClosedRange<Float> = 40.0...16_000.0
+    let octavesVisible: Float = 10.0
     
     lazy var instructions: String = instructionString()
     
@@ -56,18 +57,14 @@ class EQDetectiveLevel: Level {
     
     // MARK: Internal
     
-    func updateProgress(round: Round) {
-        progress.scores.append(Int(round.score))
+    func updateProgress(score: Int) {
+        progress.scores.append(score)
         progress.updateStarsEarned(starScores: starScores)
         save()
     }
     
     func save() {
         progressManager.save()
-    }
-    
-    func viewModel() -> some GameViewModeling {
-        return EQDetectiveViewModel(level: self)
     }
     
     // MARK: Private

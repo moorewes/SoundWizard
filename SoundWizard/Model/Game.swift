@@ -27,13 +27,6 @@ enum Game: Int, CaseIterable {
         }
     }
     
-    func viewModel(level: Level) -> EQDetectiveViewModel {
-        switch level.game {
-        case .eqDetective:
-            return EQDetectiveViewModel(level: level)
-        }
-    }
-    
 }
 
 

@@ -17,7 +17,18 @@ class EqualizerFilterConductor: ObservableObject {
     
     // MARK: Internal
     
+    private(set) var filterGainDB: AUValue
+    private(set) var filterQ: AUValue
+    
     lazy var volume: AUValue = AudioCalculator.dBToPercent(dB: -0.8)
+    
+    var isMuted = false {
+        didSet {
+            if isMuted != oldValue {
+                mute(isMuted)
+            }
+        }
+    }
         
     // MARK: Private
     
@@ -27,13 +38,16 @@ class EqualizerFilterConductor: ObservableObject {
     private var fader: Fader
     private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.05
-    private var filterQ: AUValue = 1
     private let dimVolume: AUValue = AudioCalculator.dBToPercent(dB: -6)
     
     // MARK: - Initializers
     
-    init(source: AudioSource = AudioSource.acousticDrums) {
+    init(source: AudioSource = AudioSource.acousticDrums,
+         filterGainDB: AUValue,
+         filterQ: AUValue) {
         buffer = Cookbook.buffer(for: source.url)
+        self.filterGainDB = filterGainDB
+        self.filterQ = filterQ
 
         filter = EqualizerFilter(player)
         filter.centerFrequency = 1000
@@ -62,6 +76,15 @@ class EqualizerFilterConductor: ObservableObject {
         } else {
             fadeIn()
         }
+    }
+    
+    func toggleMute() {
+        isMuted.toggle()
+    }
+    
+    func setFilterBypass(_ bypass: Bool) {
+        let gain = bypass ? 1.0 : filterGainDB
+        set(filterGainDB: gain)
     }
     
     func setDim(dimmed: Bool) {

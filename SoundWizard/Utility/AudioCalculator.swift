@@ -82,6 +82,16 @@ struct AudioCalculator {
         return Float(random) / multiplier
     }
     
+    static func octaveRange(from range: ClosedRange<Frequency>, octaves: Float, decimals: Int) -> ClosedRange<Float> {
+        let minOctave = AudioCalculator.octave(fromFreq: range.lowerBound, decimalPlaces: decimals)
+        let minPercentage = minOctave / octaves
+        
+        let maxOctave = AudioCalculator.octave(fromFreq: range.upperBound, decimalPlaces: decimals)
+        let maxPercentage = maxOctave / octaves
+        
+        return minPercentage...maxPercentage
+    }
+    
     private static func octaveRange(freqRange: ClosedRange<Float>) -> ClosedRange<Float> {
         let lowerBound = AudioCalculator.octave(fromFreq: freqRange.lowerBound)
         let upperBound = AudioCalculator.octave(fromFreq: freqRange.upperBound)
@@ -90,7 +100,7 @@ struct AudioCalculator {
     
 }
 
-fileprivate extension Float {
+extension Float {
     
     mutating func roundToPlaces(places: Int) {
         let divisor = pow(10.0, Float(places))
@@ -101,5 +111,24 @@ fileprivate extension Float {
 extension FloatingPoint {
     func rounded(to value: Self, roundingRule: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Self {
        (self / value).rounded(roundingRule) * value
+    }
+}
+
+extension Frequency {
+    var octave: Octave {
+        return AudioCalculator.octave(fromFreq: self)
+    }
+    
+    var rounded: Frequency {
+        return AudioCalculator.roundedFreq(self)
+    }
+    
+}
+
+typealias Octave = Float
+
+extension Octave {
+    var frequency: Frequency {
+        return AudioCalculator.freq(fromOctave: self)
     }
 }

@@ -7,17 +7,77 @@
 
 import SwiftUI
 
-struct GameShellView<Model>: View where Model: GameViewModeling {
+struct GameShellView: View {
     
-    @State var gameViewState: GameViewState = .preGame
-    @Binding var showLevel: Bool
-    @State var showGameplay = false
-    @State var gameCompleted = false
+    @Binding var isPresented: Bool
     
-    @ObservedObject var manager: Model
+    @ObservedObject var manager: GameShellManager
+    
+    init(isPresented: Binding<Bool>, level: Level) {
+        _isPresented = isPresented
+        self.manager = GameShellManager(level: level)
+    }
+        
+    var body: some View {
+        ZStack {
+            Color.darkBackground
+                .ignoresSafeArea()
+            
+            VStack {
+                navBar
+                
+                if manager.gameViewState == .inGame {
+                    gameplayView()
+                } else {
+                    PreGameView(manager: manager)
+                }
+
+            }
+            
+        }
+        
+    }
+    
+    var navBar: some View {
+        HStack {
+            Button(quitText) {
+                if manager.gameViewState == .inGame {
+                    manager.cancelGameplay()
+                    manager.gameViewState = .gameQuitted
+                } else {
+                    isPresented = false
+                }
+            }
+                .font(.monoBold(18))
+                .foregroundColor(.white)
+                .opacity(0.6)
+            
+            Spacer()
+            
+            Text("Level \(manager.level.levelNumber)")
+                .foregroundColor(.teal)
+                .font(.monoSemiBold(20))
+            
+            Spacer()
+            
+        }
+        .padding(EdgeInsets(top: 5,
+                            leading: 30,
+                            bottom: 0,
+                            trailing: 70))
+    }
+    
+    @ViewBuilder
+    func gameplayView() -> some View {
+        if let level = self.manager.level as? EQDetectiveLevel {
+            EQDetectiveGameplayView(level: level, gameViewState: $manager.gameViewState)
+        } else {
+            Text("no game found")
+        }
+    }
     
     var quitText: String {
-        switch gameViewState {
+        switch manager.gameViewState {
         case .inGame:
             return "Quit"
         default:
@@ -27,76 +87,10 @@ struct GameShellView<Model>: View where Model: GameViewModeling {
 
     let navPadding = EdgeInsets(top: 5, leading: 30, bottom: 0, trailing: 70)
     
-    var body: some View {
-        ZStack {
-            Color.darkBackground
-                .ignoresSafeArea()
-            
-            VStack {
-                
-                // Nav Bar
-                
-                HStack {
-                    Button(quitText) {
-                        if gameViewState == .inGame {
-                            manager.cancelGameplay()
-                            gameViewState = .gameQuitted
-                        } else {
-                            showLevel = false
-                        }
-                    }
-                        .font(.monoBold(18))
-                        .foregroundColor(.white)
-                    .opacity(0.6)
-                    
-                    Spacer()
-                    
-                    Text("Level \(manager.level.levelNumber)")
-                        .foregroundColor(.teal)
-                        .font(.monoSemiBold(20))
-                    
-                    Spacer()
-                    
-                }
-                .padding(EdgeInsets(top: 5,
-                                    leading: 30,
-                                    bottom: 0,
-                                    trailing: 70))
-                
-                // Game or Game Preview
-                
-                if gameViewState == .inGame {
-                    gameplayView()
-                } else {
-                    PreGameView(manager: manager, gameViewState: $gameViewState)
-                }
-                
-//                if showGameplay && !gameCompleted {
-//                    gameplayView()
-//                } else {
-//                    PreGameView(manager: manager, showGameplay: $showGameplay)
-//                }
-
-            }
-            
-        }
-        
-    }
-    
-    @ViewBuilder
-    func gameplayView() -> some View {
-        if let manager = manager as? EQDetectiveViewModel {
-            EQDetectiveGameplayView(manager: manager,
-                                    gameViewState: $gameViewState)
-        } else {
-            Text("no game found")
-        }
-    }
-    
 }
 
 struct EQDetectiveShellView_Previews: PreviewProvider {
     static var previews: some View {
-        GameShellView(showLevel: .constant(true), manager: EQDetectiveViewModel(level: EQDetectiveLevel.level(0)!))
+        GameShellView(isPresented: .constant(true), level: EQDetectiveLevel.level(0)!)
     }
 }

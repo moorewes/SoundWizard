@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-struct PreGameView<Model>: View where Model: GameViewModeling {
+struct PreGameView: View {
         
-    @ObservedObject var manager: Model
-    @Binding var gameViewState: GameViewState
-    @State var firstStarAchieved: Bool = false
-        
+    @ObservedObject var manager: GameShellManager
+            
     var body: some View {
         ZStack {
             Color.darkBackground
@@ -73,7 +71,7 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
                 // Start Button
                 
                 Button(action: {
-                    gameViewState = .inGame
+                    manager.gameViewState = .inGame
                 }, label: {
                     ZStack {
                         Rectangle()
@@ -96,7 +94,6 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
         switch manager.level.game {
         case .eqDetective:
             return EQDetectiveInstructionView(level: manager.level)
-        
         }
     }
     
@@ -104,6 +101,6 @@ struct PreGameView<Model>: View where Model: GameViewModeling {
 
 struct EQDetectivePreGameView_Previews: PreviewProvider {
     static var previews: some View {
-        PreGameView(manager: EQDetectiveViewModel(level: EQDetectiveLevel.level(0)!), gameViewState: .constant(.preGame))
+        PreGameView(manager: GameShellManager(level: EQDetectiveLevel.level(0)!))
     }
 }

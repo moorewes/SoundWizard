@@ -14,6 +14,7 @@ enum GameViewState: Int {
 protocol GameViewModeling: ObservableObject {
     
     var level: Level { get set }
+    var gameViewState: GameViewState { get set }
     
     func cancelGameplay()
     func fireFeedback(successLevel: ScoreSuccessLevel)

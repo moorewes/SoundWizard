@@ -31,12 +31,8 @@ struct EQDetectiveInstructionView: View {
                     .offset(instructionLabelOffset(size: geometry.size))
                     .multilineTextAlignment(.center)
                 
-                
             }
-            
-            
         }
-        
     }
     
     private func dBLabelOffset(size: CGSize) -> CGSize {

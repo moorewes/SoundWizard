@@ -20,6 +20,23 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FiraCode-Bold.ttf</string>
+		<string>FiraCode-Light.ttf</string>
+		<string>FiraCode-Medium.ttf</string>
+		<string>FiraCode-Regular.ttf</string>
+		<string>FiraCode-SemiBold.ttf</string>
+		<string>WorkSans-Black.ttf</string>
+		<string>WorkSans-Bold.ttf</string>
+		<string>WorkSans-ExtraBold.ttf</string>
+		<string>WorkSans-ExtraLight.ttf</string>
+		<string>WorkSans-Light.ttf</string>
+		<string>WorkSans-Medium.ttf</string>
+		<string>WorkSans-Regular.ttf</string>
+		<string>WorkSans-SemiBold.ttf</string>
+		<string>WorkSans-Thin.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -48,8 +65,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -57,23 +72,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>FiraCode-Bold.ttf</string>
-		<string>FiraCode-Light.ttf</string>
-		<string>FiraCode-Medium.ttf</string>
-		<string>FiraCode-Regular.ttf</string>
-		<string>FiraCode-SemiBold.ttf</string>
-		<string>WorkSans-Black.ttf</string>
-		<string>WorkSans-Bold.ttf</string>
-		<string>WorkSans-ExtraBold.ttf</string>
-		<string>WorkSans-ExtraLight.ttf</string>
-		<string>WorkSans-Light.ttf</string>
-		<string>WorkSans-Medium.ttf</string>
-		<string>WorkSans-Regular.ttf</string>
-		<string>WorkSans-SemiBold.ttf</string>
-		<string>WorkSans-Thin.ttf</string>
 	</array>
 </dict>
 </plist>

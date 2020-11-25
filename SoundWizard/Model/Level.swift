@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Level: class {
+protocol Level {
     
     var game: Game { get }
     var progress: LevelProgress { get set }
@@ -17,6 +17,7 @@ protocol Level: class {
     var starScores: [Int] { get }
     var instructions: String { get }
     
-    func updateProgress(round: Round)
+    func updateProgress(score: Int)
     
 }
+

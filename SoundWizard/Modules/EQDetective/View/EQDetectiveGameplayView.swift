@@ -9,8 +9,11 @@ import SwiftUI
 
 struct EQDetectiveGameplayView: View {
     
-    @ObservedObject var manager: EQDetectiveViewModel
-    @Binding var gameViewState: GameViewState
+    @ObservedObject var game: EQDetectiveGame
+    
+    init(level: EQDetectiveLevel, gameViewState: Binding<GameViewState>) {
+        game = EQDetectiveGame(level: level, viewState: gameViewState)
+    }
     
     var body: some View {
         
@@ -20,80 +23,75 @@ struct EQDetectiveGameplayView: View {
                 
                 VStack() {
                     
-                    StatusBar(manager: manager)
+                    StatusBar(game: game)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                         
-                    ZStack {
-                        ResultsView(manager: manager)
-                            .padding()
-                            //.hidden(manager.state == .notStarted)
-                            .opacity(manager.showResultsView ? 1 : 0)
-                        
-                        if manager.gameState == .awaitingGuess {
-                            Text("Choose the \ncenter frequency")
-                                .font(.monoSemiBold(22))
-                                .foregroundColor(.white)
-                                .opacity(0.8)
-                                .multilineTextAlignment(.center)
-                        }
-                        
-                    }
+                    gameInfoView
+                        .padding()
                     
-                    
-                    FrequencyPickerView(percentage: $manager.freqSliderPercentage,
-                                        octavesShaded: $manager.octaveErrorRange,
-                                        octaveCount: $manager.octaveCount, percentageRange: $manager.freqSliderPercentageRange,
-                                        answerOctave: manager.answerOctave,
-                                        answerLineColor: manager.successColor)
+                    FrequencySlider(game: game)
                         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                     
-                    Button(action: {
-
-                        // Block is called when game is complete so we can dismiss the view.
-                        // TODO: Would like to find a cleaner way to accomplish this
-                        manager.didTapProceedButton() {
-                            gameViewState = .gameCompleted
-                        }
-                        
-                    }, label: {
-                        ZStack {
-                            Rectangle()
-                                .foregroundColor(.teal)
-                                .cornerRadius(10)
-                                .frame(width: 200, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            Text(manager.proceedButtonLabelText)
-                                .font(.monoBold(20))
-                                .foregroundColor(.darkBackground)
-                        }
-                        
-                    })
-                    .opacity(manager.gameState == .showingResults ? 0 : 1)
+                    submitGuessButton
+                        .opacity(game.showGuessButton ? 1 : 0)
                     
-                    TogglePicker(manager: manager,
-                                 firstItemText: "EQ Off",
-                                 secondItemText: "EQ ON")
+                    TogglePicker(game: game)
                         .frame(width: 200, height: 80)
                         .padding()
                     
                 }
                 .onAppear(perform: {
-                    manager.viewDidAppear()
+                    game.start()
                 })
                 
             }
     }
+    
+    var gameInfoView: some View {
+        
+        ZStack {
+            ResultsView(game: game)
+                .opacity(game.showResultsView ? 1 : 0)
+            
+            Text(instructionText)
+                .font(.monoSemiBold(22))
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+                .opacity(game.showResultsView ? 0 : 0.8)
+            
+        }
+    }
+    
+    var submitGuessButton: some View {
+        Button(action: {
+            game.submitGuess()
+        }, label: {
+            ZStack {
+                Rectangle()
+                    .foregroundColor(.teal)
+                    .cornerRadius(10)
+                    .frame(width: 200, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                Text("Submit")
+                    .font(.monoBold(20))
+                    .foregroundColor(.darkBackground)
+            }
+            
+        })
+    }
+    
+    var instructionText = "Choose the \ncenter frequency"
+    
 }
 
 struct TogglePicker: View {
-    @ObservedObject var manager: EQDetectiveViewModel
+    @ObservedObject var game: EQDetectiveGame
     
-    let firstItemText: String
-    let secondItemText: String
+    private let pickerName = "EQ Bypass"
+    private let firstItemText = "EQ Off"
+    private let secondItemText = "EQ On"
     
-    init(manager: EQDetectiveViewModel, firstItemText: String, secondItemText: String) {
-        self.manager = manager
-        self.firstItemText = firstItemText
-        self.secondItemText = secondItemText
+    init(game: EQDetectiveGame) {
+        self.game = game
         
         UISegmentedControl.appearance().selectedSegmentTintColor = .systemTeal
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black.withAlphaComponent(0.8)], for: .selected)
@@ -102,7 +100,7 @@ struct TogglePicker: View {
     }
     
     var body: some View {
-        Picker(selection: $manager.filterOnState, label: Text("EQ Bypass")) {
+        Picker(selection: $game.filterOnState, label: Text(pickerName)) {
             Text(firstItemText).tag(0)
                 .foregroundColor(.darkBackground)
                 .font(.monoBold(18))
@@ -111,17 +109,19 @@ struct TogglePicker: View {
         }
         .pickerStyle(SegmentedPickerStyle())
     }
+    
 }
 
 struct ResultsView: View {
-    @ObservedObject var manager: EQDetectiveViewModel
+    
+    @ObservedObject var game: EQDetectiveGame
 
     var body: some View {
         VStack {
             Text("Answer")
                 .font(.monoBold(16))
                 .foregroundColor(.init(white: 1, opacity: 0.5))
-            Text(manager.answerFreqString)
+            Text(game.solutionText)
                 .font(.monoBold(32))
                 .foregroundColor(.teal)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
@@ -133,19 +133,24 @@ struct ResultsView: View {
 //                .font(.monoBold(18))
 //                .foregroundColor(.teal)
         
-            Text(manager.feedbackLabelText)
+            Text(game.feedbackText)
+                .fixedSize()
                 .font(.monoBold(14))
-                .foregroundColor(manager.successColor)
-                .offset(x: 0, y: 10)
+                .foregroundColor(feedbackColor)
             
         }
     }
+    
+    var feedbackColor: Color {
+        guard let success = game.currentTurn?.score?.successLevel else { return Color.clear }
+        return .successLevelColor(success)
+    }
+    
 }
 
 struct StatusBar: View {
     
-    @ObservedObject var manager: EQDetectiveViewModel
-    @State var highlighted = true
+    @ObservedObject var game: EQDetectiveGame
     
     var body: some View {
         HStack {
@@ -155,22 +160,18 @@ struct StatusBar: View {
                 Text("SCORE")
                     .font(.monoBold(16))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
-                MovingCounter(number: manager.score)
+                MovingCounter(number: game.score)
                     .animation(.linear(duration: 0.5))
-//                Text("\(Int(manager.score))")
-//                    .font(.monoBold(22))
-//                    .foregroundColor(.teal)
-//                    .animation(.default)
             }
             .frame(width: 80, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             
             
             
             VStack {
-                Text("\(manager.turnNumber + 1) of 10")
+                Text("\(game.currentTurn?.number ?? 1) of 10")
                     .font(.monoBold(16))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
-                ProgressView(value: manager.roundProgress)
+                ProgressView(value: game.completion)
                     .accentColor(.teal)
                     .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
                     
@@ -180,10 +181,9 @@ struct StatusBar: View {
             
             
             Button(action: {
-                manager.audioShouldPlay.toggle()
-                highlighted.toggle()
+                game.toggleMute()
             }, label: {
-                Image(systemName: highlighted ? "speaker.fill" : "speaker")
+                Image(systemName: muteButtonImageName)
                     .foregroundColor(.teal)
                     .scaleEffect(1.3)
                 
@@ -192,6 +192,11 @@ struct StatusBar: View {
         }
         
     }
+    
+    var muteButtonImageName: String {
+        game.muted ? "speaker" : "speaker.fill"
+    }
+    
 }
 
 struct GameplayNavBarView: View {
@@ -221,6 +226,18 @@ extension Color {
     static let teal = Color(UIColor.systemTeal)
     static let darkBackground = Color(white: 0.2, opacity: 1)
     static let extraDarkGray = Color(white: 0.08)
+    
+    static func successLevelColor(_ successLevel: ScoreSuccessLevel) -> Color {
+        switch successLevel {
+        case .failed, .justMissed:
+            return Color.red
+        case .fair:
+            return Color.yellow
+        case .great, .perfect:
+            return Color.green
+        }
+    }
+    
 }
 
 struct BackButton: View {
@@ -245,8 +262,7 @@ struct BackButton: View {
 
 struct GameplayView_Previews: PreviewProvider {
     static var previews: some View {
-        EQDetectiveGameplayView(manager: EQDetectiveViewModel(level: EQDetectiveLevel.level(0)!),
-                                gameViewState: .constant(.inGame))
+        EQDetectiveGameplayView(level: EQDetectiveLevel.level(0)!, gameViewState: .constant(.inGame))
             .previewDevice("iPhone 12 Pro")
     }
 }

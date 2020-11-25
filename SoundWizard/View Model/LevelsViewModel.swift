@@ -11,11 +11,22 @@ class LevelsViewModel: ObservableObject {
     
     @Published var levels: [Level]
     @Published var selectedLevel: Level?
-    @Published var showLevel = false
     
-    func didSelectLevel(_ level: Level) {
+    var showLevel: Bool {
+        get {
+            return selectedLevel != nil
+        }
+        set {
+            selectedLevel = nil
+        }
+    }
+        
+    func selectLevel(_ level: Level) {
         selectedLevel = level
-        showLevel = true
+    }
+    
+    func dismissLevel() {
+        selectedLevel = nil
     }
     
     var game: Game
