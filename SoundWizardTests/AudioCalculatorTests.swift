@@ -13,8 +13,7 @@ class AudioCalculatorTests: XCTestCase {
     func testRandomFreq() throws {
         for _ in 0...1000 {
             let range: ClosedRange<Float> = 40.0...16_000.0
-            let randomFreq = AudioCalculator.randomFreq(in: range)
-            print(randomFreq)
+            let randomFreq = AudioMath.randomFreq(in: range, repelEdges: false)
             if !range.contains(randomFreq) {
                 fatalError()
             }
@@ -22,5 +21,5 @@ class AudioCalculatorTests: XCTestCase {
             XCTAssertTrue(randomFreq >= range.lowerBound)
         }
     }
-
+    
 }

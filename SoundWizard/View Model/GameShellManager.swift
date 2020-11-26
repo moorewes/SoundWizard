@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-class GameShellManager: ObservableObject, GameViewModeling {
+class GameShellManager: ObservableObject {
     
     var level: Level
     
     @Published var gameViewState: GameViewState = .preGame
-    
+        
     init(level: Level) {
         self.level = level
     }
     
-    func cancelGameplay() {
-        
+    func quitGame() {
+        gameViewState = .gameQuitted
     }
  
 }

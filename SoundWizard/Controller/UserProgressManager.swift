@@ -40,7 +40,6 @@ class UserProgressManager {
         
         do {
             let results = try container.viewContext.fetch(fetchRequest)
-            print("retrieved progress: \(results)")
             return results
         } catch {
             fatalError("Failed to fetch entities: \(error)")

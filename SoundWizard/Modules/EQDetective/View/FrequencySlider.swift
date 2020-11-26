@@ -11,7 +11,11 @@ struct FrequencySlider: View {
     
     @ObservedObject var game: EQDetectiveGame
     @GestureState private var dragPercentage: CGFloat = 0.0
-        
+    
+    var dragState = DragState()
+    
+    // MARK: - Body
+    
     var body: some View {
         GeometryReader { geometry in
             
@@ -30,7 +34,7 @@ struct FrequencySlider: View {
             
             solutionLine(size: geometry.size)
 
-            Text(currentFreq.freqDecimalString)
+            Text(currentFreq.decimalString)
                 .frame(width: labelWidth, height: 20, alignment: .center)
                 .offset(x: percentage * geometry.size.width - labelWidth / 2, y: 0)
                 .font(.monoSemiBold(18))
@@ -43,6 +47,8 @@ struct FrequencySlider: View {
         }
         
     }
+    
+    // MARK: - Sub views
   
     private func referenceLines(frame: CGRect) -> Path {
         Path { path in
@@ -55,9 +61,9 @@ struct FrequencySlider: View {
     
     private func referenceLabels(size: CGSize) -> some View {
         ForEach(graphLineFreqs, id: \.self) { freq in
-            let percentage = CGFloat(freq.octave / octaveCount)
+            let percentage = CGFloat(freq.asOctave / octaveCount)
             let leftX = percentage * size.width - labelWidth / 2
-            Text(freq.freqIntString)
+            Text(freq.intString)
                 .frame(width: labelWidth, height: 20, alignment: .center)
                 .font(.monoSemiBold(10))
                 .foregroundColor(Color(white: 0.6, opacity: 1))
@@ -98,21 +104,16 @@ struct FrequencySlider: View {
         }
     }
     
-    // TODO: Final value tends to be different than last updated causing a shift when releasing finger
     private func dragGesture(width: CGFloat) -> some Gesture {
         DragGesture(minimumDistance: 0)
             .updating($dragPercentage) { (newValue, dragPercentage, _) in
                 dragPercentage = newValue.translation.width / width
-                print("updated drag: \(newValue.translation.width)")
+                dragState.dragEndPercentage = dragPercentage
             }
-            .onChanged({ (value) in
-                print("changed drag: \(value.translation.width)")
-            })
             .onEnded { finalValue in
-                let percentage = self.percentage + finalValue.translation.width / width
+                let percentage = self.percentage + dragState.dragEndPercentage
                 let octave = Float(percentage.clamped(to: percentageRange)) * octaveCount
-                game.freqSliderChanged(to: octave.frequency.rounded())
-                print("committed drag: \(finalValue.translation.width)")
+                game.freqSliderChanged(to: octave.asFrequency.uiRounded)
             }
     }
     
@@ -128,7 +129,7 @@ struct FrequencySlider: View {
     private var octavesShaded: Float { game.level.octaveErrorRange }
     private var octaveCount: Float { game.level.octavesVisible }
     private var percentageRange: ClosedRange<CGFloat> { game.freqSliderRange }
-    private var answerOctave: Float? { game.currentTurn?.solution.octave }
+    private var answerOctave: Float? { game.currentTurn?.solution.asOctave }
     
     private var answerLineColor: Color? {
         guard let success = game.currentTurn?.score?.successLevel else {
@@ -142,14 +143,13 @@ struct FrequencySlider: View {
             return game.selectedFreq
         } else {
             let octave = Float(percentage) * octaveCount
-            return octave.frequency.rounded()
+            return octave.asFrequency.uiRounded
         }
         
     }
     
     private var percentage: CGFloat {
         let result = game.freqSliderValue + dragPercentage
-        //print("drew line at pct: \(result.clamped(to: percentageRange))")
         return result.clamped(to: percentageRange)
     }
     
@@ -157,13 +157,25 @@ struct FrequencySlider: View {
         guard let octave = answerOctave else { return nil }
         return CGFloat(octave / octaveCount)
     }
+    
+    // MARK: - Helper Methods
         
     private func x(for freq: Float, width: CGFloat) -> CGFloat {
-        return width * CGFloat(freq.octave) / CGFloat(graphLineFreqs.count)
+        return width * CGFloat(freq.asOctave) / CGFloat(graphLineFreqs.count)
     }
     
     private func lineXPositions(width: CGFloat) -> [CGFloat] {
         return graphLineFreqs.map { x(for: $0, width: width) }
+    }
+    
+    // MARK: - Types
+    
+    /// Used as a workaround for deciding on the final value for the drag gesture.
+    /// Using the final value from .onEnded results in a slight jump that is probably
+    /// caused by the user lifting their finger. This object stores the last drag value
+    /// received by .updating to be used for the .onEnded block.
+    class DragState {
+        var dragEndPercentage: CGFloat = 0.0
     }
     
 }

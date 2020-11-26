@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-typealias Frequency = Float
-
-class EQDetectiveGame: ObservableObject {
+class EQDetectiveGame: ObservableObject, GameModel {
+    
+    typealias TurnType = EQDetectiveTurn
+    typealias ConductorType = EqualizerFilterConductor
     
     var level: EQDetectiveLevel
     
-    private var conductor: EqualizerFilterConductor
+    var conductor: EqualizerFilterConductor
     
     @Published private var turns = [EQDetectiveTurn]()
     @Published var isMuted = false
@@ -46,15 +47,17 @@ class EQDetectiveGame: ObservableObject {
     private(set) var selectedFreq: Frequency = 1000.0
     
     var freqSliderValue: CGFloat {
-        let octave = AudioCalculator.octave(fromFreq: selectedFreq)
+        let octave = selectedFreq.asOctave
         return CGFloat(octave / level.octavesVisible)
     }
     
     lazy var freqSliderRange: ClosedRange<CGFloat> = {
-        let octaveRange = AudioCalculator.octaveRange(from: level.freqGuessRange,
-                                                      octaves: level.octavesVisible,
-                                                      decimals: 2)
-        return CGFloat(octaveRange.lowerBound)...CGFloat(octaveRange.upperBound)
+        let octaveRange = AudioMath.octaveRange(from: level.freqGuessRange,
+                                                decimalPlaces: 2)
+        let lowerBound = octaveRange.lowerBound / level.octavesVisible
+        let upperBound = octaveRange.upperBound / level.octavesVisible
+        
+        return CGFloat(lowerBound)...CGFloat(octaveRange.upperBound)
     }()
     
     var showResultsView: Bool {
@@ -67,7 +70,7 @@ class EQDetectiveGame: ObservableObject {
     
     var solutionText: String {
         guard let answer = currentTurn?.solution else { return "" }
-        return answer.freqDecimalString
+        return answer.decimalString
     }
     
     var feedbackText: String {
@@ -90,7 +93,6 @@ class EQDetectiveGame: ObservableObject {
     func start() {
         conductor.startPlaying()
         startNewTurn()
-        
     }
     
     func finish() {
@@ -105,7 +107,6 @@ class EQDetectiveGame: ObservableObject {
     
     func freqSliderChanged(to freq: Frequency) {
         selectedFreq = freq
-        print("updated guess to: \(selectedFreq)")
     }
     
     func toggleMute() {
@@ -116,17 +117,17 @@ class EQDetectiveGame: ObservableObject {
     // MARK: Private Methods
     
     private func startNewTurn() {
-        let turn = EQDetectiveTurn(number: turns.count + 1, level: level)
+        let turn = EQDetectiveTurn(number: turns.count + 1, level: level, previousTurn: turns.last)
         turns.append(turn)
         conductor.set(filterFreq: turn.solution)
+        filterOnState = 1
     }
     
     private func endTurn() {
-        var turn = turns.popLast()!
-        turn.finish(guess: selectedFreq)
-        turns.append(turn)
+        let index = turns.endIndex - 1
+        turns[index].finish(guess: selectedFreq)
         
-        fireScoreFeedback()
+        fireFeedback()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             if self.turns.count == self.level.numberOfTurns {
@@ -135,13 +136,6 @@ class EQDetectiveGame: ObservableObject {
                 self.startNewTurn()
             }
         }
-    }
-    
-    private func fireScoreFeedback() {
-        guard let successLevel = currentTurn?.score?.successLevel else { return }
-        
-        HapticGenerator.main.fire(successLevel: successLevel)
-        SoundFXManager.main.playTurnResultFX(successLevel: successLevel)
     }
     
 }

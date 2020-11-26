@@ -19,22 +19,7 @@ extension Float {
         return isInt ? "\(Int(self))" : String(format: "%.1f", self)
     }
     
-    var freqDecimalString: String {
-        if self / 1000.0 >= 1 {
-            let freqString = String(format: "%.1f", self / 1000.0)
-            return freqString + " kHz"
-        } else {
-            return "\(Int(self)) Hz"
-        }
-    }
     
-    var freqIntString: String {
-        if self < 1000 {
-            return String(Int(self))
-        } else {
-            return "\(Int(self / 1000))k"
-        }
-    }
 }
 
 

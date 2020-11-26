@@ -9,7 +9,19 @@ import Foundation
 import AudioKit
 import AVFoundation
 
-class EqualizerFilterConductor: ObservableObject {
+protocol GameConductor {
+        
+    func startPlaying()
+    
+    func stopPlaying()
+    
+    func fireScoreFeedback(successLevel: ScoreSuccessLevel)
+    
+}
+
+
+// TODO: Create protocol
+class EqualizerFilterConductor: GameConductor {
     
     // MARK: - Types
     
@@ -20,7 +32,7 @@ class EqualizerFilterConductor: ObservableObject {
     private(set) var filterGainDB: AUValue
     private(set) var filterQ: AUValue
     
-    lazy var volume: AUValue = AudioCalculator.dBToPercent(dB: -0.8)
+    lazy var volume: AUValue = AudioMath.dBToPercent(dB: -8)
     
     var isMuted = false {
         didSet {
@@ -32,13 +44,17 @@ class EqualizerFilterConductor: ObservableObject {
         
     // MARK: Private
     
+    private var fxManager = SoundFXManager.main
     private let engine = AudioEngine()
     private let player = AudioPlayer()
+    private let fxPlayer = AudioPlayer()
+    private let mixer: Mixer
     private let filter: EqualizerFilter
     private var fader: Fader
     private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.05
-    private let dimVolume: AUValue = AudioCalculator.dBToPercent(dB: -6)
+    private let dimVolume: AUValue = AudioMath.dBToPercent(dB: -6)
+
     
     // MARK: - Initializers
     
@@ -55,9 +71,14 @@ class EqualizerFilterConductor: ObservableObject {
         filter.bandwidth = 1000
         
         fader = Fader(filter, gain: 0)
-
-        engine.output = fader
+        
+        mixer = Mixer([fader, fxPlayer])
+        
         player.volume = volume
+        fxPlayer.volume = volume
+
+        engine.output = mixer
+        
     }
     
     // MARK: - Methods
@@ -68,6 +89,18 @@ class EqualizerFilterConductor: ObservableObject {
         startEngine()
         player.start()
         fadeIn()
+    }
+    
+    func stopPlaying() {
+        fadeOut()
+        player.stop()
+        engine.stop()
+    }
+    
+    func fireScoreFeedback(successLevel: ScoreSuccessLevel) {
+        let buffer = fxManager.buffer(for: successLevel)
+        fxPlayer.scheduleBuffer(buffer, at: nil, options: AVAudioPlayerNodeBufferOptions.interrupts)
+        fxPlayer.play()
     }
     
     func mute(_ muted: Bool) {
@@ -93,13 +126,7 @@ class EqualizerFilterConductor: ObservableObject {
         fader.$leftGain.ramp(to: gain, duration: 0.3)
         fader.$rightGain.ramp(to: gain, duration: 0.3)
     }
-    
-    func stopPlaying() {
-        fadeOut()
-        player.stop()
-        engine.stop()
-    }
-    
+        
     func set(filterFreq: AUValue) {
         let bandwidth = filterFreq / filterQ
         filter.$centerFrequency.ramp(to: filterFreq, duration: filterRampTime)
@@ -107,7 +134,7 @@ class EqualizerFilterConductor: ObservableObject {
     }
     
     func set(filterGainDB: AUValue) {
-        let gainPercentage = AudioCalculator.dBToPercent(dB: filterGainDB)
+        let gainPercentage = AudioMath.dBToPercent(dB: filterGainDB)
         filter.$gain.ramp(to: gainPercentage, duration: filterRampTime)
     }
     

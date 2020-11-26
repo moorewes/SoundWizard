@@ -10,25 +10,25 @@ import AVFoundation
 class SoundFXManager {
     
     static let main = SoundFXManager()
+        
+    private var buffers = [ScoreSuccessLevel:AVAudioPCMBuffer]()
     
-    var player: AVAudioPlayer?
-
-    func playTurnResultFX(successLevel: ScoreSuccessLevel) {
-        guard let url = turnFXURL(successLevel: successLevel) else { fatalError() }
-
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-
-            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
-
-            guard let player = player else { return }
-
-            player.play()
-
-        } catch let error {
-            print(error.localizedDescription)
-        }
+    private init() {
+        loadBuffers()
+    }
+    
+    func buffer(for scoreSuccessLevel: ScoreSuccessLevel) -> AVAudioPCMBuffer {
+        return buffers[scoreSuccessLevel]!
+    }
+    
+    private func loadBuffers() {
+        ScoreSuccessLevel.allCases.forEach { buffers[$0] = turnFXBuffer(successLevel: $0) }
+    }
+    
+    private func turnFXBuffer(successLevel: ScoreSuccessLevel) -> AVAudioPCMBuffer {
+        let url = turnFXURL(successLevel: successLevel)
+        let file = try! AVAudioFile(forReading: url!)
+        return try! AVAudioPCMBuffer(file: file)!
     }
     
     private func turnFXURL(successLevel: ScoreSuccessLevel) -> URL? {

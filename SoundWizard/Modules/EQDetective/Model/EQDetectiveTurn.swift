@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EQDetectiveTurn {
+struct EQDetectiveTurn: Turn {
     
     var number: Int
     var octaveErrorRange: Float
@@ -21,16 +21,18 @@ struct EQDetectiveTurn {
     
     var isComplete: Bool { guess != nil }
     
-    init(number: Int, level: EQDetectiveLevel) {
+    init(number: Int, level: EQDetectiveLevel, previousTurn: EQDetectiveTurn?) {
         self.number = number
         self.octaveErrorRange = level.octaveErrorRange
         
-        solution = AudioCalculator.randomFreq(in: level.freqGuessRange)
+        solution = Frequency.random(in: level.freqGuessRange,
+                                    disfavoring: previousTurn?.solution,
+                                    repelEdges: true)
     }
 
     mutating func finish(guess: Frequency) {
         self.guess = guess
-        octaveError = abs(AudioCalculator.octave(fromFreq: guess, baseOctaveFreq: solution))
+        octaveError = abs(guess.octaves(to: solution))
         completionTime = Date().timeIntervalSince(startTime)
         score = score(for: octaveError!)
     }

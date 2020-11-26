@@ -26,8 +26,8 @@ class LevelMock: Level {
     
     var instructions: String = "Mock instructions"
     
-    func updateProgress(round: Round) {
-        progress.scores.append(Int(round.score))
+    func updateProgress(score: Int) {
+        progress.scores.append(score)
     }
 
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ScoreSuccessLevel: Int {
+enum ScoreSuccessLevel: Int, CaseIterable {
     
     case perfect = 0, great, fair, justMissed, failed
     

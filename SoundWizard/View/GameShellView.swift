@@ -42,8 +42,7 @@ struct GameShellView: View {
         HStack {
             Button(quitText) {
                 if manager.gameViewState == .inGame {
-                    manager.cancelGameplay()
-                    manager.gameViewState = .gameQuitted
+                    manager.quitGame()
                 } else {
                     isPresented = false
                 }

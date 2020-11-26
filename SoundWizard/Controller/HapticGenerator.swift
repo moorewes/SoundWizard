@@ -27,7 +27,6 @@ class HapticGenerator {
             engine.resetHandler = handleEngineReset
             engine.stoppedHandler = handleEngineStop
         } catch {
-            print("failed to setup haptic engine")
             supportsHaptics = false
         }
     }
@@ -47,7 +46,6 @@ class HapticGenerator {
     
     private func playHapticsFile(named filename: String) {
         guard let path = Bundle.main.path(forResource: filename, ofType: "ahap") else {
-            print("cant find")
             return
         }
         
