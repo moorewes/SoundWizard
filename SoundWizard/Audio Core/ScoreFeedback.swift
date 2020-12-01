@@ -7,25 +7,6 @@
 
 import Foundation
 
-enum ScoreSuccessLevel: Int, CaseIterable {
-    
-    case perfect = 0, great, fair, justMissed, failed
-    
-    init(score: Float) {
-        if score >= 0.9 {
-            self = .perfect
-        } else if score >= 0.8 {
-            self = .great
-        } else if score >= 0.0 {
-            self = .fair
-        } else if score > -0.3 {
-            self = .justMissed
-        } else {
-            self = .failed
-        }
-    }
-}
-
 enum ScoreFeedback {
     
     // MARK: - Properties

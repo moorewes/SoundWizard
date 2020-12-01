@@ -18,6 +18,8 @@ protocol GameModel: ObservableObject {
     var score: Int { get }
     var completion: Float { get }
     var muted: Bool { get }
+    var lives: Int { get }
+    var startingLives: Int { get }
     
     func toggleMute()
     

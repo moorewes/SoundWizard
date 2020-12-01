@@ -10,7 +10,7 @@ import Foundation
 struct EQDetectiveTurn: Turn {
     
     var number: Int
-    var octaveErrorRange: Float
+    var octaveErrorRange: Octave
     var solution: Frequency
     
     private var startTime = Date()
@@ -21,13 +21,10 @@ struct EQDetectiveTurn: Turn {
     
     var isComplete: Bool { guess != nil }
     
-    init(number: Int, level: EQDetectiveLevel, previousTurn: EQDetectiveTurn?) {
+    init(number: Int, octaveErrorRange: Octave, solution: Frequency) {
         self.number = number
-        self.octaveErrorRange = level.octaveErrorRange
-        
-        solution = Frequency.random(in: level.bandFocus.range,
-                                    disfavoring: previousTurn?.solution,
-                                    repelEdges: true)
+        self.octaveErrorRange = octaveErrorRange
+        self.solution = solution
     }
 
     mutating func finish(guess: Frequency) {

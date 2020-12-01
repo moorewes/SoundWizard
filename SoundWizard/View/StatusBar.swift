@@ -12,7 +12,7 @@ struct StatusBar<Model: GameModel>: View {
     @ObservedObject var game: Model
     
     var body: some View {
-        HStack {
+        HStack(spacing: 50) {
             // Score
             
             VStack {
@@ -24,18 +24,36 @@ struct StatusBar<Model: GameModel>: View {
             }
             .frame(width: 80, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             
-            
-            
             VStack {
-                Text("\(game.currentTurn?.number ?? 1) of 10")
+                Text("LIVES")
                     .font(.monoBold(16))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
-                ProgressView(value: game.completion)
-                    .accentColor(.teal)
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
-                    
+                
+                HStack() {
+                    ForEach(0..<game.startingLives) { i in
+                        let visible = game.startingLives - i - 1 >= game.lives
+                        Image(systemName: "heart.fill")
+                            .foregroundColor(.teal)
+                            .padding(2)
+                            .opacity(visible ? 0 : 1)
+                            .animation(.easeIn)
+                    }
+                }
+                
             }
+            .frame(width: nil, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .padding()
+            
+//            VStack {
+//                Text("\(game.currentTurn?.number ?? 1) of 10")
+//                    .font(.monoBold(16))
+//                    .foregroundColor(.init(white: 1, opacity: 0.5))
+//                ProgressView(value: game.completion)
+//                    .accentColor(.teal)
+//                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+//
+//            }
+//            .padding()
             
             
             

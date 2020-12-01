@@ -12,12 +12,43 @@ class EQDetectiveGame: ObservableObject, GameModel {
     typealias TurnType = EQDetectiveTurn
     typealias ConductorType = EqualizerFilterConductor
     
+    // MARK: - Constants
+    
+    let startingLives = 3
+    
+    private let streakNeededForExtraLife = 3
+    private let octaveErrorMultiplier: Float = 0.7
+    private let turnsPerStage = 5
+    
     var level: EQDetectiveLevel
     
     var conductor: EqualizerFilterConductor
     
     @Published var selectedFreq: Frequency
-    @Published private var turns = [EQDetectiveTurn]()
+    
+    @Published var lives = 3
+    
+    @Published var streak = 0 {
+        didSet {
+            if streak > 0 && streak % streakNeededForExtraLife == 0 {
+                lives = min(lives + 1, startingLives)
+            }
+        }
+    }
+    
+    @Published private var turns = [EQDetectiveTurn]() {
+        didSet {
+            guard let turn = turns.last else { return }
+            if let success = turn.score?.successLevel {
+                streak += success >= .great ? 1 : -streak
+                lives -= success <= .justMissed ? 1 : 0
+            } else {
+                conductor.set(filterFreq: turn.solution)
+                filterOnState = 1
+            }
+        }
+    }
+    
     @Published var isMuted = false
     
     @Published var filterOnState: Int = 1 {
@@ -31,6 +62,19 @@ class EQDetectiveGame: ObservableObject, GameModel {
     
     var currentTurn: EQDetectiveTurn? {
         turns.last
+    }
+    
+    var turnNumberInStage: Int {
+        return turns.count - stage * turnsPerStage
+    }
+    
+    var stage: Int {
+        (turns.count - 1) / turnsPerStage
+    }
+    
+    var octaveErrorRange: Octave {
+        let multiplier = powf(octaveErrorMultiplier, Float(stage))
+        return level.octaveErrorRange * multiplier
     }
     
     var score: Int {
@@ -105,20 +149,23 @@ class EQDetectiveGame: ObservableObject, GameModel {
     // MARK: Private Methods
     
     private func startNewTurn() {
-        let turn = EQDetectiveTurn(number: turns.count + 1, level: level, previousTurn: turns.last)
+        let solution = Frequency.random(in: level.bandFocus.range,
+                                        disfavoring: turns.last?.solution,
+                                                   repelEdges: true)
+        let turn = EQDetectiveTurn(number: turns.count + 1,
+                                   octaveErrorRange: octaveErrorRange,
+                                   solution: solution)
         turns.append(turn)
-        conductor.set(filterFreq: turn.solution)
-        filterOnState = 1
     }
     
     private func endTurn() {
         let index = turns.endIndex - 1
         turns[index].finish(guess: selectedFreq)
-        
+
         fireFeedback()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            if self.turns.count == self.level.numberOfTurns {
+            if self.lives == 0 {
                 self.finish()
             } else {
                 self.startNewTurn()
@@ -135,7 +182,7 @@ extension EQDetectiveGame: FrequencySliderDataSource {
     }
     
     var octavesShaded: Float {
-        level.octaveErrorRange * 2
+        octaveErrorRange * 2
     }
     
     var solutionFreq: Frequency? {

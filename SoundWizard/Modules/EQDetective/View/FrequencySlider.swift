@@ -49,7 +49,6 @@ struct FrequencySlider: View {
             
             sliderLabel(size: geometry.size)
                 .position(sliderLabelPosition(in: geometry.size))
-                //.frame(width: labelWidth, height: 20, alignment: .center)
 
             Rectangle()
                 .size(geometry.size)
@@ -127,8 +126,6 @@ struct FrequencySlider: View {
     private func sliderLabel(size: CGSize) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 0) {
             Text(sliderFrequency.decimalString)
-                //.frame(width: labelWidth, height: 20, alignment: .center)
-                //.offset(sliderLabelOffset(in: frame.size))
                 .font(.monoSemiBold(18))
                 .foregroundColor(Color.white)
             Text(" " + sliderFrequency.unitString)
@@ -181,8 +178,6 @@ struct FrequencySlider: View {
     
     private func sliderLabelPosition(in size: CGSize) -> CGPoint {
         let x = sliderX(in: size)
-        print("x: \(x), width: \(size.width)")
-        
         return CGPoint(x: x, y: sliderLabelTopSpace)
     }
     

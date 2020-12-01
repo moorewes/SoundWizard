@@ -18,7 +18,7 @@ extension EQDetectiveLevel {
                         starScores: [500, 800, 1200],
                         filterGainDB: 8.0,
                         filterQ: 4.0,
-                        difficulty: .hard,
+                        difficulty: .easy,
                         bandFocus: .all),
         
         EQDetectiveLevel(levelNumber: 2,
@@ -67,7 +67,14 @@ extension EQDetectiveLevel {
                          filterGainDB: 6.0,
                          filterQ: 4.0,
                          difficulty: .easy,
-                         bandFocus: .all)
+                         bandFocus: .all),
+        EQDetectiveLevel(levelNumber: 8,
+                        audioSource: .acousticDrums,
+                        starScores: [500, 800, 1200],
+                        filterGainDB: 8.0,
+                        filterQ: 4.0,
+                        difficulty: .moderate,
+                        bandFocus: .mid),
         
         
     ]
