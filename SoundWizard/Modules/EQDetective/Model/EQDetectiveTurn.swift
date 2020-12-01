@@ -25,7 +25,7 @@ struct EQDetectiveTurn: Turn {
         self.number = number
         self.octaveErrorRange = level.octaveErrorRange
         
-        solution = Frequency.random(in: level.freqGuessRange,
+        solution = Frequency.random(in: level.bandFocus.range,
                                     disfavoring: previousTurn?.solution,
                                     repelEdges: true)
     }

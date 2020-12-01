@@ -44,13 +44,13 @@ class EqualizerFilterConductor: GameConductor {
         
     // MARK: Private
     
-    private var fxManager = SoundFXManager.main
+    private let fxManager = SoundFXManager.main
     private let engine = AudioEngine()
     private let player = AudioPlayer()
     private let fxPlayer = AudioPlayer()
     private let mixer: Mixer
     private let filter: EqualizerFilter
-    private var fader: Fader
+    private let fader: Fader
     private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.05
     private let dimVolume: AUValue = AudioMath.dBToPercent(dB: -6)
@@ -78,7 +78,6 @@ class EqualizerFilterConductor: GameConductor {
         fxPlayer.volume = volume
 
         engine.output = mixer
-        
     }
     
     // MARK: - Methods

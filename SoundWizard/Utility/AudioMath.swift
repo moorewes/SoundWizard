@@ -29,9 +29,12 @@ struct AudioMath {
      */
     static func octave(fromFreq freq: Frequency,
                        baseOctaveFreq: Frequency = baseFrequency,
-                       decimalPlaces: Int = 2) -> Octave {
+                       roundingPlaces: Int? = nil) -> Octave {
         var octave = logf(freq / baseOctaveFreq) / logf(2.0)
-        octave.round(places: decimalPlaces)
+        
+        if let places = roundingPlaces {
+            octave.round(places: places)
+        }
         
         return octave
     }
@@ -116,6 +119,10 @@ struct AudioMath {
         let lowerBound = AudioMath.octave(fromFreq: freqRange.lowerBound).rounded(places: decimalPlaces)
         let upperBound = AudioMath.octave(fromFreq: freqRange.upperBound).rounded(places: decimalPlaces)
         return lowerBound...upperBound
+    }
+    
+    static func octaves(in range: FrequencyRange) -> Octave {
+        return octave(fromFreq: range.upperBound, baseOctaveFreq: range.lowerBound)
     }
     
 }

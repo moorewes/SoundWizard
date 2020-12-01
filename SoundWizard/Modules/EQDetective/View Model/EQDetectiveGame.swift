@@ -16,10 +16,10 @@ class EQDetectiveGame: ObservableObject, GameModel {
     
     var conductor: EqualizerFilterConductor
     
+    @Published var selectedFreq: Frequency
     @Published private var turns = [EQDetectiveTurn]()
     @Published var isMuted = false
     
-    // TODO: Game starts with filter bypassed for some reason
     @Published var filterOnState: Int = 1 {
         didSet {
             let bypass = filterOnState == 0
@@ -42,23 +42,9 @@ class EQDetectiveGame: ObservableObject, GameModel {
         return Float(completedTurns) / Float(level.numberOfTurns)
     }
     
-    var muted: Bool { conductor.isMuted }
-        
-    private(set) var selectedFreq: Frequency = 1000.0
-    
-    var freqSliderValue: CGFloat {
-        let octave = selectedFreq.asOctave
-        return CGFloat(octave / level.octavesVisible)
+    var muted: Bool {
+        conductor.isMuted
     }
-    
-    lazy var freqSliderRange: ClosedRange<CGFloat> = {
-        let octaveRange = AudioMath.octaveRange(from: level.freqGuessRange,
-                                                decimalPlaces: 2)
-        let lowerBound = octaveRange.lowerBound / level.octavesVisible
-        let upperBound = octaveRange.upperBound / level.octavesVisible
-        
-        return CGFloat(lowerBound)...CGFloat(octaveRange.upperBound)
-    }()
     
     var showResultsView: Bool {
         currentTurn?.score != nil
@@ -70,7 +56,7 @@ class EQDetectiveGame: ObservableObject, GameModel {
     
     var solutionText: String {
         guard let answer = currentTurn?.solution else { return "" }
-        return answer.decimalString
+        return answer.decimalStringWithUnit
     }
     
     var feedbackText: String {
@@ -86,6 +72,8 @@ class EQDetectiveGame: ObservableObject, GameModel {
         conductor = EqualizerFilterConductor(source: level.audioSource,
                                              filterGainDB: level.filterGainDB,
                                              filterQ: level.filterQ)
+        
+        selectedFreq = level.bandFocus.referenceFrequencies.centerItem!.uiRounded
     }
     
     // MARK: - Intents
@@ -137,5 +125,33 @@ class EQDetectiveGame: ObservableObject, GameModel {
             }
         }
     }
+    
+}
+
+extension EQDetectiveGame: FrequencySliderDataSource {
+    
+    var frequencyRange: FrequencyRange {
+        level.bandFocus.range
+    }
+    
+    var octavesShaded: Float {
+        level.octaveErrorRange * 2
+    }
+    
+    var solutionFreq: Frequency? {
+        currentTurn?.solution
+    }
+    
+    var solutionLineColor: Color {
+        if let score = currentTurn?.score {
+            return .successLevelColor(score.successLevel)
+        }
+        return .clear
+    }
+    
+    var referenceFreqs: [Frequency] {
+        return level.bandFocus.referenceFrequencies
+    }
+    
     
 }

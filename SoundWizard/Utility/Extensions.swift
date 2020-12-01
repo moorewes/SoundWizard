@@ -22,6 +22,13 @@ extension Float {
     
 }
 
+extension Array {
+    var centerItem: Element? {
+        guard self.count > 0 else { return nil }
+        let index = self.count / 2
+        return self[index]
+    }
+}
 
 
 extension View {

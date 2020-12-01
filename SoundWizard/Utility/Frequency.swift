@@ -16,6 +16,14 @@ extension Frequency {
     /// A frequency string with one decimal place and the unit, aka 3.2 kHz or 300 Hz
     var decimalString: String {
         if self / 1000.0 >= 1 {
+            return String(format: "%.1f", self / 1000.0)
+        } else {
+            return "\(Int(self))"
+        }
+    }
+    
+    var decimalStringWithUnit: String {
+        if self / 1000.0 >= 1 {
             let freqString = String(format: "%.1f", self / 1000.0)
             return freqString + " kHz"
         } else {
@@ -23,12 +31,26 @@ extension Frequency {
         }
     }
     
-    /// A frequency string with no decimal places and the unit, aka 3 kHz or 300 Hz
-    var intString: String {
+    /// Hz if frequency is under 1000, otherwise kHz
+    var unitString: String {
+        if self / 1000.0 >= 1 {
+            return "kHz"
+        } else {
+            return "Hz"
+        }
+    }
+    
+    /// A short frequency string, rounded to one decimal place. Ex: 300, 1k, 1.2k
+    var shortString: String {
         if self < 1000 {
             return String(Int(self))
         } else {
-            return "\(Int(self / 1000))k"
+            let kValue = (self / 1000).rounded(places: 1)
+            if kValue == Float(Int(kValue)) {
+                return String(Int(kValue)) + "k"
+            } else {
+                return String(format: "%.1f", kValue) + "k"
+            }
         }
     }
     
@@ -62,6 +84,18 @@ extension Frequency {
     func octaves(to otherFreq: Frequency) -> Octave {
         return logf(self / otherFreq) / logf(2.0)
     }
+    
+    func percentage(in range: FrequencyRange) -> Float {
+        let octave = AudioMath.octave(fromFreq: self, baseOctaveFreq: range.lowerBound)
+        let upperOctave = AudioMath.octave(fromFreq: range.upperBound, baseOctaveFreq: range.lowerBound)
+        return octave / upperOctave
+    }
+    
+//    func percentage(in range: FrequencyRange) -> Float {
+//        let octave = AudioMath.octave(fromFreq: self, baseOctaveFreq: range.lowerBound, roundingPlaces: 2)
+//        let upperOctave = AudioMath.octave(fromFreq: range.upperBound, baseOctaveFreq: range.lowerBound, roundingPlaces: 2)
+//        return octave / upperOctave
+//    }
     
     static func random(in range: FrequencyRange, disfavoring disfavored: Frequency?, repelEdges: Bool) -> Frequency {
         return AudioMath.randomFreq(in: range, disfavoring: disfavored, repelEdges: repelEdges)

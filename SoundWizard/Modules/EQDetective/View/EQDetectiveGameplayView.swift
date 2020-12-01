@@ -30,8 +30,9 @@ struct EQDetectiveGameplayView: View {
                     gameInfoView
                         .padding()
                     
-                    FrequencySlider(game: game)
-                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                    FrequencySlider(data: game, frequency: $game.selectedFreq)
+                        .padding(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
+                        
                     
                     submitGuessButton
                         .opacity(game.showGuessButton ? 1 : 0)
@@ -41,9 +42,9 @@ struct EQDetectiveGameplayView: View {
                         .padding()
                     
                 }
-                .onAppear(perform: {
+                .onAppear {
                     game.start()
-                })
+                }
                 
             }
     }

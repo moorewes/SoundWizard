@@ -10,16 +10,17 @@ import Foundation
 class EQDetectiveLevel: Level {
     
     // MARK: - Properties
-    
-    // MARK: Level Conformance
-    
+        
     let game: Game = .eqDetective
     let numberOfTurns = 10
     let levelNumber: Int
     let audioSource: AudioSource
     let starScores: [Int]
-    let freqGuessRange: FrequencyRange = 40.0...16_000.0
-    let octavesVisible: Float = 10.0
+    let bandFocus: BandFocus
+    
+    var octavesVisible: Octave {
+        bandFocus.range.upperBound.asOctave - bandFocus.range.lowerBound.asOctave
+    }
     
     lazy var instructions: String = instructionString()
     
@@ -33,7 +34,18 @@ class EQDetectiveLevel: Level {
     
     let filterGainDB: Float
     let filterQ: Float
-    let octaveErrorRange: Float
+    let difficulty: LevelDifficulty
+    
+    lazy var octaveErrorRange: Octave = {
+        switch difficulty {
+        case .easy:
+            return bandFocus.octaveSpan / 4
+        case .moderate:
+            return bandFocus.octaveSpan / 6
+        case .hard:
+            return bandFocus.octaveSpan / 8
+        }
+    }()
     
     var progressManager = UserProgressManager.shared
     
@@ -44,14 +56,17 @@ class EQDetectiveLevel: Level {
          starScores: [Int],
          filterGainDB: Float,
          filterQ: Float,
-         octaveErrorRange: Float) {
+         difficulty: LevelDifficulty,
+         bandFocus: BandFocus) {
         self.levelNumber = levelNumber
         self.audioSource = audioSource
         self.starScores = starScores
         self.filterGainDB = filterGainDB
         self.filterQ = filterQ
-        self.octaveErrorRange = octaveErrorRange
+        self.difficulty = difficulty
+        self.bandFocus = bandFocus
     }
+ 
     
     // MARK: - Methods
     
