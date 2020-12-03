@@ -25,7 +25,7 @@ struct EQDetectiveGameplayView: View {
                 VStack() {
                     
                     StatusBar(game: game)
-                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                        .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
                         
                     gameInfoView
                         .padding()

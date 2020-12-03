@@ -10,6 +10,7 @@ import SwiftUI
 struct GameShellView: View {
     
     @Binding var isPresented: Bool
+    @State var showInfoView = false
     
     @ObservedObject var manager: GameShellManager
     
@@ -35,6 +36,10 @@ struct GameShellView: View {
             }
             
         }
+        .fullScreenCover(isPresented: $showInfoView) {
+            infoView
+        }
+
         
     }
     
@@ -48,8 +53,7 @@ struct GameShellView: View {
                 }
             }
                 .font(.monoBold(18))
-                .foregroundColor(.white)
-                .opacity(0.6)
+                .foregroundColor(.lightGray)
             
             Spacer()
             
@@ -59,11 +63,19 @@ struct GameShellView: View {
             
             Spacer()
             
+            Button(action: {
+                showInfoView = true
+            }, label: {
+                Image(systemName: infoButtonImageName)
+                    .foregroundColor(.extraLightGray)
+                    .imageScale(.large)
+            })
+            
         }
         .padding(EdgeInsets(top: 5,
                             leading: 30,
                             bottom: 0,
-                            trailing: 70))
+                            trailing: 40))
     }
     
     @ViewBuilder
@@ -72,6 +84,18 @@ struct GameShellView: View {
             EQDetectiveGameplayView(level: level, gameViewState: $manager.gameViewState)
         } else {
             Text("no game found")
+        }
+    }
+    
+    var infoView: some View {
+        Text("Info View")
+    }
+    
+    var infoButtonImageName: String {
+        if manager.gameViewState == .inGame {
+            return "gearshape.fill"
+        } else {
+            return "info.circle"
         }
     }
     

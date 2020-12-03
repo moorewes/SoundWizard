@@ -11,8 +11,20 @@ class GameShellManager: ObservableObject {
     
     var level: Level
     
-    @Published var gameViewState: GameViewState = .preGame
-        
+    @Published var starsJustEarned = [Int]()
+    
+    @Published var gameViewState: GameViewState = .preGame {
+        didSet {
+            if gameViewState == .inGame {
+                starsAtGameStart = level.progress.starsEarned
+            } else if gameViewState == .gameCompleted {
+                starsJustEarned = Array(1...3).filter { $0 > starsAtGameStart && $0 <= level.progress.starsEarned }
+            }
+        }
+    }
+    
+    private var starsAtGameStart = 0
+            
     init(level: Level) {
         self.level = level
     }
@@ -20,5 +32,13 @@ class GameShellManager: ObservableObject {
     func quitGame() {
         gameViewState = .gameQuitted
     }
- 
+    
+    func showInfoView() {
+        
+    }
+    
+    func showSettingsView() {
+        
+    }
+    
 }

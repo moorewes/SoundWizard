@@ -18,7 +18,6 @@ struct MovingCounter: View {
     }
     
     struct MovingCounterModifier: AnimatableModifier {
-        @State private var height: CGFloat = 0
 
         var number: Double
         

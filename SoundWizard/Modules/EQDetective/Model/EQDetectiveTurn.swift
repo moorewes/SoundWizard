@@ -9,9 +9,10 @@ import Foundation
 
 struct EQDetectiveTurn: Turn {
     
-    var number: Int
-    var octaveErrorRange: Octave
-    var solution: Frequency
+    let number: Int
+    let octaveErrorRange: Octave
+    let solution: Frequency
+    let scoreMultiplier: Float
     
     private var startTime = Date()
     private(set) var completionTime: TimeInterval?
@@ -21,10 +22,11 @@ struct EQDetectiveTurn: Turn {
     
     var isComplete: Bool { guess != nil }
     
-    init(number: Int, octaveErrorRange: Octave, solution: Frequency) {
+    init(number: Int, octaveErrorRange: Octave, solution: Frequency, scoreMultiplier: Float) {
         self.number = number
         self.octaveErrorRange = octaveErrorRange
         self.solution = solution
+        self.scoreMultiplier = scoreMultiplier
     }
 
     mutating func finish(guess: Frequency) {
@@ -42,6 +44,7 @@ struct EQDetectiveTurn: Turn {
         if scoreRatio > 0 {
             let accuracyModifier = max(0, 80 * scoreRatio)
             value = 20 + accuracyModifier
+            value *= scoreMultiplier
         }
         
         return TurnScore(value: value, successLevel: successLevel)

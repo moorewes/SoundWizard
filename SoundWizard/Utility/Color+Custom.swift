@@ -15,6 +15,10 @@ extension Color {
     
     static let extraDarkGray = Color(white: 0.08)
     
+    static let extraLightGray = Color(white: 0.9)
+    
+    static let lightGray = Color(white: 0.8)
+    
     static func successLevelColor(_ successLevel: ScoreSuccessLevel) -> Color {
         switch successLevel {
         case .failed, .justMissed:

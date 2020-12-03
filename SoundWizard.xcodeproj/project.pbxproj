@@ -42,6 +42,8 @@
 		DE3163322565FCFF008558A4 /* Font+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3163312565FCFF008558A4 /* Font+Custom.swift */; };
 		DE316337256607C6008558A4 /* AudioCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE316336256607C6008558A4 /* AudioCalculatorTests.swift */; };
 		DE364B5D255DF997006C9EC8 /* FrequencySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE364B5C255DF997006C9EC8 /* FrequencySlider.swift */; };
+		DE55314325785342007E4B3C /* Pulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE55314225785342007E4B3C /* Pulse.swift */; };
+		DE5531482578572C007E4B3C /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5531472578572C007E4B3C /* Star.swift */; };
 		DE60962B2554A75D00617228 /* AudioSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE60962A2554A75D00617228 /* AudioSource.swift */; };
 		DE60C18E256EF82B00CB20C8 /* Frequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE60C18D256EF82B00CB20C8 /* Frequency.swift */; };
 		DE60C193256F022C00CB20C8 /* FloatingPointExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE60C192256F022C00CB20C8 /* FloatingPointExtensionsTests.swift */; };
@@ -165,6 +167,8 @@
 		DE3A4D992550A9ED007A4003 /* LevelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsViewController.swift; sourceTree = "<group>"; };
 		DE3A4D9E2550AC2A007A4003 /* LevelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelCell.swift; sourceTree = "<group>"; };
 		DE4C507B25534A5B0059A74A /* LevelSummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSummaryViewController.swift; sourceTree = "<group>"; };
+		DE55314225785342007E4B3C /* Pulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pulse.swift; sourceTree = "<group>"; };
+		DE5531472578572C007E4B3C /* Star.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		DE60962A2554A75D00617228 /* AudioSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSource.swift; sourceTree = "<group>"; };
 		DE60C18D256EF82B00CB20C8 /* Frequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frequency.swift; sourceTree = "<group>"; };
 		DE60C192256F022C00CB20C8 /* FloatingPointExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPointExtensionsTests.swift; sourceTree = "<group>"; };
@@ -328,6 +332,14 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		DE55315C25789266007E4B3C /* View Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				DE55314225785342007E4B3C /* Pulse.swift */,
+			);
+			path = "View Modifiers";
+			sourceTree = "<group>";
+		};
 		DE707085255F4D8A0068B808 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +397,7 @@
 				DEC18630254A399D00D730CC /* SceneDelegate.swift */,
 				DE707086255F599D0068B808 /* View Model */,
 				DEC18691254A3AC700D730CC /* View */,
+				DE55315C25789266007E4B3C /* View Modifiers */,
 				DEDCF8162550FDAA000AADB1 /* Controller */,
 				DEDCF8122550FDA0000AADB1 /* Model */,
 				DEC18667254A39C800D730CC /* Modules */,
@@ -480,6 +493,7 @@
 				DE671B51256DB1DC00044EDC /* LevelCellView.swift */,
 				DE1F19D72564778000CF923A /* PreGameView.swift */,
 				DE1F19CF2564709900CF923A /* GameShellView.swift */,
+				DE5531472578572C007E4B3C /* Star.swift */,
 				DEBEDC50256737D40019165E /* MovingCounter.swift */,
 				DE60C1B3256F287D00CB20C8 /* StatusBar.swift */,
 				DE60C1AE256F284D00CB20C8 /* BackButton.swift */,
@@ -771,6 +785,7 @@
 				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
 				DE671B6A256E14AB00044EDC /* TurnScore.swift in Sources */,
 				DE60C19B256F117300CB20C8 /* Octave.swift in Sources */,
+				DE5531482578572C007E4B3C /* Star.swift in Sources */,
 				DEE39BC7254B39E6003C2DE4 /* ScoreFeedback.swift in Sources */,
 				DE60C1A0256F215200CB20C8 /* GameModel.swift in Sources */,
 				DE671B5F256DF5CD00044EDC /* GameShellManager.swift in Sources */,
@@ -783,6 +798,7 @@
 				DE707095255F5B4B0068B808 /* LevelsViewModel.swift in Sources */,
 				DE9CE8622575EBB10023806C /* LevelDifficulty.swift in Sources */,
 				DE1F19D82564778000CF923A /* PreGameView.swift in Sources */,
+				DE55314325785342007E4B3C /* Pulse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

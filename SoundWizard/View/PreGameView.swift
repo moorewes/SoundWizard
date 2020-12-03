@@ -10,6 +10,8 @@ import SwiftUI
 struct PreGameView: View {
         
     @ObservedObject var manager: GameShellManager
+        
+    var starsEarned: Int { manager.level.progress.starsEarned }
             
     var body: some View {
         ZStack {
@@ -22,8 +24,7 @@ struct PreGameView: View {
                 
                 Text("Top Score")
                     .font(.monoMedium(20))
-                    .foregroundColor(.white)
-                    .opacity(0.6)
+                    .foregroundColor(.lightGray)
                     .padding()
                 
                 Text("\(manager.level.progress.topScore ?? 0)")
@@ -33,40 +34,16 @@ struct PreGameView: View {
                 
                 // Stars
                 
-                HStack {
-                    
-                    ForEach(0..<3) { i in
-                        
-                        if i > 0 {
-                            Spacer()
-                            
-                        }
-                        
-                        VStack {
-                            Image(systemName: "star.fill")
-                                .foregroundColor(manager.level.progress.starsEarned > i ?
-                                                    .yellow :
-                                                    .extraDarkGray)
-                                .scaleEffect(2.5)
-                                .padding(20)
-                                .animation(.default)
-                            
-                            Text("\(manager.level.starScores[i])")
-                                .foregroundColor(.teal)
-                                .font(.monoBold(20))
-                        }
-                    }
-                    
-                }
-                .padding(EdgeInsets(top: 5, leading: 80, bottom: 5, trailing: 80))
+                stars
+                    .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
                 
                 // Instruction View
                                 
                 instructionView
                     .foregroundColor(.teal)
-                    .background(Color(.darkGray))
+                    .background(Color.darkBackground)
                     .cornerRadius(20)
-                    .padding(EdgeInsets(top: 50, leading: 50, bottom: 50, trailing: 50))
+                    .padding(EdgeInsets(top: 20, leading: 50, bottom: 50, trailing: 50))
                                 
                 // Start Button
                 
@@ -84,11 +61,46 @@ struct PreGameView: View {
                     }
                     
                 })
-                .padding()
+                .padding(EdgeInsets(top: 10, leading: 10, bottom: 40, trailing: 10))
+                
             }
+        }
+        
+    }
+    
+    private var stars: some View {
+        HStack(spacing: 0) {
+            Spacer()
+            ForEach(0..<3) { i in
+                if i > 0 {
+                    Spacer()
+                }
+                star(number: i + 1)
+                    //.padding()
+            }
+            Spacer()
         }
     }
     
+    private func star(number: Int) -> some View {
+        let earned = starsEarned >= number
+        let justEarnedIndex = manager.starsJustEarned.firstIndex(of: number)
+        var animationDelay = 0.0
+        if let index = justEarnedIndex {
+            animationDelay = Double(index) * timeBetweenStarAnimations
+            print("will animate star \(number) after \(animationDelay) seconds")
+        }
+        let shouldAnimate = justEarnedIndex != nil
+        return VStack {
+            Star(filled: earned, animated: shouldAnimate, animationDelay: animationDelay)
+                .font(.system(size: 42))
+                .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
+                        
+            Text("\(manager.level.starScores[number - 1])")
+                .foregroundColor(.teal)
+                .font(.monoBold(20))
+        }
+    }
     
     private var instructionView: some View {
         switch manager.level.game {
@@ -97,10 +109,18 @@ struct PreGameView: View {
         }
     }
     
+    private let starImageName = "star.fill"
+    private let timeBetweenStarAnimations = 0.2
+    private let starAnimationDuration = 0.7
+    
 }
 
 struct EQDetectivePreGameView_Previews: PreviewProvider {
+    static let manager = GameShellManager(level: EQDetectiveLevel.level(2)!)
     static var previews: some View {
-        PreGameView(manager: GameShellManager(level: EQDetectiveLevel.level(0)!))
+        PreGameView(manager: manager)
+            .onAppear(perform: {
+                manager.level.updateProgress(score: 1200)
+            })
     }
 }

@@ -14,17 +14,18 @@ protocol FrequencySliderDataSource {
     var solutionFreq: Frequency? { get }
     var solutionLineColor: Color { get }
     var referenceFreqs: [Frequency] { get }
+    var timeBetweenTurns: Double { get }
     
 }
 
 struct FrequencySlider: View {
     
-    var data: FrequencySliderDataSource
+    private var data: FrequencySliderDataSource
     
     @Binding var frequency: Frequency
     @GestureState private var dragPercentage: CGFloat = 0.0
-    
-    var dragState = DragState()
+        
+    private var dragState = DragState()
     
     init(data: FrequencySliderDataSource, frequency: Binding<Frequency>) {
         self.data = data
@@ -34,29 +35,33 @@ struct FrequencySlider: View {
     var body: some View {
         GeometryReader { geometry in
             
+            sliderLabel(size: geometry.size)
+                .position(sliderLabelPosition(in: geometry.size))
+            
+            
             referenceLines(size: geometry.size)
                 .stroke(Color.teal.opacity(0.5))
-
-            referenceLabels(size: geometry.size)
-
-            shadedRect(size: geometry.size)
-                .foregroundColor(Color.teal.opacity(0.15))
-
+            
+            
+            errorShadedRect(size: geometry.size)
+                .foregroundColor(Color.teal.opacity(0.2))
+                
+                
             selectedLine(size: geometry.size)
                 .stroke(Color.white, lineWidth: 2)
 
             solutionLine(size: geometry.size)
-            
-            sliderLabel(size: geometry.size)
-                .position(sliderLabelPosition(in: geometry.size))
+
+            referenceLabels(size: geometry.size)
 
             Rectangle()
                 .size(geometry.size)
                 .foregroundColor(Color(white: 1, opacity: 0.001))
                 .gesture(dragGesture(width: geometry.size.width))
         }
-        
+    
     }
+    
     
     // MARK: - Sub views
   
@@ -80,14 +85,16 @@ struct FrequencySlider: View {
         }
     }
     
-    private func shadedRect(size: CGSize) -> Path {
-        Path { path in
-            let shadeWidth = size.width * CGFloat(data.octavesShaded / octavesVisible)
-            let startX = sliderX(in: size) - shadeWidth / 2
-            let height = size.height - bottomSpace - topSpace
-            let rect = CGRect(x: startX, y: topSpace, width: shadeWidth, height: height)
-            path.addRoundedRect(in: rect, cornerSize: shadeCornerSize)
-        }
+    private func errorShadedRect(size: CGSize) -> some View {
+        let x = sliderX(in: size)
+        let y = size.height / 2 + topSpace - bottomSpace
+        let width = size.width * CGFloat(data.octavesShaded / octavesVisible)
+        let height = size.height - topSpace - bottomSpace
+        
+        return RoundedRectangle(cornerRadius: shadeCornerRadius)
+            .frame(width: width, height: height, alignment: .center)
+            .position(x: x, y: y)
+            .animation(Animation.easeInOut.delay(data.timeBetweenTurns), value: width)
     }
     
     private func selectedLine(size: CGSize) -> Path {
@@ -139,7 +146,7 @@ struct FrequencySlider: View {
     private let topSpace: CGFloat = 30
     private let bottomSpace: CGFloat = 30
     private let labelWidth: CGFloat = 80
-    private let shadeCornerSize = CGSize(width: 20, height: 20)
+    private let shadeCornerRadius: CGFloat = 20
     private let sliderLabelTopSpace: CGFloat = 5
     
     private var sliderFrequency: Frequency {
@@ -198,17 +205,17 @@ struct FrequencySlider: View {
     
 }
 
-//struct FSlider_Previews: PreviewProvider {
-//    static var game = EQDetectiveGame(level: EQDetectiveLevel.level(1)!, viewState: .constant(.inGame))
-//
-//    static var previews: some View {
-//        ZStack {
-//            Color.darkBackground.ignoresSafeArea()
-//            FSlider(data: game,
-//                    frequency: game.$selectedFreq)
-//                .frame(width: nil, height: 500, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-//        }
-//        .background(Color.darkBackground)
-//        .ignoresSafeArea()
-//    }
-//}
+struct FrequencySlider_Previews: PreviewProvider {
+    static var game = EQDetectiveGame(level: EQDetectiveLevel.level(1)!, viewState: .constant(.inGame))
+
+    static var previews: some View {
+        ZStack {
+            Color.darkBackground.ignoresSafeArea()
+            FrequencySlider(data: game,
+                            frequency: .constant(1000))
+                .frame(width: 300, height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        }
+        .background(Color.darkBackground)
+        .ignoresSafeArea()
+    }
+}

@@ -16,13 +16,11 @@ protocol GameModel: ObservableObject {
     
     var currentTurn: TurnType? { get }
     var score: Int { get }
-    var completion: Float { get }
-    var muted: Bool { get }
     var lives: Int { get }
     var startingLives: Int { get }
-    
-    func toggleMute()
-    
+    var maxLives: Int { get }
+    var scoreMultiplier: Float { get }
+        
     func fireFeedback()
     
 }
