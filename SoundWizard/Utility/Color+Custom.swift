@@ -11,7 +11,7 @@ extension Color {
     
     static let teal = Color(UIColor.systemTeal)
     
-    static let darkBackground = Color(white: 0.2, opacity: 1)
+    static let darkBackground = Color(white: 0.15, opacity: 1)
     
     static let extraDarkGray = Color(white: 0.08)
     

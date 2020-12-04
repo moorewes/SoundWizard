@@ -10,27 +10,26 @@ import AudioKit
 import AVFoundation
 
 protocol GameConductor {
+    
+    var outputFader: Fader { get }
         
     func startPlaying()
     
     func stopPlaying()
-    
-    func fireScoreFeedback(successLevel: ScoreSuccessLevel)
-    
+        
 }
 
-
-// TODO: Create protocol
-class EqualizerFilterConductor: GameConductor {
+class EQDetectiveConductor: GameConductor {
     
-    // MARK: - Types
-    
+    // MARK: - Shared Instance
+        
     // MARK: - Properties
     
     // MARK: Internal
     
     private(set) var filterGainDB: AUValue
     private(set) var filterQ: AUValue
+    let outputFader: Fader
     
     lazy var volume: AUValue = AudioMath.dBToPercent(dB: -8)
     
@@ -43,14 +42,9 @@ class EqualizerFilterConductor: GameConductor {
     }
         
     // MARK: Private
-    
-    private let fxManager = SoundFXManager.main
-    private let engine = AudioEngine()
+    private let conductor = Conductor.shared
     private let player = AudioPlayer()
-    private let fxPlayer = AudioPlayer()
-    private let mixer: Mixer
     private let filter: EqualizerFilter
-    private let fader: Fader
     private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.05
     private let dimVolume: AUValue = AudioMath.dBToPercent(dB: -6)
@@ -70,14 +64,9 @@ class EqualizerFilterConductor: GameConductor {
         filter.gain = 1
         filter.bandwidth = 1000
         
-        fader = Fader(filter, gain: 0)
-        
-        mixer = Mixer([fader, fxPlayer])
-        
+        outputFader = Fader(filter, gain: 0)
+                
         player.volume = volume
-        fxPlayer.volume = volume
-
-        engine.output = mixer
     }
     
     // MARK: - Methods
@@ -85,21 +74,14 @@ class EqualizerFilterConductor: GameConductor {
     // MARK: Internal
     
     func startPlaying() {
-        startEngine()
+        conductor.start(with: self)
+        player.scheduleBuffer(buffer, at: nil, options: .loops)
         player.start()
         fadeIn()
     }
-    
+        
     func stopPlaying() {
-        fadeOut()
-        player.stop()
-        engine.stop()
-    }
-    
-    func fireScoreFeedback(successLevel: ScoreSuccessLevel) {
-        let buffer = fxManager.buffer(for: successLevel)
-        fxPlayer.scheduleBuffer(buffer, at: nil, options: AVAudioPlayerNodeBufferOptions.interrupts)
-        fxPlayer.play()
+        fadeOutAndStop(duration: 2)
     }
     
     func mute(_ muted: Bool) {
@@ -122,8 +104,8 @@ class EqualizerFilterConductor: GameConductor {
     func setDim(dimmed: Bool) {
         let gain = dimmed ? dimVolume : volume
         
-        fader.$leftGain.ramp(to: gain, duration: 0.3)
-        fader.$rightGain.ramp(to: gain, duration: 0.3)
+        outputFader.$leftGain.ramp(to: gain, duration: 0.3)
+        outputFader.$rightGain.ramp(to: gain, duration: 0.3)
     }
         
     func set(filterFreq: AUValue) {
@@ -143,17 +125,6 @@ class EqualizerFilterConductor: GameConductor {
     }
     
     // MARK: Private
-
-    private func startEngine() {
-        
-        do {
-            try engine.start()
-        } catch let err {
-            Log(err)
-        }
-        
-        player.scheduleBuffer(buffer, at: nil, options: .loops)
-    }
     
     private func fadeIn() {
         fade(fadeIn: true)
@@ -166,8 +137,17 @@ class EqualizerFilterConductor: GameConductor {
     private func fade(fadeIn: Bool) {
         let gain: AUValue = fadeIn ? 1 : 0
         
-        fader.$leftGain.ramp(to: gain, duration: 0.3)
-        fader.$rightGain.ramp(to: gain, duration: 0.3)
+        outputFader.$leftGain.ramp(to: gain, duration: 0.3)
+        outputFader.$rightGain.ramp(to: gain, duration: 0.3)
+    }
+    
+    private func fadeOutAndStop(duration: Float) {
+        outputFader.$leftGain.ramp(to: 0, duration: duration)
+        outputFader.$rightGain.ramp(to: 0, duration: duration)
+        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + Double(duration)) { [weak self] in
+            self?.player.stop()
+            self?.conductor.stop()
+        }
     }
 
 

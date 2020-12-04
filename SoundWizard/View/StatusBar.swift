@@ -18,7 +18,10 @@ struct StatusBar<Model: GameModel>: View {
                 Text("SCORE")
                     .font(.monoBold(16))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
-                MovingCounter(number: game.score)
+                Text("\(game.score)")
+                    .modifier(MovingCounterModifier(number: game.score,
+                                                    font: .monoMedium(22)))
+//                MovingCounter(number: game.score, font: .monoMedium(22))
                     .animation(.linear(duration: 0.5))
             }
             
@@ -42,7 +45,7 @@ struct StatusBar<Model: GameModel>: View {
                         Image(systemName: "heart.fill")
                             .foregroundColor(.teal)
                             .opacity(visible ? 1 : 0)
-                            .scaleEffect(visible ? 1 : 0)
+                            .scaleEffect(visible ? 1 : 0.01)
                             .animation(visible ?
                                        .easeIn(duration: 0.5) :
                                        .easeIn(duration: 1.5))
@@ -58,9 +61,9 @@ struct StatusBar<Model: GameModel>: View {
     
 }
 
-struct StatusBar_Previews: PreviewProvider {
-    static var previews: some View {
-        StatusBar(game: EQDetectiveGame(level: EQDetectiveLevel.level(1)!, viewState: .constant(.inGame)))
-            .background(Color.darkBackground)
-    }
-}
+//struct StatusBar_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StatusBar(game: EQDetectiveGame(level: EQDetectiveLevel.level(1)!, viewState: .constant(.inGame)))
+//            .background(Color.darkBackground)
+//    }
+//}

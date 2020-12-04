@@ -29,6 +29,10 @@ struct GameShellView: View {
                 
                 if manager.gameViewState == .inGame {
                     gameplayView()
+                } else if manager.gameViewState == .gameCompleted {
+                    PostGameView(manager: manager,
+                                 prevTopScore: manager.topScoreAtGameStart,
+                                 newTopScore: manager.topScore)
                 } else {
                     PreGameView(manager: manager)
                 }
@@ -42,6 +46,7 @@ struct GameShellView: View {
 
         
     }
+    
     
     var navBar: some View {
         HStack {

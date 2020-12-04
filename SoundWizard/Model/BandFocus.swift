@@ -42,5 +42,16 @@ enum BandFocus {
     var octaveSpan: Octave {
         return AudioMath.octaves(in: self.range)
     }
+    
+    var uiDescription: String {
+        switch self {
+        case .all: return "Full Range"
+        case .low: return "Low Band"
+        case .lowMid: return "Low Mids"
+        case .mid: return "Mid Band"
+        case .upperMid: return "Upper Mids"
+        case .high: return "High Band"
+        }
+    }
         
 }

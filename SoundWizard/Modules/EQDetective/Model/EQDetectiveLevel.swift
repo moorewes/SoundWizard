@@ -17,6 +17,7 @@ class EQDetectiveLevel: Level {
     let audioSource: AudioSource
     let starScores: [Int]
     let bandFocus: BandFocus
+    let description: String
     
     var octavesVisible: Octave {
         bandFocus.range.upperBound.asOctave - bandFocus.range.lowerBound.asOctave
@@ -65,6 +66,8 @@ class EQDetectiveLevel: Level {
         self.filterQ = filterQ
         self.difficulty = difficulty
         self.bandFocus = bandFocus
+        
+        description = bandFocus.uiDescription
     }
  
     

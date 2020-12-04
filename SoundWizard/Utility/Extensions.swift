@@ -39,3 +39,9 @@ extension View {
         }
     }
 }
+
+extension Numeric where Self: CVarArg {
+    func scoreString(digits: Int) -> String {
+        return String(format: "%0\(digits)d", self)
+    }
+}

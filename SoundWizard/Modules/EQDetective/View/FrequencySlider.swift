@@ -146,7 +146,7 @@ struct FrequencySlider: View {
     private let topSpace: CGFloat = 30
     private let bottomSpace: CGFloat = 30
     private let labelWidth: CGFloat = 80
-    private let shadeCornerRadius: CGFloat = 20
+    private let shadeCornerRadius: CGFloat = 10
     private let sliderLabelTopSpace: CGFloat = 5
     
     private var sliderFrequency: Frequency {

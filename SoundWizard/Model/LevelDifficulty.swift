@@ -11,4 +11,12 @@ enum LevelDifficulty {
     
     case easy, moderate, hard
     
+    var uiDescription: String {
+        switch self {
+        case .easy: return "Easy"
+        case .moderate: return "Moderate"
+        case .hard: return "Hard"
+        }
+    }
+    
 }

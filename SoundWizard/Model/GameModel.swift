@@ -32,7 +32,7 @@ extension GameModel {
             fatalError("Couldn't find score to fire feedback)")
         }
         
-        conductor.fireScoreFeedback(successLevel: successLevel)
+        Conductor.shared.fireScoreFeedback(successLevel: successLevel)
         HapticGenerator.main.fire(successLevel: successLevel)
     }
     

@@ -18,21 +18,26 @@ struct LevelCellView: View {
                 .onTapGesture(perform: tapHandler)
             
             HStack {
-                Text("Level \(level.levelNumber)")
+                Text("\(level.levelNumber)")
                     .font(.monoSemiBold(20))
                     .foregroundColor(.teal)
                 
                 Spacer()
-                Spacer()
+                
+                
                 
                 VStack(alignment: .trailing) {
                     
-                    Text("\(level.audioSource.description)")
+                    Text("\(level.audioSource.description) - \(level.description)")
                         .font(.monoMedium(12))
                         .foregroundColor(.teal)
                         .offset(x: 0, y: -5)
                     
                     HStack {
+                        Text("\(level.difficulty.uiDescription)")
+                            .font(.monoMedium(12))
+                            .foregroundColor(.teal)
+                            .padding(.trailing, 5)
                         ForEach(0..<3) { i in
                             Image(systemName: "star.fill")
                                 .foregroundColor(level.progress.starsEarned > i ? .yellow : .black)
@@ -49,5 +54,12 @@ struct LevelCellView: View {
             }
             
         }
+    }
+}
+
+struct LevelCellView_Previews: PreviewProvider {
+    static var previews: some View {
+        LevelCellView(level: EQDetectiveLevel.level(1)!, tapHandler: {})
+            
     }
 }

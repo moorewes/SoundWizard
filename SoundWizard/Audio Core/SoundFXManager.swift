@@ -21,6 +21,17 @@ class SoundFXManager {
         return buffers[scoreSuccessLevel]!
     }
     
+    func buffer(for star: Int) -> AVAudioPCMBuffer {
+        switch star {
+        case 1:
+            return buffer(for: .fair)
+        case 2:
+            return buffer(for: .great)
+        default:
+            return buffer(for: .perfect)
+        }
+    }
+    
     private func loadBuffers() {
         ScoreSuccessLevel.allCases.forEach { buffers[$0] = turnFXBuffer(successLevel: $0) }
     }

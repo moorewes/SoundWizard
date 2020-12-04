@@ -10,36 +10,35 @@ import SwiftUI
 // Adapted from: https://gist.github.com/swiftui-lab/e5901123101ffad6d39020cc7a810798
 // Article: https://swiftui-lab.com/swiftui-animations-part3/
 struct MovingCounter: View {
-    let number: Int
+    
+    var number: Int
+    let font: Font
+    var duration: Double = 0.75
     
     var body: some View {
         Text("000")
-            .modifier(MovingCounterModifier(number: Double(number)))
+            .modifier(MovingCounterModifier(number: number, font: font))
+            .animation(.easeOut(duration: duration))
     }
     
-    struct MovingCounterModifier: AnimatableModifier {
-
-        var number: Double
-        
-        var animatableData: Double {
-            get { number }
-            set { number = newValue }
-        }
-        
-        func body(content: Content) -> some View {
-            let n = Int(number)
-            
-            let digits = String(format: "%04d", n)
-            let font = Font.monoMedium(22)
-            
-            return HStack() {
-                Text(digits)
-                    .font(font)
-                    .foregroundColor(.teal)
-            }
-        }
-
-    }
+    
 
 }
 
+struct MovingCounterModifier: AnimatableModifier {
+
+    var number: Int
+    let font: Font
+    
+    var animatableData: Double {
+        get { Double(number) }
+        set { number = Int(newValue) }
+    }
+    
+    func body(content: Content) -> some View {
+        Text(String(format: "%04d", number))
+            .font(self.font)
+            .foregroundColor(.teal)
+    }
+
+}

@@ -58,6 +58,8 @@
 		DE671B5A256DD41C00044EDC /* EQDetectiveGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE671B59256DD41C00044EDC /* EQDetectiveGame.swift */; };
 		DE671B5F256DF5CD00044EDC /* GameShellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE671B5E256DF5CD00044EDC /* GameShellManager.swift */; };
 		DE671B6A256E14AB00044EDC /* TurnScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE671B69256E14AB00044EDC /* TurnScore.swift */; };
+		DE6DB1102579BFE9004D654B /* PostGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6DB10F2579BFE9004D654B /* PostGameView.swift */; };
+		DE6DB1152579D656004D654B /* GameConductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6DB1142579D656004D654B /* GameConductor.swift */; };
 		DE707088255F59BA0068B808 /* GamesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE707087255F59BA0068B808 /* GamesViewModel.swift */; };
 		DE707090255F59CC0068B808 /* AllGamesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE70708F255F59CC0068B808 /* AllGamesView.swift */; };
 		DE707095255F5B4B0068B808 /* LevelsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE707094255F5B4B0068B808 /* LevelsViewModel.swift */; };
@@ -66,6 +68,7 @@
 		DE9CE84D25758F2D0023806C /* BandFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE84C25758F2D0023806C /* BandFocus.swift */; };
 		DE9CE8622575EBB10023806C /* LevelDifficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE8512575E9690023806C /* LevelDifficulty.swift */; };
 		DE9CE86A2575FC1C0023806C /* ScoreSuccessLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE8692575FC1C0023806C /* ScoreSuccessLevel.swift */; };
+		DEA119F6257987EC00F17FCC /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA119F5257987EC00F17FCC /* Scratchpad.swift */; };
 		DEAC409C2553573800A20C78 /* EQDetectiveLevel+Levels.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAC409B2553573800A20C78 /* EQDetectiveLevel+Levels.swift */; };
 		DEB1C18C257034C10075BAEE /* OctaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB1C18B257034C10075BAEE /* OctaveTests.swift */; };
 		DEB64F3B255623AB0023529C /* LevelProgressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB64F3A255623AB0023529C /* LevelProgressTests.swift */; };
@@ -183,6 +186,8 @@
 		DE671B59256DD41C00044EDC /* EQDetectiveGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveGame.swift; sourceTree = "<group>"; };
 		DE671B5E256DF5CD00044EDC /* GameShellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameShellManager.swift; sourceTree = "<group>"; };
 		DE671B69256E14AB00044EDC /* TurnScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnScore.swift; sourceTree = "<group>"; };
+		DE6DB10F2579BFE9004D654B /* PostGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGameView.swift; sourceTree = "<group>"; };
+		DE6DB1142579D656004D654B /* GameConductor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConductor.swift; sourceTree = "<group>"; };
 		DE707087255F59BA0068B808 /* GamesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewModel.swift; sourceTree = "<group>"; };
 		DE70708F255F59CC0068B808 /* AllGamesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGamesView.swift; sourceTree = "<group>"; };
 		DE707094255F5B4B0068B808 /* LevelsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsViewModel.swift; sourceTree = "<group>"; };
@@ -191,6 +196,7 @@
 		DE9CE84C25758F2D0023806C /* BandFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandFocus.swift; sourceTree = "<group>"; };
 		DE9CE8512575E9690023806C /* LevelDifficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelDifficulty.swift; sourceTree = "<group>"; };
 		DE9CE8692575FC1C0023806C /* ScoreSuccessLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSuccessLevel.swift; sourceTree = "<group>"; };
+		DEA119F5257987EC00F17FCC /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		DEAC409B2553573800A20C78 /* EQDetectiveLevel+Levels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQDetectiveLevel+Levels.swift"; sourceTree = "<group>"; };
 		DEB1C18B257034C10075BAEE /* OctaveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctaveTests.swift; sourceTree = "<group>"; };
 		DEB64F3A255623AB0023529C /* LevelProgressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelProgressTests.swift; sourceTree = "<group>"; };
@@ -462,6 +468,7 @@
 			isa = PBXGroup;
 			children = (
 				DEC1867D254A3A1600D730CC /* FilterConductor.swift */,
+				DE6DB1142579D656004D654B /* GameConductor.swift */,
 				DEE39BC6254B39E6003C2DE4 /* ScoreFeedback.swift */,
 				DEC1867E254A3A1600D730CC /* Cookbook.swift */,
 				DEBEDC3E25671B0C0019165E /* SoundFXManager.swift */,
@@ -493,6 +500,7 @@
 				DE671B51256DB1DC00044EDC /* LevelCellView.swift */,
 				DE1F19D72564778000CF923A /* PreGameView.swift */,
 				DE1F19CF2564709900CF923A /* GameShellView.swift */,
+				DE6DB10F2579BFE9004D654B /* PostGameView.swift */,
 				DE5531472578572C007E4B3C /* Star.swift */,
 				DEBEDC50256737D40019165E /* MovingCounter.swift */,
 				DE60C1B3256F287D00CB20C8 /* StatusBar.swift */,
@@ -550,6 +558,7 @@
 			isa = PBXGroup;
 			children = (
 				DEBF5CE1254A49A200818B86 /* Extensions.swift */,
+				DEA119F5257987EC00F17FCC /* Scratchpad.swift */,
 				DE3163312565FCFF008558A4 /* Font+Custom.swift */,
 				DEC1867F254A3A1600D730CC /* AudioMath.swift */,
 				DE60C1A9256F27C200CB20C8 /* Color+Custom.swift */,
@@ -776,6 +785,8 @@
 				DEBB3B9D2551ED550064A8CE /* UserGameData.xcdatamodeld in Sources */,
 				DEEBE14A25507CC8001D9002 /* EQDetectiveLevel.swift in Sources */,
 				DE60C1B4256F287D00CB20C8 /* StatusBar.swift in Sources */,
+				DE6DB1102579BFE9004D654B /* PostGameView.swift in Sources */,
+				DEA119F6257987EC00F17FCC /* Scratchpad.swift in Sources */,
 				DE1F19D02564709900CF923A /* GameShellView.swift in Sources */,
 				DE707088255F59BA0068B808 /* GamesViewModel.swift in Sources */,
 				DE3163322565FCFF008558A4 /* Font+Custom.swift in Sources */,
@@ -783,6 +794,7 @@
 				DE671B5A256DD41C00044EDC /* EQDetectiveGame.swift in Sources */,
 				DE60C1AF256F284D00CB20C8 /* BackButton.swift in Sources */,
 				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
+				DE6DB1152579D656004D654B /* GameConductor.swift in Sources */,
 				DE671B6A256E14AB00044EDC /* TurnScore.swift in Sources */,
 				DE60C19B256F117300CB20C8 /* Octave.swift in Sources */,
 				DE5531482578572C007E4B3C /* Star.swift in Sources */,

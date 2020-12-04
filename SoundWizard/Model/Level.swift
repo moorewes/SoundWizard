@@ -16,6 +16,8 @@ protocol Level {
     var audioSource: AudioSource { get }
     var starScores: [Int] { get }
     var instructions: String { get }
+    var difficulty: LevelDifficulty { get }
+    var description: String { get }
     
     func updateProgress(score: Int)
     

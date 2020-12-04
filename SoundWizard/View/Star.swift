@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Star: View {
     
+    var number: Int
     var filled: Bool
     var animated: Bool
     var animationDelay: Double = 0
@@ -38,6 +39,7 @@ struct Star: View {
                 guard animated else { return }
                 DispatchQueue.main.asyncAfter(deadline: .now() + animationDelay) {
                     self.readyToAnimate = true
+                    Conductor.shared.fireWinStarFeedback(star: number)
                 }
             }
     }
@@ -52,7 +54,7 @@ struct Star_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.darkBackground.ignoresSafeArea()
-            Star(filled: true, animated: true, animationDelay: 0)
+            Star(number: 1, filled: true, animated: true, animationDelay: 0)
                 .frame(width: 50, height: 50, alignment: .center)
                 .font(.system(size: 80))
                 .transition(.slide)

@@ -10,7 +10,7 @@ import SwiftUI
 class EQDetectiveGame: ObservableObject, GameModel {
     
     typealias TurnType = EQDetectiveTurn
-    typealias ConductorType = EqualizerFilterConductor
+    typealias ConductorType = EQDetectiveConductor
     
     // MARK: - Constants
     
@@ -70,7 +70,7 @@ class EQDetectiveGame: ObservableObject, GameModel {
     
     var level: EQDetectiveLevel
     
-    var conductor: EqualizerFilterConductor
+    var conductor: EQDetectiveConductor
     
     var score: Int {
         Int(turns.compactMap { $0.score?.value }.reduce(0, +))
@@ -134,7 +134,7 @@ class EQDetectiveGame: ObservableObject, GameModel {
     init(level: EQDetectiveLevel, viewState: Binding<GameViewState>) {
         self.level = level
         _gameViewState = viewState
-        conductor = EqualizerFilterConductor(source: level.audioSource,
+        conductor = EQDetectiveConductor(source: level.audioSource,
                                              filterGainDB: level.filterGainDB,
                                              filterQ: level.filterQ)
         
@@ -153,6 +153,8 @@ class EQDetectiveGame: ObservableObject, GameModel {
         conductor.stopPlaying()
         level.updateProgress(score: score)
         gameViewState = .gameCompleted
+        
+        
     }
     
     func submitGuess() {
