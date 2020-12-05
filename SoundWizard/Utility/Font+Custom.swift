@@ -25,6 +25,14 @@ extension Font {
         return Font.custom("FiraCode-Regular", size: size)
     }
     
+    static func stdRegular(_ size: CGFloat) -> Font {
+        return Font.custom("WorkSans-Regular", size: size)
+    }
+    
+    static func stdSemiBold(_ size: CGFloat) -> Font {
+        return Font.custom("WorkSans-SemiBold", size: size)
+    }
+    
 }
 
 extension UIFont {

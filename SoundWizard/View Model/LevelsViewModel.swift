@@ -9,8 +9,10 @@ import SwiftUI
 
 class LevelsViewModel: ObservableObject {
     
-    @Published var levels: [Level]
-    @Published var selectedLevel: Level?
+    @Published var levels: [EQDetectiveLevel]
+    @Published var selectedLevel: EQDetectiveLevel?
+    
+    
     
     var showLevel: Bool {
         get {
@@ -20,8 +22,24 @@ class LevelsViewModel: ObservableObject {
             selectedLevel = nil
         }
     }
+    
+    func levels(focus: BandFocus, difficulty: LevelDifficulty, gainType: Int) -> [EQDetectiveLevel] {
+        levels.filter {
+            $0.bandFocus == focus &&
+            $0.difficulty == difficulty &&
+            (gainType == 1) == $0.filterIsBoost
+        }
+    }
+    
+    func starProgress(levels: [EQDetectiveLevel]) -> String {
+        let total = levels.count * 3
+        let earned = levels.reduce(0) { (count, level) in
+            count + level.progress.starsEarned
+        }
+        return "\(earned)/\(total)"
+    }
         
-    func selectLevel(_ level: Level) {
+    func selectLevel(_ level: EQDetectiveLevel) {
         selectedLevel = level
     }
     
@@ -33,7 +51,7 @@ class LevelsViewModel: ObservableObject {
     
     init(game: Game) {
         self.game = game
-        levels = game.levels
+        levels = game.levels as! [EQDetectiveLevel]
     }
     
     

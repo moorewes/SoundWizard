@@ -28,23 +28,26 @@ struct PreGameView: View {
                     .padding()
                 
                 topScore
+                    .padding(.bottom, 50)
                 
                 // Stars
                 
                 stars
-                    .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
+                
+                Spacer()
                 
                 // Instruction View
                 
                 if !shouldShowLastScore {
                     instructionView
-                        .foregroundColor(.teal)
-                        .cornerRadius(20)
-                        .padding(EdgeInsets(top: 20, leading: 50, bottom: 50, trailing: 50))
+                        .foregroundColor(.lightGray)
+                        .padding(.horizontal, 50)
                 }
                 
+                Spacer()
+                
                 PlayButton(gameViewState: $manager.gameViewState)
-                .padding(EdgeInsets(top: 40, leading: 10, bottom: 40, trailing: 10))
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 40, trailing: 10))
                 
             }
         }
@@ -81,7 +84,7 @@ struct PreGameView: View {
         }
         let shouldAnimate = justEarnedIndex != nil
         return VStack {
-            Star(number: number, filled: earned, animated: shouldAnimate, animationDelay: animationDelay)
+            Star(filled: earned, number: number, animated: shouldAnimate, animationDelay: animationDelay)
                 .font(.system(size: 42))
                 .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
                         

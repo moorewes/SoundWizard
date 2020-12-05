@@ -16,36 +16,41 @@ struct EQDetectiveInstructionView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                
-                bellPath(size: geometry.size)
-                    .stroke(lineWidth: 3)
-                
-                Text("\(level.filterGainDB.uiString) dB")
-                    .font(.monoSemiBold(22))
-                    .offset(dBLabelOffset(size: geometry.size))
-                
-                Text("Can you find the\ncenter frequency?")
-                    .font(.monoMedium(18))
-                    .offset(instructionLabelOffset(size: geometry.size))
-                    .multilineTextAlignment(.center)
-                
-            }
+        TabView {
+            instructions
         }
+        .tabViewStyle(PageTabViewStyle())
     }
     
-    private func dBLabelOffset(size: CGSize) -> CGSize {
-        let sizeWithoutHeight = CGSize(width: size.width, height: 0)
-        var height = bell(x: size.width / 2, size: sizeWithoutHeight)
-        height += level.filterGainDB > 0 ? -30 : 30
-        return CGSize(width: 0, height: height)
+    var instructions: some View {
+        HStack {
+            VStack {
+                bellPath(size: CGSize(width: 60, height: 20))
+                    .stroke(lineWidth: 1.5)
+                    .foregroundColor(.teal)
+                    .frame(width: 60, height: 20, alignment: .center)
+                    .padding(.bottom, 5)
+                Text(filterGainDescription)
+                    .font(.stdSemiBold(16))
+                Text(level.bandFocus.uiDescription)
+                    .font(.stdSemiBold(16))
+                Text("Q: \(Int(level.filterQ))")
+                    .font(.stdSemiBold(16))
+            }
+            .padding()
+            
+            Text("Guess the center frequency of the EQ filter")
+                .font(.stdSemiBold(16))
+                .multilineTextAlignment(.center)
+                .padding()
+        }
+        
     }
     
-    private func instructionLabelOffset(size: CGSize) -> CGSize {
-        var size = dBLabelOffset(size: size)
-        size.height *= -1
-        return size
+    private var filterGainDescription: String {
+        let gain = Int(level.filterGainDB)
+        let suffix = gain > 0 ? "Peak" : "Cut"
+        return "\(gain)dB \(suffix)"
     }
     
     private func bellPath(size: CGSize) -> Path {
@@ -55,35 +60,33 @@ struct EQDetectiveInstructionView: View {
         path.move(to: start)
         for i in stride(from: start.x, through: endX, by: 1) {
             let i = CGFloat(i)
-            let y = bell(x: i, size: size)
+            let y = bellY(x: i, size: size)
+            print(CGPoint(x: i, y: y))
             path.addLine(to: CGPoint(x: i, y: y))
         }
         
         return path
     }
     
-    private func bell(x: CGFloat, size: CGSize) -> CGFloat {
-        let a = CGFloat(level.filterGainDB * 5.0)
+    private func bellY(x: CGFloat, size: CGSize) -> CGFloat {
+        let a = CGFloat(level.filterGainDB * 1.5)
         let b = size.width / 2
-        let c = size.width / 12
+        let c = size.width / (3 * CGFloat(level.filterQ))
         let startY = bellStart(size: size).y
         return startY - a * exp(-pow(x - b, 2) / (2 * pow(c, 2)))
     }
     
     private func bellStart(size: CGSize) -> CGPoint {
-        return CGPoint(x: 50.0, y: size.height / 2)
+        return CGPoint(x: 0, y: size.height / 2)
     }
     
 }
-//
-//struct BellCurveView: View {
-//
-//    var height: CGFloat
-//
-//}
+
 
 struct EQDetectiveInstructionView_Previews: PreviewProvider {
     static var previews: some View {
-        EQDetectiveInstructionView(level: EQDetectiveLevel.level(0)!)
+        EQDetectiveInstructionView(level: EQDetectiveLevel.level(1)!)
+            .preferredColorScheme(.dark)
+            .foregroundColor(.lightGray)
     }
 }

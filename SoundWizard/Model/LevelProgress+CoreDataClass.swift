@@ -32,4 +32,5 @@ public class LevelProgress: NSManagedObject {
             starsEarned = 0
         }
     }
+        
 }

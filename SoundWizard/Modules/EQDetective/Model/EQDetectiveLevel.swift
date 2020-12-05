@@ -7,7 +7,7 @@
 
 import Foundation
 
-class EQDetectiveLevel: Level {
+class EQDetectiveLevel: Level, Identifiable {
     
     // MARK: - Properties
         
@@ -19,9 +19,13 @@ class EQDetectiveLevel: Level {
     let bandFocus: BandFocus
     let description: String
     
+    var id: Int { return levelNumber }
+    
     var octavesVisible: Octave {
         bandFocus.range.upperBound.asOctave - bandFocus.range.lowerBound.asOctave
     }
+    
+    var filterIsBoost: Bool { return filterGainDB > 0 }
     
     lazy var instructions: String = instructionString()
     

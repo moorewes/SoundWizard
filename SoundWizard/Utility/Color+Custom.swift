@@ -15,9 +15,13 @@ extension Color {
     
     static let extraDarkGray = Color(white: 0.08)
     
+    static let darkGray = Color(white: 0.4)
+    
     static let extraLightGray = Color(white: 0.9)
     
     static let lightGray = Color(white: 0.8)
+    
+    static let listRowBackground = Color(white: 0.3)
     
     static func successLevelColor(_ successLevel: ScoreSuccessLevel) -> Color {
         switch successLevel {

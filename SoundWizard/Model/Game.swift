@@ -8,7 +8,9 @@
 import Foundation
 import UIKit
 
-enum Game: Int, CaseIterable {
+enum Game: Int, CaseIterable, Identifiable {
+    
+    static let starCount = 3
     
     case eqDetective = 0
 
@@ -25,6 +27,15 @@ enum Game: Int, CaseIterable {
         case .eqDetective:
             return EQDetectiveLevel.levels
         }
+    }
+    
+    var starProgress: (total: Int, earned: Int) {
+        let total = self.levels.count * Game.starCount
+        let earned = self.levels.reduce(0) { (tally, level) in
+            tally + level.progress.starsEarned
+        }
+        
+        return (total, earned)
     }
     
 }

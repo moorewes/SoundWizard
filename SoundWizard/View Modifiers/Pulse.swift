@@ -20,7 +20,7 @@ struct Pulse: ViewModifier {
     func body(content: Content) -> some View {
         return content
             .scaleEffect(animating ? scale : 1)
-            .animation(Animation.easeIn(duration: duration / 2).delay(delay))
+            .animation(active ? Animation.easeIn(duration: duration / 2).delay(delay) : nil)
             .onAppear(perform: {
                 if active {
                     scheduleAnimations()

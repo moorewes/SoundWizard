@@ -10,56 +10,57 @@ import SwiftUI
 struct LevelCellView: View {
     
     var level: Level
-    var tapHandler: () -> Void
     
     var body: some View {
-        ZStack {
-            Color(white: 0.3, opacity: 1)
-                .onTapGesture(perform: tapHandler)
-            
-            HStack {
-                Text("\(level.levelNumber)")
-                    .font(.monoSemiBold(20))
-                    .foregroundColor(.teal)
+        GeometryReader { geometry in
+            ZStack {
+                Color.listRowBackground.ignoresSafeArea()
                 
-                Spacer()
-                
-                
-                
-                VStack(alignment: .trailing) {
+                VStack {
                     
-                    Text("\(level.audioSource.description) - \(level.description)")
-                        .font(.monoMedium(12))
+                    Spacer()
+                    
+                    Text("\(level.audioSource.description)")
+                        .font(.monoBold(12))
                         .foregroundColor(.teal)
-                        .offset(x: 0, y: -5)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 8)
+                        .position(audioNamePosition(in: geometry.size))
                     
-                    HStack {
-                        Text("\(level.difficulty.uiDescription)")
-                            .font(.monoMedium(12))
-                            .foregroundColor(.teal)
-                            .padding(.trailing, 5)
-                        ForEach(0..<3) { i in
-                            Image(systemName: "star.fill")
-                                .foregroundColor(level.progress.starsEarned > i ? .yellow : .black)
-                        }
-                    }
+                    Spacer()
                     
+                    stars
+                        .padding(.bottom, 4)
                     
-                    
+                    Spacer()
                 }
-                .frame(width: 200, height: 60, alignment: .trailing)
-                    
                 
-                .offset(x: -10, y: 0)
             }
-            
         }
     }
+    
+    var stars: some View {
+        return HStack {
+        
+            ForEach(0..<3) { i in
+                Star(filled: level.progress.starsEarned > i, animated: false)
+                    .font(.system(size: 12))
+            }
+        }
+    }
+    
+    func audioNamePosition(in size: CGSize) -> CGPoint {
+        return CGPoint(x: size.width / 2, y: size.height / 4)
+    }
+    
+    
 }
 
 struct LevelCellView_Previews: PreviewProvider {
     static var previews: some View {
-        LevelCellView(level: EQDetectiveLevel.level(1)!, tapHandler: {})
+        LevelCellView(level: EQDetectiveLevel.level(3)!)
+            .frame(width: 80, height: 80, alignment: .center)
+            .preferredColorScheme(.dark)
             
     }
 }

@@ -9,9 +9,55 @@ import Foundation
 
 extension EQDetectiveLevel {
     
+    static func starScores(for difficulty: LevelDifficulty) -> [Int] {
+        switch difficulty {
+        case .easy: return [300, 500, 700]
+        case .moderate: return [500, 800, 1100]
+        case .hard: return [600, 900, 1200]
+        }
+    }
+    
+    static func gainValues(for difficulty: LevelDifficulty) -> [Float] {
+        switch difficulty {
+        case .easy: return [8]
+        case .moderate: return [6, -8]
+        case .hard: return [4, -6]
+        }
+    }
+    
+    static func qValue(for difficulty: LevelDifficulty) -> Float {
+        switch difficulty {
+        case .easy: return 8
+        case .moderate: return 6
+        case .hard: return 6
+        }
+    }
+    
     // MARK: - Level Constuctors
     
-    static var levels: [EQDetectiveLevel] = [
+    static var levels: [EQDetectiveLevel] {
+        var result = [EQDetectiveLevel]()
+        for source in AudioSource.all {
+            for focus in BandFocus.allCases {
+                for difficulty in LevelDifficulty.allCases {
+                    let scores = starScores(for: difficulty)
+                    let q = qValue(for: difficulty)
+                    for gain in gainValues(for: difficulty) {
+                        result.append(EQDetectiveLevel(levelNumber: result.count,
+                                                       audioSource: source,
+                                                       starScores: scores,
+                                                       filterGainDB: gain,
+                                                       filterQ: q,
+                                                       difficulty: difficulty,
+                                                       bandFocus: focus))
+                    }
+                }
+            }
+        }
+        return result
+    }
+    
+    static var testLevels: [EQDetectiveLevel] = [
         
         EQDetectiveLevel(levelNumber: 1,
                         audioSource: .acousticDrums,
@@ -24,7 +70,7 @@ extension EQDetectiveLevel {
         EQDetectiveLevel(levelNumber: 2,
                          audioSource: .pinkNoise,
                          starScores: [300, 400, 600],
-                        filterGainDB: 8.0,
+                        filterGainDB: -8.0,
                         filterQ: 8.0,
                         difficulty: .easy,
                         bandFocus: .low),

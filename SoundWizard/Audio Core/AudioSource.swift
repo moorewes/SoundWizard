@@ -44,6 +44,10 @@ struct AudioSource {
     static var dawn: Self {
         AudioSource(named: "Dawn", description: "Dawn")
     }
+    
+    static var all: [Self] {
+        return [.pinkNoise, .acousticDrums, .aero, .asia, .brick, .cry, .dawn]
+    }
 
     
 }

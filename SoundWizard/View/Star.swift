@@ -9,8 +9,8 @@ import SwiftUI
 
 struct Star: View {
     
-    var number: Int
     var filled: Bool
+    var number: Int?
     var animated: Bool
     var animationDelay: Double = 0
         
@@ -28,18 +28,20 @@ struct Star: View {
         Image(systemName: imageName)
             .foregroundColor(.white)
             .colorMultiply(shouldFill ? .yellow : .extraDarkGray)
-            .animation(.easeIn(duration: 3.0))
+            .animation(animated ? .easeIn(duration: 3.0) : nil)
             .rotation3DEffect(
                 shouldAnimate ? .degrees(360) : .zero,
                 axis: (x: 0.0, y: shouldFill ? 1.0 : 0, z: 0.0)
             )
-            .animation(.spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0))
+            .animation(animated ? .spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0) : nil)
             .pulse(active: shouldAnimate, duration: pulseAnimationDuration)
             .onAppear {
                 guard animated else { return }
                 DispatchQueue.main.asyncAfter(deadline: .now() + animationDelay) {
                     self.readyToAnimate = true
-                    Conductor.shared.fireWinStarFeedback(star: number)
+                    if let number = self.number {
+                        Conductor.shared.fireWinStarFeedback(star: number)
+                    }
                 }
             }
     }
@@ -54,7 +56,7 @@ struct Star_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.darkBackground.ignoresSafeArea()
-            Star(number: 1, filled: true, animated: true, animationDelay: 0)
+            Star(filled: true, number: 1, animated: true, animationDelay: 0)
                 .frame(width: 50, height: 50, alignment: .center)
                 .font(.system(size: 80))
                 .transition(.slide)
