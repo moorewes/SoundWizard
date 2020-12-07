@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct StatusBar<Model: GameModel>: View {
+struct StatusBar<GameStatus: GameStatusPublisher & ObservableObject>: View {
     
-    @ObservedObject var game: Model
+    @ObservedObject var game: GameStatus
     
     var body: some View {
         HStack() {
@@ -26,7 +26,7 @@ struct StatusBar<Model: GameModel>: View {
             }
             
             
-            Text(" x\(Int(game.scoreMultiplier))")
+            Text(" x\(Int(game.scoreMultiplierValue))")
                 .font(.monoBold(20))
                 .foregroundColor(.teal)
             
@@ -41,7 +41,7 @@ struct StatusBar<Model: GameModel>: View {
                 
                 HStack() {
                     ForEach(0..<game.maxLives) { i in
-                        let visible = game.maxLives - i - 1 < game.lives
+                        let visible = game.maxLives - i - 1 < game.remainingLives
                         Image(systemName: "heart.fill")
                             .foregroundColor(.teal)
                             .opacity(visible ? 1 : 0)

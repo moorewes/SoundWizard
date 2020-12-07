@@ -11,13 +11,13 @@ class SoundFXManager {
     
     static let main = SoundFXManager()
         
-    private var buffers = [ScoreSuccessLevel:AVAudioPCMBuffer]()
+    private var buffers = [ScoreSuccess:AVAudioPCMBuffer]()
     
     private init() {
         loadBuffers()
     }
     
-    func buffer(for scoreSuccessLevel: ScoreSuccessLevel) -> AVAudioPCMBuffer {
+    func buffer(for scoreSuccessLevel: ScoreSuccess) -> AVAudioPCMBuffer {
         return buffers[scoreSuccessLevel]!
     }
     
@@ -33,22 +33,22 @@ class SoundFXManager {
     }
     
     private func loadBuffers() {
-        ScoreSuccessLevel.allCases.forEach { buffers[$0] = turnFXBuffer(successLevel: $0) }
+        ScoreSuccess.allCases.forEach { buffers[$0] = turnFXBuffer(successLevel: $0) }
     }
     
-    private func turnFXBuffer(successLevel: ScoreSuccessLevel) -> AVAudioPCMBuffer {
+    private func turnFXBuffer(successLevel: ScoreSuccess) -> AVAudioPCMBuffer {
         let url = turnFXURL(successLevel: successLevel)
         let file = try! AVAudioFile(forReading: url!)
         return try! AVAudioPCMBuffer(file: file)!
     }
     
-    private func turnFXURL(successLevel: ScoreSuccessLevel) -> URL? {
+    private func turnFXURL(successLevel: ScoreSuccess) -> URL? {
         let fileName = turnFXFilename(successLevel: successLevel)
         return Bundle.main.url(forResource: fileName, withExtension: "wav")
     }
     
     
-    private func turnFXFilename(successLevel: ScoreSuccessLevel) -> String {
+    private func turnFXFilename(successLevel: ScoreSuccess) -> String {
         switch successLevel {
         case .perfect:
             return "TurnResult_Perfect"

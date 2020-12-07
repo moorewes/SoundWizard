@@ -39,7 +39,7 @@ struct PreGameView: View {
                 // Instruction View
                 
                 if !shouldShowLastScore {
-                    instructionView
+                    instructionView()
                         .foregroundColor(.lightGray)
                         .padding(.horizontal, 50)
                 }
@@ -94,10 +94,12 @@ struct PreGameView: View {
         }
     }
     
-    private var instructionView: some View {
-        switch manager.level.game {
-        case .eqDetective:
-            return EQDetectiveInstructionView(level: manager.level)
+    @ViewBuilder
+    private func instructionView() -> some View {
+        if manager.level.game == .eqDetective {
+            EQDetectiveInstructionView(level: manager.level)
+        } else if manager.level.game == .eqMatch {
+            EQMatchInstructionView()
         }
     }
     

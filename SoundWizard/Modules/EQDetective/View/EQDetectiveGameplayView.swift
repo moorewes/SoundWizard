@@ -12,7 +12,7 @@ struct EQDetectiveGameplayView: View {
     @ObservedObject var game: EQDetectiveGame
     
     init(level: EQDetectiveLevel, gameViewState: Binding<GameViewState>) {
-        game = EQDetectiveGame(level: level, viewState: gameViewState)
+        game = EQDetectiveGame(level: level, gameViewState: gameViewState)
         setupPicker()
     }
     

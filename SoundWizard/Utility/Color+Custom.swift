@@ -23,7 +23,7 @@ extension Color {
     
     static let listRowBackground = Color(white: 0.3)
     
-    static func successLevelColor(_ successLevel: ScoreSuccessLevel) -> Color {
+    static func successLevelColor(_ successLevel: ScoreSuccess) -> Color {
         switch successLevel {
         case .failed, .justMissed:
             return Color.red

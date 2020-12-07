@@ -61,7 +61,6 @@ struct EQDetectiveInstructionView: View {
         for i in stride(from: start.x, through: endX, by: 1) {
             let i = CGFloat(i)
             let y = bellY(x: i, size: size)
-            print(CGPoint(x: i, y: y))
             path.addLine(to: CGPoint(x: i, y: y))
         }
         

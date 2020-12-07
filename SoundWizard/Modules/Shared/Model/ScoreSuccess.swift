@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum ScoreSuccessLevel: Int, CaseIterable, Comparable {
+enum ScoreSuccess: Int, CaseIterable, Comparable {
     
     case failed = 0, justMissed, fair, great, perfect
     
-    init(score: Float) {
+    init(score: Double) {
         if score >= 0.9 {
             self = .perfect
         } else if score >= 0.8 {
@@ -25,7 +25,11 @@ enum ScoreSuccessLevel: Int, CaseIterable, Comparable {
         }
     }
     
-    static func < (lhs: ScoreSuccessLevel, rhs: ScoreSuccessLevel) -> Bool {
+    var succeeded: Bool {
+        return self > .justMissed
+    }
+    
+    static func < (lhs: ScoreSuccess, rhs: ScoreSuccess) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
     

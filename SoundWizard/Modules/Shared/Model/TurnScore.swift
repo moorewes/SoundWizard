@@ -2,18 +2,19 @@
 //  TurnScore.swift
 //  SoundWizard
 //
-//  Created by Wes Moore on 11/24/20.
+//  Created by Wes Moore on 12/6/20.
 //
 
 import Foundation
 
 struct TurnScore {
     
-    var value: Float
-    var successLevel: ScoreSuccessLevel
+    var value: Double
+    var successLevel: ScoreSuccess
     
     func randomFeedbackString() -> String {
         return ScoreFeedback.randomString(for: successLevel)
     }
     
 }
+

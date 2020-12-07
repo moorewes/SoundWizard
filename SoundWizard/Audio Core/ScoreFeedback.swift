@@ -23,7 +23,7 @@ enum ScoreFeedback {
     
     // MARK: Internal
     
-    static func randomString(for successLevel: ScoreSuccessLevel) -> String {
+    static func randomString(for successLevel: ScoreSuccess) -> String {
         let strings = allStrings(for: successLevel)
         let i = Int.random(in: 0..<strings.count)
         return strings[i]
@@ -31,7 +31,7 @@ enum ScoreFeedback {
     
     // MARK: Private
     
-    private static func allStrings(for successLevel: ScoreSuccessLevel) -> [String] {
+    private static func allStrings(for successLevel: ScoreSuccess) -> [String] {
         switch successLevel {
         case .perfect:
             return perfectScoreStrings

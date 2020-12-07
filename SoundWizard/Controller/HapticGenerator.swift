@@ -35,7 +35,7 @@ class HapticGenerator {
     
     // MARK: Internal
     
-    func fire(successLevel: ScoreSuccessLevel) {
+    func fire(successLevel: ScoreSuccess) {
         guard supportsHaptics else { return }
         
         let name = fileName(for: successLevel)
@@ -57,7 +57,7 @@ class HapticGenerator {
         }
     }
     
-    private func fileName(for successLevel: ScoreSuccessLevel) -> String {
+    private func fileName(for successLevel: ScoreSuccess) -> String {
         switch successLevel {
         case .perfect:
             return "Perfect"

@@ -7,23 +7,21 @@
 
 import SwiftUI
 
-class EQDetectiveGame: ObservableObject, GameModel {
+
+class EQDetectiveGame: StandardGame {
     
     typealias TurnType = EQDetectiveTurn
     typealias ConductorType = EQDetectiveConductor
     
     // MARK: - Constants
     
-    let testMode = false
+    let testMode = true
     
-    let startingLives = 2
-    let maxLives = 3
+    let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
     
-    private let multiplierStreakTarget = 4
-    private let extraLifeStreakTarget = 3
     private let baseOctaveErrorMultiplier: Float = 0.7
-    private let turnsPerStage = 5
+    
     
     // MARK: - Properties
     
@@ -34,24 +32,13 @@ class EQDetectiveGame: ObservableObject, GameModel {
     // MARK: Published
     
     @Published var selectedFreq: Frequency
-    @Published var lives: Int
-    @Published var scoreMultiplier: Float = 1
     
-    @Published var extraLifeStreak = 0 {
-        didSet {
-            if extraLifeStreak > 0 && extraLifeStreak % extraLifeStreakTarget == 0 {
-                scheduleAddExtraLife()
-            }
-        }
-    }
-    
-    @Published private var turns = [EQDetectiveTurn]() {
+    @Published var turns = [EQDetectiveTurn]() {
         didSet {
             guard let turn = turns.last else { return }
             if let success = turn.score?.successLevel {
-                extraLifeStreak += success >= .great ? 1 : -extraLifeStreak
-                multiplierStreak += success >= .fair ? 1 : -multiplierStreak
-                lives -= success <= .justMissed ? 1 : 0
+                lives.update(for: success)
+                scoreMultiplier.update(for: success)
             } else {
                 conductor.set(filterFreq: turn.solution)
                 filterOnState = 1
@@ -69,33 +56,9 @@ class EQDetectiveGame: ObservableObject, GameModel {
     // MARK: Internal
     
     var level: EQDetectiveLevel
-    
     var conductor: EQDetectiveConductor
-    
-    var score: Int {
-        Int(turns.compactMap { $0.score?.value }.reduce(0, +))
-    }
-    
-    var stage: Int {
-        guard let currentTurn = currentTurn else { return 0 }
-        
-        let turnNumber = currentTurn.isComplete ? turns.count : turns.count - 1
-        return turnNumber / (turnsPerStage)
-    }
-    
-    var currentTurn: EQDetectiveTurn? {
-        turns.last
-    }
-    
-    var multiplierStreak = 0 {
-        didSet {
-            guard multiplierStreak > 0 else {
-                scoreMultiplier = 1
-                return
-            }
-            scoreMultiplier += multiplierStreak % multiplierStreakTarget == 0 ? 1 : 0
-        }
-    }
+    var lives: Lives
+    var scoreMultiplier: ScoreMultiplier
         
     var muted: Bool {
         conductor.isMuted
@@ -126,20 +89,24 @@ class EQDetectiveGame: ObservableObject, GameModel {
     }
         
     private var octaveErrorMultiplier: Octave {
-        powf(baseOctaveErrorMultiplier, Float(stage))
+        return powf(baseOctaveErrorMultiplier, Float(stage))
     }
     
     // MARK: - Initializers
     
-    init(level: EQDetectiveLevel, viewState: Binding<GameViewState>) {
+    required init(level: EQDetectiveLevel, gameViewState: Binding<GameViewState>) {
         self.level = level
-        _gameViewState = viewState
+        _gameViewState = gameViewState
+        
+        scoreMultiplier = ScoreMultiplier()
+        
+        lives = Lives()
+        
         conductor = EQDetectiveConductor(source: level.audioSource,
                                              filterGainDB: level.filterGainDB,
                                              filterQ: level.filterQ)
         
         selectedFreq = level.bandFocus.referenceFrequencies.centerItem!.uiRounded
-        lives = startingLives
     }
     
     // MARK: - Intents
@@ -153,8 +120,6 @@ class EQDetectiveGame: ObservableObject, GameModel {
         conductor.stopPlaying()
         level.updateProgress(score: score)
         gameViewState = .gameCompleted
-        
-        
     }
     
     func submitGuess() {
@@ -167,7 +132,7 @@ class EQDetectiveGame: ObservableObject, GameModel {
         turns.append(EQDetectiveTurn(number: turns.count + 1,
                                    octaveErrorRange: octaveErrorRange,
                                    solution: randomFrequency(),
-                                   scoreMultiplier: scoreMultiplier))
+                                   scoreMultiplier: scoreMultiplier.value))
     }
     
     private func endTurn() {
@@ -188,20 +153,11 @@ class EQDetectiveGame: ObservableObject, GameModel {
     
     private func scheduleEndOfTurnAction() {
         DispatchQueue.main.asyncAfter(deadline: .now() + timeBetweenTurns) {
-            if self.lives < 0 {
+            if self.remainingLives < 0 {
                 self.finish()
             } else {
                 self.startNewTurn()
             }
-        }
-    }
-    
-    private func scheduleAddExtraLife() {
-        guard lives < maxLives else { return }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + timeBetweenTurns / 2) {
-            self.lives += 1
-            // TODO: Play sound
         }
     }
     

@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct EQDetectiveTurn: Turn {
+struct EQDetectiveTurn: GameTurn {
     
     let number: Int
     let octaveErrorRange: Octave
     let solution: Frequency
-    let scoreMultiplier: Float
+    let scoreMultiplier: Double
     
     private var startTime = Date()
     private(set) var completionTime: TimeInterval?
@@ -22,7 +22,7 @@ struct EQDetectiveTurn: Turn {
     
     var isComplete: Bool { guess != nil }
     
-    init(number: Int, octaveErrorRange: Octave, solution: Frequency, scoreMultiplier: Float) {
+    init(number: Int, octaveErrorRange: Octave, solution: Frequency, scoreMultiplier: Double) {
         self.number = number
         self.octaveErrorRange = octaveErrorRange
         self.solution = solution
@@ -37,10 +37,10 @@ struct EQDetectiveTurn: Turn {
     }
     
     mutating private func score(for octaveError: Float) -> TurnScore {
-        let scoreRatio = (octaveErrorRange - octaveError) / octaveErrorRange
-        let successLevel = ScoreSuccessLevel(score: scoreRatio)
+        let scoreRatio = Double((octaveErrorRange - octaveError) / octaveErrorRange)
+        let successLevel = ScoreSuccess(score: scoreRatio)
         
-        var value: Float = 0
+        var value: Double = 0
         if scoreRatio > 0 {
             let accuracyModifier = max(0, 80 * scoreRatio)
             value = 20 + accuracyModifier

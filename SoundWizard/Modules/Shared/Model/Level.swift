@@ -11,11 +11,9 @@ protocol Level {
     
     var game: Game { get }
     var progress: LevelProgress { get set }
-    var numberOfTurns: Int { get }
     var levelNumber: Int { get }
     var audioSource: AudioSource { get }
     var starScores: [Int] { get }
-    var instructions: String { get }
     var difficulty: LevelDifficulty { get }
     var description: String { get }
     

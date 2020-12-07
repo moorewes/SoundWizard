@@ -206,7 +206,7 @@ struct FrequencySlider: View {
 }
 
 struct FrequencySlider_Previews: PreviewProvider {
-    static var game = EQDetectiveGame(level: EQDetectiveLevel.level(1)!, viewState: .constant(.inGame))
+    static var game = EQDetectiveGame(level: EQDetectiveLevel.level(1)!, gameViewState: .constant(.inGame))
 
     static var previews: some View {
         ZStack {

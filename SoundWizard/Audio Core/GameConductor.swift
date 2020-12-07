@@ -64,7 +64,7 @@ class Conductor {
         start()
     }
     
-    func fireScoreFeedback(successLevel: ScoreSuccessLevel) {
+    func fireScoreFeedback(successLevel: ScoreSuccess) {
         let buffer = fxManager.buffer(for: successLevel)
         play(buffer)
     }
