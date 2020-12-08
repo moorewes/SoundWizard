@@ -61,6 +61,16 @@ struct AudioMath {
         return freq
     }
     
+    static func frequency(percent: Float,
+                          in range: FrequencyRange,
+                          uiRounded: Bool = false) -> Frequency {
+        let octaves = AudioMath.octaves(in: range)
+        let octave = percent * octaves
+        return AudioMath.freq(fromOctave: octave,
+                                   baseOctaveFreq: range.lowerBound,
+                                   rounded: true)
+    }
+    
     static func dBToPercent(dB: Float) -> Float {
         return powf(10, dB/10)
     }

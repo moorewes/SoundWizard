@@ -12,14 +12,13 @@ enum Game: Int, CaseIterable, Identifiable {
     
     static let starCount = 3
     
-    case eqDetective = 0, eqMatch
+    case eqDetective = 0
 
     var id: Int { return self.rawValue }
 
     var name: String {
         switch self {
         case .eqDetective: return "EQ Detective"
-        case .eqMatch: return "EQ Match"
         }
     }
 
@@ -27,8 +26,6 @@ enum Game: Int, CaseIterable, Identifiable {
         switch self {
         case .eqDetective:
             return EQDetectiveLevel.levels
-        case .eqMatch:
-            return EQMatchLevel.levels
         }
     }
     

@@ -60,7 +60,7 @@ struct LevelsView: View {
                         .padding(.bottom, 10)
                         .padding(.leading)
                     
-                    levelsList(levels: levels)
+                    LevelsHorizontalList(levels: levels) { manager.selectLevel($0 as! EQDetectiveLevel) }
                         .padding(.bottom, 50)
                 }
             }
@@ -94,24 +94,6 @@ struct LevelsView: View {
                 .foregroundColor(.lightGray)
             
             Spacer()
-        }
-    }
-    
-    private func levelsList(levels: [EQDetectiveLevel]) -> some View {
-        return ScrollView(.horizontal)  {
-            HStack {
-                ForEach(levels) { level in
-                    Button(action: {
-                        manager.selectLevel(level)
-                    }, label: {
-                        LevelCellView(level: level)
-                    })
-                    .frame(width: 80, height: 80, alignment: .center)
-                    .cornerRadius(15)
-                    .padding(.leading)
-                    .padding(.trailing, -5)
-                }
-            }
         }
     }
     

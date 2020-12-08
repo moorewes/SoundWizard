@@ -85,6 +85,38 @@ class EQMatchLevel: Level {
     
 }
 
+extension EQMatchGame: InteractiveFilterDataSource {
+    var solutionGain: Float {
+        AudioMath.dBToPercent(dB: 3)
+    }
+    
+    var frequencyRange: FrequencyRange {
+        return BandFocus.mid.range
+    }
+    
+    var octavesShaded: Float {
+        return 0.5
+    }
+    
+    var solutionFreq: Frequency? {
+        return 1000
+    }
+    
+    var solutionLineColor: Color {
+        .green
+    }
+    
+    var referenceFreqs: [Frequency] {
+        BandFocus.mid.referenceFrequencies
+    }
+    
+    var filterQ: Float {
+        4.0
+    }
+    
+    
+}
+
 extension EQMatchLevel {
     
     static func starScores(for difficulty: LevelDifficulty) -> [Int] {
@@ -101,6 +133,8 @@ extension EQMatchLevel {
 
 extension EQMatchLevel {
     
-    static let levels: [EQMatchLevel] = []
+    static let levels: [EQMatchLevel] = [
+        EQMatchLevel(number: 1, audioSource: .acousticDrums, difficulty: .easy)
+    ]
     
 }

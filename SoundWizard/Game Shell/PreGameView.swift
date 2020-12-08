@@ -98,8 +98,6 @@ struct PreGameView: View {
     private func instructionView() -> some View {
         if manager.level.game == .eqDetective {
             EQDetectiveInstructionView(level: manager.level)
-        } else if manager.level.game == .eqMatch {
-            EQMatchInstructionView()
         }
     }
     

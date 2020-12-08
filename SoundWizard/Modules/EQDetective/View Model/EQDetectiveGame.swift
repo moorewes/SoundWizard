@@ -15,13 +15,12 @@ class EQDetectiveGame: StandardGame {
     
     // MARK: - Constants
     
-    let testMode = true
+    let testMode = true // TODO: - Remove for production
     
     let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
     
     private let baseOctaveErrorMultiplier: Float = 0.7
-    
     
     // MARK: - Properties
     
@@ -65,7 +64,7 @@ class EQDetectiveGame: StandardGame {
     }
     
     var showResultsView: Bool {
-        currentTurn?.score != nil
+        currentTurn?.isComplete ?? false
     }
     
     var showGuessButton: Bool {

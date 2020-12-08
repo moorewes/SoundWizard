@@ -19,7 +19,7 @@ class EQDetectiveLevel: Level, Identifiable {
     let bandFocus: BandFocus
     let description: String
     
-    var id: Int { return levelNumber }
+    var id: String { return "\(game.id).\(levelNumber)" }
     
     var octavesVisible: Octave {
         bandFocus.range.upperBound.asOctave - bandFocus.range.lowerBound.asOctave

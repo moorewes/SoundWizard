@@ -9,6 +9,7 @@ import Foundation
 
 protocol Level {
     
+    var id: String { get }
     var game: Game { get }
     var progress: LevelProgress { get set }
     var levelNumber: Int { get }
