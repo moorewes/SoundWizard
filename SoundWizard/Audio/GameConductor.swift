@@ -35,6 +35,7 @@ class Conductor {
         mixer = Mixer([fxPlayer])
         masterFader = Fader(mixer)
         engine.output = masterFader
+        start()
     }
     
     // MARK: - Methods
@@ -46,6 +47,7 @@ class Conductor {
             try engine.start()
         } catch let err {
             print(err)
+            fatalError("couldn't start engine")
         }
     }
     
@@ -59,8 +61,10 @@ class Conductor {
         }
     }
     
+    // FIXME: Won't play audio after quit game
     func start(with gameConductor: GameConductor) {
         mixer.addInput(gameConductor.outputFader)
+        self.gameConductor = gameConductor
         start()
     }
     
@@ -91,6 +95,7 @@ class Conductor {
     }
     
     private func disconnectGameConductor() {
+        gameConductor?.stopPlaying(fade: false)
         if let node = self.gameConductor?.outputFader {
             self.mixer.removeInput(node)
         }

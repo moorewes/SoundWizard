@@ -39,7 +39,7 @@ struct FrequencyGraph: View {
             let leftX = x(for: freq, width: size.width) - labelWidth / 2
             Text(freq.shortString)
                 .frame(width: labelWidth, height: 20, alignment: .center)
-                .font(.monoSemiBold(10))
+                .font(.mono(.caption2))
                 .foregroundColor(Color(white: 0.6, opacity: 1))
                 .offset(x: leftX, y: size.height)
         }

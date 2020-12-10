@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class UserProgressManagerMock: UserProgressManager {
+class UserProgressManagerMock: CoreDataManager {
     
     override init() {
         super.init()

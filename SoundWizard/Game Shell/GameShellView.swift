@@ -57,14 +57,14 @@ struct GameShellView: View {
                     isPresented = false
                 }
             }
-                .font(.monoBold(18))
+                .font(.mono(.headline))
                 .foregroundColor(.lightGray)
             
             Spacer()
             
             Text("Level \(manager.level.levelNumber)")
                 .foregroundColor(.teal)
-                .font(.monoSemiBold(20))
+                .font(.mono(.headline))
             
             Spacer()
             

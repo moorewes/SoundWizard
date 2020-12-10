@@ -8,11 +8,11 @@
 import Foundation
 import CoreData
 
-class UserProgressManager {
+class CoreDataManager {
     
     // MARK: - Shared Instance
     
-    static let shared = UserProgressManager()
+    static let shared = CoreDataManager()
     
     // MARK: - Properties
     
@@ -22,10 +22,12 @@ class UserProgressManager {
     
     // MARK: Private
     
+    private let storeName = "SoundWizard"
+    
     // MARK: - Initializers
     
     init() {
-        self.container = NSPersistentContainer(name: "UserGameData")
+        self.container = NSPersistentContainer(name: storeName)
         setupPersistentContainer()
     }
     

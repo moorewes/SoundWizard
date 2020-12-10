@@ -56,7 +56,7 @@ struct EQDetectiveGameplayView: View {
                 .opacity(game.showResultsView ? 1 : 0)
             
             Text(instructionText)
-                .font(.monoSemiBold(22))
+                .font(.mono(.title3))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
                 .opacity(game.showResultsView ? 0 : 0.8)
@@ -67,16 +67,16 @@ struct EQDetectiveGameplayView: View {
     var resultsView: some View {
         VStack {
             Text(solutionText)
-                .font(.monoBold(16))
+                .font(.mono(.callout))
                 .foregroundColor(.init(white: 1, opacity: 0.5))
             Text(game.solutionText)
-                .font(.monoBold(32))
+                .font(.mono(.largeTitle))
                 .foregroundColor(.teal)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
         
             Text(game.feedbackText)
                 .fixedSize()
-                .font(.monoBold(14))
+                .font(.mono(.subheadline))
                 .foregroundColor(feedbackColor)
         }
     }
@@ -91,7 +91,7 @@ struct EQDetectiveGameplayView: View {
                     .cornerRadius(10)
                     .frame(width: 200, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 Text(submitText)
-                    .font(.monoBold(20))
+                    .font(.mono(.headline))
                     .foregroundColor(.darkBackground)
             }
             
@@ -102,9 +102,9 @@ struct EQDetectiveGameplayView: View {
         Picker(selection: $game.filterOnState, label: Text(pickerName)) {
             Text(firstPickerItemText).tag(0)
                 .foregroundColor(.darkBackground)
-                .font(.monoBold(18))
+                .font(.mono(.headline))
             Text(secondPickerItemText).tag(1)
-                .font(.monoBold(18))
+                .font(.mono(.headline))
         }
         .pickerStyle(SegmentedPickerStyle())
     }
@@ -113,7 +113,7 @@ struct EQDetectiveGameplayView: View {
         UISegmentedControl.appearance().selectedSegmentTintColor = .systemTeal
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black.withAlphaComponent(0.8)], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.monoMedium(14)], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.mono(.subheadline)], for: .normal)
     }
     
     // MARK: - Constants

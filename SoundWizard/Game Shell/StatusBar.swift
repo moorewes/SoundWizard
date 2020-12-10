@@ -16,18 +16,17 @@ struct StatusBar<GameStatus: GameStatusPublisher & ObservableObject>: View {
             
             VStack {
                 Text("SCORE")
-                    .font(.monoBold(16))
+                    .font(.mono(.callout))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
                 Text("\(game.score)")
                     .modifier(MovingCounterModifier(number: game.score,
-                                                    font: .monoMedium(22)))
-//                MovingCounter(number: game.score, font: .monoMedium(22))
+                                                    font: .mono(.title3)))
                     .animation(.linear(duration: 0.5))
             }
             
             
             Text(" x\(Int(game.scoreMultiplierValue))")
-                .font(.monoBold(20))
+                .font(.mono(.headline))
                 .foregroundColor(.teal)
             
             Spacer()
@@ -35,7 +34,7 @@ struct StatusBar<GameStatus: GameStatusPublisher & ObservableObject>: View {
             
             VStack {
                 Text("LIVES")
-                    .font(.monoBold(16))
+                    .font(.mono(.callout))
                     .foregroundColor(.init(white: 1, opacity: 0.5))
                     .offset(CGSize(width: 0, height: -9))
                 

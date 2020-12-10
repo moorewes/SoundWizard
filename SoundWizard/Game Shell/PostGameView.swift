@@ -20,7 +20,7 @@ struct PlayButton: View {
                     .cornerRadius(10)
                     .frame(width: 200, height: 50, alignment: .center)
                 Text("PLAY")
-                    .font(.monoBold(20))
+                    .font(.mono(.headline))
                     .foregroundColor(.darkBackground)
             }
             
@@ -44,22 +44,22 @@ struct PostGameView: View {
         VStack {
                         
             Text("Your Score")
-                .font(.monoMedium(20))
+                .font(.mono(.headline))
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
         
             Text(score.scoreString(digits: 4))
-                .font(.monoBold(48))
+                .font(.mono(.largeTitle, sizeModifier: 16))
                 .transition(.opacity).animation(Animation.easeIn(duration: 4))
 
             
             Text("Top Score")
-                .font(.monoMedium(20))
+                .font(.mono(.headline))
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
         
             MovingCounter(number: animated ? newTopScore : prevTopScore,
-                                 font: .monoBold(48),
+                                 font: .mono(.largeTitle, sizeModifier: 16),
                                  duration: 1.5)
             
             stars
@@ -105,7 +105,7 @@ struct PostGameView: View {
                         
             Text("\(manager.level.starScores[number - 1])")
                 .foregroundColor(.teal)
-                .font(.monoBold(20))
+                .font(.mono(.headline))
         }
     }
     

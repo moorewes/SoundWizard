@@ -14,12 +14,13 @@ class EQDetectiveLevel: Level, Identifiable {
     let game: Game = .eqDetective
     let numberOfTurns = 10
     let levelNumber: Int
-    let audioSource: AudioSource
     let starScores: [Int]
     let bandFocus: BandFocus
     let description: String
     
     var id: String { return "\(game.id).\(levelNumber)" }
+    
+    var audioSource: AudioSource
     
     var octavesVisible: Octave {
         bandFocus.range.upperBound.asOctave - bandFocus.range.lowerBound.asOctave
@@ -52,24 +53,26 @@ class EQDetectiveLevel: Level, Identifiable {
         }
     }()
     
-    var progressManager = UserProgressManager.shared
+    var progressManager = CoreDataManager.shared
     
     // MARK: - Initializers
     
     init(levelNumber: Int,
-         audioSource: AudioSource,
+         audioSourceID: Int,
          starScores: [Int],
          filterGainDB: Float,
          filterQ: Float,
          difficulty: LevelDifficulty,
          bandFocus: BandFocus) {
         self.levelNumber = levelNumber
-        self.audioSource = audioSource
         self.starScores = starScores
         self.filterGainDB = filterGainDB
         self.filterQ = filterQ
         self.difficulty = difficulty
         self.bandFocus = bandFocus
+        
+        let context = CoreDataManager.shared.container.viewContext
+        audioSource = AudioSource.source(id: audioSourceID, context: context)!
         
         description = bandFocus.uiDescription
     }

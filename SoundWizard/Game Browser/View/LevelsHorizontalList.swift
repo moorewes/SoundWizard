@@ -18,7 +18,7 @@ struct LevelsHorizontalList: View {
     }
     
     var body: some View {
-        ScrollView(.horizontal)  {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(levels, id: \.self.id) { level in
                     Button(action: {

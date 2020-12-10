@@ -100,10 +100,10 @@ struct FrequencySlider: View {
     private func sliderLabel(size: CGSize) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 0) {
             Text(frequency.decimalString)
-                .font(.monoSemiBold(18))
+                .font(.mono(.headline))
                 .foregroundColor(Color.white)
             Text(" " + frequency.unitString)
-                .font(.monoSemiBold(15))
+                .font(.mono(.callout))
                 .foregroundColor(Color.white)
         }
     }

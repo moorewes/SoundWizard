@@ -20,7 +20,7 @@ class LevelMock: Level {
     
     var levelNumber: Int = 1
     
-    var audioSource: AudioSource = .acousticDrums
+    var audioSource: AudioFile = .acousticDrums
     
     var starScores: [Int] = [300, 600, 900]
     

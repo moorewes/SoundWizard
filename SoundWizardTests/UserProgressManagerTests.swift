@@ -10,7 +10,7 @@ import XCTest
 
 class UserProgressManagerTests: XCTestCase {
     
-    var sut: UserProgressManager!
+    var sut: CoreDataManager!
     
     override func setUpWithError() throws {
         sut = UserProgressManagerMock()

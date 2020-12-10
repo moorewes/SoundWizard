@@ -32,7 +32,7 @@ struct AllGamesView: View {
                             label: {
                                 HStack {
                                     Text(game.name)
-                                        .font(.stdSemiBold(18))
+                                        .font(.std(.headline))
                                         .foregroundColor(.teal)
                                         .padding(.vertical, 30)
                                     
@@ -42,7 +42,7 @@ struct AllGamesView: View {
                                         .font(.system(size: 14))
                                     
                                     Text(manager.starProgress(game: game))
-                                        .font(.monoSemiBold(14))
+                                        .font(.mono(.subheadline))
                                         .foregroundColor(.lightGray)
                                         .padding(.trailing, 15)
                                 }
@@ -62,10 +62,12 @@ struct AllGamesView: View {
     }
     
     private var settingsButton: some View {
-        Image(systemName: "gearshape.fill")
-            .imageScale(.medium)
-            .foregroundColor(.lightGray)
-            .padding(.trailing, 15)
+        NavigationLink(destination: GeneralSettingsView()) {
+            Image(systemName: "gearshape.fill")
+                .imageScale(.medium)
+                .foregroundColor(.lightGray)
+                .padding(.trailing, 15)
+        }
     }
         
     private func configureNavBar() {
@@ -73,11 +75,11 @@ struct AllGamesView: View {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = UIColor(Color.darkBackground)
         appearance.titleTextAttributes = [
-            .font: UIFont.monoBold(18),
+            .font: UIFont.mono(.headline),
             .foregroundColor: UIColor(Color.lightGray)
         ]
         appearance.largeTitleTextAttributes = [
-            .font: UIFont.monoBold(20),
+            .font: UIFont.mono(.headline),
             .foregroundColor: UIColor(Color.teal)
         ]
         UINavigationBar.appearance().standardAppearance = appearance

@@ -15,7 +15,7 @@ class EQDetectiveGame: StandardGame {
     
     // MARK: - Constants
     
-    let testMode = true // TODO: - Remove for production
+    let testMode = false // TODO: - Remove for production
     
     let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
@@ -26,7 +26,13 @@ class EQDetectiveGame: StandardGame {
     
     // MARK: Bindings
     
-    @Binding var gameViewState: GameViewState
+    @Binding var gameViewState: GameViewState {
+        didSet {
+            if gameViewState == .gameQuitted {
+                //conductor.stopPlaying(fade: false)
+            }
+        }
+    }
     
     // MARK: Published
     
@@ -116,7 +122,7 @@ class EQDetectiveGame: StandardGame {
     }
     
     func finish() {
-        conductor.stopPlaying()
+        conductor.stopPlaying(fade: true)
         level.updateProgress(score: score)
         gameViewState = .gameCompleted
     }

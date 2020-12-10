@@ -15,7 +15,7 @@ protocol GameConductor {
         
     func startPlaying()
     
-    func stopPlaying()
+    func stopPlaying(fade: Bool)
         
 }
 
@@ -52,9 +52,10 @@ class EQDetectiveConductor: GameConductor {
     
     // MARK: - Initializers
     
-    init(source: AudioSource = AudioSource.acousticDrums,
+    init(source: AudioSource,
          filterGainDB: AUValue,
          filterQ: AUValue) {
+        print(source.url.description)
         buffer = Cookbook.buffer(for: source.url)
         self.filterGainDB = filterGainDB
         self.filterQ = filterQ
@@ -80,8 +81,13 @@ class EQDetectiveConductor: GameConductor {
         fadeIn()
     }
         
-    func stopPlaying() {
-        fadeOutAndStop(duration: 2)
+    func stopPlaying(fade: Bool) {
+        if fade {
+            fadeOutAndStop(duration: 2)
+        } else {
+            player.stop()
+        }
+        
     }
     
     func mute(_ muted: Bool) {

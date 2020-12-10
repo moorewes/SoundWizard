@@ -28,7 +28,7 @@ struct LevelsView: View {
                     ForEach(LevelDifficulty.allCases) { difficulty in
                         Text(difficulty.uiDescription)
                             .tag(difficulty.rawValue)
-                            .font(.stdSemiBold(14))
+                            .font(.std(.subheadline))
 
                     }
                 }
@@ -40,10 +40,10 @@ struct LevelsView: View {
                     Picker(selection: $gainTypeSelection, label: Text("Picker")) {
                         Text("Boost")
                             .tag(1)
-                            .font(.stdSemiBold(14))
+                            .font(.std(.subheadline))
                         Text("Cut")
                             .tag(2)
-                            .font(.stdSemiBold(14))
+                            .font(.std(.subheadline))
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.horizontal, 80)
@@ -82,7 +82,7 @@ struct LevelsView: View {
     private func sectionHeader(focus: BandFocus, levels: [EQDetectiveLevel]) -> some View {
         HStack(alignment: .firstTextBaseline) {
             Text(focus.uiDescription)
-                .font(.stdSemiBold(16))
+                .font(.std(.callout))
                 .foregroundColor(.white)
             
             Star(filled: true, animated: false)
@@ -90,7 +90,7 @@ struct LevelsView: View {
                 .padding(.leading, 10)
             
             Text(manager.starProgress(levels: levels))
-                .font(.monoSemiBold(14))
+                .font(.mono(.subheadline))
                 .foregroundColor(.lightGray)
             
             Spacer()

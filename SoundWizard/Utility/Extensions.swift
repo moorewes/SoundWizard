@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+extension UserDefaults {
+    
+    func optionalBool(forKey defaultsName: String) -> Bool? {
+        if let value = value(forKey: defaultsName) {
+            return value as? Bool
+        } else {
+            return nil
+        }
+    }
+    
+}
+
 extension Comparable {
     func clamped(to limits: ClosedRange<Self>) -> Self {
         return min(max(self, limits.lowerBound), limits.upperBound)
@@ -43,5 +55,34 @@ extension View {
 extension Numeric where Self: CVarArg {
     func scoreString(digits: Int) -> String {
         return String(format: "%0\(digits)d", self)
+    }
+}
+
+extension UITableView {
+    static func setCustomAppearance() {
+        UITableView.appearance().backgroundColor = UIColor(Color.darkBackground)
+        UITableViewCell.appearance().backgroundColor = UIColor(Color.darkBackground)
+        UITableView.appearance().separatorStyle = .none
+        UITableView.appearance().separatorColor = .clear
+        UITableView.appearance().tintColor = .white
+        UITableViewCell.appearance()
+    }
+}
+
+extension UINavigationBar {
+    static func setCustomAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor(Color.darkBackground)
+        appearance.titleTextAttributes = [
+            .font: UIFont.std(.headline),
+            .foregroundColor: UIColor(Color.lightGray)
+        ]
+        appearance.largeTitleTextAttributes = [
+            .font: UIFont.std(.largeTitle),
+            .foregroundColor: UIColor(Color.teal)
+        ]
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        //UINavigationBar.appearance().tintColor = UIColor.systemTeal
     }
 }

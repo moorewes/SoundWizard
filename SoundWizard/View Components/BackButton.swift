@@ -20,7 +20,7 @@ struct BackButton: View {
                 }
             }, label: {
                 Text("Quit")
-                    .font(.monoBold(18))
+                    .font(.mono(.headline))
             })
             
         }

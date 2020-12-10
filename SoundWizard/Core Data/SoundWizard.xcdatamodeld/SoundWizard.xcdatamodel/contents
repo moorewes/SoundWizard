@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H15" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="SoundWizard">
+    <entity name="AudioSource" representedClassName="AudioSource" syncable="YES">
+        <attribute name="fileExtension_" optional="YES" attributeType="String"/>
+        <attribute name="filename_" optional="YES" attributeType="String"/>
+        <attribute name="id_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isUserImport" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name_" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="LevelProgress" representedClassName="LevelProgress" syncable="YES">
+        <attribute name="gameID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="gameName" attributeType="String" defaultValueString=""/>
+        <attribute name="level" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+        <attribute name="scores" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
+        <attribute name="starsEarned" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+    </entity>
+    <elements>
+        <element name="AudioSource" positionX="-45" positionY="45" width="128" height="118"/>
+        <element name="LevelProgress" positionX="-63" positionY="-18" width="128" height="118"/>
+    </elements>
+</model>

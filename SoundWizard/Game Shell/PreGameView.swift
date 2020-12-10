@@ -23,7 +23,7 @@ struct PreGameView: View {
                 // Top Score
                 
                 Text("Top Score")
-                    .font(.monoMedium(20))
+                    .font(.mono(.headline))
                     .foregroundColor(.lightGray)
                     .padding()
                 
@@ -57,7 +57,7 @@ struct PreGameView: View {
     private var topScore: some View {
         let score = manager.newTopScore ?? manager.topScore
         return MovingCounter(number: score,
-                             font: .monoBold(48),
+                             font: .mono(.largeTitle, sizeModifier: 16),
                              duration: 1.5)
     }
     
@@ -90,7 +90,7 @@ struct PreGameView: View {
                         
             Text("\(manager.level.starScores[number - 1])")
                 .foregroundColor(.teal)
-                .font(.monoBold(20))
+                .font(.mono(.headline))
         }
     }
     

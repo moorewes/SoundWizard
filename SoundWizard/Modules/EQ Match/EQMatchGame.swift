@@ -62,7 +62,7 @@ class EQMatchLevel: Level {
         
     var levelNumber: Int
     
-    var audioSource: AudioSource
+    var audioSource: audioSource
     
     var starScores: [Int]
         
@@ -70,7 +70,7 @@ class EQMatchLevel: Level {
     
     var description: String
     
-    init(number: Int, audioSource: AudioSource, difficulty: LevelDifficulty) {
+    init(number: Int, audioSource: AudioFile, difficulty: LevelDifficulty) {
         self.levelNumber = number
         self.audioSource = audioSource
         self.difficulty = difficulty

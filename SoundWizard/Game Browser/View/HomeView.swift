@@ -54,7 +54,7 @@ struct HomeView: View {
             
             VStack {
                 Text("Today's Practice")
-                    .font(.stdSemiBold(24))
+                    .font(.std(.title2))
                     .foregroundColor(.teal)
                 LevelsHorizontalList(levels: manager.dailyLevels) { level in
                     manager.select(level)

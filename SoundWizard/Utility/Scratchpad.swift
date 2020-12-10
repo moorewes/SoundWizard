@@ -19,7 +19,7 @@ struct Scratchpad: View {
     
     var body: some View {
         VStack {
-            MovingCounter(number: score, font: Font.monoBold(15))
+            MovingCounter(number: score, font: Font.mono(.callout))
                 .animation(.easeIn)
             Spacer()
             Button("Toggle") {

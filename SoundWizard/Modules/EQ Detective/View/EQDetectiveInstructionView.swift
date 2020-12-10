@@ -31,16 +31,16 @@ struct EQDetectiveInstructionView: View {
                     .frame(width: 60, height: 20, alignment: .center)
                     .padding(.bottom, 5)
                 Text(filterGainDescription)
-                    .font(.stdSemiBold(16))
+                    .font(.std(.callout))
                 Text(level.bandFocus.uiDescription)
-                    .font(.stdSemiBold(16))
+                    .font(.std(.callout))
                 Text("Q: \(Int(level.filterQ))")
-                    .font(.stdSemiBold(16))
+                    .font(.std(.callout))
             }
             .padding()
             
             Text("Guess the center frequency of the EQ filter")
-                .font(.stdSemiBold(16))
+                .font(.std(.callout))
                 .multilineTextAlignment(.center)
                 .padding()
         }

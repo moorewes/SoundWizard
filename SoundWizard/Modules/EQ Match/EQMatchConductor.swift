@@ -42,7 +42,7 @@ class EQMatchConductor: GameConductor {
     
     // MARK: - Initializers
     
-    init(source: AudioSource = AudioSource.acousticDrums) {
+    init(source: AudioFile = AudioFile.acousticDrums) {
         buffer = Cookbook.buffer(for: source.url)
         self.filterGainDB = 1
         self.filterQ = 1

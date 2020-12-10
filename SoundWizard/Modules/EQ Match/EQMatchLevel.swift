@@ -17,7 +17,7 @@ import Foundation
 //
 //    var levelNumber: Int
 //
-//    var audioSource: AudioSource
+//    var audioSource: AudioFile
 //
 //    var starScores: [Int]
 //

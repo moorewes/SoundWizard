@@ -20,8 +20,8 @@ struct LevelCellView: View {
                     
                     Spacer()
                     
-                    Text("\(level.audioSource.description)")
-                        .font(.monoBold(12))
+                    Text("\(level.audioSource.name)")
+                        .font(.mono(.footnote))
                         .foregroundColor(.teal)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 8)
