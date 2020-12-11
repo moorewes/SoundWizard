@@ -7,18 +7,18 @@
 
 import Foundation
 
-class EQDetectiveLevel: Level, Identifiable {
+class EQDLevel: Identifiable {
     
     // MARK: - Properties
         
     let game: Game = .eqDetective
     let numberOfTurns = 10
-    let levelNumber: Int
+    let number: Int
     let starScores: [Int]
     let bandFocus: BandFocus
     let description: String
     
-    var id: String { return "\(game.id).\(levelNumber)" }
+    var id: String { return "\(game.id).\(number)" }
     
     var audioSource: AudioSource
     
@@ -29,12 +29,6 @@ class EQDetectiveLevel: Level, Identifiable {
     var filterIsBoost: Bool { return filterGainDB > 0 }
     
     lazy var instructions: String = instructionString()
-    
-    lazy var progress: LevelProgress = {
-        let progress = progressManager.progress(for: self)
-        progress.updateStarsEarned(starScores: starScores)
-        return progress
-    }()
     
     // MARK: Internal
     
@@ -58,13 +52,13 @@ class EQDetectiveLevel: Level, Identifiable {
     // MARK: - Initializers
     
     init(levelNumber: Int,
-         audioSourceID: Int,
+         audioSourceID: String,
          starScores: [Int],
          filterGainDB: Float,
          filterQ: Float,
          difficulty: LevelDifficulty,
          bandFocus: BandFocus) {
-        self.levelNumber = levelNumber
+        self.number = levelNumber
         self.starScores = starScores
         self.filterGainDB = filterGainDB
         self.filterQ = filterQ
@@ -72,6 +66,10 @@ class EQDetectiveLevel: Level, Identifiable {
         self.bandFocus = bandFocus
         
         let context = CoreDataManager.shared.container.viewContext
+        //let level = EQDetectiveLevel(context: context)
+        //level.bandFocus
+        
+        
         audioSource = AudioSource.source(id: audioSourceID, context: context)!
         
         description = bandFocus.uiDescription
@@ -81,12 +79,6 @@ class EQDetectiveLevel: Level, Identifiable {
     // MARK: - Methods
     
     // MARK: Internal
-    
-    func updateProgress(score: Int) {
-        progress.scores.append(score)
-        progress.updateStarsEarned(starScores: starScores)
-        save()
-    }
     
     func save() {
         progressManager.save()
@@ -110,7 +102,7 @@ class EQDetectiveLevel: Level, Identifiable {
     
     // MARK: - Internal Class Methods
     
-    class func level(_ levelNumber: Int) -> EQDetectiveLevel? {
+    class func level(_ levelNumber: Int) -> EQDLevel? {
         guard levels.count > levelNumber else { return nil }
         
         return levels[levelNumber]

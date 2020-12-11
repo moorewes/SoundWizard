@@ -15,14 +15,12 @@ protocol GameConductor {
         
     func startPlaying()
     
-    func stopPlaying(fade: Bool)
+    func stopPlaying()
         
 }
 
 class EQDetectiveConductor: GameConductor {
-    
-    // MARK: - Shared Instance
-        
+            
     // MARK: - Properties
     
     // MARK: Internal
@@ -42,21 +40,21 @@ class EQDetectiveConductor: GameConductor {
     }
         
     // MARK: Private
-    private let conductor = Conductor.shared
+    private let masterConductor = Conductor.master
     private let player = AudioPlayer()
     private let filter: EqualizerFilter
     private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.05
     private let dimVolume: AUValue = AudioMath.dBToPercent(dB: -6)
+    private let defaultFadeTime: Float = 1.5
 
     
     // MARK: - Initializers
     
-    init(source: AudioSource,
+    init(source: AudioMetadata,
          filterGainDB: AUValue,
          filterQ: AUValue) {
-        print(source.url.description)
-        buffer = Cookbook.buffer(for: source.url)
+        self.buffer = Cookbook.buffer(for: source.url)
         self.filterGainDB = filterGainDB
         self.filterQ = filterQ
 
@@ -68,6 +66,8 @@ class EQDetectiveConductor: GameConductor {
         outputFader = Fader(filter, gain: 0)
                 
         player.volume = volume
+        
+        masterConductor.patchIn(self)
     }
     
     // MARK: - Methods
@@ -75,19 +75,13 @@ class EQDetectiveConductor: GameConductor {
     // MARK: Internal
     
     func startPlaying() {
-        conductor.start(with: self)
         player.scheduleBuffer(buffer, at: nil, options: .loops)
         player.start()
         fadeIn()
     }
         
-    func stopPlaying(fade: Bool) {
-        if fade {
-            fadeOutAndStop(duration: 2)
-        } else {
-            player.stop()
-        }
-        
+    func stopPlaying() {
+        fadeOutAndStop(duration: defaultFadeTime)
     }
     
     func mute(_ muted: Bool) {
@@ -133,16 +127,14 @@ class EQDetectiveConductor: GameConductor {
     // MARK: Private
     
     private func fadeIn() {
-        fade(fadeIn: true)
+        fade(to: 1)
     }
     
     private func fadeOut() {
-        fade(fadeIn: false)
+        fade(to: 0)
     }
     
-    private func fade(fadeIn: Bool) {
-        let gain: AUValue = fadeIn ? 1 : 0
-        
+    private func fade(to gain: AUValue) {
         outputFader.$leftGain.ramp(to: gain, duration: 0.3)
         outputFader.$rightGain.ramp(to: gain, duration: 0.3)
     }
@@ -150,9 +142,10 @@ class EQDetectiveConductor: GameConductor {
     private func fadeOutAndStop(duration: Float) {
         outputFader.$leftGain.ramp(to: 0, duration: duration)
         outputFader.$rightGain.ramp(to: 0, duration: duration)
+        
         DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + Double(duration)) { [weak self] in
             self?.player.stop()
-            self?.conductor.stop()
+            self?.masterConductor.endGame()
         }
     }
 

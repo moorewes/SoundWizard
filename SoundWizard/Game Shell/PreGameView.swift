@@ -10,6 +10,7 @@ import SwiftUI
 struct PreGameView: View {
         
     @ObservedObject var manager: GameShellManager
+    var progress: LevelProgress?
         
     var shouldShowLastScore: Bool { manager.gameViewState == .gameCompleted }
                     
@@ -55,7 +56,8 @@ struct PreGameView: View {
     }
     
     private var topScore: some View {
-        let score = manager.newTopScore ?? manager.topScore
+        //let score = manager.newTopScore ?? manager.topScore
+        let score = progress?.topScore ?? 0
         return MovingCounter(number: score,
                              font: .mono(.largeTitle, sizeModifier: 16),
                              duration: 1.5)
@@ -75,8 +77,12 @@ struct PreGameView: View {
     }
     
     private func star(number: Int) -> some View {
-        let earned = manager.level.progress.starsEarned >= number
+        //let earned = manager.level.progress.starsEarned >= number
         let justEarnedIndex = manager.starsJustEarned.firstIndex(of: number)
+        var earned = false
+        if let starsEarned = progress?.starsEarned { earned = starsEarned >= number }
+        
+        
         var animationDelay = 0.0
         if let index = justEarnedIndex {
             animationDelay = Double(index) * timeBetweenStarAnimations
@@ -108,7 +114,7 @@ struct PreGameView: View {
 }
 
 struct EQDetectivePreGameView_Previews: PreviewProvider {
-    static let manager = GameShellManager(level: EQDetectiveLevel.level(3)!)
+    static let manager = GameShellManager(level: TestLevel())
     static var previews: some View {
         PreGameView(manager: manager)
     }

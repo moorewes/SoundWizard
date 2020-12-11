@@ -37,7 +37,7 @@ struct PostGameView: View {
     var newTopScore: Int
     
     var willAnimate: Bool { newTopScore > prevTopScore }
-    var score: Int { manager.level.progress.scores.last ?? 0 }
+    var score: Int { manager.level.progress?.scores.last ?? 0 }
     
     var body: some View {
         
@@ -90,7 +90,7 @@ struct PostGameView: View {
     }
     
     private func star(number: Int) -> some View {
-        let earned = manager.level.progress.starsEarned >= number
+        let earned = manager.level.starsEarned >= number
         let justEarnedIndex = manager.starsJustEarned.firstIndex(of: number)
         var animationDelay = 1.0
         if let index = justEarnedIndex {
@@ -113,11 +113,11 @@ struct PostGameView: View {
     private let starAnimationDuration = 0.7
     
 }
-
-struct PostGameView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostGameView(manager: GameShellManager(level: EQDetectiveLevel.level(2)!),
-                     prevTopScore: 100, newTopScore: 200)
-            .preferredColorScheme(.dark)
-    }
-}
+//
+//struct PostGameView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostGameView(manager: GameShellManager(level: EQDetectiveLevel.level(2)!),
+//                     prevTopScore: 100, newTopScore: 200)
+//            .preferredColorScheme(.dark)
+//    }
+//}

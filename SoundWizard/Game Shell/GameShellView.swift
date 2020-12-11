@@ -34,7 +34,7 @@ struct GameShellView: View {
                                  prevTopScore: manager.topScoreAtGameStart,
                                  newTopScore: manager.topScore)
                 } else {
-                    PreGameView(manager: manager)
+                    //PreGameView(manager: manager)
                 }
 
             }
@@ -62,7 +62,7 @@ struct GameShellView: View {
             
             Spacer()
             
-            Text("Level \(manager.level.levelNumber)")
+            Text("Level \(manager.level.number)")
                 .foregroundColor(.teal)
                 .font(.mono(.headline))
             
@@ -119,6 +119,6 @@ struct GameShellView: View {
 
 struct EQDetectiveShellView_Previews: PreviewProvider {
     static var previews: some View {
-        GameShellView(isPresented: .constant(true), level: EQDetectiveLevel.level(0)!)
+        GameShellView(isPresented: .constant(true), level: TestLevel())
     }
 }

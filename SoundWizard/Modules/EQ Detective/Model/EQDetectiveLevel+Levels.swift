@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension EQDetectiveLevel {
+extension EQDLevel {
     
     static func starScores(for difficulty: LevelDifficulty) -> [Int] {
         switch difficulty {
@@ -35,8 +35,8 @@ extension EQDetectiveLevel {
     
     // MARK: - Level Constuctors
     
-    static var levels: [EQDetectiveLevel] {
-        var result = [EQDetectiveLevel]()
+    static var levels: [EQDLevel] {
+        var result = [EQDLevel]()
         let context = CoreDataManager.shared.container.viewContext
         for source in AudioSource.allSources(context: context) {
             for focus in BandFocus.allCases {
@@ -44,7 +44,7 @@ extension EQDetectiveLevel {
                     let scores = starScores(for: difficulty)
                     let q = qValue(for: difficulty)
                     for gain in gainValues(for: difficulty) {
-                        result.append(EQDetectiveLevel(levelNumber: result.count,
+                        result.append(EQDLevel(levelNumber: result.count,
                                                        audioSourceID: source.id,
                                                        starScores: scores,
                                                        filterGainDB: gain,

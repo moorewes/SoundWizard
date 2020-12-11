@@ -15,7 +15,7 @@ class EQDetectiveGame: StandardGame {
     
     // MARK: - Constants
     
-    let testMode = false // TODO: - Remove for production
+    let testMode = true // TODO: - Remove for production
     
     let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
@@ -45,7 +45,7 @@ class EQDetectiveGame: StandardGame {
                 lives.update(for: success)
                 scoreMultiplier.update(for: success)
             } else {
-                conductor.set(filterFreq: turn.solution)
+                gameConductor.set(filterFreq: turn.solution)
                 filterOnState = 1
             }
         }
@@ -54,19 +54,20 @@ class EQDetectiveGame: StandardGame {
     @Published var filterOnState: Int = 1 {
         didSet {
             let bypass = filterOnState == 0
-            conductor.setFilterBypass(bypass)
+            gameConductor.setFilterBypass(bypass)
         }
     }
     
     // MARK: Internal
     
     var level: EQDetectiveLevel
-    var conductor: EQDetectiveConductor
+    var gameConductor: EQDetectiveConductor
+    var masterConductor = Conductor.master
     var lives: Lives
     var scoreMultiplier: ScoreMultiplier
         
     var muted: Bool {
-        conductor.isMuted
+        gameConductor.isMuted
     }
     
     var showResultsView: Bool {
@@ -107,7 +108,7 @@ class EQDetectiveGame: StandardGame {
         
         lives = Lives()
         
-        conductor = EQDetectiveConductor(source: level.audioSource,
+        gameConductor = EQDetectiveConductor(source: level.audioMetadata[0],
                                              filterGainDB: level.filterGainDB,
                                              filterQ: level.filterQ)
         
@@ -117,14 +118,17 @@ class EQDetectiveGame: StandardGame {
     // MARK: - Intents
     
     func start() {
-        conductor.startPlaying()
+        gameConductor.startPlaying()
         startNewTurn()
     }
     
     func finish() {
-        conductor.stopPlaying(fade: true)
-        level.updateProgress(score: score)
+        level.progress?.scores.append(score)
         gameViewState = .gameCompleted
+    }
+    
+    func stopAudio() {
+        gameConductor.stopPlaying()        
     }
     
     func submitGuess() {

@@ -20,7 +20,7 @@ struct LevelCellView: View {
                     
                     Spacer()
                     
-                    Text("\(level.audioSource.name)")
+                    Text(level.audioSourceDescription)
                         .font(.mono(.footnote))
                         .foregroundColor(.teal)
                         .multilineTextAlignment(.center)
@@ -43,7 +43,7 @@ struct LevelCellView: View {
         return HStack {
         
             ForEach(0..<3) { i in
-                Star(filled: level.progress.starsEarned > i, animated: false)
+                Star(filled: level.starsEarned > i, animated: false)
                     .font(.system(size: 12))
             }
         }
@@ -58,7 +58,7 @@ struct LevelCellView: View {
 
 struct LevelCellView_Previews: PreviewProvider {
     static var previews: some View {
-        LevelCellView(level: EQDetectiveLevel.level(3)!)
+        LevelCellView(level: EQDetectiveLevel.level(3))
             .frame(width: 80, height: 80, alignment: .center)
             .preferredColorScheme(.dark)
             

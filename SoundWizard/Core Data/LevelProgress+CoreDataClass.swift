@@ -16,21 +16,36 @@ public class LevelProgress: NSManagedObject {
         return scores.sorted().last
     }
     
-    func updateStarsEarned(starScores: [Int]) {
-        guard let topScore = self.topScore else {
-            starsEarned = 0
-            return
-        }
-        
-        if topScore >= starScores[2] {
-            starsEarned = 3
-        } else if topScore >= starScores[1] {
-            starsEarned = 2
-        } else if topScore >= starScores[0] {
-            starsEarned = 1
-        } else {
-            starsEarned = 0
-        }
+    var scores: [Int] {
+        get { scores_ ?? [] }
+        set { scores_ = newValue }
     }
+    
+    var starsEarned: Int {
+        0
+    }
+    
+
+    
+//    var starsEarnedOnLastRound: Int {
+//        
+//    }
+        
+//    func updateStarsEarned(starScores: [Int]) {
+//        guard let topScore = self.topScore else {
+//            starsEarned = 0
+//            return
+//        }
+//        
+//        if topScore >= starScores[2] {
+//            starsEarned = 3
+//        } else if topScore >= starScores[1] {
+//            starsEarned = 2
+//        } else if topScore >= starScores[0] {
+//            starsEarned = 1
+//        } else {
+//            starsEarned = 0
+//        }
+//    }
         
 }

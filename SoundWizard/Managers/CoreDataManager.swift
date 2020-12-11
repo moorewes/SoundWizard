@@ -51,13 +51,13 @@ class CoreDataManager {
     func progress(for level: Level) -> LevelProgress {
         let fetchRequest: NSFetchRequest<LevelProgress> = LevelProgress.fetchRequest()
         let gamePredicate = NSPredicate(format: "gameID == %ld", level.game.id)
-        let levelPredicate = NSPredicate(format: "level == %ld", level.levelNumber)
+        let levelPredicate = NSPredicate(format: "level == %ld", level.number)
         let andPredicate = NSCompoundPredicate(type: .and, subpredicates: [gamePredicate, levelPredicate])
         fetchRequest.predicate = andPredicate
         
         do {
             let objects = try container.viewContext.fetch(fetchRequest)
-            return objects.first ?? createProgress(for: level)
+            return objects.first!// ?? createProgress(for: level)
         } catch {
             fatalError("Failed to fetch entities: \(error)")
         }
@@ -83,13 +83,11 @@ class CoreDataManager {
         }
     }
     
-    private func createProgress(for level: Level) -> LevelProgress {
-        let progress = LevelProgress(context: container.viewContext)
-        progress.gameID = level.game.id
-        progress.level = level.levelNumber
-        progress.gameName = level.game.name
-        
-        return progress
-    }
+//    private func createProgress(for level: LevelModel) -> LevelProgress {
+//        let progress = LevelProgress(context: container.viewContext)
+//        progress.level = level.levelNumber
+//
+//        return progress
+//    }
     
 }

@@ -81,11 +81,11 @@ struct EQDetectiveInstructionView: View {
     
 }
 
-
-struct EQDetectiveInstructionView_Previews: PreviewProvider {
-    static var previews: some View {
-        EQDetectiveInstructionView(level: EQDetectiveLevel.level(1)!)
-            .preferredColorScheme(.dark)
-            .foregroundColor(.lightGray)
-    }
-}
+//
+//struct EQDetectiveInstructionView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EQDetectiveInstructionView(level: EQDetectiveLevel.level(1)!)
+//            .preferredColorScheme(.dark)
+//            .foregroundColor(.lightGray)
+//    }
+//}

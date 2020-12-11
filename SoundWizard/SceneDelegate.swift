@@ -20,7 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: AllGamesView())
+            let context = CoreDataManager.shared.container.viewContext
+            window.rootViewController = UIHostingController(rootView: AllGamesView().environment(\.managedObjectContext, context))
             //window.rootViewController = UIHostingController(rootView: FSlider())
             self.window = window
             window.makeKeyAndVisible()

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AudioFileFetcher {
-    func url(for source: AudioSource) -> URL
+    func url(for source: AudioMetadata) -> URL
 }
 
 protocol DefaultsStore {
@@ -54,9 +54,10 @@ class AudioFileManager: AudioFileFetcher {
         performInitialSetupIfNeeded()
     }
     
-    func url(for source: AudioSource) -> URL {
-        let dir = source.isUserImport ? userDirectoryURL : stockDirectoryURL
-        return dir.appendingPathComponent(source.filenameWithExt, isDirectory: false)
+    func url(for metaData: AudioMetadata) -> URL {
+        
+        let dir = metaData.isStock ? stockDirectoryURL : userDirectoryURL
+        return dir.appendingPathComponent(metaData.filename, isDirectory: false)
     }
 
 }
@@ -151,9 +152,8 @@ extension AudioFileManager {
                 let source = AudioSource(context: context)
                 source.id = file.id
                 source.name = file.name
-                source.filename = file.filename
-                source.fileExtension = file.fileExtension
-                source.isUserImport = false
+                source.filename = file.fullFilename
+                source.isStock = true
             }
             
             do {

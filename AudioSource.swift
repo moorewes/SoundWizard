@@ -2,21 +2,28 @@
 //  AudioSource+CoreDataClass.swift
 //  SoundWizard
 //
-//  Created by Wes Moore on 12/9/20.
+//  Created by Wes Moore on 12/10/20.
 //
 //
 
 import Foundation
 import CoreData
 
+protocol AudioMetadata {
+    var name: String { get }
+    var filename: String { get }
+    var isStock: Bool { get }
+    var url: URL { get }
+}
+
 @objc(AudioSource)
-public class AudioSource: NSManagedObject, Identifiable {
+public class AudioSource: NSManagedObject, AudioMetadata {
     
     private var fileFetcher: AudioFileFetcher = AudioFileManager.shared
     
-    public var id: Int {
-        get { return Int(id_) }
-        set { id_ = Int64(newValue) }
+    public var id: String {
+        get { return id_! }
+        set { id_ = newValue }
     }
     
     var name: String {
@@ -24,31 +31,24 @@ public class AudioSource: NSManagedObject, Identifiable {
         set { name_ = newValue }
     }
     
-    var url: URL {
-        fileFetcher.url(for: self)
-    }
-    
     var filename: String {
         get { return filename_! }
         set { filename_ = newValue }
     }
     
-    var fileExtension: String {
-        get { return fileExtension_! }
-        set { fileExtension_ = newValue }
+    var url: URL {
+        fileFetcher.url(for: self)
     }
     
-    var filenameWithExt: String {
-        return filename + "." + fileExtension
-    }
-
 }
+
+// MARK: - Fetching
 
 extension AudioSource {
     
-    static func source(id: Int, context: NSManagedObjectContext) -> AudioSource? {
+    static func source(id: String, context: NSManagedObjectContext) -> AudioSource? {
         let request: NSFetchRequest<AudioSource> = AudioSource.fetchRequest()
-        request.predicate = NSPredicate(format: "id_ == %ld", id)
+        request.predicate = NSPredicate(format: "id_ == %@", id)
         do {
             let source = try context.fetch(request)
             return source.first
@@ -69,18 +69,4 @@ extension AudioSource {
         }
     }
     
-}
-
-extension AudioSource {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<AudioSource> {
-        return NSFetchRequest<AudioSource>(entityName: "AudioSource")
-    }
-
-    @NSManaged private var fileExtension_: String?
-    @NSManaged private var filename_: String?
-    @NSManaged private var id_: Int64
-    @NSManaged public var isUserImport: Bool
-    @NSManaged public var name_: String?
-
 }

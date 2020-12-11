@@ -74,7 +74,8 @@
 		DE8BA67C25801F01004090E3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8BA67B25801F01004090E3 /* MainTabView.swift */; };
 		DE8BA68425802046004090E3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8BA68325802046004090E3 /* HomeView.swift */; };
 		DE8BA689258027FE004090E3 /* LevelsHorizontalList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8BA688258027FE004090E3 /* LevelsHorizontalList.swift */; };
-		DE9628852581EE5A00474D32 /* AudioSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9628832581EE5A00474D32 /* AudioSource.swift */; };
+		DE90674225830485003FA9B5 /* AudioSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE90674025830485003FA9B5 /* AudioSource.swift */; };
+		DE90675525830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE90675325830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift */; };
 		DE9CE84D25758F2D0023806C /* BandFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE84C25758F2D0023806C /* BandFocus.swift */; };
 		DE9CE8622575EBB10023806C /* LevelDifficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE8512575E9690023806C /* LevelDifficulty.swift */; };
 		DE9CE86A2575FC1C0023806C /* ScoreSuccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE8692575FC1C0023806C /* ScoreSuccess.swift */; };
@@ -94,7 +95,6 @@
 		DEBEDC4C25671D630019165E /* TurnResult_Perfect.wav in Resources */ = {isa = PBXBuildFile; fileRef = DEBEDC4825671D630019165E /* TurnResult_Perfect.wav */; };
 		DEBEDC51256737D40019165E /* MovingCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBEDC50256737D40019165E /* MovingCounter.swift */; };
 		DEBEF01B2551D33D0095134B /* LevelProgress+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBEF0192551D33D0095134B /* LevelProgress+CoreDataClass.swift */; };
-		DEBEF01C2551D33D0095134B /* LevelProgress+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBEF01A2551D33D0095134B /* LevelProgress+CoreDataProperties.swift */; };
 		DEBEF0212551D3C70095134B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBEF0202551D3C70095134B /* CoreDataManager.swift */; };
 		DEBF5CE2254A49A200818B86 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBF5CE1254A49A200818B86 /* Extensions.swift */; };
 		DEC1862F254A399D00D730CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1862E254A399D00D730CC /* AppDelegate.swift */; };
@@ -121,7 +121,7 @@
 		DEDABC31256F60790090589C /* Cry.wav in Resources */ = {isa = PBXBuildFile; fileRef = DEDABC2C256F60790090589C /* Cry.wav */; };
 		DEDABC39256F714D0090589C /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEDABC38256F714D0090589C /* FrequencyTests.swift */; };
 		DEE39BC7254B39E6003C2DE4 /* ScoreFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE39BC6254B39E6003C2DE4 /* ScoreFeedback.swift */; };
-		DEEBE14A25507CC8001D9002 /* EQDetectiveLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEBE14925507CC8001D9002 /* EQDetectiveLevel.swift */; };
+		DEEBE14A25507CC8001D9002 /* EQDLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEBE14925507CC8001D9002 /* EQDLevel.swift */; };
 		DEF3FE552564AA1700E90FCC /* EQDetectiveInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF3FE542564AA1700E90FCC /* EQDetectiveInstructionView.swift */; };
 /* End PBXBuildFile section */
 
@@ -215,7 +215,8 @@
 		DE8BA67B25801F01004090E3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		DE8BA68325802046004090E3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		DE8BA688258027FE004090E3 /* LevelsHorizontalList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsHorizontalList.swift; sourceTree = "<group>"; };
-		DE9628832581EE5A00474D32 /* AudioSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSource.swift; sourceTree = SOURCE_ROOT; };
+		DE90674025830485003FA9B5 /* AudioSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSource.swift; sourceTree = SOURCE_ROOT; };
+		DE90675325830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQDetectiveLevel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DE9CE84C25758F2D0023806C /* BandFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandFocus.swift; sourceTree = "<group>"; };
 		DE9CE8512575E9690023806C /* LevelDifficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelDifficulty.swift; sourceTree = "<group>"; };
 		DE9CE8692575FC1C0023806C /* ScoreSuccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSuccess.swift; sourceTree = "<group>"; };
@@ -235,7 +236,6 @@
 		DEBEDC4825671D630019165E /* TurnResult_Perfect.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = TurnResult_Perfect.wav; sourceTree = "<group>"; };
 		DEBEDC50256737D40019165E /* MovingCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingCounter.swift; sourceTree = "<group>"; };
 		DEBEF0192551D33D0095134B /* LevelProgress+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LevelProgress+CoreDataClass.swift"; sourceTree = "<group>"; };
-		DEBEF01A2551D33D0095134B /* LevelProgress+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LevelProgress+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DEBEF0202551D3C70095134B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		DEBF5CE1254A49A200818B86 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DEC1862B254A399D00D730CC /* SoundWizard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoundWizard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,7 +268,7 @@
 		DEDABC2C256F60790090589C /* Cry.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Cry.wav; sourceTree = "<group>"; };
 		DEDABC38256F714D0090589C /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		DEE39BC6254B39E6003C2DE4 /* ScoreFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreFeedback.swift; sourceTree = "<group>"; };
-		DEEBE14925507CC8001D9002 /* EQDetectiveLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveLevel.swift; sourceTree = "<group>"; };
+		DEEBE14925507CC8001D9002 /* EQDLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDLevel.swift; sourceTree = "<group>"; };
 		DEF3FE542564AA1700E90FCC /* EQDetectiveInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveInstructionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -354,10 +354,10 @@
 		DE2E519F257D70F500F47DEE /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				DE9628832581EE5A00474D32 /* AudioSource.swift */,
+				DE90675325830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift */,
+				DE90674025830485003FA9B5 /* AudioSource.swift */,
 				DEC18637254A399D00D730CC /* SoundWizard.xcdatamodeld */,
 				DEBEF0192551D33D0095134B /* LevelProgress+CoreDataClass.swift */,
-				DEBEF01A2551D33D0095134B /* LevelProgress+CoreDataProperties.swift */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -653,7 +653,7 @@
 		DEEBE14325507C7E001D9002 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DEEBE14925507CC8001D9002 /* EQDetectiveLevel.swift */,
+				DEEBE14925507CC8001D9002 /* EQDLevel.swift */,
 				DEAC409B2553573800A20C78 /* EQDetectiveLevel+Levels.swift */,
 				DEC18669254A39C800D730CC /* EQDetectiveTurn.swift */,
 			);
@@ -845,7 +845,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE2E51D7257DAC4500F47DEE /* GameStatusPublisher.swift in Sources */,
-				DE9628852581EE5A00474D32 /* AudioSource.swift in Sources */,
+				DE90674225830485003FA9B5 /* AudioSource.swift in Sources */,
 				DEF3FE552564AA1700E90FCC /* EQDetectiveInstructionView.swift in Sources */,
 				DE364B5D255DF997006C9EC8 /* FrequencySlider.swift in Sources */,
 				DE70709D255F5BEB0068B808 /* LevelsView.swift in Sources */,
@@ -853,7 +853,6 @@
 				DE79EC9D2559E63900515824 /* EQDetectiveGameplayView.swift in Sources */,
 				DEBEDC51256737D40019165E /* MovingCounter.swift in Sources */,
 				DE624AE5258192A200253D83 /* ImportedAudioView.swift in Sources */,
-				DEBEF01C2551D33D0095134B /* LevelProgress+CoreDataProperties.swift in Sources */,
 				DEBEF01B2551D33D0095134B /* LevelProgress+CoreDataClass.swift in Sources */,
 				DE8BA689258027FE004090E3 /* LevelsHorizontalList.swift in Sources */,
 				DE8BA67C25801F01004090E3 /* MainTabView.swift in Sources */,
@@ -874,7 +873,7 @@
 				DE9CE84D25758F2D0023806C /* BandFocus.swift in Sources */,
 				DE624AE02581774200253D83 /* GeneralSettingsView.swift in Sources */,
 				DE2E51D2257DABF900F47DEE /* Lives.swift in Sources */,
-				DEEBE14A25507CC8001D9002 /* EQDetectiveLevel.swift in Sources */,
+				DEEBE14A25507CC8001D9002 /* EQDLevel.swift in Sources */,
 				DE60C1B4256F287D00CB20C8 /* StatusBar.swift in Sources */,
 				DE6DB1102579BFE9004D654B /* PostGameView.swift in Sources */,
 				DEA119F6257987EC00F17FCC /* Scratchpad.swift in Sources */,
@@ -890,6 +889,7 @@
 				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
 				DE6DB1152579D656004D654B /* GameConductor.swift in Sources */,
 				DE8BA68425802046004090E3 /* HomeView.swift in Sources */,
+				DE90675525830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift in Sources */,
 				DE60C19B256F117300CB20C8 /* Octave.swift in Sources */,
 				DE5531482578572C007E4B3C /* Star.swift in Sources */,
 				DEBB785C257F1E8E000B9064 /* FrequencyGraph.swift in Sources */,

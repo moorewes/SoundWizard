@@ -6,15 +6,23 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct LevelsView: View {
     
     @ObservedObject var manager: LevelsViewModel
     @State var difficultySelection: Int = 1
     @State var gainTypeSelection: Int = 1
+    
+    @FetchRequest var levels: FetchedResults<EQDetectiveLevel>
         
     init(game: Game) {
         manager = LevelsViewModel(game: game)
+        
+        let request: NSFetchRequest<EQDetectiveLevel> = EQDetectiveLevel.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "difficulty_", ascending: true)]
+        _levels = FetchRequest(fetchRequest: request)
+        
         setupPicker()
     }
     
@@ -52,7 +60,7 @@ struct LevelsView: View {
                                                     
                 ForEach(BandFocus.allCases) { focus in
                     let gainType = showGainTypePicker ? gainTypeSelection : 1
-                    let levels = manager.levels(focus: focus,
+                    let levels = self.levels(focus: focus,
                                                 difficulty: selectedDifficulty,
                                                 gainType: gainType)
                     
@@ -99,6 +107,14 @@ struct LevelsView: View {
     
     private func gameShellView(for level: Level) -> some View {
         return GameShellView(isPresented: $manager.showLevel, level: level)
+    }
+    
+    private func levels(focus: BandFocus, difficulty: LevelDifficulty, gainType: Int) -> [EQDetectiveLevel] {
+        levels.filter {
+            $0.bandFocus == focus &&
+            $0.difficulty == difficulty &&
+            (gainType == 1) == ($0.filterGainDB > 0)
+        }
     }
     
     private func setupPicker() {

@@ -27,14 +27,14 @@ class LevelsViewModel: ObservableObject {
         levels.filter {
             $0.bandFocus == focus &&
             $0.difficulty == difficulty &&
-            (gainType == 1) == $0.filterIsBoost
+            (gainType == 1) == ($0.filterGainDB > 0)
         }
     }
     
     func starProgress(levels: [EQDetectiveLevel]) -> String {
         let total = levels.count * 3
         let earned = levels.reduce(0) { (count, level) in
-            count + level.progress.starsEarned
+            count + level.starsEarned
         }
         return "\(earned)/\(total)"
     }

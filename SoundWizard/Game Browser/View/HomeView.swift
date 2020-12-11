@@ -33,13 +33,8 @@ class HomeViewManager: ObservableObject {
     
     // TODO: Implement real algorithm
     func generateDailyLevels() {
-        let levelCount = EQDetectiveLevel.levels.count
-        let numbers: [Int] = [0, 0, 0].map { Int.random(in: $0..<levelCount) }
-        dailyLevels = [
-            EQDetectiveLevel.levels[numbers[0]],
-            EQDetectiveLevel.levels[numbers[1]],
-            EQDetectiveLevel.levels[numbers[2]]
-        ]
+        let predicate = NSPredicate(format: "number < 4")
+        dailyLevels = EQDetectiveLevel.levels(matching: predicate)
     }
     
 }
@@ -47,7 +42,7 @@ class HomeViewManager: ObservableObject {
 struct HomeView: View {
     
     @ObservedObject var manager = HomeViewManager()
-    
+        
     var body: some View {
         
         ScrollView() {

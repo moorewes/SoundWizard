@@ -12,7 +12,7 @@ class Conductor {
     
     // MARK: - Shared Instance
     
-    static let shared = Conductor()
+    static let master = Conductor()
     
     // MARK: - Properties
     
@@ -43,6 +43,9 @@ class Conductor {
     // MARK: Internal
     
     func start() {
+        guard !engine.avEngine.isRunning else { return }
+        
+        engine.avEngine.prepare()
         do {
             try engine.start()
         } catch let err {
@@ -51,18 +54,17 @@ class Conductor {
         }
     }
     
-    func stop() {
-        self.engine.stop()
+    func pauseEngine() {
+        self.engine.avEngine.pause()
+        print("pausing")
     }
     
     func endGame() {
-        fadeOut {
-            self.disconnectGameConductor()
-        }
+        pauseEngine()
+        disconnectGameConductor()
     }
     
-    // FIXME: Won't play audio after quit game
-    func start(with gameConductor: GameConductor) {
+    func patchIn(_ gameConductor: GameConductor) {
         mixer.addInput(gameConductor.outputFader)
         self.gameConductor = gameConductor
         start()
@@ -74,6 +76,9 @@ class Conductor {
     }
     
     func fireWinStarFeedback(star: Int) {
+        if !engine.avEngine.isRunning {
+            start()
+        }
         let buffer = fxManager.buffer(for: star)
         play(buffer)
     }
@@ -95,9 +100,11 @@ class Conductor {
     }
     
     private func disconnectGameConductor() {
-        gameConductor?.stopPlaying(fade: false)
         if let node = self.gameConductor?.outputFader {
             self.mixer.removeInput(node)
+            print("removed game node")
+        } else {
+            print("no node to remove")
         }
         gameConductor = nil
     }

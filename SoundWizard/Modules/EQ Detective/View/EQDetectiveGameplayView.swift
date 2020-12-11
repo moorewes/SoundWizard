@@ -45,6 +45,9 @@ struct EQDetectiveGameplayView: View {
                 .onAppear {
                     game.start()
                 }
+                .onDisappear() {
+                    game.stopAudio()
+                }
                 
             }
     }
@@ -132,9 +135,9 @@ struct EQDetectiveGameplayView: View {
     
 }
 
-struct GameplayView_Previews: PreviewProvider {
-    static var previews: some View {
-        EQDetectiveGameplayView(level: EQDetectiveLevel.level(0)!, gameViewState: .constant(.inGame))
-            .previewDevice("iPhone 12 Pro")
-    }
-}
+//struct GameplayView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EQDetectiveGameplayView(level: EQDetectiveLevel.level(0)!, gameViewState: .constant(.inGame))
+//            .previewDevice("iPhone 12 Pro")
+//    }
+//}

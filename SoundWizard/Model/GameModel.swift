@@ -17,7 +17,7 @@ protocol GameModel: ObservableObject, GameStatusPublisher {
     
     var gameViewState: GameViewState { get set }
     var level: LevelType { get set }
-    var conductor: ConductorType { get set }
+    var gameConductor: ConductorType { get set }
     
     init(level: LevelType, gameViewState: Binding<GameViewState>)
     
@@ -32,7 +32,7 @@ extension GameModel where Self: TurnBased {
             fatalError("Couldn't find score to fire feedback)")
         }
         
-        Conductor.shared.fireScoreFeedback(successLevel: successLevel)
+        Conductor.master.fireScoreFeedback(successLevel: successLevel)
         HapticGenerator.main.fire(successLevel: successLevel)
     }
     

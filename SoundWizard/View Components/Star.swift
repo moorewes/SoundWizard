@@ -40,7 +40,7 @@ struct Star: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + animationDelay) {
                     self.readyToAnimate = true
                     if let number = self.number {
-                        Conductor.shared.fireWinStarFeedback(star: number)
+                        Conductor.master.fireWinStarFeedback(star: number)
                     }
                 }
             }

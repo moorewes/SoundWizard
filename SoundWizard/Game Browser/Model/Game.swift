@@ -25,14 +25,14 @@ enum Game: Int, CaseIterable, Identifiable {
     var levels: [Level] {
         switch self {
         case .eqDetective:
-            return EQDetectiveLevel.levels
+            return EQDetectiveLevel.levels()
         }
     }
     
     var starProgress: (total: Int, earned: Int) {
         let total = self.levels.count * Game.starCount
         let earned = self.levels.reduce(0) { (tally, level) in
-            tally + level.progress.starsEarned
+            tally + level.starsEarned
         }
         
         return (total, earned)
