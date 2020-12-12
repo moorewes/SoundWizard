@@ -19,45 +19,41 @@ struct AllGamesView: View {
     }
     
     var body: some View {
-        ZStack {
-            
-            Color(.darkGray)
-                .ignoresSafeArea()
-            
-            NavigationView {
-                List {
-                    ForEach(games) { game in
-                        NavigationLink(
-                            destination: LevelsView(game: .eqDetective),
-                            label: {
-                                HStack {
-                                    Text(game.name)
-                                        .font(.std(.headline))
-                                        .foregroundColor(.teal)
-                                        .padding(.vertical, 30)
-                                    
-                                    Spacer()
-                                    
-                                    Star(filled: true, animated: false)
-                                        .font(.system(size: 14))
-                                    
-                                    Text(manager.starProgress(game: game))
-                                        .font(.mono(.subheadline))
-                                        .foregroundColor(.lightGray)
-                                        .padding(.trailing, 15)
-                                }
-                            })
-                    }
-                    .listRowBackground(Color.listRowBackground)
-                
+        NavigationView {
+            List {
+                ForEach(games) { game in
+                    NavigationLink(
+                        destination: LevelsView(game: .eqDetective),
+                        label: {
+                            gameCell(game)
+                        })
                 }
-                .listStyle(InsetGroupedListStyle())
-                .navigationBarTitle("Games", displayMode: .inline)
-                .navigationBarItems(trailing: settingsButton)
+                .listRowBackground(Color.listRowBackground)
+                
             }
+            .listStyle(InsetGroupedListStyle())
+            .navigationBarTitle("Games", displayMode: .inline)
+            .navigationBarItems(trailing: settingsButton)
+        }
+
+    }
+    
+    private func gameCell(_ game: Game) -> some View {
+        HStack {
+            Text(game.name)
+                .font(.std(.headline))
+                .foregroundColor(.teal)
+                .padding(.vertical, 30)
             
+            Spacer()
             
+            Star(filled: true, animated: false)
+                .font(.system(size: 14))
             
+            Text(manager.starProgress(game: game))
+                .font(.mono(.subheadline))
+                .foregroundColor(.lightGray)
+                .padding(.trailing, 15)
         }
     }
     

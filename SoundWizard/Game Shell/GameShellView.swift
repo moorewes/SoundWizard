@@ -9,15 +9,11 @@ import SwiftUI
 
 struct GameShellView: View {
     
+    var level: Level
+    
     @Binding var isPresented: Bool
+    @State var gameViewState: GameViewState = .preGame
     @State var showInfoView = false
-    
-    @ObservedObject var manager: GameShellManager
-    
-    init(isPresented: Binding<Bool>, level: Level) {
-        _isPresented = isPresented
-        self.manager = GameShellManager(level: level)
-    }
         
     var body: some View {
         ZStack {
@@ -27,14 +23,12 @@ struct GameShellView: View {
             VStack {
                 navBar
                 
-                if manager.gameViewState == .inGame {
+                if gameViewState == .inGame {
                     gameplayView()
-                } else if manager.gameViewState == .gameCompleted {
-                    PostGameView(manager: manager,
-                                 prevTopScore: manager.topScoreAtGameStart,
-                                 newTopScore: manager.topScore)
+                } else if gameViewState == .gameCompleted {
+                    PostGameView(level: level, gameViewState: $gameViewState)
                 } else {
-                    //PreGameView(manager: manager)
+                    PreGameView(level: level, gameViewState: $gameViewState)
                 }
 
             }
@@ -51,8 +45,8 @@ struct GameShellView: View {
     var navBar: some View {
         HStack {
             Button(quitText) {
-                if manager.gameViewState == .inGame {
-                    manager.quitGame()
+                if gameViewState == .inGame {
+                    gameViewState = .gameQuitted
                 } else {
                     isPresented = false
                 }
@@ -62,7 +56,7 @@ struct GameShellView: View {
             
             Spacer()
             
-            Text("Level \(manager.level.number)")
+            Text("Level \(level.number)")
                 .foregroundColor(.teal)
                 .font(.mono(.headline))
             
@@ -85,8 +79,8 @@ struct GameShellView: View {
     
     @ViewBuilder
     func gameplayView() -> some View {
-        if let level = self.manager.level as? EQDetectiveLevel {
-            EQDetectiveGameplayView(level: level, gameViewState: $manager.gameViewState)
+        if let level = level as? EQDetectiveLevel {
+            EQDetectiveGameplayView(level: level, gameViewState: $gameViewState)
         } else {
             Text("no game found")
         }
@@ -97,7 +91,7 @@ struct GameShellView: View {
     }
     
     var infoButtonImageName: String {
-        if manager.gameViewState == .inGame {
+        if gameViewState == .inGame {
             return "gearshape.fill"
         } else {
             return "info.circle"
@@ -105,7 +99,7 @@ struct GameShellView: View {
     }
     
     var quitText: String {
-        switch manager.gameViewState {
+        switch gameViewState {
         case .inGame:
             return "Quit"
         default:
@@ -119,6 +113,6 @@ struct GameShellView: View {
 
 struct EQDetectiveShellView_Previews: PreviewProvider {
     static var previews: some View {
-        GameShellView(isPresented: .constant(true), level: TestLevel())
+        GameShellView(level: TestLevel(), isPresented: .constant(true))
     }
 }

@@ -34,8 +34,9 @@ struct Star: View {
                 axis: (x: 0.0, y: shouldFill ? 1.0 : 0, z: 0.0)
             )
             .animation(animated ? .spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0) : nil)
-            .pulse(active: shouldAnimate, duration: pulseAnimationDuration)
+            .pulse(active: shouldAnimate, duration: pulseAnimationDuration + 5)
             .onAppear {
+                //print("star \(number) appeared, animated: \(animated) shouldFill: \(shouldFill)")
                 guard animated else { return }
                 DispatchQueue.main.asyncAfter(deadline: .now() + animationDelay) {
                     self.readyToAnimate = true

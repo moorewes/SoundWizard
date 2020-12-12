@@ -25,7 +25,7 @@ enum Game: Int, CaseIterable, Identifiable {
     var levels: [Level] {
         switch self {
         case .eqDetective:
-            return EQDetectiveLevel.levels()
+            return EQDetectiveLevel.levels(context: CoreDataManager.shared.container.viewContext)
         }
     }
     

@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
+import CoreData
 
 class HomeViewManager: ObservableObject {
-    
-    var dailyLevels: [Level] = []
-    
+        
     @Published var selectedLevel: Level? {
         didSet {
             showLevel = selectedLevel != nil
@@ -18,6 +17,10 @@ class HomeViewManager: ObservableObject {
     }
     
     @Published var showLevel = false
+    
+    var dailyLevelFetchPredicate: NSPredicate {
+        NSPredicate(format: "number < 4")
+    }
     
     func select(_ level: Level) {
         selectedLevel = level
@@ -28,13 +31,6 @@ class HomeViewManager: ObservableObject {
     }
     
     init() {
-        generateDailyLevels()
-    }
-    
-    // TODO: Implement real algorithm
-    func generateDailyLevels() {
-        let predicate = NSPredicate(format: "number < 4")
-        dailyLevels = EQDetectiveLevel.levels(matching: predicate)
     }
     
 }
@@ -42,6 +38,14 @@ class HomeViewManager: ObservableObject {
 struct HomeView: View {
     
     @ObservedObject var manager = HomeViewManager()
+    @FetchRequest var dailyLevels: FetchedResults<EQDetectiveLevel>
+    
+    init() {
+        let request: NSFetchRequest<EQDetectiveLevel> = EQDetectiveLevel.fetchRequest()
+        request.predicate = NSPredicate(format: "number_ < 4")
+        request.sortDescriptors = [NSSortDescriptor(key: "number_", ascending: true)]
+        _dailyLevels = FetchRequest(fetchRequest: request)
+    }
         
     var body: some View {
         
@@ -51,7 +55,7 @@ struct HomeView: View {
                 Text("Today's Practice")
                     .font(.std(.title2))
                     .foregroundColor(.teal)
-                LevelsHorizontalList(levels: manager.dailyLevels) { level in
+                LevelsHorizontalList(levels: dailyLevels.map { $0 }) { level in
                     manager.select(level)
                 }
                 
@@ -62,15 +66,15 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $manager.showLevel, onDismiss: {
             manager.dismissLevel()
         }, content: {
-            GameShellView(isPresented: $manager.showLevel, level: manager.selectedLevel!)
+            GameShellView(level: manager.selectedLevel!, isPresented: $manager.showLevel)
         })
         
     }
     
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView()
+//    }
+//}

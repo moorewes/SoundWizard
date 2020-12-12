@@ -12,7 +12,7 @@ import CoreData
 @objc(EQDetectiveLevel)
 public class EQDetectiveLevel: NSManagedObject {
     
-    let game = Game.eqDetective
+    static let game = Game.eqDetective
         
     var bandFocus: BandFocus {
         get { BandFocus(rawValue: Int(bandFocus_))! }
@@ -32,10 +32,11 @@ public class EQDetectiveLevel: NSManagedObject {
 
 }
 
+// MARK: - Fetches
+
 extension EQDetectiveLevel {
     
-    static func levels(matching predicate: NSPredicate? = nil, context: NSManagedObjectContext? = nil) -> [EQDetectiveLevel] {
-        let context = context != nil ? context! : CoreDataManager.shared.container.viewContext
+    static func levels(matching predicate: NSPredicate? = nil, context: NSManagedObjectContext) -> [EQDetectiveLevel] {
         let request: NSFetchRequest<EQDetectiveLevel> = EQDetectiveLevel.fetchRequest()
         request.predicate = predicate
         request.sortDescriptors = [NSSortDescriptor(key: "number_", ascending: true)]
@@ -59,12 +60,22 @@ extension EQDetectiveLevel {
         
 }
 
+// MARK: - Level Conformance
 
 extension EQDetectiveLevel: Level {
     
     public var id: String {
         get { id_! }
         set { id_ = newValue}
+    }
+    
+    var scores: [Int] {
+        get { scores_ ?? [] }
+        set { scores_ = newValue }
+    }
+    
+    var game: Game {
+        Self.game
     }
     
     var audioMetadata: [AudioMetadata] {

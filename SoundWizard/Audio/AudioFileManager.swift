@@ -50,9 +50,7 @@ class AudioFileManager: AudioFileFetcher {
         userDocumentsURL.appendingPathComponent(DirectoryName.user)
     }
     
-    private init() {
-        performInitialSetupIfNeeded()
-    }
+    private init() {}
     
     func url(for metaData: AudioMetadata) -> URL {
         
@@ -87,7 +85,7 @@ extension AudioFileManager {
         set { defaults.setValue(newValue, forKey: DefaultsKeys.bundleFilesAreInDatabase) }
     }
     
-    private func performInitialSetupIfNeeded() {
+    func performInitialSetupIfNeeded() {
         if !directoriesAreSetup {
             directoriesAreSetup = createAllDirectories()
         }
@@ -145,26 +143,25 @@ extension AudioFileManager {
     
     private func addBundleFilesToDatabase(onCompletion handler: @escaping (Bool) -> Void ) {
         var succeeded = true
+        let context = CoreDataManager.shared.viewContext
         
-        CoreDataManager.shared.container.performBackgroundTask { context in
-            for file in BundleAudioFile.allFiles {
-                guard AudioSource.source(id: file.id, context: context) == nil else { continue }
-                let source = AudioSource(context: context)
-                source.id = file.id
-                source.name = file.name
-                source.filename = file.fullFilename
-                source.isStock = true
-            }
-            
-            do {
-                try context.save()
-            } catch {
-                print(error.localizedDescription)
-                succeeded = false
-            }
-            
-            handler(succeeded)
+        for file in BundleAudioFile.allFiles {
+            guard AudioSource.source(id: file.id, context: context) == nil else { continue }
+            let source = AudioSource(context: context)
+            source.id = file.id
+            source.name = file.name
+            source.filename = file.fullFilename
+            source.isStock = true
         }
+        
+        do {
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
+            succeeded = false
+        }
+        
+        handler(succeeded)
         
     }
     

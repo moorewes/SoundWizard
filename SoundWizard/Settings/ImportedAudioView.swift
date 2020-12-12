@@ -24,13 +24,7 @@ struct ImportedAudioView_Previews: PreviewProvider {
 
 class UserAudioManager: ObservableObject {
     
-   // @NSFetchRequest var audioSources: [AudioSource]
-    
-    //private var store: UserAudioStore
-    
-    init() {
- //       audioSources = []
-    }
+
     
 }
 

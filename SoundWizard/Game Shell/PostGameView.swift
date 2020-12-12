@@ -7,38 +7,12 @@
 
 import SwiftUI
 
-struct PlayButton: View {
-    @Binding var gameViewState: GameViewState
-    
-    var body: some View {
-        Button(action: {
-            gameViewState = .inGame
-        }, label: {
-            ZStack {
-                Rectangle()
-                    .foregroundColor(.teal)
-                    .cornerRadius(10)
-                    .frame(width: 200, height: 50, alignment: .center)
-                Text("PLAY")
-                    .font(.mono(.headline))
-                    .foregroundColor(.darkBackground)
-            }
-            
-        })
-    }
-}
-
 struct PostGameView: View {
     
-    @ObservedObject var manager: GameShellManager
+    var level: Level
+    @Binding var gameViewState: GameViewState
     @State var animated = false
-    
-    var prevTopScore: Int
-    var newTopScore: Int
-    
-    var willAnimate: Bool { newTopScore > prevTopScore }
-    var score: Int { manager.level.progress?.scores.last ?? 0 }
-    
+            
     var body: some View {
         
         VStack {
@@ -48,17 +22,15 @@ struct PostGameView: View {
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
         
-            Text(score.scoreString(digits: 4))
+            Text((level.scores.last ?? 0).scoreString(digits: 4))
                 .font(.mono(.largeTitle, sizeModifier: 16))
-                .transition(.opacity).animation(Animation.easeIn(duration: 4))
-
             
             Text("Top Score")
                 .font(.mono(.headline))
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
-        
-            MovingCounter(number: animated ? newTopScore : prevTopScore,
+            
+            MovingCounter(number: animated ? level.topScore : previousTopScore,
                                  font: .mono(.largeTitle, sizeModifier: 16),
                                  duration: 1.5)
             
@@ -67,16 +39,12 @@ struct PostGameView: View {
             
             Spacer()
             
-            PlayButton(gameViewState: $manager.gameViewState)
+            PlayButton(gameViewState: $gameViewState)
                 .padding(.bottom, 40)
-            
             
         }
         .onAppear {
-            if willAnimate {
-                animated = true
-            }
-            
+            animated = justEarnedTopScore
         }
         
     }
@@ -90,34 +58,48 @@ struct PostGameView: View {
     }
     
     private func star(number: Int) -> some View {
-        let earned = manager.level.starsEarned >= number
-        let justEarnedIndex = manager.starsJustEarned.firstIndex(of: number)
+        let justEarnedIndex = level.newStarsEarnedOnLastRound.firstIndex(of: number)
+        let isEarned = level.starsEarned >= number
         var animationDelay = 1.0
         if let index = justEarnedIndex {
             animationDelay += Double(index) * timeBetweenStarAnimations
-            print("will animate star \(number) after \(animationDelay) seconds")
         }
         let shouldAnimate = justEarnedIndex != nil
         return VStack {
-            Star(filled: earned, number: number, animated: shouldAnimate, animationDelay: animationDelay)
+            Star(filled: isEarned, number: number, animated: shouldAnimate, animationDelay: animationDelay)
                 .font(.system(size: 42))
                 .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
                         
-            Text("\(manager.level.starScores[number - 1])")
+            Text("\(level.starScores[number - 1])")
                 .foregroundColor(.teal)
                 .font(.mono(.headline))
         }
     }
     
-    private let timeBetweenStarAnimations = 0.2
+    private var previousTopScore: Int {
+        var scores = level.scores
+        guard !scores.isEmpty else { return 0 }
+        
+        scores.removeLast()
+        return scores.sorted().last ?? 0
+    }
+    
+    private var justEarnedTopScore: Bool {
+        level.topScore > previousTopScore
+    }
+    
+    private let timeBetweenStarAnimations = 0.3
     private let starAnimationDuration = 0.7
     
 }
-//
-//struct PostGameView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PostGameView(manager: GameShellManager(level: EQDetectiveLevel.level(2)!),
-//                     prevTopScore: 100, newTopScore: 200)
-//            .preferredColorScheme(.dark)
-//    }
-//}
+
+struct PostGameView_Previews: PreviewProvider {
+    static let level = TestLevel()
+    static var previews: some View {
+        PostGameView(level: level, gameViewState: .constant(.gameCompleted))
+            .preferredColorScheme(.dark)
+            .onAppear {
+                level.scores = []
+            }
+    }
+}

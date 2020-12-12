@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct PreGameView: View {
+    
+    var level: Level
+    @Binding var gameViewState: GameViewState
+    //@ObservedObject var manager: GameShellManager
         
-    @ObservedObject var manager: GameShellManager
-    var progress: LevelProgress?
-        
-    var shouldShowLastScore: Bool { manager.gameViewState == .gameCompleted }
+    var shouldShowLastScore: Bool { gameViewState == .gameCompleted }
                     
     var body: some View {
         ZStack {
@@ -47,7 +48,7 @@ struct PreGameView: View {
                 
                 Spacer()
                 
-                PlayButton(gameViewState: $manager.gameViewState)
+                PlayButton(gameViewState: $gameViewState)
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 40, trailing: 10))
                 
             }
@@ -56,11 +57,9 @@ struct PreGameView: View {
     }
     
     private var topScore: some View {
-        //let score = manager.newTopScore ?? manager.topScore
-        let score = progress?.topScore ?? 0
-        return MovingCounter(number: score,
-                             font: .mono(.largeTitle, sizeModifier: 16),
-                             duration: 1.5)
+        MovingCounter(number: level.topScore,
+                      font: .mono(.largeTitle, sizeModifier: 16),
+                      duration: 1.5)
     }
     
     private var stars: some View {
@@ -77,24 +76,13 @@ struct PreGameView: View {
     }
     
     private func star(number: Int) -> some View {
-        //let earned = manager.level.progress.starsEarned >= number
-        let justEarnedIndex = manager.starsJustEarned.firstIndex(of: number)
-        var earned = false
-        if let starsEarned = progress?.starsEarned { earned = starsEarned >= number }
-        
-        
-        var animationDelay = 0.0
-        if let index = justEarnedIndex {
-            animationDelay = Double(index) * timeBetweenStarAnimations
-            print("will animate star \(number) after \(animationDelay) seconds")
-        }
-        let shouldAnimate = justEarnedIndex != nil
+        let isEarned = level.starsEarned >= number
         return VStack {
-            Star(filled: earned, number: number, animated: shouldAnimate, animationDelay: animationDelay)
+            Star(filled: isEarned, number: number, animated: false)
                 .font(.system(size: 42))
                 .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
                         
-            Text("\(manager.level.starScores[number - 1])")
+            Text("\(level.starScores[number - 1])")
                 .foregroundColor(.teal)
                 .font(.mono(.headline))
         }
@@ -102,8 +90,8 @@ struct PreGameView: View {
     
     @ViewBuilder
     private func instructionView() -> some View {
-        if manager.level.game == .eqDetective {
-            EQDetectiveInstructionView(level: manager.level)
+        if level is EQDetectiveLevel {
+            EQDetectiveInstructionView(level: level)
         }
     }
     
@@ -116,6 +104,6 @@ struct PreGameView: View {
 struct EQDetectivePreGameView_Previews: PreviewProvider {
     static let manager = GameShellManager(level: TestLevel())
     static var previews: some View {
-        PreGameView(manager: manager)
+        PreGameView(level: TestLevel(), gameViewState: .constant(.preGame))
     }
 }

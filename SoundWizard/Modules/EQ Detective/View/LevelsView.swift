@@ -106,7 +106,7 @@ struct LevelsView: View {
     }
     
     private func gameShellView(for level: Level) -> some View {
-        return GameShellView(isPresented: $manager.showLevel, level: level)
+        return GameShellView(level: level, isPresented: $manager.showLevel)
     }
     
     private func levels(focus: BandFocus, difficulty: LevelDifficulty, gainType: Int) -> [EQDetectiveLevel] {

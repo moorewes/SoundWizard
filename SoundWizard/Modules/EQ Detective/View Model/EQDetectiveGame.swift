@@ -26,13 +26,7 @@ class EQDetectiveGame: StandardGame {
     
     // MARK: Bindings
     
-    @Binding var gameViewState: GameViewState {
-        didSet {
-            if gameViewState == .gameQuitted {
-                //conductor.stopPlaying(fade: false)
-            }
-        }
-    }
+    @Binding var gameViewState: GameViewState
     
     // MARK: Published
     
@@ -123,7 +117,7 @@ class EQDetectiveGame: StandardGame {
     }
     
     func finish() {
-        level.progress?.scores.append(score)
+        level.scores.append(score)
         gameViewState = .gameCompleted
     }
     

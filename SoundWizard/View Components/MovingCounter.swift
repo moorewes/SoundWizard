@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Adapted from: https://gist.github.com/swiftui-lab/e5901123101ffad6d39020cc7a810798
+// Loosely Adapted from: https://gist.github.com/swiftui-lab/e5901123101ffad6d39020cc7a810798
 // Article: https://swiftui-lab.com/swiftui-animations-part3/
 struct MovingCounter: View {
     
@@ -20,8 +20,6 @@ struct MovingCounter: View {
             .modifier(MovingCounterModifier(number: number, font: font))
             .animation(.easeOut(duration: duration))
     }
-    
-    
 
 }
 

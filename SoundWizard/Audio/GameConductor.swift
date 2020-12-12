@@ -56,11 +56,9 @@ class Conductor {
     
     func pauseEngine() {
         self.engine.avEngine.pause()
-        print("pausing")
     }
     
     func endGame() {
-        pauseEngine()
         disconnectGameConductor()
     }
     
@@ -102,9 +100,6 @@ class Conductor {
     private func disconnectGameConductor() {
         if let node = self.gameConductor?.outputFader {
             self.mixer.removeInput(node)
-            print("removed game node")
-        } else {
-            print("no node to remove")
         }
         gameConductor = nil
     }
