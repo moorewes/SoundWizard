@@ -11,8 +11,8 @@ struct EQDetectiveInstructionView: View {
     
     var level: EQDetectiveLevel
     
-    init(level genericLevel: Level) {
-        level = genericLevel as! EQDetectiveLevel
+    init(level: EQDetectiveLevel) {
+        self.level = level
     }
     
     var body: some View {

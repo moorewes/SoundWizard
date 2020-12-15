@@ -44,7 +44,7 @@ class EQDetectiveConductor: GameConductor {
     private let player = AudioPlayer()
     private let filter: EqualizerFilter
     private let buffer: AVAudioPCMBuffer
-    private let filterRampTime: AUValue = 0.05
+    private let filterRampTime: AUValue = 0.25
     private let dimVolume: AUValue = AudioMath.dBToPercent(dB: -6)
     private let defaultFadeTime: Float = 1.5
 
@@ -110,8 +110,14 @@ class EQDetectiveConductor: GameConductor {
         
     func set(filterFreq: AUValue) {
         let bandwidth = filterFreq / filterQ
+        
+        filter.gain = 1
         filter.$centerFrequency.ramp(to: filterFreq, duration: filterRampTime)
         filter.$bandwidth.ramp(to: bandwidth, duration: filterRampTime)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.filter.$gain.ramp(to: self.filterGainDB, duration: self.filterRampTime)
+        }
     }
     
     func set(filterGainDB: AUValue) {

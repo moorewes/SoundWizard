@@ -11,9 +11,9 @@ struct EQDetectiveGameplayView: View {
     
     @ObservedObject var game: EQDetectiveGame
     
-    init(level: EQDetectiveLevel, gameViewState: Binding<GameViewState>) {
+    init(level: EQDetectiveLevel, gameViewState: Binding<GameViewState>, practicing: Bool) {
         game = EQDetectiveGame(level: level, gameViewState: gameViewState)
-        setupPicker()
+        game.practicing = practicing
     }
     
     var body: some View {
@@ -26,20 +26,29 @@ struct EQDetectiveGameplayView: View {
                     
                     StatusBar(game: game)
                         .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+                        .opacity(game.practicing ? 0 : 1)
                         
                     gameInfoView
                         .padding()
                     
                     FrequencySlider(data: game, frequency: $game.selectedFreq)
                         .padding(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
+                        .onTapGesture(count: 2) {
+                            game.toggleFilterOnState()
+                        }
                         
-                    
-                    submitGuessButton
-                        .opacity(game.showGuessButton ? 1 : 0)
-                    
                     togglePicker
-                        .frame(width: 200, height: 80)
-                        .padding()
+                        .frame(width: 200, height: nil)
+                        .padding(.bottom, 40)
+                    
+                    ZStack {
+                        RoundedRectButton(title: submitButtonText, action: { game.submitGuess() })
+                            .opacity(game.showSubmitButton ? 1 : 0)
+                        RoundedRectButton(title: continueButtonText, action: { game.continueToNextTurn() })
+                            .opacity(game.showContinueButton ? 1 : 0)
+                    }
+                    .padding(.bottom, 60)
+                    
                     
                 }
                 .onAppear {
@@ -56,13 +65,13 @@ struct EQDetectiveGameplayView: View {
         
         ZStack {
             resultsView
-                .opacity(game.showResultsView ? 1 : 0)
+                .opacity(game.inBetweenTurns ? 1 : 0)
             
             Text(instructionText)
                 .font(.mono(.title3))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
-                .opacity(game.showResultsView ? 0 : 0.8)
+                .opacity(game.inBetweenTurns ? 0 : 0.8)
             
         }
     }
@@ -77,46 +86,21 @@ struct EQDetectiveGameplayView: View {
                 .foregroundColor(.teal)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
         
-            Text(game.feedbackText)
+            Text(game.practicing ? "swipe to change filter" : game.feedbackText)
                 .fixedSize()
                 .font(.mono(.subheadline))
-                .foregroundColor(feedbackColor)
+                .foregroundColor(game.practicing ? Color.darkGray : feedbackColor)
         }
     }
     
-    private var submitGuessButton: some View {
-        Button(action: {
-            game.submitGuess()
-        }, label: {
-            ZStack {
-                Rectangle()
-                    .foregroundColor(.teal)
-                    .cornerRadius(10)
-                    .frame(width: 200, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                Text(submitText)
-                    .font(.mono(.headline))
-                    .foregroundColor(.darkBackground)
-            }
-            
-        })
-    }
+
     
     private var togglePicker: some View {
-        Picker(selection: $game.filterOnState, label: Text(pickerName)) {
+        Picker("", selection: $game.filterOnState) {
             Text(firstPickerItemText).tag(0)
-                .foregroundColor(.darkBackground)
-                .font(.mono(.headline))
             Text(secondPickerItemText).tag(1)
-                .font(.mono(.headline))
         }
         .pickerStyle(SegmentedPickerStyle())
-    }
-    
-    private func setupPicker() {
-        UISegmentedControl.appearance().selectedSegmentTintColor = .systemTeal
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black.withAlphaComponent(0.8)], for: .selected)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.mono(.subheadline)], for: .normal)
     }
     
     // MARK: - Constants
@@ -126,7 +110,8 @@ struct EQDetectiveGameplayView: View {
     private let firstPickerItemText = "EQ Off"
     private let secondPickerItemText = "EQ On"
     private let solutionText = "Answer"
-    private let submitText = "Submit"
+    private let submitButtonText = "Submit"
+    private let continueButtonText = "Continue"
     
     private var feedbackColor: Color {
         guard let success = game.currentTurn?.score?.successLevel else { return Color.clear }
@@ -135,9 +120,11 @@ struct EQDetectiveGameplayView: View {
     
 }
 
-//struct GameplayView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EQDetectiveGameplayView(level: EQDetectiveLevel.level(0)!, gameViewState: .constant(.inGame))
-//            .previewDevice("iPhone 12 Pro")
-//    }
-//}
+struct GameplayView_Previews: PreviewProvider {
+    static var previews: some View {
+        EQDetectiveGameplayView(level: testEQDetectiveLevel, gameViewState: .constant(.inGame), practicing: false)
+            .previewDevice("iPhone 12 Pro")
+    }
+}
+
+let testEQDetectiveLevel = EQDetectiveLevel(context: CoreDataManager.shared.viewContext, number: 1, isStock: true, difficulty: .easy, bandFocus: .all, filterGainDB: 12, filterQ: 6, starScores: [300, 500, 700], audioSources: [])

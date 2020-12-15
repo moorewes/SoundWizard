@@ -22,7 +22,7 @@ struct PostGameView: View {
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
         
-            Text((level.scores.last ?? 0).scoreString(digits: 4))
+            Text((level.scoreData.scores.last ?? 0).scoreString(digits: 4))
                 .font(.mono(.largeTitle, sizeModifier: 16))
             
             Text("Top Score")
@@ -30,7 +30,7 @@ struct PostGameView: View {
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
             
-            MovingCounter(number: animated ? level.topScore : previousTopScore,
+            MovingCounter(number: animated ? level.scoreData.topScore : previousTopScore,
                                  font: .mono(.largeTitle, sizeModifier: 16),
                                  duration: 1.5)
             
@@ -58,8 +58,8 @@ struct PostGameView: View {
     }
     
     private func star(number: Int) -> some View {
-        let justEarnedIndex = level.newStarsEarnedOnLastRound.firstIndex(of: number)
-        let isEarned = level.starsEarned >= number
+        let justEarnedIndex = level.scoreData.newStars.firstIndex(of: number)
+        let isEarned = level.scoreData.starsEarned >= number
         var animationDelay = 1.0
         if let index = justEarnedIndex {
             animationDelay += Double(index) * timeBetweenStarAnimations
@@ -70,14 +70,14 @@ struct PostGameView: View {
                 .font(.system(size: 42))
                 .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
                         
-            Text("\(level.starScores[number - 1])")
+            Text("\(level.scoreData.starScores[number - 1])")
                 .foregroundColor(.teal)
                 .font(.mono(.headline))
         }
     }
     
     private var previousTopScore: Int {
-        var scores = level.scores
+        var scores = level.scoreData.scores
         guard !scores.isEmpty else { return 0 }
         
         scores.removeLast()
@@ -85,7 +85,7 @@ struct PostGameView: View {
     }
     
     private var justEarnedTopScore: Bool {
-        level.topScore > previousTopScore
+        level.scoreData.topScore > previousTopScore
     }
     
     private let timeBetweenStarAnimations = 0.3
@@ -93,13 +93,13 @@ struct PostGameView: View {
     
 }
 
-struct PostGameView_Previews: PreviewProvider {
-    static let level = TestLevel()
-    static var previews: some View {
-        PostGameView(level: level, gameViewState: .constant(.gameCompleted))
-            .preferredColorScheme(.dark)
-            .onAppear {
-                level.scores = []
-            }
-    }
-}
+//struct PostGameView_Previews: PreviewProvider {
+//    static let level = TestLevel()
+//    static var previews: some View {
+//        PostGameView(level: level, gameViewState: .constant(.gameCompleted))
+//            .preferredColorScheme(.dark)
+//            .onAppear {
+//                level.scores = []
+//            }
+//    }
+//}

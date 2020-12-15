@@ -14,6 +14,12 @@ struct GameShellView: View {
     @Binding var isPresented: Bool
     @State var gameViewState: GameViewState = .preGame
     @State var showInfoView = false
+    
+    init(level: Level, isPresented: Binding<Bool>) {
+        self.level = level
+        self._isPresented = isPresented
+       // self.game = level.makeGame()
+    }
         
     var body: some View {
         ZStack {
@@ -80,11 +86,17 @@ struct GameShellView: View {
     @ViewBuilder
     func gameplayView() -> some View {
         if let level = level as? EQDetectiveLevel {
-            EQDetectiveGameplayView(level: level, gameViewState: $gameViewState)
+            EQDetectiveGameplayView(level: level, gameViewState: $gameViewState, practicing: false)
         } else {
             Text("no game found")
         }
     }
+    
+//    var title: String {
+//        if gameViewState == .inGame {
+//            if
+//        }
+//    }
     
     var infoView: some View {
         Text("Info View")
@@ -110,9 +122,9 @@ struct GameShellView: View {
     let navPadding = EdgeInsets(top: 5, leading: 30, bottom: 0, trailing: 70)
     
 }
-
-struct EQDetectiveShellView_Previews: PreviewProvider {
-    static var previews: some View {
-        GameShellView(level: TestLevel(), isPresented: .constant(true))
-    }
-}
+//
+//struct EQDetectiveShellView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GameShellView(level: TestLevel(), isPresented: .constant(true))
+//    }
+//}

@@ -29,9 +29,7 @@ struct MainTabView: View {
             
         }
         .onAppear {
-            UITabBar.appearance().barTintColor = UIColor(Color.darkBackground)
-            UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
-            UITabBar.appearance().tintColor = UIColor(Color.teal)
+            
         }
         
     }
@@ -39,6 +37,8 @@ struct MainTabView: View {
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView()
+        UITabBar.setCustomAppearance()
+        return MainTabView()
+            
     }
 }

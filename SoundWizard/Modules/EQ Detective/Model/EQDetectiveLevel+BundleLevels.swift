@@ -7,7 +7,7 @@
 
 import CoreData
 
-// MARK: Bundle Levels
+// MARK: Bundle Levels Core Data Importing
 
 extension EQDetectiveLevel {
     
@@ -22,54 +22,52 @@ extension EQDetectiveLevel {
         set { defaults.setValue(newValue, forKey: DefaultsKey.bundleLevelsAreInDatabase) }
     }
     
-    private static func starScores(for difficulty: LevelDifficulty) -> [Int] {
-        switch difficulty {
-        case .easy: return [300, 500, 700]
-        case .moderate: return [500, 800, 1100]
-        case .hard: return [600, 900, 1200]
-        }
-    }
+    // MARK: - Initializer
     
-    private static func gainValues(for difficulty: LevelDifficulty) -> [Float] {
-        switch difficulty {
-        case .easy: return [8]
-        case .moderate: return [6, -8]
-        case .hard: return [4, -6]
-        }
-    }
-    
-    private static func qValue(for difficulty: LevelDifficulty) -> Float {
-        switch difficulty {
-        case .easy: return 8
-        case .moderate: return 6
-        case .hard: return 6
-        }
+    convenience init(context: NSManagedObjectContext,
+                     number: Int,
+                     isStock: Bool,
+                     difficulty: LevelDifficulty,
+                     bandFocus: BandFocus,
+                     filterGainDB: Float,
+                     filterQ: Float,
+                     starScores: [Int],
+                     audioSources: [AudioSource]) {
+        self.init(context: context)
+        self.id = Self.makeID(isStock: isStock, number: number, audioSources: audioSources)
+        self.number = number
+        self.isStock = isStock
+        self.difficulty = difficulty
+        self.bandFocus = bandFocus
+        self.filterGainDB = filterGainDB
+        self.filterQ = filterQ
+        self.starScores = starScores
+        
+        audioSources.forEach { addToAudioSources_($0) }
     }
     
     // MARK: - Bundle levels constuctor
     
-    static func storeBundleLevelsIfNeeded(context: NSManagedObjectContext) {
+    class func storeBundleLevelsIfNeeded(context: NSManagedObjectContext) {
         guard !bundleLevelsAreInDatabase else { return }
         
-        let gameID = Game.eqDetective.id
         var index = 1
         let context = CoreDataManager.shared.container.viewContext
         for source in AudioSource.allSources(context: context) {
             for focus in BandFocus.allCases {
                 for difficulty in LevelDifficulty.allCases {
-                    let scores = starScores(for: difficulty)
-                    let q = qValue(for: difficulty)
                     for gain in gainValues(for: difficulty) {
-                        let level = EQDetectiveLevel(context: context)
-                        level.number = index
-                        level.isStock = true
-                        level.id = "\(gameID).stock.\(index)"
-                        level.difficulty = difficulty
-                        level.bandFocus = focus
-                        level.filterGainDB = gain
-                        level.filterQ = q
-                        level.starScores = scores
-                        level.addToAudioSources_(source)
+                        let _ = EQDetectiveLevel(
+                            context: context,
+                            number: index,
+                            isStock: true,
+                            difficulty: difficulty,
+                            bandFocus: focus,
+                            filterGainDB: gain,
+                            filterQ: qValue(for: difficulty, gain: gain),
+                            starScores: starScores(for: difficulty),
+                            audioSources: [source]
+                        )
                         index += 1
                     }
                 }
@@ -84,4 +82,32 @@ extension EQDetectiveLevel {
             print(error.localizedDescription)
         }
     }
+    
+    // MARK: - Helper Methods
+    
+    private class func starScores(for difficulty: LevelDifficulty) -> [Int] {
+        switch difficulty {
+        case .easy: return [300, 500, 700]
+        case .moderate: return [500, 800, 1100]
+        case .hard: return [600, 900, 1200]
+        }
+    }
+    
+    private class func gainValues(for difficulty: LevelDifficulty) -> [Float] {
+        switch difficulty {
+        case .easy: return [8]
+        case .moderate: return [6, -16]
+        case .hard: return [4, -12]
+        }
+    }
+    
+    private class func qValue(for difficulty: LevelDifficulty, gain: Float) -> Float {
+        let boost = gain > 0
+        switch difficulty {
+        case .easy: return boost ? 8 : 6
+        case .moderate: return boost ? 6 : 2
+        case .hard: return boost ? 4 : 4
+        }
+    }
+   
 }

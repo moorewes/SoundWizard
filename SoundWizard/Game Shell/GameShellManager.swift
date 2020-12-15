@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-class GameShellManager: ObservableObject {
+class GameShellManager<L: Level>: ObservableObject {
     
-    var level: Level
+    var level: L
     
     @Published var gameViewState: GameViewState = .preGame {
         didSet {
@@ -18,15 +18,15 @@ class GameShellManager: ObservableObject {
     }
     
     var lastRoundScore: Int {
-        level.scores.last ?? 0
+        level.scoreData.scores.last ?? 0
     }
     
     var topScore: Int {
-        return level.topScore
+        return level.scoreData.topScore
     }
     
     var previousTopScore: Int {
-        var scores = level.scores
+        var scores = level.scoreData.scores
         let last = scores.popLast()
         return scores.sorted().last ?? last ?? 0
     }
@@ -35,7 +35,7 @@ class GameShellManager: ObservableObject {
         topScore > previousTopScore
     }
             
-    init(level: Level) {
+    init(level: L) {
         print("game shell manager init")
         self.level = level
         print(Unmanaged.passUnretained(self).toOpaque())

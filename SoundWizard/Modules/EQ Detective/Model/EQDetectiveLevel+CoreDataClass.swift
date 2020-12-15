@@ -13,6 +13,8 @@ import CoreData
 public class EQDetectiveLevel: NSManagedObject {
     
     static let game = Game.eqDetective
+    
+    lazy var scoreData = ScoreData(starScores: starScores, scores: scores)
         
     var bandFocus: BandFocus {
         get { BandFocus(rawValue: Int(bandFocus_))! }
@@ -29,6 +31,12 @@ public class EQDetectiveLevel: NSManagedObject {
             return bandFocus.octaveSpan / 8
         }
     }()
+    
+    func addRound(score: Int) {
+        scoreData.addScore(score)
+        scores = scoreData.scores
+        try! managedObjectContext?.save()
+    }
 
 }
 
@@ -68,7 +76,7 @@ extension EQDetectiveLevel: Level {
         get { id_! }
         set { id_ = newValue}
     }
-    
+        
     var scores: [Int] {
         get { scores_ ?? [] }
         set { scores_ = newValue }
@@ -97,6 +105,22 @@ extension EQDetectiveLevel: Level {
         set { starScores_ = newValue }
     }
     
+    func makeGame() -> EQDetectiveGameWrapper {
+        return EQDetectiveGameWrapper(game: EQDetectiveGame(level: self, gameViewState: .constant(.inGame)))
+    }
     
+    func makeInstructionView() -> EQDetectiveInstructionView {
+        EQDetectiveInstructionView(level: self)
+    }
+    
+}
+
+extension EQDetectiveLevel {
+    
+    class func makeID(isStock: Bool, number: Int, audioSources: [AudioSource]) -> String {
+        let typeString = isStock ? "stock" : "custom"
+        let sourceString = audioSources.count == 1 ? audioSources.first!.name : "multipleAudioSources"
+        return "\(game.id).\(typeString).\(number).\(sourceString)"
+    }
     
 }

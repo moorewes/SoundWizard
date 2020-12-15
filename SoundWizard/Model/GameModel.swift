@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+protocol GameModelType {}
+
+protocol InstructionViewType {}
 
 protocol StandardGame: GameModel, StageBased, ScoreBased, ScoreMultipliable, LivesBased {}
 

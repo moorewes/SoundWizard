@@ -15,6 +15,7 @@ struct LevelsHorizontalList: View {
     init(levels: [Level], onSelect handler: @escaping (Level) -> Void) {
         self.levels = levels
         self.selectionHandler = handler
+        print("init lhl")
     }
     
     var body: some View {
@@ -28,12 +29,10 @@ struct LevelsHorizontalList: View {
                     })
                     .frame(width: 80, height: 80, alignment: .center)
                     .cornerRadius(15)
-                    .padding(.leading)
-                    .padding(.trailing, -5)
+                    .padding(.horizontal, 5)
                 }
             }
+            .padding(.horizontal)
         }
-        
     }
-    
 }

@@ -21,10 +21,6 @@ struct GeneralSettingsView: View {
             .navigationBarTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .onAppear {
-            UITableView.setCustomAppearance()
-            UINavigationBar.setCustomAppearance()
-        }
     }
 }
 

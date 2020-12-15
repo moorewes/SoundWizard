@@ -21,22 +21,6 @@ enum Game: Int, CaseIterable, Identifiable {
         case .eqDetective: return "EQ Detective"
         }
     }
-
-    var levels: [Level] {
-        switch self {
-        case .eqDetective:
-            return EQDetectiveLevel.levels(context: CoreDataManager.shared.container.viewContext)
-        }
-    }
-    
-    var starProgress: (total: Int, earned: Int) {
-        let total = self.levels.count * Game.starCount
-        let earned = self.levels.reduce(0) { (tally, level) in
-            tally + level.starsEarned
-        }
-        
-        return (total, earned)
-    }
     
 }
 

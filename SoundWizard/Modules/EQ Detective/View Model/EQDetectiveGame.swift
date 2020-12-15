@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+struct EQDetectiveGameWrapper: GameModelType {
+    let game: EQDetectiveGame
+}
 
 class EQDetectiveGame: StandardGame {
     
@@ -16,7 +19,7 @@ class EQDetectiveGame: StandardGame {
     // MARK: - Constants
     
     let testMode = true // TODO: - Remove for production
-    
+    var practicing = false
     let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
     
@@ -30,17 +33,24 @@ class EQDetectiveGame: StandardGame {
     
     // MARK: Published
     
-    @Published var selectedFreq: Frequency
+    @Published var selectedFreq: Frequency {
+        didSet {
+            if inBetweenTurns && practicing {
+                gameConductor.set(filterFreq: selectedFreq)
+            }
+        }
+    }
     
     @Published var turns = [EQDetectiveTurn]() {
         didSet {
             guard let turn = turns.last else { return }
-            if let success = turn.score?.successLevel {
-                lives.update(for: success)
-                scoreMultiplier.update(for: success)
+            if let score = turn.score {
+                lives.update(for: score.successLevel)
+                scoreMultiplier.update(for: score.successLevel)
+                feedbackText = score.randomFeedbackString()
             } else {
-                gameConductor.set(filterFreq: turn.solution)
                 filterOnState = 1
+                gameConductor.set(filterFreq: turn.solution)
             }
         }
     }
@@ -48,9 +58,13 @@ class EQDetectiveGame: StandardGame {
     @Published var filterOnState: Int = 1 {
         didSet {
             let bypass = filterOnState == 0
-            gameConductor.setFilterBypass(bypass)
+            if oldValue != filterOnState {
+                gameConductor.setFilterBypass(bypass)
+            }
         }
     }
+    
+    @Published var feedbackText: String = " "
     
     // MARK: Internal
     
@@ -63,23 +77,22 @@ class EQDetectiveGame: StandardGame {
     var muted: Bool {
         gameConductor.isMuted
     }
-    
-    var showResultsView: Bool {
+            
+    var inBetweenTurns: Bool {
         currentTurn?.isComplete ?? false
     }
     
-    var showGuessButton: Bool {
-        currentTurn != nil && currentTurn?.score == nil
+    var showSubmitButton: Bool {
+        return currentTurn != nil && currentTurn?.score == nil
+    }
+    
+    var showContinueButton: Bool {
+        return practicing && inBetweenTurns
     }
     
     var solutionText: String {
         guard let answer = currentTurn?.solution else { return " " }
         return answer.decimalStringWithUnit
-    }
-    
-    var feedbackText: String {
-        guard let score = currentTurn?.score else { return "  " }
-        return score.randomFeedbackString()
     }
         
     // MARK: Private
@@ -117,7 +130,7 @@ class EQDetectiveGame: StandardGame {
     }
     
     func finish() {
-        level.scores.append(score)
+        level.addRound(score: score)
         gameViewState = .gameCompleted
     }
     
@@ -127,6 +140,14 @@ class EQDetectiveGame: StandardGame {
     
     func submitGuess() {
         endTurn()
+    }
+    
+    func continueToNextTurn() {
+        startNewTurn()
+    }
+    
+    func toggleFilterOnState() {
+        filterOnState = filterOnState == 0 ? 1 : 0
     }
     
     // MARK: Private Methods
@@ -141,7 +162,7 @@ class EQDetectiveGame: StandardGame {
     private func endTurn() {
         let index = turns.endIndex - 1
         turns[index].finish(guess: selectedFreq)
-
+        
         fireFeedback()
         
         scheduleEndOfTurnAction()
@@ -155,6 +176,7 @@ class EQDetectiveGame: StandardGame {
     }
     
     private func scheduleEndOfTurnAction() {
+        guard !practicing else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + timeBetweenTurns) {
             if self.remainingLives < 0 {
                 self.finish()

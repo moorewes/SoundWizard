@@ -37,9 +37,7 @@ class CoreDataManager {
     // MARK: Internal
     
     func loadInitialLevels() {
-        EQDetectiveLevel.storeBundleLevelsIfNeeded(context: container.viewContext)
-        print("created \(container.viewContext.registeredObjects.count)")
-        
+        EQDetectiveLevel.storeBundleLevelsIfNeeded(context: container.viewContext)        
     }
     
     func save() {

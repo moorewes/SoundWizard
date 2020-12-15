@@ -11,9 +11,4 @@ class GamesManager: ObservableObject {
     
     @Published var games: [Game] = Game.allCases
     
-    func starProgress(game: Game) -> String {
-        let progress = game.starProgress
-        return "\(progress.earned)/\(progress.total)"
-    }
-    
 }

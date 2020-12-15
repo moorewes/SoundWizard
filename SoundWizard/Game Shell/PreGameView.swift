@@ -11,7 +11,6 @@ struct PreGameView: View {
     
     var level: Level
     @Binding var gameViewState: GameViewState
-    //@ObservedObject var manager: GameShellManager
         
     var shouldShowLastScore: Bool { gameViewState == .gameCompleted }
                     
@@ -57,7 +56,7 @@ struct PreGameView: View {
     }
     
     private var topScore: some View {
-        MovingCounter(number: level.topScore,
+        MovingCounter(number: level.scoreData.topScore,
                       font: .mono(.largeTitle, sizeModifier: 16),
                       duration: 1.5)
     }
@@ -76,13 +75,13 @@ struct PreGameView: View {
     }
     
     private func star(number: Int) -> some View {
-        let isEarned = level.starsEarned >= number
+        let isEarned = level.scoreData.starsEarned >= number
         return VStack {
             Star(filled: isEarned, number: number, animated: false)
                 .font(.system(size: 42))
                 .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
                         
-            Text("\(level.starScores[number - 1])")
+            Text("\(level.scoreData.starScores[number - 1])")
                 .foregroundColor(.teal)
                 .font(.mono(.headline))
         }
@@ -90,9 +89,7 @@ struct PreGameView: View {
     
     @ViewBuilder
     private func instructionView() -> some View {
-        if level is EQDetectiveLevel {
-            EQDetectiveInstructionView(level: level)
-        }
+        EQDetectiveInstructionView(level: level as! EQDetectiveLevel)
     }
     
     private let starImageName = "star.fill"
@@ -100,10 +97,10 @@ struct PreGameView: View {
     private let starAnimationDuration = 0.7
     
 }
-
-struct EQDetectivePreGameView_Previews: PreviewProvider {
-    static let manager = GameShellManager(level: TestLevel())
-    static var previews: some View {
-        PreGameView(level: TestLevel(), gameViewState: .constant(.preGame))
-    }
-}
+//
+//struct EQDetectivePreGameView_Previews: PreviewProvider {
+//    static let manager = GameShellManager(level: TestLevel())
+//    static var previews: some View {
+//        PreGameView(level: TestLevel(), gameViewState: .constant(.preGame))
+//    }
+//}

@@ -58,31 +58,4 @@ extension Numeric where Self: CVarArg {
     }
 }
 
-extension UITableView {
-    static func setCustomAppearance() {
-        UITableView.appearance().backgroundColor = UIColor(Color.darkBackground)
-        UITableViewCell.appearance().backgroundColor = UIColor(Color.darkBackground)
-        UITableView.appearance().separatorStyle = .none
-        UITableView.appearance().separatorColor = .clear
-        UITableView.appearance().tintColor = .white
-        UITableViewCell.appearance()
-    }
-}
 
-extension UINavigationBar {
-    static func setCustomAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor(Color.darkBackground)
-        appearance.titleTextAttributes = [
-            .font: UIFont.std(.headline),
-            .foregroundColor: UIColor(Color.lightGray)
-        ]
-        appearance.largeTitleTextAttributes = [
-            .font: UIFont.std(.largeTitle),
-            .foregroundColor: UIColor(Color.teal)
-        ]
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        //UINavigationBar.appearance().tintColor = UIColor.systemTeal
-    }
-}

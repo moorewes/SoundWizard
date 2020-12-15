@@ -9,7 +9,14 @@ import SwiftUI
 
 struct LevelCellView: View {
     
-    var level: Level
+    let title: String
+    let starsEarned: Int
+    
+    init(level: Level) {
+        self.title = level.audioSourceDescription
+        self.starsEarned = level.scoreData.starsEarned
+        print("init level cell view, level: ", level.id, level.scoreData)
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -20,7 +27,7 @@ struct LevelCellView: View {
                     
                     Spacer()
                     
-                    Text(level.audioSourceDescription)
+                    Text(title)
                         .font(.mono(.footnote))
                         .foregroundColor(.teal)
                         .multilineTextAlignment(.center)
@@ -34,16 +41,14 @@ struct LevelCellView: View {
                     
                     Spacer()
                 }
-                
             }
         }
     }
     
     var stars: some View {
-        return HStack {
-        
+        HStack {
             ForEach(0..<3) { i in
-                Star(filled: level.starsEarned > i, animated: false)
+                Star(filled: starsEarned > i, animated: false)
                     .font(.system(size: 12))
             }
         }

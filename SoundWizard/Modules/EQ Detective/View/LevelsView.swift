@@ -18,12 +18,13 @@ struct LevelsView: View {
         
     init(game: Game) {
         manager = LevelsViewModel(game: game)
-        
+        print("drawing levels view")
         let request: NSFetchRequest<EQDetectiveLevel> = EQDetectiveLevel.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "difficulty_", ascending: true)]
+        request.sortDescriptors = [
+            NSSortDescriptor(key: "difficulty_", ascending: true),
+            NSSortDescriptor(key: "number_", ascending: true)
+        ]
         _levels = FetchRequest(fetchRequest: request)
-        
-        setupPicker()
     }
     
     var body: some View {
@@ -56,13 +57,15 @@ struct LevelsView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.horizontal, 80)
                     .padding(.bottom, 30)
+                    .transition(.slide)
                 }
-                                                    
+                
                 ForEach(BandFocus.allCases) { focus in
                     let gainType = showGainTypePicker ? gainTypeSelection : 1
                     let levels = self.levels(focus: focus,
                                                 difficulty: selectedDifficulty,
                                                 gainType: gainType)
+                    
                     
                     sectionHeader(focus: focus, levels: levels)
                         .padding(.bottom, 10)
@@ -84,6 +87,7 @@ struct LevelsView: View {
             gameShellView(for: manager.selectedLevel!)
 
         })
+
         
     }
     
@@ -105,22 +109,17 @@ struct LevelsView: View {
         }
     }
     
-    private func gameShellView(for level: Level) -> some View {
+    private func gameShellView(for level: EQDetectiveLevel) -> some View {
         return GameShellView(level: level, isPresented: $manager.showLevel)
     }
     
     private func levels(focus: BandFocus, difficulty: LevelDifficulty, gainType: Int) -> [EQDetectiveLevel] {
-        levels.filter {
+        print("Getting levels")
+        return levels.filter {
             $0.bandFocus == focus &&
             $0.difficulty == difficulty &&
             (gainType == 1) == ($0.filterGainDB > 0)
         }
-    }
-    
-    private func setupPicker() {
-        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(.darkGray)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(.white)], for: .selected)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
     }
     
     var showGainTypePicker: Bool {
