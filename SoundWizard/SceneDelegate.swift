@@ -12,6 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    let stateController = StateController()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -21,9 +22,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             let context = CoreDataManager.shared.container.viewContext
-            let view = MainTabView().environment(\.managedObjectContext, context)
+            let view = MainTabView()
+                .environment(\.managedObjectContext, context)
+                .environmentObject(stateController)
             window.rootViewController = UIHostingController(rootView: view)
-            //window.rootViewController = UIHostingController(rootView: FSlider())
             self.window = window
             window.makeKeyAndVisible()
         }

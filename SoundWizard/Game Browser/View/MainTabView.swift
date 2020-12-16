@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MainTabView: View {
     
-    @State var selectedTab: Int = 1
+    @EnvironmentObject var stateController: StateController
+    //@State var selectedTab: Int = 1
     
     var body: some View {
         TabView() {
@@ -26,10 +27,6 @@ struct MainTabView: View {
                         .background(Color.darkGray)
                     Text("All Games")
                 }
-            
-        }
-        .onAppear {
-            
         }
         
     }
@@ -39,6 +36,5 @@ struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         UITabBar.setCustomAppearance()
         return MainTabView()
-            
     }
 }

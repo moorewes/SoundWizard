@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AllGamesView: View {
     
+    @EnvironmentObject private var stateController: StateController
     @ObservedObject private var manager = GamesManager()
     
     private var games: [Game] { manager.games }
@@ -16,11 +17,11 @@ struct AllGamesView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(games) { game in
+                ForEach(stateController.gameItems) { game in
                     NavigationLink(
-                        destination: LevelsView(game: .eqDetective),
+                        destination: LevelsView(levels: game.levels),
                         label: {
-                            gameCell(game)
+                            GameCell(game: game)
                         })
                 }
                 .listRowBackground(Color.listRowBackground)
@@ -28,40 +29,44 @@ struct AllGamesView: View {
             }
             .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Games", displayMode: .inline)
-            .navigationBarItems(trailing: settingsButton)
-        }
-
-    }
-    
-    private func gameCell(_ game: Game) -> some View {
-        HStack {
-            Text(game.name)
-                .font(.std(.headline))
-                .foregroundColor(.teal)
-                .padding(.vertical, 30)
-            
-            Spacer()
-            
-            Star(filled: true, animated: false)
-                .font(.system(size: 14))
-            
-//            Text(manager.starProgress(game: game))
-//                .font(.mono(.subheadline))
-//                .foregroundColor(.lightGray)
-//                .padding(.trailing, 15)
+            .navigationBarItems(trailing: settingsBarItem)
         }
     }
     
-    private var settingsButton: some View {
-        NavigationLink(destination: GeneralSettingsView()) {
-            Image(systemName: "gearshape.fill")
-                .imageScale(.medium)
-                .foregroundColor(.lightGray)
-                .padding(.trailing, 15)
-        }
+    private var settingsBarItem: some View {
+        SettingsNavLink(destination: GeneralSettingsView())
     }
     
 }
+
+struct LevelsView: View {
+    
+    var levels: [Level]
+    
+    var body: some View {
+        let game = levels.first?.game
+        
+        if game == nil {
+            EmptyView()
+        } else if game == .some(.eqDetective) {
+            EQDetectiveLevelsView(levels: levels as! [EQDetectiveLevel])
+        }
+    }
+    
+//    @ViewBuilder
+//    func content() -> some View {
+//        let game = levels.first?.game
+//
+//        if game == nil {
+//            EmptyView()
+//        } else if game == .some(.eqDetective) {
+//            EQDetectiveLevelsView(levels: levels as! [EQDetectiveLevel])
+//        }
+//    }
+    
+}
+
+
 
 struct GamesUIView_Previews: PreviewProvider {
     static var previews: some View {

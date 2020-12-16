@@ -10,16 +10,10 @@ import SwiftUI
 struct GameShellView: View {
     
     var level: Level
-    
-    @Binding var isPresented: Bool
+
+    @Environment(\.presentationMode) private var presentationMode
     @State var gameViewState: GameViewState = .preGame
     @State var showInfoView = false
-    
-    init(level: Level, isPresented: Binding<Bool>) {
-        self.level = level
-        self._isPresented = isPresented
-       // self.game = level.makeGame()
-    }
         
     var body: some View {
         ZStack {
@@ -54,7 +48,7 @@ struct GameShellView: View {
                 if gameViewState == .inGame {
                     gameViewState = .gameQuitted
                 } else {
-                    isPresented = false
+                    presentationMode.wrappedValue.dismiss()
                 }
             }
                 .font(.mono(.headline))

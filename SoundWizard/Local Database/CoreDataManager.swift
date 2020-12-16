@@ -36,8 +36,12 @@ class CoreDataManager {
     
     // MARK: Internal
     
+    func allLevels() -> [EQDetectiveLevel] {
+        EQDetectiveLevel.levels(context: viewContext)
+    }
+    
     func loadInitialLevels() {
-        EQDetectiveLevel.storeBundleLevelsIfNeeded(context: container.viewContext)        
+        EQDetectiveLevel.storeBundleLevelsIfNeeded(context: container.viewContext)
     }
     
     func save() {

@@ -8,24 +8,14 @@
 import SwiftUI
 import CoreData
 
-struct LevelsView: View {
+struct EQDetectiveLevelsView: View {
     
-    @ObservedObject var manager: LevelsViewModel
+    @EnvironmentObject var stateController: StateController
     @State var difficultySelection: Int = 1
     @State var gainTypeSelection: Int = 1
+    @State var presentingLevel = false
     
-    @FetchRequest var levels: FetchedResults<EQDetectiveLevel>
-        
-    init(game: Game) {
-        manager = LevelsViewModel(game: game)
-        print("drawing levels view")
-        let request: NSFetchRequest<EQDetectiveLevel> = EQDetectiveLevel.fetchRequest()
-        request.sortDescriptors = [
-            NSSortDescriptor(key: "difficulty_", ascending: true),
-            NSSortDescriptor(key: "number_", ascending: true)
-        ]
-        _levels = FetchRequest(fetchRequest: request)
-    }
+    var levels: [EQDetectiveLevel]
     
     var body: some View {
 
@@ -66,29 +56,22 @@ struct LevelsView: View {
                                                 difficulty: selectedDifficulty,
                                                 gainType: gainType)
                     
-                    
                     sectionHeader(focus: focus, levels: levels)
                         .padding(.bottom, 10)
                         .padding(.leading)
                     
-                    LevelsHorizontalList(levels: levels) { manager.selectLevel($0 as! EQDetectiveLevel) }
+                    LevelsHorizontalList(levels: levels) {
+                        stateController.level = $0 as! EQDetectiveLevel
+                    }
                         .padding(.bottom, 50)
                 }
             }
-            
-            
-            
         }
-        .navigationBarTitle(manager.game.name, displayMode: .inline)
+        .navigationBarTitle(Game.eqDetective.name, displayMode: .inline)
         .background(Color.darkBackground.ignoresSafeArea())
-        .fullScreenCover(isPresented: $manager.showLevel, onDismiss: {
-            manager.dismissLevel()
-        }, content: {
-            gameShellView(for: manager.selectedLevel!)
-
-        })
-
-        
+        .fullScreenCover(isPresented: $stateController.presentingLevel) {
+            gameShellView(for: stateController.level! as! EQDetectiveLevel)
+        }
     }
     
     private func sectionHeader(focus: BandFocus, levels: [EQDetectiveLevel]) -> some View {
@@ -101,7 +84,7 @@ struct LevelsView: View {
                 .font(.system(size: 14))
                 .padding(.leading, 10)
             
-            Text(manager.starProgress(levels: levels))
+            Text(stateController.starProgress(for: levels).formatted)
                 .font(.mono(.subheadline))
                 .foregroundColor(.lightGray)
             
@@ -110,12 +93,11 @@ struct LevelsView: View {
     }
     
     private func gameShellView(for level: EQDetectiveLevel) -> some View {
-        return GameShellView(level: level, isPresented: $manager.showLevel)
+        return GameShellView(level: level)
     }
     
     private func levels(focus: BandFocus, difficulty: LevelDifficulty, gainType: Int) -> [EQDetectiveLevel] {
-        print("Getting levels")
-        return levels.filter {
+        levels.filter {
             $0.bandFocus == focus &&
             $0.difficulty == difficulty &&
             (gainType == 1) == ($0.filterGainDB > 0)
@@ -131,10 +113,10 @@ struct LevelsView: View {
     }
     
 }
-
-struct LevelsView_Previews: PreviewProvider {
-    static var previews: some View {
-        LevelsView(game: .eqDetective)
-            .preferredColorScheme(.dark)
-    }
-}
+//
+//struct LevelsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EQDetectiveLevelsView(game: .eqDetective)
+//            .preferredColorScheme(.dark)
+//    }
+//}
