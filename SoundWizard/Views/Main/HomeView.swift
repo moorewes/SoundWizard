@@ -18,20 +18,20 @@ struct HomeView: View {
                 Text("Today's Practice")
                     .font(.std(.title2))
                     .foregroundColor(.teal)
-                LevelsHorizontalList(levels: stateController.dailyLevels.map { $0 }) { level in
+                    .padding(.top, 20)
+                
+                LevelPicker(levels: stateController.dailyLevels) { level in
                     stateController.level = level
                 }
             }
         }
         .background(Color.darkBackground.ignoresSafeArea())
-        .fullScreenCover(isPresented: $stateController.presentingLevel) {
-            GameShellView(level: stateController.level!)
-        }
     }
 }
 
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView()
-//    }
-//}
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView()
+            .environmentObject(StateController())
+    }
+}

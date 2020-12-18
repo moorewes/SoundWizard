@@ -7,12 +7,14 @@
 
 import SwiftUI
 
+
+
 struct GameShellView: View {
     
     var level: Level
+    @Binding var gameViewState: GameViewState
 
     @Environment(\.presentationMode) private var presentationMode
-    @State var gameViewState: GameViewState = .preGame
     @State var showInfoView = false
         
     var body: some View {
@@ -24,7 +26,7 @@ struct GameShellView: View {
                 navBar
                 
                 if gameViewState == .inGame {
-                    gameplayView()
+                    GameplayView(level: level, viewState: $gameViewState)
                 } else if gameViewState == .gameCompleted {
                     PostGameView(level: level, gameViewState: $gameViewState)
                 } else {
@@ -37,7 +39,6 @@ struct GameShellView: View {
         .fullScreenCover(isPresented: $showInfoView) {
             infoView
         }
-
         
     }
     
@@ -76,22 +77,7 @@ struct GameShellView: View {
                             bottom: 0,
                             trailing: 40))
     }
-    
-    @ViewBuilder
-    func gameplayView() -> some View {
-        if let level = level as? EQDetectiveLevel {
-            EQDetectiveGameplayView(level: level, gameViewState: $gameViewState, practicing: false)
-        } else {
-            Text("no game found")
-        }
-    }
-    
-//    var title: String {
-//        if gameViewState == .inGame {
-//            if
-//        }
-//    }
-    
+
     var infoView: some View {
         Text("Info View")
     }

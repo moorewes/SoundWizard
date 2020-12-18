@@ -15,7 +15,7 @@ class StateController: ObservableObject {
     
     @Published var level: Level?
     @Published var dailyLevels: [Level]
-    @Published var gameState: GameViewState?
+    @Published var gameState = GameViewState.preGame
     
     var presentingLevel: Bool {
         get {
@@ -28,9 +28,8 @@ class StateController: ObservableObject {
     
     var gameItems: [GameItem] {
         Game.allCases.map { game in
-            GameItem(name: game.name,
-                     stars: starProgress(for: levels(for: game)),
-                     levels: levels(for: game))
+            let stars = levels(for: game).stars
+            return GameItem(game: game, stars: stars)
         }
     }
     
@@ -43,13 +42,8 @@ class StateController: ObservableObject {
         allLevels.filter { $0.game == game }
     }
     
-    func starProgress(for levels: [Level]) -> StarProgress {
-        let earned = levels.reduce(0) { $0 + $1.scoreData.starsEarned }
-        let total = levels.count * StarProgress.levelMax
-        return StarProgress(total: total, earned: earned)
+    func levels<T: LevelVariant>() -> [T] {
+        return allLevels.compactMap { $0.levelVariant as? T }
     }
 
 }
-
-
-

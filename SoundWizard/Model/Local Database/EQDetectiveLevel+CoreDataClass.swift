@@ -70,7 +70,7 @@ extension EQDetectiveLevel {
 
 // MARK: - Level Conformance
 
-extension EQDetectiveLevel: Level {
+extension EQDetectiveLevel {
     
     public var id: String {
         get { id_! }
@@ -105,14 +105,25 @@ extension EQDetectiveLevel: Level {
         set { starScores_ = newValue }
     }
     
-    func makeGame() -> EQDetectiveGameWrapper {
-        return EQDetectiveGameWrapper(game: EQDetectiveGame(level: self, gameViewState: .constant(.inGame)))
-    }
+}
+
+extension EQDetectiveLevel: LevelStorageObject {
     
-    func makeInstructionView() -> EQDetectiveInstructionView {
-        EQDetectiveInstructionView(level: self)
+    var level: Level {
+        Level.eqDetective(
+            EQDLevel(
+                id: id,
+                game: game,
+                number: number,
+                difficulty: difficulty,
+                audioMetadata: audioMetadata,
+                scoreData: scoreData,
+                bandFocus: bandFocus,
+                filterGain: filterGainDB,
+                filterQ: filterQ
+            )
+        )
     }
-    
 }
 
 extension EQDetectiveLevel {

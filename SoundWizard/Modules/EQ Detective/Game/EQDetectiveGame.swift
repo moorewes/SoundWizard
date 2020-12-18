@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-struct EQDetectiveGameWrapper: GameModelType {
+struct EQDetectiveGameWrapper:  GameModelType {
     let game: EQDetectiveGame
 }
 
-class EQDetectiveGame: StandardGame {
+class EQDetectiveGame: ObservableObject, StandardGame {
     
     typealias TurnType = EQDetectiveTurn
     typealias ConductorType = EQDetectiveConductor
     
     // MARK: - Constants
     
-    let testMode = true // TODO: - Remove for production
+    let testMode = false // TODO: - Remove for production
     var practicing = false
     let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
@@ -68,7 +68,7 @@ class EQDetectiveGame: StandardGame {
     
     // MARK: Internal
     
-    var level: EQDetectiveLevel
+    var level: EQDLevel
     var gameConductor: EQDetectiveConductor
     var masterConductor = Conductor.master
     var lives: Lives
@@ -107,7 +107,7 @@ class EQDetectiveGame: StandardGame {
     
     // MARK: - Initializers
     
-    required init(level: EQDetectiveLevel, gameViewState: Binding<GameViewState>) {
+    required init(level: EQDLevel, gameViewState: Binding<GameViewState>) {
         self.level = level
         _gameViewState = gameViewState
         
@@ -116,7 +116,7 @@ class EQDetectiveGame: StandardGame {
         lives = Lives()
         
         gameConductor = EQDetectiveConductor(source: level.audioMetadata[0],
-                                             filterGainDB: level.filterGainDB,
+                                             filterGainDB: level.filterGain,
                                              filterQ: level.filterQ)
         
         selectedFreq = level.bandFocus.referenceFrequencies.centerItem!.uiRounded
@@ -130,7 +130,7 @@ class EQDetectiveGame: StandardGame {
     }
     
     func finish() {
-        level.addRound(score: score)
+        //level.addRound(score: score)
         gameViewState = .gameCompleted
     }
     

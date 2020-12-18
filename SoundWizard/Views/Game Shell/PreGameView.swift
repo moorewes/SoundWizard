@@ -89,7 +89,11 @@ struct PreGameView: View {
     
     @ViewBuilder
     private func instructionView() -> some View {
-        EQDetectiveInstructionView(level: level as! EQDetectiveLevel)
+        switch level {
+        case .eqDetective(let level):
+            EQDetectiveInstructionView(level: level)
+        }
+        
     }
     
     private let starImageName = "star.fill"

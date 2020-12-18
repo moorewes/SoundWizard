@@ -10,7 +10,6 @@ import SwiftUI
 struct MainTabView: View {
     
     @EnvironmentObject var stateController: StateController
-    //@State var selectedTab: Int = 1
     
     var body: some View {
         TabView() {
@@ -21,14 +20,17 @@ struct MainTabView: View {
                     Text("Home")
                 }
             
-            AllGamesView()
+            GameBrowser()
                 .tabItem {
                     Image(systemName: "star.fill")
                         .background(Color.darkGray)
                     Text("All Games")
                 }
         }
-        
+        .fullScreenCover(isPresented: $stateController.presentingLevel) {
+            GameShellView(level: stateController.level!,
+                          gameViewState: $stateController.gameState)
+        }
     }
 }
 

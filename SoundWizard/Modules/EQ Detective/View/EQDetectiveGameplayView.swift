@@ -11,7 +11,7 @@ struct EQDetectiveGameplayView: View {
     
     @ObservedObject var game: EQDetectiveGame
     
-    init(level: EQDetectiveLevel, gameViewState: Binding<GameViewState>, practicing: Bool) {
+    init(level: EQDLevel, gameViewState: Binding<GameViewState>, practicing: Bool) {
         game = EQDetectiveGame(level: level, gameViewState: gameViewState)
         game.practicing = practicing
     }
@@ -122,9 +122,7 @@ struct EQDetectiveGameplayView: View {
 
 struct GameplayView_Previews: PreviewProvider {
     static var previews: some View {
-        EQDetectiveGameplayView(level: testEQDetectiveLevel, gameViewState: .constant(.inGame), practicing: false)
+        EQDetectiveGameplayView(level: TestData.eqdLevel, gameViewState: .constant(.inGame), practicing: false)
             .previewDevice("iPhone 12 Pro")
     }
 }
-
-let testEQDetectiveLevel = EQDetectiveLevel(context: CoreDataManager.shared.viewContext, number: 1, isStock: true, difficulty: .easy, bandFocus: .all, filterGainDB: 12, filterQ: 6, starScores: [300, 500, 700], audioSources: [])

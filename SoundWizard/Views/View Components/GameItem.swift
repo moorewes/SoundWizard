@@ -1,5 +1,5 @@
 //
-//  GameCell.swift
+//  GameItem.swift
 //  SoundWizard
 //
 //  Created by Wes Moore on 12/15/20.
@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct GameItem: Identifiable {
-    var name: String
+    var game: Game
     var stars: StarProgress
-    var levels: [Level]
     
-    var id: String { name }
+    var title: String {
+        return game.name
+    }
+    
+    var id: String {
+        title
+    }
+ 
 }
 
 struct GameCell: View {
@@ -20,7 +26,7 @@ struct GameCell: View {
     
     var body: some View {
         HStack {
-            Text(game.name)
+            Text(game.title)
                 .font(.std(.headline))
                 .foregroundColor(.teal)
                 .padding(.vertical, 30)

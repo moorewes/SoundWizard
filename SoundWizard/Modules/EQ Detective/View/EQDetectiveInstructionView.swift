@@ -9,11 +9,7 @@ import SwiftUI
 
 struct EQDetectiveInstructionView: View {
     
-    var level: EQDetectiveLevel
-    
-    init(level: EQDetectiveLevel) {
-        self.level = level
-    }
+    var level: EQDLevel
     
     var body: some View {
         TabView {
@@ -48,7 +44,7 @@ struct EQDetectiveInstructionView: View {
     }
     
     private var filterGainDescription: String {
-        let gain = Int(level.filterGainDB)
+        let gain = Int(level.filterGain)
         let suffix = gain > 0 ? "Peak" : "Cut"
         return "\(gain)dB \(suffix)"
     }
@@ -68,7 +64,7 @@ struct EQDetectiveInstructionView: View {
     }
     
     private func bellY(x: CGFloat, size: CGSize) -> CGFloat {
-        let a = CGFloat(level.filterGainDB * 1.5)
+        let a = CGFloat(level.filterGain * 1.5)
         let b = size.width / 2
         let c = size.width / (3 * CGFloat(level.filterQ))
         let startY = bellStart(size: size).y

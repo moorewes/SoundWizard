@@ -13,17 +13,8 @@ protocol InstructionViewType {}
 
 protocol StandardGame: GameModel, StageBased, ScoreBased, ScoreMultipliable, LivesBased {}
 
-protocol GameModel: ObservableObject, GameStatusPublisher {
-    
-    associatedtype LevelType: Level
-    associatedtype ConductorType: GameConductor
-    
-    var gameViewState: GameViewState { get set }
-    var level: LevelType { get set }
-    var gameConductor: ConductorType { get set }
-    
-    init(level: LevelType, gameViewState: Binding<GameViewState>)
-    
+protocol GameModel: GameStatusPublisher {
+        
     func fireFeedback()
     
 }

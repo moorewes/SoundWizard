@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LevelsHorizontalList: View {
+struct LevelPicker: View {
     
     var levels: [Level]
     var selectionHandler: (Level) -> Void
@@ -15,17 +15,17 @@ struct LevelsHorizontalList: View {
     init(levels: [Level], onSelect handler: @escaping (Level) -> Void) {
         self.levels = levels
         self.selectionHandler = handler
-        print("init lhl")
     }
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(levels, id: \.self.id) { level in
+                ForEach(levels) { level in
                     Button(action: {
                         selectionHandler(level)
                     }, label: {
-                        LevelCellView(level: level)
+                        LevelCellView(title: level.audioSourceDescription,
+                                      stars: level.stars)
                     })
                     .frame(width: 80, height: 80, alignment: .center)
                     .cornerRadius(15)

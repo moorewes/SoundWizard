@@ -6,9 +6,11 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 
 enum Game: Int, CaseIterable, Identifiable {
+    typealias LevelType = EQDLevel
+    
     
     static let starCount = 3
     
@@ -24,4 +26,9 @@ enum Game: Int, CaseIterable, Identifiable {
     
 }
 
+struct GameplayViewBuilder {
+    
+    
+    
+}
 

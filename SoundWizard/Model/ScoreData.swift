@@ -15,7 +15,7 @@ struct ScoreData {
     var topScore = 0
     var starsEarned = 0
     var newStars = [Int]()
-    
+        
     init(starScores: [Int], scores: [Int]) {
         self.starScores = starScores
         self.scores = scores

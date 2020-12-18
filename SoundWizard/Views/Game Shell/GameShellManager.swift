@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-class GameShellManager<L: Level>: ObservableObject {
+class GameShellManager: ObservableObject {
     
-    var level: L
+    var level: Level
     
     @Published var gameViewState: GameViewState = .preGame {
         didSet {
@@ -35,7 +35,7 @@ class GameShellManager<L: Level>: ObservableObject {
         topScore > previousTopScore
     }
             
-    init(level: L) {
+    init(level: Level) {
         print("game shell manager init")
         self.level = level
         print(Unmanaged.passUnretained(self).toOpaque())

@@ -66,7 +66,7 @@ class EQDetectiveConductor: GameConductor {
         outputFader = Fader(filter, gain: 0)
                 
         player.volume = volume
-        
+        print("filter conductor init with data: ", source)
         masterConductor.patchIn(self)
     }
     
@@ -115,7 +115,7 @@ class EQDetectiveConductor: GameConductor {
         filter.$centerFrequency.ramp(to: filterFreq, duration: filterRampTime)
         filter.$bandwidth.ramp(to: bandwidth, duration: filterRampTime)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
             self.filter.$gain.ramp(to: self.filterGainDB, duration: self.filterRampTime)
         }
     }
