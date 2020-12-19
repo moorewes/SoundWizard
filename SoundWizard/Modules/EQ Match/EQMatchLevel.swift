@@ -7,4 +7,4 @@
 
 import Foundation
 
-struct EQMatchLevel: LevelVariant {}
+struct EQMatchLevel: Level {}

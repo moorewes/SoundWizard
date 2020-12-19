@@ -8,9 +8,7 @@
 import Foundation
 
 struct TestData {
-    
-    static var level = Level(eqdLevel)
-    
+        
     static var eqdLevel = EQDLevel(id: "test level",
                                    game: .eqDetective,
                                    number: 1,
@@ -22,6 +20,7 @@ struct TestData {
                                    filterGain: 8,
                                    filterQ: 8,
                                    octaveErrorRange: 2)
+    
         
     struct TestAudioMetadata: AudioMetadata {
         var name = "Pink Noise"
@@ -31,31 +30,38 @@ struct TestData {
             AudioFileManager.shared.url(for: self)
         }
     }
-    
 }
 
-struct TestLevel: LevelVariant {
-    var id = "test level"
+// MARK: - Game Handling
+
+extension TestData {
     
-    var game: Game = .eqDetective
+    struct GameHandler: GameHandling {
+        var level: Level = TestData.eqdLevel
+        var startHandler: GameStartHandling = GameStartHandler()
+        var completionHandler: GameCompletionHandling = GameCompletionHandler()
+        var state: GameViewState = .inGame(practicing: false)
+    }
     
-    var number: Int = 1
-    
-    var audioMetadata: [AudioMetadata] = [TestAudioMetadata()]
-    
-    var difficulty: LevelDifficulty = .easy
-    
-    var scoreData: ScoreData = ScoreData(starScores: [300, 600, 900], scores: [400, 100])
-    
-    struct TestAudioMetadata: AudioMetadata {
-        var name = "Pink Noise"
-        var filename = "Pink.aif"
-        var isStock = true
-        var url: URL {
-            AudioFileManager.shared.url(for: self)
+    struct GameStartHandler: GameStartHandling {
+        func startGame(practicing: Bool) {
+            
         }
     }
     
+    struct GameCompletionHandler: GameCompletionHandling {
+        func finishGame(score: GameScore) {
+            TestData.eqdLevel.scoreData.addScore(score.value)
+        }
+        
+        func quitGame() {
+            
+        }
+
+    }
+    
 }
+
+
 
 

@@ -9,11 +9,9 @@ import SwiftUI
 
 struct PreGameView: View {
     
-    var level: Level
-    let startGame: () -> Void
-    
-  //  @Binding var gameViewState: GameViewState
-                            
+    let level: Level
+    let gameHandler: GameStartHandling
+                                
     var body: some View {
         ZStack {
             Color.darkBackground
@@ -45,7 +43,9 @@ struct PreGameView: View {
                 
                 Spacer()
                 
-                PlayButton(action: startGame)
+                PlayButton() {
+                    gameHandler.startGame(practicing: false)
+                }
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 40, trailing: 10))
                 
             }
@@ -87,11 +87,9 @@ struct PreGameView: View {
     
     @ViewBuilder
     private func instructionView() -> some View {
-        switch level {
-        case .eqDetective(let level):
+        if let level = level as? EQDLevel {
             EQDetectiveInstructionView(level: level)
         }
-        
     }
     
     private let starImageName = "star.fill"

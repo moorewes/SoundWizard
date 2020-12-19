@@ -20,7 +20,7 @@ struct LevelPicker: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(levels) { level in
+                ForEach(levels, id: \.id) { level in
                     Button(action: {
                         selectionHandler(level)
                     }, label: {

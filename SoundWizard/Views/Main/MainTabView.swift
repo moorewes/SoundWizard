@@ -27,9 +27,8 @@ struct MainTabView: View {
                     Text("All Games")
                 }
         }
-        .fullScreenCover(isPresented: $stateController.presentingLevel) {
-            GameShellView(level: stateController.level!, gameViewState: $stateController.gameState)
-                .environmentObject(stateController)
+        .fullScreenCover(isPresented: $stateController.isPresentingLevel) {
+            GameShellView(game: stateController.gameHandler!)
         }
     }
 }

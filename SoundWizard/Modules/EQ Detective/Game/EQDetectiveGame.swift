@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-struct EQDetectiveGameWrapper:  GameModelType {
-    let game: EQDetectiveGame
-}
-
 class EQDetectiveGame: ObservableObject, StandardGame {
     
     typealias TurnType = EQDetectiveTurn
@@ -22,7 +18,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     var practicing = false
     let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
-    var completion: (Score?) -> Void
+    var completionHandler: GameCompletionHandling
     
     private let baseOctaveErrorMultiplier: Float = 0.7
     
@@ -104,9 +100,9 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     
     // MARK: - Initializers
     
-    required init(level: EQDLevel, onCompletion completion: @escaping (Score?) -> Void) {
+    init(level: EQDLevel, completionHandler: GameCompletionHandling) {
         self.level = level
-        self.completion = completion
+        self.completionHandler = completionHandler
         scoreMultiplier = ScoreMultiplier()
         
         lives = Lives()
@@ -126,8 +122,8 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     }
     
     func finish() {
-        completion(Score(value: score))
-        //gameViewState = .gameCompleted(score: Score(value: score))
+        let gameScore = GameScore(turnScores: turnScores)
+        completionHandler.finishGame(score: gameScore)
     }
     
     func stopAudio() {

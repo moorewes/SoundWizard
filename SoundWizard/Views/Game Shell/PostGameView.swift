@@ -7,12 +7,13 @@
 
 import SwiftUI
 
+// TODO: Cleanup
 struct PostGameView: View {
     
-    var level: Level
-    @Binding var gameViewState: GameViewState
-    var startGameAction: () -> Void
-    @State var animated = false
+    let scoreData: ScoreData
+    let gameHandler: GameStartHandling
+    
+    @State private var animated = false
             
     var body: some View {
         
@@ -23,15 +24,17 @@ struct PostGameView: View {
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
         
-            Text((level.scoreData.scores.last ?? 0).scoreString(digits: 4))
+            Text((scoreData.scores.last ?? 0)
+                .scoreString(digits: 4))
                 .font(.mono(.largeTitle, sizeModifier: 16))
+                .foregroundColor(.teal)
             
             Text("Top Score")
                 .font(.mono(.headline))
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
             
-            MovingCounter(number: animated ? level.scoreData.topScore : previousTopScore,
+            MovingCounter(number: animated ? scoreData.topScore : scoreData.previousTopScore,
                                  font: .mono(.largeTitle, sizeModifier: 16),
                                  duration: 1.5)
             
@@ -40,7 +43,9 @@ struct PostGameView: View {
             
             Spacer()
             
-            PlayButton(action: startGameAction)
+            PlayButton() {
+                gameHandler.startGame(practicing: false)
+            }
                 .padding(.bottom, 40)
             
         }
@@ -52,41 +57,31 @@ struct PostGameView: View {
     
     private var stars: some View {
         HStack(spacing: 0) {
-            ForEach(0..<3) { i in
-                star(number: i + 1)
+            ForEach(1..<4) { i in
+                star(number: i)
             }
         }
     }
     
     private func star(number: Int) -> some View {
-        let justEarnedIndex = level.scoreData.newStars.firstIndex(of: number)
-        let isEarned = level.scoreData.starsEarned >= number
-        var animationDelay = 1.0
-        if let index = justEarnedIndex {
-            animationDelay += Double(index) * timeBetweenStarAnimations
-        }
-        let shouldAnimate = justEarnedIndex != nil
+        let animationIndex = scoreData.newStars.firstIndex(of: number)
+        let isEarned = scoreData.starsEarned >= number
+        let animationDelay = 1.5 + 1.0 * Double(animationIndex ?? 0) * timeBetweenStarAnimations
+        let shouldAnimate = animationIndex != nil
+        print("animating star ", number, "is earned: ", isEarned, shouldAnimate, " after delay: ", animationDelay)
         return VStack {
             Star(filled: isEarned, number: number, animated: shouldAnimate, animationDelay: animationDelay)
                 .font(.system(size: 42))
                 .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
                         
-            Text("\(level.scoreData.starScores[number - 1])")
+            Text("\(scoreData.starScores[number - 1])")
                 .foregroundColor(.teal)
                 .font(.mono(.headline))
         }
     }
     
-    private var previousTopScore: Int {
-        var scores = level.scoreData.scores
-        guard !scores.isEmpty else { return 0 }
-        
-        scores.removeLast()
-        return scores.sorted().last ?? 0
-    }
-    
     private var justEarnedTopScore: Bool {
-        level.scoreData.topScore > previousTopScore
+        !scoreData.newStars.isEmpty
     }
     
     private let timeBetweenStarAnimations = 0.3
@@ -100,7 +95,7 @@ struct PostGameView: View {
 //        PostGameView(level: level, gameViewState: .constant(.gameCompleted))
 //            .preferredColorScheme(.dark)
 //            .onAppear {
-//                level.scores = []
+//                scores = []
 //            }
 //    }
 //}

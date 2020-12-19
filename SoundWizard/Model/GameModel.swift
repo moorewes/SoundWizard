@@ -34,11 +34,16 @@ extension GameModel where Self: TurnBased {
 
 protocol ScoreBased {
     
+    var turnScores: [TurnScore] { get }
     var score: Int { get }
     
 }
 
 extension ScoreBased where Self: TurnBased {
+    
+    var turnScores: [TurnScore] {
+        turns.compactMap { $0.score }
+    }
     
     var score: Int {
         Int(turns.compactMap { $0.score?.value }.reduce(0, +))

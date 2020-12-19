@@ -52,8 +52,9 @@ struct EQDetectiveLevelBrowser: View {
     var levels: [EQDLevel]
     
     @EnvironmentObject var stateController: StateController
-    @State var difficultySelection: Int = 1
-    @State var gainTypeSelection: Int = 1
+    
+    @State private var difficultySelection: Int = 1
+    @State private var gainTypeSelection: Int = 1
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -68,8 +69,8 @@ struct EQDetectiveLevelBrowser: View {
                     
                     LevelListHeader(title: focus.uiDescription, stars: levels.stars)
                     
-                    LevelPicker(levels: levels.map { Level($0) }) { level in
-                        stateController.level = level
+                    LevelPicker(levels: levels) { level in
+                        stateController.playLevel(level)
                     }
                         .padding(.bottom, 50)
                 }
@@ -80,6 +81,7 @@ struct EQDetectiveLevelBrowser: View {
 
     }
     
+    // TODO: Refactor to use a class to manage filtering levels
     private func filteredLevels(focus: BandFocus) -> [EQDLevel] {
         levels.filter { level in
             level.bandFocus == focus &&

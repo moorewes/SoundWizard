@@ -21,7 +21,7 @@ struct HomeView: View {
                     .padding(.top, 20)
                 
                 LevelPicker(levels: stateController.dailyLevels) { level in
-                    stateController.level = level
+                    stateController.playLevel(level)
                 }
             }
         }

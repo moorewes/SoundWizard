@@ -25,7 +25,7 @@ struct EQDetectiveInstructionView: View {
                     .stroke(lineWidth: 1.5)
                     .foregroundColor(.teal)
                     .frame(width: 60, height: 20, alignment: .center)
-                    .padding(.bottom, 5)
+                    .padding(.bottom, 10)
                 Text(filterGainDescription)
                     .font(.std(.callout))
                 Text(level.bandFocus.uiDescription)
@@ -72,7 +72,8 @@ struct EQDetectiveInstructionView: View {
     }
     
     private func bellStart(size: CGSize) -> CGPoint {
-        return CGPoint(x: 0, y: size.height / 2)
+        let y = level.filterGain < 0 ? size.height / 4 : size.height
+        return CGPoint(x: 0, y: y)
     }
     
 }

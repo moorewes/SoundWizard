@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EQDLevel: LevelVariant, Identifiable {
+struct EQDLevel: Level, Identifiable {
     
     var id: String
     var game: Game

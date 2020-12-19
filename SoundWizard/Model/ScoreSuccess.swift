@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct Score {
-    let value: Int
-    //private(set) var success: ScoreSuccess
+struct GameScore {
+    var value: Int
+    var turns: [TurnScore]
     
-    init(value: Int) {
-        self.value = value
-     //   success = ScoreSuccess(score: value)
+    init(turnScores: [TurnScore]) {
+        self.turns = turnScores
+        self.value = turnScores.reduce(0) { $0 + Int($1.value) }
     }
 }
 

@@ -9,11 +9,8 @@ import SwiftUI
 
 struct GameShellView: View {
     
-    var level: Level
-    @Binding var gameViewState: GameViewState
+    var game: GameHandling
     
-    @EnvironmentObject var stateController: StateController
-    @Environment(\.presentationMode) private var presentationMode
     @State var showInfoView = false
         
     var body: some View {
@@ -24,12 +21,12 @@ struct GameShellView: View {
             VStack {
                 navBar
                                 
-                if case .inGame = gameViewState {
-                    GameplayView(level: level.levelVariant, completion: stateController.finishGame)
-                } else if case .gameCompleted = gameViewState {
-                    PostGameView(level: level, gameViewState: $gameViewState, startGameAction: stateController.startGame)
+                if case .inGame = game.state {
+                    GameplayView(level: game.level, completionHandler: game.completionHandler)
+                } else if case .gameCompleted = game.state {
+                    PostGameView(scoreData: game.level.scoreData, gameHandler: game.startHandler)
                 } else {
-                    PreGameView(level: level, startGame: stateController.startGame)
+                    PreGameView(level: game.level, gameHandler: game.startHandler)
                 }
 
             }
@@ -45,18 +42,14 @@ struct GameShellView: View {
     var navBar: some View {
         HStack {
             Button(quitText) {
-                if case .inGame = gameViewState {
-                    stateController.quitGame()
-                } else {
-                    presentationMode.wrappedValue.dismiss()
-                }
+                game.completionHandler.quitGame()
             }
                 .font(.mono(.headline))
                 .foregroundColor(.lightGray)
             
             Spacer()
             
-            Text("Level \(level.number)")
+            Text("Level \(game.level.number)")
                 .foregroundColor(.teal)
                 .font(.mono(.headline))
             
@@ -82,7 +75,7 @@ struct GameShellView: View {
     }
     
     var infoButtonImageName: String {
-        if case .inGame = gameViewState {
+        if case .inGame = game.state {
             return "gearshape.fill"
         } else {
             return "info.circle"
@@ -90,7 +83,7 @@ struct GameShellView: View {
     }
     
     var quitText: String {
-        switch gameViewState {
+        switch game.state {
         case .inGame:
             return "Quit"
         default:

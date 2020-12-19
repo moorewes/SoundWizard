@@ -28,7 +28,7 @@ extension Collection where Element == Level {
     
 }
 
-extension Collection where Element: LevelVariant {
+extension Collection where Element: Level {
     
     var stars: StarProgress {
         let total = self.count * StarProgress.levelMax

@@ -118,7 +118,7 @@ struct EQDetectiveGameplayView: View {
 struct GameplayView_Previews: PreviewProvider {
     
     static let level = TestData.eqdLevel
-    static let game = EQDetectiveGame(level: level) { _ in }
+    static let game = EQDetectiveGame(level: level, completionHandler: TestData.GameHandler().completionHandler)
     
     static var previews: some View {
         EQDetectiveGameplayView(game: game)

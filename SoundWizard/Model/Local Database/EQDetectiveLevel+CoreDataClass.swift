@@ -32,7 +32,7 @@ public class EQDetectiveLevel: NSManagedObject {
         }
     }()
     
-    func addRound(score: Int) {
+    func addScore(score: Int) {
         scoreData.addScore(score)
         scores = scoreData.scores
         try! managedObjectContext?.save()
@@ -55,12 +55,12 @@ extension EQDetectiveLevel {
         }
     }
     
-    static func level(_ number: Int) -> EQDetectiveLevel {
+    static func level(_ number: Int) -> EQDetectiveLevel? {
         let context = CoreDataManager.shared.container.viewContext
         let request: NSFetchRequest<EQDetectiveLevel> = EQDetectiveLevel.fetchRequest()
         request.predicate = NSPredicate(format: "number_ = %ld", number)
         do {
-            return try context.fetch(request).first!
+            return try context.fetch(request).first
         } catch {
             fatalError("Couldn't fetch levels, \(error.localizedDescription)")
         }
@@ -110,7 +110,6 @@ extension EQDetectiveLevel {
 extension EQDetectiveLevel: LevelStorageObject {
     
     var level: Level {
-        Level.eqDetective(
             EQDLevel(
                 id: id,
                 game: game,
@@ -122,7 +121,6 @@ extension EQDetectiveLevel: LevelStorageObject {
                 filterGain: filterGainDB,
                 filterQ: filterQ
             )
-        )
     }
 }
 

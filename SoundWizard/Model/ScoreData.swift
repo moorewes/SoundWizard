@@ -15,6 +15,13 @@ struct ScoreData {
     var topScore = 0
     var starsEarned = 0
     var newStars = [Int]()
+    
+    var previousTopScore: Int {
+        guard !newStars.isEmpty && scores.count > 1 else {
+            return topScore
+        }
+        return scores[scores.count - 2]
+    }
         
     init(starScores: [Int], scores: [Int]) {
         self.starScores = starScores
@@ -42,6 +49,7 @@ struct ScoreData {
         
         newStars = [1, 2, 3].filter { $0 > starsEarned && $0 <= stars }
         starsEarned = stars
+        print(self)
     }
     
     private func starsEarned(for score: Int) -> Int {

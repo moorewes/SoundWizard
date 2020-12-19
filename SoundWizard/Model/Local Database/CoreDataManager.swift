@@ -44,6 +44,14 @@ class CoreDataManager {
         EQDetectiveLevel.storeBundleLevelsIfNeeded(context: container.viewContext)
     }
     
+    func update(from level: Level) {
+        guard let score = level.scoreData.scores.last else { return }
+        guard let storageLevel = storeObject(matching: level) else {
+            fatalError("couldn't find matching core data object to update")
+        }
+        storageLevel.addScore(score: score)
+    }
+    
     func save() {
         guard container.viewContext.hasChanges else { return }
         do {
@@ -63,5 +71,17 @@ class CoreDataManager {
             }
         }
     }
+    
+    private func storeObject(matching level: Level) -> EQDetectiveLevel? {
+        let levels = viewContext.registeredObjects
+                        .compactMap { $0 as? EQDetectiveLevel }
+                        .filter { $0.id == level.id }
+        if let level = levels.first {
+            return level
+        } else {
+            return EQDetectiveLevel.level(level.number)
+        }
+    }
+    
     
 }
