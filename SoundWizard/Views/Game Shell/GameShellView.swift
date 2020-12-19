@@ -7,13 +7,12 @@
 
 import SwiftUI
 
-
-
 struct GameShellView: View {
     
     var level: Level
     @Binding var gameViewState: GameViewState
-
+    
+    @EnvironmentObject var stateController: StateController
     @Environment(\.presentationMode) private var presentationMode
     @State var showInfoView = false
         
@@ -24,13 +23,13 @@ struct GameShellView: View {
             
             VStack {
                 navBar
-                
-                if gameViewState == .inGame {
-                    GameplayView(level: level, viewState: $gameViewState)
-                } else if gameViewState == .gameCompleted {
-                    PostGameView(level: level, gameViewState: $gameViewState)
+                                
+                if case .inGame = gameViewState {
+                    GameplayView(level: level.levelVariant, completion: stateController.finishGame)
+                } else if case .gameCompleted = gameViewState {
+                    PostGameView(level: level, gameViewState: $gameViewState, startGameAction: stateController.startGame)
                 } else {
-                    PreGameView(level: level, gameViewState: $gameViewState)
+                    PreGameView(level: level, startGame: stateController.startGame)
                 }
 
             }
@@ -46,8 +45,8 @@ struct GameShellView: View {
     var navBar: some View {
         HStack {
             Button(quitText) {
-                if gameViewState == .inGame {
-                    gameViewState = .gameQuitted
+                if case .inGame = gameViewState {
+                    stateController.quitGame()
                 } else {
                     presentationMode.wrappedValue.dismiss()
                 }
@@ -83,7 +82,7 @@ struct GameShellView: View {
     }
     
     var infoButtonImageName: String {
-        if gameViewState == .inGame {
+        if case .inGame = gameViewState {
             return "gearshape.fill"
         } else {
             return "info.circle"

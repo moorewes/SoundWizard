@@ -11,11 +11,11 @@ class GameShellManager: ObservableObject {
     
     var level: Level
     
-    @Published var gameViewState: GameViewState = .preGame {
-        didSet {
-            print(gameViewState)
-        }
-    }
+//    @Published var gameViewState: GameViewState = .preGame {
+//        didSet {
+//            print(gameViewState)
+//        }
+//    }
     
     var lastRoundScore: Int {
         level.scoreData.scores.last ?? 0
@@ -46,9 +46,9 @@ class GameShellManager: ObservableObject {
         print(Unmanaged.passUnretained(self).toOpaque())
     }
     
-    func quitGame() {
-        gameViewState = .gameQuitted
-    }
+//    func quitGame() {
+//        gameViewState = .gameQuitted
+//    }
     
     func showInfoView() {
         

@@ -11,11 +11,6 @@ struct EQDetectiveGameplayView: View {
     
     @ObservedObject var game: EQDetectiveGame
     
-    init(level: EQDLevel, gameViewState: Binding<GameViewState>, practicing: Bool) {
-        game = EQDetectiveGame(level: level, gameViewState: gameViewState)
-        game.practicing = practicing
-    }
-    
     var body: some View {
         
             ZStack {
@@ -121,8 +116,12 @@ struct EQDetectiveGameplayView: View {
 }
 
 struct GameplayView_Previews: PreviewProvider {
+    
+    static let level = TestData.eqdLevel
+    static let game = EQDetectiveGame(level: level) { _ in }
+    
     static var previews: some View {
-        EQDetectiveGameplayView(level: TestData.eqdLevel, gameViewState: .constant(.inGame), practicing: false)
+        EQDetectiveGameplayView(game: game)
             .previewDevice("iPhone 12 Pro")
     }
 }

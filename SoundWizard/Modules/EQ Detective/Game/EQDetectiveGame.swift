@@ -22,15 +22,12 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     var practicing = false
     let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
+    var completion: (Score?) -> Void
     
     private let baseOctaveErrorMultiplier: Float = 0.7
     
     // MARK: - Properties
-    
-    // MARK: Bindings
-    
-    @Binding var gameViewState: GameViewState
-    
+
     // MARK: Published
     
     @Published var selectedFreq: Frequency {
@@ -107,10 +104,9 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     
     // MARK: - Initializers
     
-    required init(level: EQDLevel, gameViewState: Binding<GameViewState>) {
+    required init(level: EQDLevel, onCompletion completion: @escaping (Score?) -> Void) {
         self.level = level
-        _gameViewState = gameViewState
-        
+        self.completion = completion
         scoreMultiplier = ScoreMultiplier()
         
         lives = Lives()
@@ -130,8 +126,8 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     }
     
     func finish() {
-        //level.addRound(score: score)
-        gameViewState = .gameCompleted
+        completion(Score(value: score))
+        //gameViewState = .gameCompleted(score: Score(value: score))
     }
     
     func stopAudio() {

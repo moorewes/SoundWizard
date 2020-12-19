@@ -14,6 +14,7 @@ enum Level: Identifiable {
     var id: String {
         self.game.name + "\(self.number)"
     }
+    
 }
 
 extension Level {

@@ -11,6 +11,7 @@ struct PostGameView: View {
     
     var level: Level
     @Binding var gameViewState: GameViewState
+    var startGameAction: () -> Void
     @State var animated = false
             
     var body: some View {
@@ -39,7 +40,7 @@ struct PostGameView: View {
             
             Spacer()
             
-            PlayButton(gameViewState: $gameViewState)
+            PlayButton(action: startGameAction)
                 .padding(.bottom, 40)
             
         }

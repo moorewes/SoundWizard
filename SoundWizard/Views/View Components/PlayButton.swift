@@ -9,11 +9,11 @@ import SwiftUI
 
 struct PlayButton: View {
     
-    @Binding var gameViewState: GameViewState
-    
+    let action: () -> Void
+        
     var body: some View {
         Button(action: {
-            gameViewState = .inGame
+            action()
         }, label: {
             ZStack {
                 Rectangle()

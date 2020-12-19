@@ -10,10 +10,10 @@ import SwiftUI
 struct PreGameView: View {
     
     var level: Level
-    @Binding var gameViewState: GameViewState
-        
-    var shouldShowLastScore: Bool { gameViewState == .gameCompleted }
-                    
+    let startGame: () -> Void
+    
+  //  @Binding var gameViewState: GameViewState
+                            
     var body: some View {
         ZStack {
             Color.darkBackground
@@ -39,15 +39,13 @@ struct PreGameView: View {
                 
                 // Instruction View
                 
-                if !shouldShowLastScore {
-                    instructionView()
-                        .foregroundColor(.lightGray)
-                        .padding(.horizontal, 50)
-                }
+                instructionView()
+                    .foregroundColor(.lightGray)
+                    .padding(.horizontal, 50)
                 
                 Spacer()
                 
-                PlayButton(gameViewState: $gameViewState)
+                PlayButton(action: startGame)
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 40, trailing: 10))
                 
             }

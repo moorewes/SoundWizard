@@ -15,7 +15,7 @@ class StateController: ObservableObject {
     
     @Published var level: Level?
     @Published var dailyLevels: [Level]
-    @Published var gameState = GameViewState.preGame
+    @Published var gameState: GameViewState
     
     var presentingLevel: Bool {
         get {
@@ -36,6 +36,19 @@ class StateController: ObservableObject {
     init() {
         allLevels = dataManager.allLevels()
         dailyLevels = allLevels.filter { $0.number < 5 }
+        gameState = .none
+    }
+    
+    func startGame() {
+        
+    }
+    
+    func finishGame(score: Score?) {
+        
+    }
+    
+    func quitGame() {
+        
     }
     
     func levels(for game: Game) -> [Level] {

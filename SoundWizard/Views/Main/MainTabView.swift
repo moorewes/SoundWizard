@@ -28,8 +28,8 @@ struct MainTabView: View {
                 }
         }
         .fullScreenCover(isPresented: $stateController.presentingLevel) {
-            GameShellView(level: stateController.level!,
-                          gameViewState: $stateController.gameState)
+            GameShellView(level: stateController.level!, gameViewState: $stateController.gameState)
+                .environmentObject(stateController)
         }
     }
 }

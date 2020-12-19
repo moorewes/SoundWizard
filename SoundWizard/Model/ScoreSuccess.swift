@@ -7,6 +7,16 @@
 
 import Foundation
 
+struct Score {
+    let value: Int
+    //private(set) var success: ScoreSuccess
+    
+    init(value: Int) {
+        self.value = value
+     //   success = ScoreSuccess(score: value)
+    }
+}
+
 enum ScoreSuccess: Int, CaseIterable, Comparable {
     
     case failed = 0, justMissed, fair, great, perfect
@@ -26,7 +36,7 @@ enum ScoreSuccess: Int, CaseIterable, Comparable {
     }
     
     var succeeded: Bool {
-        return self > .justMissed
+        return self >= .fair
     }
     
     static func < (lhs: ScoreSuccess, rhs: ScoreSuccess) -> Bool {
