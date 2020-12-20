@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(EQDetectiveLevel)
-public class EQDetectiveLevel: NSManagedObject {
+public final class EQDetectiveLevel: NSManagedObject {
     
     static let game = Game.eqDetective
     
@@ -87,7 +87,7 @@ extension EQDetectiveLevel {
     }
     
     var audioMetadata: [AudioMetadata] {
-        get { audioSources_?.allObjects as? [AudioSource] ?? [] }
+        (audioSources_ ?? []).compactMap { ($0 as? AudioSource)?.asMetadata }
     }
     
     var difficulty: LevelDifficulty {
@@ -107,11 +107,18 @@ extension EQDetectiveLevel {
     
 }
 
+// MARK: LevelStorageObject Conformance
+
 extension EQDetectiveLevel: LevelStorageObject {
     
-    var level: Level {
+    typealias LevelType = EQDLevel
+    typealias AudioSourceType = AudioSource
+    typealias ObjectContext = NSManagedObjectContext
+    
+    var level: LevelType {
             EQDLevel(
                 id: id,
+                isStock: isStock,
                 game: game,
                 number: number,
                 difficulty: difficulty,
@@ -122,14 +129,20 @@ extension EQDetectiveLevel: LevelStorageObject {
                 filterQ: filterQ
             )
     }
+    
+    static func createNew(level: EQDLevel, audioSources: [AudioSource], context: NSManagedObjectContext) {
+        let result = EQDetectiveLevel(context: context)
+        result.id = level.id
+        result.number = level.number
+        result.isStock = level.isStock
+        result.difficulty = level.difficulty
+        result.bandFocus = level.bandFocus
+        result.filterGainDB = level.filterGain
+        result.filterQ = level.filterQ
+        result.starScores = level.scoreData.starScores
+        audioSources.forEach { result.addToAudioSources_($0) }
+    }
+
 }
 
-extension EQDetectiveLevel {
-    
-    class func makeID(isStock: Bool, number: Int, audioSources: [AudioSource]) -> String {
-        let typeString = isStock ? "stock" : "custom"
-        let sourceString = audioSources.count == 1 ? audioSources.first!.name : "multipleAudioSources"
-        return "\(game.id).\(typeString).\(number).\(sourceString)"
-    }
-    
-}
+

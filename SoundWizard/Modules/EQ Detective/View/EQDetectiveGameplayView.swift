@@ -12,48 +12,38 @@ struct EQDetectiveGameplayView: View {
     @ObservedObject var game: EQDetectiveGame
     
     var body: some View {
-        
+        VStack() {
+            StatusBar(game: game)
+                .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+                .opacity(game.practicing ? 0 : 1)
+            
+            gameInfoView
+                .padding()
+            
+            FrequencySlider(data: game, frequency: $game.selectedFreq)
+                .padding(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
+                .onTapGesture(count: 2) {
+                    game.toggleFilterOnState()
+                }
+            
+            togglePicker
+                .frame(width: 200, height: nil)
+                .padding(.bottom, 40)
+            
             ZStack {
-                Color.darkBackground
-                    .ignoresSafeArea()
-                
-                VStack() {
-                    
-                    StatusBar(game: game)
-                        .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
-                        .opacity(game.practicing ? 0 : 1)
-                        
-                    gameInfoView
-                        .padding()
-                    
-                    FrequencySlider(data: game, frequency: $game.selectedFreq)
-                        .padding(EdgeInsets(top: 10, leading: 40, bottom: 10, trailing: 40))
-                        .onTapGesture(count: 2) {
-                            game.toggleFilterOnState()
-                        }
-                        
-                    togglePicker
-                        .frame(width: 200, height: nil)
-                        .padding(.bottom, 40)
-                    
-                    ZStack {
-                        RoundedRectButton(title: submitButtonText, action: { game.submitGuess() })
-                            .opacity(game.showSubmitButton ? 1 : 0)
-                        RoundedRectButton(title: continueButtonText, action: { game.continueToNextTurn() })
-                            .opacity(game.showContinueButton ? 1 : 0)
-                    }
-                    .padding(.bottom, 60)
-                    
-                    
-                }
-                .onAppear {
-                    game.start()
-                }
-                .onDisappear() {
-                    game.stopAudio()
-                }
-                
+                RoundedRectButton(title: submitButtonText, action: { game.submitGuess() })
+                    .opacity(game.showSubmitButton ? 1 : 0)
+                RoundedRectButton(title: continueButtonText, action: { game.continueToNextTurn() })
+                    .opacity(game.showContinueButton ? 1 : 0)
             }
+            .padding(.bottom, 60)
+        }
+        .onAppear {
+            game.start()
+        }
+        .onDisappear() {
+            game.stopAudio()
+        }
     }
     
     private var gameInfoView: some View {
@@ -118,7 +108,7 @@ struct EQDetectiveGameplayView: View {
 struct GameplayView_Previews: PreviewProvider {
     
     static let level = TestData.eqdLevel
-    static let game = EQDetectiveGame(level: level, completionHandler: TestData.GameHandler().completionHandler)
+    static let game = EQDetectiveGame(level: level, practice: false, completionHandler: TestData.GameHandler(state: .playing).completionHandler)
     
     static var previews: some View {
         EQDetectiveGameplayView(game: game)

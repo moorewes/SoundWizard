@@ -49,7 +49,6 @@ struct ScoreData {
         
         newStars = [1, 2, 3].filter { $0 > starsEarned && $0 <= stars }
         starsEarned = stars
-        print(self)
     }
     
     private func starsEarned(for score: Int) -> Int {

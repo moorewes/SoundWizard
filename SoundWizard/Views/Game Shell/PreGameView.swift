@@ -13,44 +13,32 @@ struct PreGameView: View {
     let gameHandler: GameStartHandling
                                 
     var body: some View {
-        ZStack {
-            Color.darkBackground
-                .ignoresSafeArea()
+        VStack {
+                        
+            Text("Top Score")
+                .font(.mono(.headline))
+                .foregroundColor(.lightGray)
+                .padding()
             
-            VStack {
-                                
-                // Top Score
-                
-                Text("Top Score")
-                    .font(.mono(.headline))
-                    .foregroundColor(.lightGray)
-                    .padding()
-                
-                topScore
-                    .padding(.bottom, 50)
-                
-                // Stars
-                
-                stars
-                
-                Spacer()
-                
-                // Instruction View
-                
-                instructionView()
-                    .foregroundColor(.lightGray)
-                    .padding(.horizontal, 50)
-                
-                Spacer()
-                
-                PlayButton() {
-                    gameHandler.startGame(practicing: false)
-                }
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 40, trailing: 10))
-                
+            topScore
+                .padding(.bottom, 50)
+                        
+            stars
+            
+            Spacer()
+                        
+            instructionView()
+                .foregroundColor(.lightGray)
+                .padding(.horizontal, 50)
+            
+            Spacer()
+            
+            PlayButton() {
+                gameHandler.play()
             }
+            .padding(EdgeInsets(top: 0, leading: 10, bottom: 40, trailing: 10))
+            
         }
-        
     }
     
     private var topScore: some View {
@@ -97,10 +85,9 @@ struct PreGameView: View {
     private let starAnimationDuration = 0.7
     
 }
-//
-//struct EQDetectivePreGameView_Previews: PreviewProvider {
-//    static let manager = GameShellManager(level: TestLevel())
-//    static var previews: some View {
-//        PreGameView(level: TestLevel(), gameViewState: .constant(.preGame))
-//    }
-//}
+
+struct PreGameView_Previews: PreviewProvider {
+    static var previews: some View {
+        PreGameView(level: TestData.eqdLevel, gameHandler: TestData.GameStartHandler())
+    }
+}

@@ -34,7 +34,7 @@ extension EQDetectiveLevel {
                      starScores: [Int],
                      audioSources: [AudioSource]) {
         self.init(context: context)
-        self.id = Self.makeID(isStock: isStock, number: number, audioSources: audioSources)
+        self.id = EQDLevel.makeID(isStock: isStock, number: number, audioSources: audioSources.map { $0.asMetadata })
         self.number = number
         self.isStock = isStock
         self.difficulty = difficulty

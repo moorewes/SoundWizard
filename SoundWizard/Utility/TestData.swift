@@ -10,10 +10,11 @@ import Foundation
 struct TestData {
         
     static var eqdLevel = EQDLevel(id: "test level",
+                                   isStock: true,
                                    game: .eqDetective,
                                    number: 1,
                                    difficulty: .easy,
-                                   audioMetadata: [TestAudioMetadata()],
+                                   audioMetadata: [audioMetadata],
                                    scoreData: ScoreData(starScores: [300, 600, 900],
                                                         scores: [400, 100]),
                                    bandFocus: .all,
@@ -21,43 +22,68 @@ struct TestData {
                                    filterQ: 8,
                                    octaveErrorRange: 2)
     
-        
-    struct TestAudioMetadata: AudioMetadata {
-        var name = "Pink Noise"
-        var filename = "Pink.aif"
-        var isStock = true
-        var url: URL {
-            AudioFileManager.shared.url(for: self)
-        }
-    }
+    static var audioMetadata = AudioMetadata(id: "stock.Pink Noise", name: "Pink Noise", filename: "Pink.aif", isStock: true, fileFetcher: AudioFileManager.shared)
+
 }
 
 // MARK: - Game Handling
 
 extension TestData {
     
+    static var stateController = TestStateController(levelStore: LevelStore())
+    
     struct GameHandler: GameHandling {
-        var level: Level = TestData.eqdLevel
+        var level: Level & GameBuilding = TestData.eqdLevel
         var startHandler: GameStartHandling = GameStartHandler()
+        var gameBuilder: GameBuilding { return level }
         var completionHandler: GameCompletionHandling = GameCompletionHandler()
-        var state: GameViewState = .inGame(practicing: false)
+        var state: GameViewState
     }
     
     struct GameStartHandler: GameStartHandling {
-        func startGame(practicing: Bool) {
+        func play() {
+            
+        }
+        
+        func practice() {
             
         }
     }
     
     struct GameCompletionHandler: GameCompletionHandling {
-        func finishGame(score: GameScore) {
+        func finish(score: GameScore) {
             TestData.eqdLevel.scoreData.addScore(score.value)
         }
         
-        func quitGame() {
+        func quit() {
             
         }
 
+    }
+    
+    class TestStateController: StateController {}
+    
+    struct LevelStore: LevelStoring, LevelFetching {
+        
+        func add(level: Level) {
+            
+        }
+        
+        func update(level: Level) {
+            
+        }
+        
+        func delete(level: Level) {
+            
+        }
+        
+        func fetchLevels(for game: Game) -> [Level] {
+            return [TestData.eqdLevel]
+        }
+        
+        
+        
+        
     }
     
 }

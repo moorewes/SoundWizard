@@ -10,10 +10,11 @@ import Foundation
 struct EQDLevel: Level, Identifiable {
     
     var id: String
-    var game: Game
-    var number: Int
-    var difficulty: LevelDifficulty
-    var audioMetadata: [AudioMetadata]
+    let isStock: Bool
+    let game: Game
+    let number: Int
+    let difficulty: LevelDifficulty
+    let audioMetadata: [AudioMetadata]
     var scoreData: ScoreData
         
     let bandFocus: BandFocus
@@ -34,4 +35,19 @@ struct EQDLevel: Level, Identifiable {
     var filterBoosts: Bool {
         filterGain > 0
     }
+}
+
+// MARK: ID Factory
+
+extension EQDLevel {
+    
+    static func makeID(isStock: Bool, number: Int, audioSources: [AudioMetadata]) -> String {
+        let typeString = isStock ? "stock" : "custom"
+        let sourceString = audioSources.count == 1 ?
+                            audioSources.first!.name :
+                            "multipleAudioSources"
+        
+        return "\(Game.eqDetective.id).\(typeString).\(number).\(sourceString)"
+    }
+    
 }

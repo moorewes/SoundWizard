@@ -14,26 +14,22 @@ struct LevelCellView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                Color.listRowBackground.ignoresSafeArea()
+            VStack {
+                Spacer()
                 
-                VStack {
-                    Spacer()
-                    
-                    Text(title)
-                        .font(.mono(.footnote))
-                        .foregroundColor(.teal)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 8)
-                        .position(titlePosition(in: geometry.size))
-                    
-                    Spacer()
-                    
-                    starsView
-                        .padding(.bottom, 4)
-                    
-                    Spacer()
-                }
+                Text(title)
+                    .font(.mono(.footnote))
+                    .foregroundColor(.teal)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 8)
+                    .position(titlePosition(in: geometry.size))
+                
+                Spacer()
+                
+                starsView
+                    .padding(.bottom, 4)
+                
+                Spacer()
             }
         }
     }
@@ -55,11 +51,9 @@ struct LevelCellView: View {
     
 }
 
-//struct LevelCellView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LevelCellView(level: EQDetectiveLevel.level(3))
-//            .frame(width: 80, height: 80, alignment: .center)
-//            .preferredColorScheme(.dark)
-//            
-//    }
-//}
+struct LevelCellView_Previews: PreviewProvider {
+    static var previews: some View {
+        LevelCellView(title: "Drums", stars: StarProgress(total: 3, earned: 1))
+            .frame(width: 80, height: 80, alignment: .center)
+    }
+}

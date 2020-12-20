@@ -20,22 +20,26 @@ struct MainTabView: View {
                     Text("Home")
                 }
             
-            GameBrowser()
+            GameBrowser(gameItems: stateController.gameItems)
                 .tabItem {
                     Image(systemName: "star.fill")
                         .background(Color.darkGray)
                     Text("All Games")
                 }
         }
+        .primaryBackground()
         .fullScreenCover(isPresented: $stateController.isPresentingLevel) {
             GameShellView(game: stateController.gameHandler!)
+                .primaryBackground()
         }
     }
 }
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        UITabBar.setCustomAppearance()
+        Appearance.setup()
         return MainTabView()
+            .environmentObject(StateController(levelStore: CoreDataManager.shared))
+            .preferredColorScheme(.dark)
     }
 }

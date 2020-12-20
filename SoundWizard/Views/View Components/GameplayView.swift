@@ -9,19 +9,26 @@ import SwiftUI
 
 struct GameplayView: View {
     
-    let level: Level
-    var completionHandler: GameCompletionHandling
+    let game: GameHandling
     
     var body: some View {
-        gameplayView()
+        game.gameBuilder.buildGame(gameHandler: game)
     }
     
-    @ViewBuilder
-    private func gameplayView() -> some View {
-        if let level = level as? EQDLevel {
-            let game = EQDetectiveGame(level: level, completionHandler: completionHandler)
-            EQDetectiveGameplayView(game: game)
-        }
+}
+
+protocol GameBuilding {
+    func buildGame(gameHandler handler: GameHandling) -> AnyView
+}
+
+extension EQDLevel: GameBuilding {
+    
+    func buildGame(gameHandler handler: GameHandling) -> AnyView {
+        let game = EQDetectiveGame(level: self,
+                                   practice: handler.state == .practicing,
+                                   completionHandler: handler.completionHandler
+        )
+        return AnyView(EQDetectiveGameplayView(game: game))
     }
     
 }

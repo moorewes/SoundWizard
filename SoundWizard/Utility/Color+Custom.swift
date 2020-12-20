@@ -7,11 +7,14 @@
 
 import SwiftUI
 
+// TODO: Cleanup, rename to be more generic, make dynamic
 extension Color {
     
     static let teal = Color(UIColor.systemTeal)
     
     static let darkBackground = Color(white: 0.15, opacity: 1)
+    
+    static let secondaryBackground = Color(white: 0.3)
     
     static let extraDarkGray = Color(white: 0.08)
     

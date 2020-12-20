@@ -26,6 +26,7 @@ struct LevelPicker: View {
                     }, label: {
                         LevelCellView(title: level.audioSourceDescription,
                                       stars: level.stars)
+                            .secondaryBackground()
                     })
                     .frame(width: 80, height: 80, alignment: .center)
                     .cornerRadius(15)
@@ -34,5 +35,12 @@ struct LevelPicker: View {
             }
             .padding(.horizontal)
         }
+    }
+}
+
+struct LevelPicker_Previews: PreviewProvider {
+    static var previews: some View {
+        LevelPicker(levels: [TestData.eqdLevel], onSelect: {_ in})
+            .primaryBackground()
     }
 }

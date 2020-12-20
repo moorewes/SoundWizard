@@ -9,15 +9,24 @@
 import Foundation
 import CoreData
 
-protocol AudioMetadata {
-    var name: String { get }
-    var filename: String { get }
-    var isStock: Bool { get }
-    var url: URL { get }
+struct AudioMetadata {
+    var id: String
+    var name: String
+    var filename: String
+    var isStock: Bool
+    var fileFetcher: AudioFileFetcher
+    
+    var url: URL {
+        fileFetcher.url(for: self)
+    }
+}
+
+extension AudioMetadata {
+    
 }
 
 @objc(AudioSource)
-public class AudioSource: NSManagedObject, AudioMetadata {
+public class AudioSource: NSManagedObject {
     
     private var fileFetcher: AudioFileFetcher = AudioFileManager.shared
     
@@ -36,8 +45,15 @@ public class AudioSource: NSManagedObject, AudioMetadata {
         set { filename_ = newValue }
     }
     
-    var url: URL {
-        fileFetcher.url(for: self)
+    convenience init(metadata: AudioMetadata, context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.id = metadata.filename
+        self.name = metadata.name
+        self.filename = metadata.filename
+    }
+    
+    var asMetadata: AudioMetadata {
+        AudioMetadata(id: id, name: name, filename: filename, isStock: isStock, fileFetcher: AudioFileManager.shared)
     }
     
 }

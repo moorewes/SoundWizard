@@ -10,13 +10,14 @@ import SwiftUI
 // TODO: Make dynamic for other level types
 class StateController: ObservableObject {
     
-    // TODO: Create fetcher protocol to allow stores other than core data
-    private let dataManager = CoreDataManager.shared
+    private let levelStore: LevelFetching & LevelStoring
     
     private var allLevels = [Level]()
+    var dailyLevels: [Level] {
+        return allLevels.filter { $0.number < 5}
+    }
     
-    @Published var dailyLevels: [Level]
-    @Published var gameState: GameViewState
+    @Published var gameState: GameViewState = .none
     @Published var gameHandler: GameHandler?
     
     var isPresentingLevel: Bool {
@@ -35,16 +36,16 @@ class StateController: ObservableObject {
         }
     }
     
-    init() {
-        allLevels = dataManager.allLevels()
-        dailyLevels = allLevels.filter { $0.number < 5 }
-        gameState = .none
+    init(levelStore: LevelFetching & LevelStoring) {
+        self.levelStore = levelStore
+        allLevels = levelStore.fetchLevels(for: .eqDetective)
     }
     
-    func playLevel(_ level: Level) {
+    func openLevel(_ level: Level) {
         if let level = self.level(matching: level) {
             gameHandler = GameHandler(level: level,
                                       state: gameState,
+                                      gameBuilder: level,
                                       startHandler: self,
                                       completionHandler: self)
         } else {
@@ -77,35 +78,40 @@ extension StateController: GameTransitionHandling {
     struct GameHandler: GameHandling {
         var level: Level
         var state: GameViewState
+        var gameBuilder: GameBuilding
         private(set) var startHandler: GameStartHandling
         private(set) var completionHandler: GameCompletionHandling
     }
     
-    func startGame(practicing: Bool) {
-        gameHandler?.state = .inGame(practicing: practicing)
+    func play() {
+        gameHandler?.state = .playing
+    }
+    
+    func practice() {
+        gameHandler?.state = .practicing
     }
     
     // TODO: Store score success array for useful statistics
-    func finishGame(score: GameScore) {
+    func finish(score: GameScore) {
         guard let level = gameHandler?.level,
               let index = index(for: level)  else { return }
         allLevels[index].scoreData.addScore(score.value)
-        gameHandler?.state = .gameCompleted
+        gameHandler?.state = .completed
         gameHandler?.level = allLevels[index]
         
-        dataManager.update(from: allLevels[index])
+        levelStore.update(level: allLevels[index])
     }
     
-    func quitGame() {
+    func quit() {
         switch gameHandler?.state {
-        case .inGame(_):
-            gameHandler?.state = .gameQuitted
+        case .playing, .practicing:
+            gameHandler?.state = .quitted
         default:
-            returnToMenu()
+            deselectLevel()
         }
     }
     
-    private func returnToMenu() {
+    private func deselectLevel() {
         gameHandler = nil
     }
         

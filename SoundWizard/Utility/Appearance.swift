@@ -68,11 +68,12 @@ extension UITabBar {
 
 extension UISegmentedControl {
     
+    // TODO: Unselected segment text color changes with dark/light mode changes
     static func setCustomAppearance() {
         UISegmentedControl.appearance().selectedSegmentTintColor = .systemTeal
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black.withAlphaComponent(0.8)], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black.withAlphaComponent(0.95)], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.mono(.subheadline)], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.std(.subheadline)], for: .normal)
     }
     
 }

@@ -7,11 +7,7 @@
 
 import SwiftUI
 
-protocol LevelStorageObject {
-    var level: Level { get }
-}
-
-protocol Level {
+protocol Level: GameBuilding {
     var id: String { get }
     var game: Game { get }
     var number: Int { get }

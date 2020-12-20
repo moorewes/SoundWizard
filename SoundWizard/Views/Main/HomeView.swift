@@ -21,17 +21,18 @@ struct HomeView: View {
                     .padding(.top, 20)
                 
                 LevelPicker(levels: stateController.dailyLevels) { level in
-                    stateController.playLevel(level)
+                    stateController.openLevel(level)
                 }
             }
         }
-        .background(Color.darkBackground.ignoresSafeArea())
+        .primaryBackground()
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
-            .environmentObject(StateController())
+            .environmentObject(StateController(levelStore: CoreDataManager.shared))
+            .primaryBackground()
     }
 }

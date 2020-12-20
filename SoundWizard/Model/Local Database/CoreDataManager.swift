@@ -36,7 +36,7 @@ class CoreDataManager {
     
     // MARK: Internal
     
-    func allLevels() -> [Level] {
+    func allEQDLevels() -> [Level] {
         EQDetectiveLevel.levels(context: viewContext).map { $0.level }
     }
     
@@ -44,14 +44,20 @@ class CoreDataManager {
         EQDetectiveLevel.storeBundleLevelsIfNeeded(context: container.viewContext)
     }
     
-    func update(from level: Level) {
-        guard let score = level.scoreData.scores.last else { return }
-        guard let storageLevel = storeObject(matching: level) else {
-            fatalError("couldn't find matching core data object to update")
+    func audioSources(for metadata: [AudioMetadata]) -> [AudioSource] {
+        let request: NSFetchRequest<AudioSource> = AudioSource.fetchRequest()
+        let ids = metadata.map { $0.id }
+        request.predicate = NSPredicate(format: "id_ in %@", argumentArray: ids)
+        request.sortDescriptors = [NSSortDescriptor(key: "id_", ascending: true)]
+        do {
+            return try viewContext.fetch(request)
+        } catch let error {
+            print(error.localizedDescription)
+            return []
         }
-        storageLevel.addScore(score: score)
+        
     }
-    
+        
     func save() {
         guard container.viewContext.hasChanges else { return }
         do {
@@ -84,4 +90,38 @@ class CoreDataManager {
     }
     
     
+}
+
+extension CoreDataManager: LevelFetching {
+    
+    func fetchLevels(for game: Game) -> [Level] {
+        switch game {
+        case .eqDetective:
+            return allEQDLevels()
+        }
+    }
+    
+}
+
+extension CoreDataManager: LevelStoring {
+    
+    func add(level: Level) {
+        if let level = level as? EQDLevel {
+            EQDetectiveLevel.createNew(level: level,
+                                       audioSources: audioSources(for: level.audioMetadata),
+                                       context: viewContext)
+        }
+    }
+    
+    func update(level: Level) {
+        guard let score = level.scoreData.scores.last else { return }
+        guard let storageLevel = storeObject(matching: level) else {
+            fatalError("couldn't find matching core data object to update")
+        }
+        storageLevel.addScore(score: score)
+    }
+    
+    func delete(level: Level) {
+        
+    }
 }

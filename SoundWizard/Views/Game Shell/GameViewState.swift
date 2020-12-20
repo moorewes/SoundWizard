@@ -10,15 +10,13 @@ import Foundation
 enum GameViewState {
     case none
     case preGame
-    case inGame(practicing: Bool)
-    case gameQuitted
-    case gameCompleted
-    
-    var practicing: Bool {
-        switch self {
-        case .inGame(let practicing):
-            return practicing
-        default: return false
-        }
+    case playing
+    case practicing
+    case quitted
+    case completed
+
+    var isInGame: Bool {
+        self == .playing || self == .practicing
     }
+    
 }

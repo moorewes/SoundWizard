@@ -50,8 +50,12 @@ struct CutBoostPicker: View {
 struct EQDetectiveLevelBrowser: View {
     
     var levels: [EQDLevel]
+    var openLevel: (Level) -> Void
     
-    @EnvironmentObject var stateController: StateController
+    init(levels: [EQDLevel], selectionHandler: @escaping (Level) -> Void) {
+        self.levels = levels
+        self.openLevel = selectionHandler
+    }
     
     @State private var difficultySelection: Int = 1
     @State private var gainTypeSelection: Int = 1
@@ -70,15 +74,13 @@ struct EQDetectiveLevelBrowser: View {
                     LevelListHeader(title: focus.uiDescription, stars: levels.stars)
                     
                     LevelPicker(levels: levels) { level in
-                        stateController.playLevel(level)
+                        openLevel(level)
                     }
                         .padding(.bottom, 50)
                 }
             }
         }
         .navigationBarTitle(Game.eqDetective.name, displayMode: .inline)
-        .background(Color.darkBackground.ignoresSafeArea())
-
     }
     
     // TODO: Refactor to use a class to manage filtering levels
@@ -104,10 +106,10 @@ struct EQDetectiveLevelBrowser: View {
     }
     
 }
-//
-//struct LevelsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EQDetectiveLevelsView(game: .eqDetective)
-//            .preferredColorScheme(.dark)
-//    }
-//}
+
+struct EQDetectiveLevelBrowser_Previews: PreviewProvider {
+    static var previews: some View {
+        EQDetectiveLevelBrowser(levels: [TestData.eqdLevel], selectionHandler: {_ in})
+            .primaryBackground()
+    }
+}

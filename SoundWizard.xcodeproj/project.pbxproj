@@ -122,6 +122,8 @@
 		DEC18690254A3ABE00D730CC /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = DEC1868F254A3ABE00D730CC /* AudioKit */; };
 		DEC186AB254A3CB600D730CC /* EQDetectiveEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC186AA254A3CB600D730CC /* EQDetectiveEngineTests.swift */; };
 		DECF50BF257F07B000B30EC3 /* FrequencyDragGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECF50BE257F07B000B30EC3 /* FrequencyDragGesture.swift */; };
+		DED15760258EC42A00C24641 /* BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED1575F258EC42A00C24641 /* BackgroundColor.swift */; };
+		DED15768258F0A8500C24641 /* LevelFetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED15767258F0A8500C24641 /* LevelFetching.swift */; };
 		DED5CF9B2581ACEE001C0846 /* SoundWizard.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DEC18637254A399D00D730CC /* SoundWizard.xcdatamodeld */; };
 		DED5CFA82581C4E7001C0846 /* AudioFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED5CFA72581C4E7001C0846 /* AudioFileManager.swift */; };
 		DEDABC2D256F60790090589C /* Aero.wav in Resources */ = {isa = PBXBuildFile; fileRef = DEDABC28256F60790090589C /* Aero.wav */; };
@@ -280,6 +282,8 @@
 		DEC186AA254A3CB600D730CC /* EQDetectiveEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveEngineTests.swift; sourceTree = "<group>"; };
 		DECF50B7257EC7D800B30EC3 /* InteractiveFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveFilter.swift; sourceTree = "<group>"; };
 		DECF50BE257F07B000B30EC3 /* FrequencyDragGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyDragGesture.swift; sourceTree = "<group>"; };
+		DED1575F258EC42A00C24641 /* BackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColor.swift; sourceTree = "<group>"; };
+		DED15767258F0A8500C24641 /* LevelFetching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelFetching.swift; sourceTree = "<group>"; };
 		DED5CFA72581C4E7001C0846 /* AudioFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileManager.swift; sourceTree = "<group>"; };
 		DEDABC28256F60790090589C /* Aero.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Aero.wav; sourceTree = "<group>"; };
 		DEDABC29256F60790090589C /* Asia.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Asia.wav; sourceTree = "<group>"; };
@@ -456,6 +460,7 @@
 			children = (
 				DECF50BE257F07B000B30EC3 /* FrequencyDragGesture.swift */,
 				DE55314225785342007E4B3C /* Pulse.swift */,
+				DED1575F258EC42A00C24641 /* BackgroundColor.swift */,
 			);
 			path = Modifiers;
 			sourceTree = "<group>";
@@ -644,6 +649,7 @@
 			children = (
 				DEEFECEF258942BA007C94C6 /* StateController.swift */,
 				DE361EE0258D8C3C006C9FBE /* GameHandling.swift */,
+				DED15767258F0A8500C24641 /* LevelFetching.swift */,
 				DE3162DE2565A46E008558A4 /* HapticGenerator.swift */,
 			);
 			path = Controller;
@@ -902,6 +908,7 @@
 				DE671B52256DB1DC00044EDC /* LevelCellView.swift in Sources */,
 				DE671B5A256DD41C00044EDC /* EQDetectiveGame.swift in Sources */,
 				DE60C1AF256F284D00CB20C8 /* BackButton.swift in Sources */,
+				DED15768258F0A8500C24641 /* LevelFetching.swift in Sources */,
 				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
 				DE6DB1152579D656004D654B /* GameConductor.swift in Sources */,
 				DE8BA68425802046004090E3 /* HomeView.swift in Sources */,
@@ -909,6 +916,7 @@
 				DE88E0C025842664006D73FA /* EQDetectiveLevelBrowser.swift in Sources */,
 				DE3392282589A97A00ECE7A7 /* GameItem.swift in Sources */,
 				DE90675525830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift in Sources */,
+				DED15760258EC42A00C24641 /* BackgroundColor.swift in Sources */,
 				DE60C19B256F117300CB20C8 /* Octave.swift in Sources */,
 				DE7C9E7325880210009308AC /* Appearance.swift in Sources */,
 				DE1803A3258A82E200FAE928 /* LevelListHeader.swift in Sources */,

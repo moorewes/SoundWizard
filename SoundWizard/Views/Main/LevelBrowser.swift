@@ -16,7 +16,8 @@ struct LevelBrowser: View {
     var body: some View {
         switch game {
         case .eqDetective:
-            EQDetectiveLevelBrowser(levels: stateController.levels())
+            EQDetectiveLevelBrowser(levels: stateController.levels(),
+                                    selectionHandler: stateController.openLevel)
         }
     }
     

@@ -14,89 +14,84 @@ struct GameShellView: View {
     @State var showInfoView = false
         
     var body: some View {
-        ZStack {
-            Color.darkBackground
-                .ignoresSafeArea()
+        VStack {
+            NavBar(game: game, rightBarButtonAction: { showInfoView.toggle() })
             
-            VStack {
-                navBar
-                                
-                if case .inGame = game.state {
-                    GameplayView(level: game.level, completionHandler: game.completionHandler)
-                } else if case .gameCompleted = game.state {
-                    PostGameView(scoreData: game.level.scoreData, gameHandler: game.startHandler)
-                } else {
-                    PreGameView(level: game.level, gameHandler: game.startHandler)
-                }
-
+            if game.state.isInGame {
+                GameplayView(game: game)
+            } else if game.state == .completed {
+                PostGameView(scoreData: game.level.scoreData, gameHandler: game.startHandler)
+            } else {
+                PreGameView(level: game.level, gameHandler: game.startHandler)
             }
-            
         }
         .fullScreenCover(isPresented: $showInfoView) {
             infoView
+                .primaryBackground()
+        }
+    }
+    
+
+    // TODO: Build Settings and Tutorial View
+    var infoView: some View {
+        Text("Info View")
+    }
+}
+
+extension GameShellView {
+    
+    struct NavBar: View {
+        
+        let game: GameHandling
+        let rightBarButtonAction: () -> Void
+        
+        var body: some View {
+            HStack {
+                Button(quitText) {
+                    game.completionHandler.quit()
+                }
+                    .font(.mono(.headline))
+                    .foregroundColor(.lightGray)
+                                
+                Spacer()
+                
+                Text("Level \(game.level.number)")
+                    .foregroundColor(.teal)
+                    .font(.mono(.headline))
+                
+                Spacer()
+                
+                Button(action: {
+                    rightBarButtonAction()
+                }, label: {
+                    Image(systemName: infoButtonImageName)
+                        .foregroundColor(.extraLightGray)
+                        .imageScale(.large)
+                })
+                
+            }
+            .padding(EdgeInsets(top: 5,
+                                leading: 30,
+                                bottom: 15,
+                                trailing: 40))
+        }
+        
+        var infoButtonImageName: String {
+            game.state.isInGame ? "gearshape.fill" : "info.circle"
+        }
+        
+        var quitText: String {
+            game.state.isInGame ? "Quit" : "Back"
         }
         
     }
     
-    
-    var navBar: some View {
-        HStack {
-            Button(quitText) {
-                game.completionHandler.quitGame()
-            }
-                .font(.mono(.headline))
-                .foregroundColor(.lightGray)
-            
-            Spacer()
-            
-            Text("Level \(game.level.number)")
-                .foregroundColor(.teal)
-                .font(.mono(.headline))
-            
-            Spacer()
-            
-            Button(action: {
-                showInfoView = true
-            }, label: {
-                Image(systemName: infoButtonImageName)
-                    .foregroundColor(.extraLightGray)
-                    .imageScale(.large)
-            })
-            
-        }
-        .padding(EdgeInsets(top: 5,
-                            leading: 30,
-                            bottom: 0,
-                            trailing: 40))
-    }
-
-    var infoView: some View {
-        Text("Info View")
-    }
-    
-    var infoButtonImageName: String {
-        if case .inGame = game.state {
-            return "gearshape.fill"
-        } else {
-            return "info.circle"
-        }
-    }
-    
-    var quitText: String {
-        switch game.state {
-        case .inGame:
-            return "Quit"
-        default:
-            return "Back"
-        }
-    }
-
-    let navPadding = EdgeInsets(top: 5, leading: 30, bottom: 0, trailing: 70)
-    
 }
-//
-//struct EQDetectiveShellView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GameShellView(level: TestLevel(), isPresented: .constant(true))
-//    }
-//}
+
+
+struct EQDetectiveShellView_Previews: PreviewProvider {
+    static var previews: some View {
+        GameShellView(game: TestData.GameHandler(state: .preGame))
+            .primaryBackground()
+    }
+}

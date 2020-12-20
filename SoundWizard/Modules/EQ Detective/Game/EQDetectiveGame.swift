@@ -14,8 +14,8 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     
     // MARK: - Constants
     
-    let testMode = false // TODO: - Remove for production
-    var practicing = false
+    let testMode = true // TODO: - Remove for production
+    var practicing: Bool
     let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
     var completionHandler: GameCompletionHandling
@@ -100,9 +100,10 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     
     // MARK: - Initializers
     
-    init(level: EQDLevel, completionHandler: GameCompletionHandling) {
+    init(level: EQDLevel, practice: Bool, completionHandler: GameCompletionHandling) {
         self.level = level
         self.completionHandler = completionHandler
+        self.practicing = practice
         scoreMultiplier = ScoreMultiplier()
         
         lives = Lives()
@@ -123,7 +124,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     
     func finish() {
         let gameScore = GameScore(turnScores: turnScores)
-        completionHandler.finishGame(score: gameScore)
+        completionHandler.finish(score: gameScore)
     }
     
     func stopAudio() {

@@ -9,20 +9,20 @@ import SwiftUI
 
 struct GameBrowser: View {
     
-    @EnvironmentObject private var stateController: StateController
+    let gameItems: [GameItem]
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(stateController.gameItems) { item in
-                    NavigationLink(
-                        destination: LevelBrowser(game: item.game),
-                        label: {
+                ForEach(gameItems) { item in
+                    NavigationLink(destination:
+                            LevelBrowser(game: item.game)
+                                .primaryBackground()
+                        , label: {
                             GameCell(game: item)
-                            
                         })
                 }
-                .listRowBackground(Color.listRowBackground)
+                .listRowBackground(Color.secondaryBackground)
                 
             }
             .listStyle(InsetGroupedListStyle())
@@ -39,6 +39,6 @@ struct GameBrowser: View {
 
 struct GamesUIView_Previews: PreviewProvider {
     static var previews: some View {
-        GameBrowser()
+        GameBrowser(gameItems: [GameItem(game: .eqDetective, stars: StarProgress(total: 12, earned: 8))])
     }
 }

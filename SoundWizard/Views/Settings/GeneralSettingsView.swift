@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct GeneralSettingsView: View {
+    
     var body: some View {
         NavigationView {
             List() {
-                
                 SettingsNavigationCell(title: "Imported Audio") {
                     ImportedAudioView()
                 }
-
             }
             .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Settings")
@@ -27,16 +26,11 @@ struct GeneralSettingsView: View {
 struct SettingsNavigationCell<Destination: View>: View {
     
     let title: String
-    let destination: Destination
-    
-    init(title: String, destination: () -> Destination) {
-        self.title = title
-        self.destination = destination()
-    }
+    let destination: () -> Destination
     
     var body: some View {
         ZStack {
-            NavigationLink(destination: destination) { EmptyView() }
+            NavigationLink(destination: destination()) { EmptyView() }
                 .opacity(0)
             
             HStack {
@@ -52,12 +46,13 @@ struct SettingsNavigationCell<Destination: View>: View {
                     .foregroundColor(.lightGray)
             }
         }
-        .listRowBackground(Color.darkGray)
+        .listRowBackground(Color.secondaryBackground)
     }
     
 }
 
 struct GeneralSettingsView_Previews: PreviewProvider {
+    
     static var previews: some View {
         GeneralSettingsView()
             .environment(\.sizeCategory, ContentSizeCategory.extraLarge)

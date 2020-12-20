@@ -23,7 +23,7 @@ struct Star: View {
     private var shouldAnimate: Bool {
         return filled && animated && readyToAnimate
     }
-        
+    // TODO: Cleanup
     var body: some View {
         Image(systemName: imageName)
             .foregroundColor(.white)
@@ -36,9 +36,7 @@ struct Star: View {
             .animation(animated ? .spring(response: 1.5, dampingFraction: 0.8, blendDuration: 0) : nil)
             .pulse(active: shouldAnimate, duration: pulseAnimationDuration + 5)
             .onAppear {
-                print("star \(number) appeared, animated: \(animated) shouldFill: \(shouldFill)")
                 guard animated else { return }
-                print("about to animate star ", number)
                 DispatchQueue.main.asyncAfter(deadline: .now() + animationDelay) {
                     self.readyToAnimate = true
                     if let number = self.number {

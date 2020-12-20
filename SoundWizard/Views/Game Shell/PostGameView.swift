@@ -33,7 +33,7 @@ struct PostGameView: View {
                 .font(.mono(.headline))
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
-            
+            // TODO: Fix animation
             MovingCounter(number: animated ? scoreData.topScore : scoreData.previousTopScore,
                                  font: .mono(.largeTitle, sizeModifier: 16),
                                  duration: 1.5)
@@ -44,7 +44,7 @@ struct PostGameView: View {
             Spacer()
             
             PlayButton() {
-                gameHandler.startGame(practicing: false)
+                gameHandler.play()
             }
                 .padding(.bottom, 40)
             
