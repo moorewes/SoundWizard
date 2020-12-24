@@ -146,18 +146,3 @@ struct FrequencySlider: View {
     }
     
 }
-//
-//struct FrequencySlider_Previews: PreviewProvider {
-//    static var game = EQDetectiveGame(level: EQDetectiveLevel.level(1)!, gameViewState: .constant(.inGame))
-//
-//    static var previews: some View {
-//        ZStack {
-//            Color.darkBackground.ignoresSafeArea()
-//            FrequencySlider(data: game,
-//                            frequency: .constant(1000))
-//                .frame(width: 300, height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-//        }
-//        .background(Color.darkBackground)
-//        .ignoresSafeArea()
-//    }
-//}

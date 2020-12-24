@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct MainTabView: View {
-    
     @EnvironmentObject var stateController: StateController
     
     var body: some View {
         TabView() {
-            
             HomeView()
                 .tabItem {
                     Image(systemName: "house.fill")
@@ -31,6 +29,7 @@ struct MainTabView: View {
         .fullScreenCover(isPresented: $stateController.isPresentingLevel) {
             GameShellView(game: stateController.gameHandler!)
                 .primaryBackground()
+                .transition(.opacity)
         }
     }
 }

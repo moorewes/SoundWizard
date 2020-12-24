@@ -9,12 +9,11 @@ import SwiftUI
 
 // TODO: Cleanup, rename to be more generic, make dynamic
 extension Color {
-    
     static let teal = Color(UIColor.systemTeal)
     
-    static let darkBackground = Color(white: 0.15, opacity: 1)
+    static let primaryBackground = Color.init(hue: 0.62, saturation: 0.3, brightness: 0.18) //Color(white: 0.15, opacity: 1)
     
-    static let secondaryBackground = Color(white: 0.3)
+    static let secondaryBackground = Color.init(hue: 0.6, saturation: 0.3, brightness: 0.33) // Color(white: 0.3)
     
     static let extraDarkGray = Color(white: 0.08)
     
@@ -36,5 +35,4 @@ extension Color {
             return Color.green
         }
     }
-    
 }

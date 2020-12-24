@@ -9,7 +9,6 @@ import CoreHaptics
 import AVFoundation
 
 class HapticGenerator {
-    
     static let main = HapticGenerator()
     
     private var engine: CHHapticEngine!

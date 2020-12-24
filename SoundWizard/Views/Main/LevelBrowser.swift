@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct LevelBrowser: View {
-    
+    @EnvironmentObject private var stateController: StateController
     var game: Game
     
-    @EnvironmentObject private var stateController: StateController
     
     var body: some View {
         switch game {

@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct FrequencyDragGesture: ViewModifier {
-    
     @Binding var frequency: Frequency
-    
     let range: FrequencyRange
-    
     @State private var dragStartPercentage: CGFloat?
     
     func body(content: Content) -> some View {
@@ -44,7 +41,6 @@ struct FrequencyDragGesture: ViewModifier {
         let freq = AudioMath.frequency(percent: percent, in: range, uiRounded: true)
         frequency = freq.clamped(to: range)
     }
-    
 }
 
 extension View {

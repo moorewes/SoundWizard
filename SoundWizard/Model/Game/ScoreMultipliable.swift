@@ -12,7 +12,6 @@ protocol ScoreMultipliable {
 }
 
 struct ScoreMultiplier {
-    
     let max: Double = 4
     let turnSuccessNeededForStreak = ScoreSuccess.fair
     
@@ -29,5 +28,4 @@ struct ScoreMultiplier {
     mutating func update(for success: ScoreSuccess) {
         streak += success >= turnSuccessNeededForStreak ? 1 : -streak
     }
-    
 }

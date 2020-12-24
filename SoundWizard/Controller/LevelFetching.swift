@@ -13,11 +13,9 @@ protocol LevelFetching {
 }
 
 protocol LevelStoring {
-    
     func add(level: Level) -> Void
     func update(level: Level) -> Void
     func delete(level: Level) -> Void
-        
 }
 
 protocol LevelStorageObject {

@@ -25,6 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let view = MainTabView()
                 .environment(\.managedObjectContext, context)
                 .environmentObject(stateController)
+            //let testView = NavigationView {EQDCustomLevelDetailView(level: EQDLevel.newCustomLevel(), completionHandler: {_ in})}.listRowBackground(Color.secondaryBackground)
             window.rootViewController = UIHostingController(rootView: view)
             self.window = window
             window.makeKeyAndVisible()

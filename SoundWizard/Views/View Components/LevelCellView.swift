@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct LevelCellView: View {
-    
     let title: String
     let stars: StarProgress
     
@@ -35,8 +34,7 @@ struct LevelCellView: View {
     }
     
     var starsView: some View {
-        print("stars view for ", title)
-        return HStack {
+        HStack {
             ForEach(0..<stars.total) { i in
                 Star(filled: stars.earned > i, animated: false)
                     .font(.system(size: 12))
@@ -47,8 +45,6 @@ struct LevelCellView: View {
     func titlePosition(in size: CGSize) -> CGPoint {
         return CGPoint(x: size.width / 2, y: size.height / 4)
     }
-    
-    
 }
 
 struct LevelCellView_Previews: PreviewProvider {

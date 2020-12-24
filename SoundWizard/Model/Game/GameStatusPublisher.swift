@@ -8,12 +8,10 @@
 import Foundation
 
 protocol GameStatusPublisher {
-    
     var score: Int { get }
     var scoreMultiplierValue: Double { get }
     var maxLives: Int { get }
     var remainingLives: Int { get }
-    
 }
 
 extension GameStatusPublisher where Self: ScoreMultipliable {
@@ -23,9 +21,7 @@ extension GameStatusPublisher where Self: ScoreMultipliable {
 }
 
 extension GameStatusPublisher where Self: LivesBased {
-    
     var maxLives: Int {
         return lives.max
     }
-    
 }

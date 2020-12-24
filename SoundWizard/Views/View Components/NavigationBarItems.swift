@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingsNavLink<Destination: View>: View {
-    
     var destination: Destination
     
     var body: some View {

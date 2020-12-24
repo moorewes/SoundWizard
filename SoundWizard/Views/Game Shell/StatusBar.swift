@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct StatusBar<GameStatus: GameStatusPublisher & ObservableObject>: View {
-    
     @ObservedObject var game: GameStatus
     
     var body: some View {
         HStack() {
-            
             VStack {
                 Text("SCORE")
                     .font(.mono(.callout))
@@ -24,13 +22,11 @@ struct StatusBar<GameStatus: GameStatusPublisher & ObservableObject>: View {
                     .animation(.linear(duration: 0.5))
             }
             
-            
             Text(" x\(Int(game.scoreMultiplierValue))")
                 .font(.mono(.headline))
                 .foregroundColor(.teal)
             
             Spacer()
-            
             
             VStack {
                 Text("LIVES")
@@ -50,19 +46,7 @@ struct StatusBar<GameStatus: GameStatusPublisher & ObservableObject>: View {
                                        .easeIn(duration: 1.5))
                     }
                 }
-                
             }
-            //.frame(width: nil, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            //.padding()
         }
-        
     }
-    
 }
-
-//struct StatusBar_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StatusBar(game: EQDetectiveGame(level: EQDetectiveLevel.level(1)!, viewState: .constant(.inGame)))
-//            .background(Color.darkBackground)
-//    }
-//}

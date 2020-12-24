@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct LevelPicker: View {
-    
     var levels: [Level]
     var selectionHandler: (Level) -> Void
     
@@ -41,6 +40,6 @@ struct LevelPicker: View {
 struct LevelPicker_Previews: PreviewProvider {
     static var previews: some View {
         LevelPicker(levels: [TestData.eqdLevel], onSelect: {_ in})
-            .primaryBackground()
+            .primaryBackground().edgesIgnoringSafeArea(.all)
     }
 }

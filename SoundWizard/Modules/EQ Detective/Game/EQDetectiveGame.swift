@@ -8,13 +8,12 @@
 import SwiftUI
 
 class EQDetectiveGame: ObservableObject, StandardGame {
-    
     typealias TurnType = EQDetectiveTurn
     typealias ConductorType = EQDetectiveConductor
     
     // MARK: - Constants
     
-    let testMode = true // TODO: - Remove for production
+    let testMode = false // TODO: - Remove for production
     var practicing: Bool
     let turnsPerStage = 5
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
@@ -178,11 +177,9 @@ class EQDetectiveGame: ObservableObject, StandardGame {
             }
         }
     }
-    
 }
 
 extension EQDetectiveGame: FrequencySliderDataSource {
-    
     var frequencyRange: FrequencyRange {
         level.bandFocus.range
     }
@@ -205,6 +202,4 @@ extension EQDetectiveGame: FrequencySliderDataSource {
     var referenceFreqs: [Frequency] {
         return level.bandFocus.referenceFrequencies
     }
-    
-    
 }

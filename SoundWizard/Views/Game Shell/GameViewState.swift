@@ -18,5 +18,4 @@ enum GameViewState {
     var isInGame: Bool {
         self == .playing || self == .practicing
     }
-    
 }

@@ -9,10 +9,8 @@ import AudioKit
 import AVFoundation
 
 class Cookbook {
-    
     static func buffer(for url: URL) -> AVAudioPCMBuffer {
         let file = try! AVAudioFile(forReading: url)
         return try! AVAudioPCMBuffer(file: file)!
     }
-
 }

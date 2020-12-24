@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct Star: View {
-    
     var filled: Bool
     var number: Int?
     var animated: Bool
     var animationDelay: Double = 0
-        
     @State private var readyToAnimate = false
     
     private var shouldFill: Bool {
@@ -55,12 +53,11 @@ struct Star: View {
 struct Star_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
-            Color.darkBackground.ignoresSafeArea()
+            Color.primaryBackground.ignoresSafeArea()
             Star(filled: true, number: 1, animated: true, animationDelay: 0)
                 .frame(width: 50, height: 50, alignment: .center)
                 .font(.system(size: 80))
                 .transition(.slide)
         }
-        
     }
 }

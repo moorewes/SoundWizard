@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CustomBackground: ViewModifier {
-    
     let color: Color
     
     func body(content: Content) -> some View {
@@ -19,7 +18,7 @@ struct CustomBackground: ViewModifier {
 
 extension View {
     func primaryBackground() -> some View {
-        self.modifier(CustomBackground(color: .darkBackground))
+        self.modifier(CustomBackground(color: .primaryBackground))
     }
     func secondaryBackground() -> some View {
         self.modifier(CustomBackground(color: .secondaryBackground))

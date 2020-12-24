@@ -14,13 +14,10 @@ protocol InstructionViewType {}
 protocol StandardGame: GameModel, StageBased, ScoreBased, ScoreMultipliable, LivesBased {}
 
 protocol GameModel: GameStatusPublisher {
-        
     func fireFeedback()
-    
 }
 
 extension GameModel where Self: TurnBased {
-        
     func fireFeedback() {
         guard let successLevel = currentTurn?.score?.successLevel else {
             fatalError("Couldn't find score to fire feedback)")
@@ -29,26 +26,6 @@ extension GameModel where Self: TurnBased {
         Conductor.master.fireScoreFeedback(successLevel: successLevel)
         HapticGenerator.main.fire(successLevel: successLevel)
     }
-    
-}
-
-protocol ScoreBased {
-    
-    var turnScores: [TurnScore] { get }
-    var score: Int { get }
-    
-}
-
-extension ScoreBased where Self: TurnBased {
-    
-    var turnScores: [TurnScore] {
-        turns.compactMap { $0.score }
-    }
-    
-    var score: Int {
-        Int(turns.compactMap { $0.score?.value }.reduce(0, +))
-    }
-    
 }
 
 

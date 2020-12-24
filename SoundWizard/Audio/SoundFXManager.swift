@@ -8,7 +8,6 @@
 import AVFoundation
 
 class SoundFXManager {
-    
     static let main = SoundFXManager()
         
     private var buffers = [ScoreSuccess:AVAudioPCMBuffer]()

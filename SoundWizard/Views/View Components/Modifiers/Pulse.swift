@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct Pulse: ViewModifier {
-    
     var active: Bool = true
     var scale: CGFloat = 1.5
     var duration: Double = 0.5
@@ -26,7 +25,6 @@ struct Pulse: ViewModifier {
                     scheduleAnimations()
                 }
             })
-        
     }
     
     private func scheduleAnimations() {

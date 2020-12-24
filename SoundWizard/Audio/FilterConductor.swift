@@ -10,19 +10,13 @@ import AudioKit
 import AVFoundation
 
 protocol GameConductor {
-    
     var outputFader: Fader { get }
-        
     func startPlaying()
-    
     func stopPlaying()
-        
 }
 
 class EQDetectiveConductor: GameConductor {
-            
     // MARK: - Properties
-    
     // MARK: Internal
     
     private(set) var filterGainDB: AUValue
@@ -40,6 +34,7 @@ class EQDetectiveConductor: GameConductor {
     }
         
     // MARK: Private
+    
     private let masterConductor = Conductor.master
     private let player = AudioPlayer()
     private let filter: EqualizerFilter
@@ -47,7 +42,6 @@ class EQDetectiveConductor: GameConductor {
     private let filterRampTime: AUValue = 0.25
     private let dimVolume: AUValue = AudioMath.dBToPercent(dB: -6)
     private let defaultFadeTime: Float = 1.5
-
     
     // MARK: - Initializers
     
@@ -64,7 +58,7 @@ class EQDetectiveConductor: GameConductor {
         filter.bandwidth = 1000
         
         outputFader = Fader(filter, gain: 0)
-                
+                        
         player.volume = volume
         print("filter conductor init with data: ", source)
         masterConductor.patchIn(self)
@@ -154,6 +148,4 @@ class EQDetectiveConductor: GameConductor {
             self?.masterConductor.endGame()
         }
     }
-
-
 }

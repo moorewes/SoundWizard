@@ -8,7 +8,6 @@
 import Foundation
 
 struct BundleAudioFile {
-    
     let name: String
     let id: String
     let filename: String
@@ -28,11 +27,9 @@ struct BundleAudioFile {
         self.filename = filename
         self.fileExtension = fileExtension
     }
-    
 }
 
 extension BundleAudioFile {
-    
     static let allFiles: [BundleAudioFile] = [
         BundleAudioFile(name: "Pink Noise", filename: "Pink", fileExtension: "aif"),
         BundleAudioFile(name: "Acoustic Drums", filename: "Drums", fileExtension: "wav"),
@@ -42,6 +39,5 @@ extension BundleAudioFile {
         BundleAudioFile(name: "Cry", filename: "Cry", fileExtension: "wav"),
         BundleAudioFile(name: "Dawn", filename: "Dawn", fileExtension: "wav"),
     ]
-    
 }
 

@@ -7,8 +7,7 @@
 
 import Foundation
 
-enum BandFocus: Int, CaseIterable, Identifiable {
-    
+enum BandFocus: Int, CaseIterable, Identifiable, UIDescribing {
     case all = 0, low, lowMid, mid, upperMid, high
     
     var id: Int { return self.rawValue }
@@ -48,16 +47,15 @@ enum BandFocus: Int, CaseIterable, Identifiable {
     var uiDescription: String {
         switch self {
         case .all: return "Full Range"
-        case .low: return "Lows"
+        case .low: return "Low Band"
         case .lowMid: return "Low Mids"
-        case .mid: return "Mids"
+        case .mid: return "Mid Band"
         case .upperMid: return "Upper Mids"
-        case .high: return "Highs"
+        case .high: return "High Band"
         }
     }
     
     var uiRangeDescription: String {
         "\(self.range.lowerBound.shortString)Hz - \(self.range.upperBound.shortString)Hz"
     }
-        
 }

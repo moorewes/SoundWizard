@@ -17,7 +17,6 @@ struct DifficultyPicker: View {
                 Text(difficulty.uiDescription)
                     .tag(difficulty.rawValue)
                     .font(.std(.subheadline))
-
             }
         }
         .pickerStyle(SegmentedPickerStyle())
@@ -57,30 +56,32 @@ struct EQDetectiveLevelBrowser: View {
         self.openLevel = selectionHandler
     }
     
-    @State private var difficultySelection: Int = 1
+    @State private var typeSelection: Int = 1
     @State private var gainTypeSelection: Int = 1
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack() {
-                DifficultyPicker(selection: $difficultySelection)
+                DifficultyPicker(selection: $typeSelection)
                 
                 if showGainTypePicker {
                     CutBoostPicker(selection: $gainTypeSelection)
                 }
                 ForEach(BandFocus.allCases) { focus in
                     let levels = filteredLevels(focus: focus)
-                    
-                    LevelListHeader(title: focus.uiDescription, stars: levels.stars)
-                    
-                    LevelPicker(levels: levels) { level in
-                        openLevel(level)
-                    }
+                    if levels.isNotEmpty {
+                        LevelListHeader(title: focus.uiDescription, stars: levels.stars)
+                        
+                        LevelPicker(levels: levels) { level in
+                            openLevel(level)
+                        }
                         .padding(.bottom, 50)
+                    }
                 }
             }
         }
         .navigationBarTitle(Game.eqDetective.name, displayMode: .inline)
+        .navigationBarItems(trailing: addLevelButton)
     }
     
     // TODO: Refactor to use a class to manage filtering levels
@@ -93,7 +94,7 @@ struct EQDetectiveLevelBrowser: View {
     }
     
     var showGainTypePicker: Bool {
-        difficultySelection != 1
+        typeSelection != 1
     }
     
     var selectedFilterBoost: Bool {
@@ -102,7 +103,18 @@ struct EQDetectiveLevelBrowser: View {
     }
     
     var selectedDifficulty: LevelDifficulty {
-        LevelDifficulty(rawValue: difficultySelection)!
+        LevelDifficulty(rawValue: typeSelection)!
+    }
+    
+    var addLevelButton: some View {
+        NavigationLink(
+            destination: EQDCustomLevelBrowser(levels: []),
+            label: {
+                Text("+")
+                    .font(.std(.title2))
+                    .foregroundColor(.teal)
+                    .padding(.trailing, 10)
+            })
     }
     
 }

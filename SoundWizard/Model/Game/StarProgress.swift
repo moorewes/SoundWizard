@@ -19,21 +19,17 @@ struct StarProgress {
 }
 
 extension Collection where Element == Level {
-    
     var stars: StarProgress {
         let total = self.count * StarProgress.levelMax
         let earned = self.reduce(0) { $0 + $1.scoreData.starsEarned }
         return StarProgress(total: total, earned: earned)
     }
-    
 }
 
 extension Collection where Element: Level {
-    
     var stars: StarProgress {
         let total = self.count * StarProgress.levelMax
         let earned = self.reduce(0) { $0 + $1.scoreData.starsEarned }
         return StarProgress(total: total, earned: earned)
     }
-    
 }

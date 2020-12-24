@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TransitionLink<Content, Destination>: View where Content: View, Destination: View {
-
     @Binding var isPresented: Bool
     var content: () -> Content
     var destination: () -> Destination
@@ -31,7 +30,6 @@ struct TransitionLink<Content, Destination>: View where Content: View, Destinati
 }
 
 struct ModaLinkViewModifier<Destination>: ViewModifier where Destination: View {
-
     @Binding var isPresented: Bool
     var destination: () -> Destination
 
@@ -47,7 +45,6 @@ struct ModaLinkViewModifier<Destination>: ViewModifier where Destination: View {
 }
 
 extension View {
-
     func modalLink<Destination: View>(isPresented: Binding<Bool>,
                                       destination: @escaping () -> Destination) -> some View {
         self.modifier(ModaLinkViewModifier(isPresented: isPresented,

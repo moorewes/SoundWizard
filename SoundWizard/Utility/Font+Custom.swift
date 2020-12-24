@@ -8,7 +8,6 @@
 import SwiftUI
 
 extension Font {
-    
     static func mono(_ style: TextStyle, sizeModifier: CGFloat = 0) -> Font {
         let fontData = style.monoFontData
         return Font.custom(fontData.name, size: fontData.size + sizeModifier, relativeTo: style)
@@ -18,11 +17,9 @@ extension Font {
         let fontData = style.stdFontData
         return Font.custom(fontData.name, size: fontData.size + sizeModifier, relativeTo: style)
     }
-    
 }
 
 extension UIFont {
-    
     static func mono(_ style: Font.TextStyle, sizeModifier: CGFloat = 0) -> UIFont {
         let fontData = style.monoFontData
         return UIFont(name: fontData.name, size: fontData.size + sizeModifier)!
@@ -32,11 +29,9 @@ extension UIFont {
         let fontData = style.stdFontData
         return UIFont(name: fontData.name, size: fontData.size + sizeModifier)!
     }
-    
 }
 
 extension Font.TextStyle {
-    
     var monoFontData: (name: String, size: CGFloat) {
         switch self {
         case .body:
@@ -85,7 +80,7 @@ extension Font.TextStyle {
         case .callout:
             return ("WorkSans-SemiBold", 16)
         case .footnote:
-            return ("WorkSans-Regular", 12)
+            return ("WorkSans-Bold", 12)
         case .caption:
             return ("WorkSans-Regular", 11)
         case .caption2:
@@ -94,7 +89,6 @@ extension Font.TextStyle {
             return ("WorkSans-Regular", 14)
         }
     }
-    
 }
 
 

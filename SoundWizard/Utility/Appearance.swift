@@ -7,36 +7,34 @@
 
 import SwiftUI
 
-struct Appearance {
-    
+enum Appearance {
     static func setup() {
         UITableView.setCustomAppearance()
         UINavigationBar.setCustomAppearance()
         UITabBar.setCustomAppearance()
         UISegmentedControl.setCustomAppearance()
     }
-    
-    private init() {}
-    
 }
 
 extension UITableView {
-    
     static func setCustomAppearance() {
-        UITableView.appearance().backgroundColor = UIColor(Color.darkBackground)
-        UITableViewCell.appearance().backgroundColor = UIColor(Color.darkBackground)
+        UITableView.appearance().backgroundColor = UIColor(Color.primaryBackground)
+        UITableViewCell.appearance().backgroundColor = UIColor(Color.primaryBackground)
+        
+        let selectedCellView = UIView()
+        selectedCellView.backgroundColor = UIColor(Color.primaryBackground.opacity(0.3))
+        UITableViewCell.appearance().selectedBackgroundView = selectedCellView
+        UITableViewCell.appearance().accessoryType = .none
         UITableView.appearance().separatorStyle = .none
         UITableView.appearance().separatorColor = .clear
         UITableView.appearance().tintColor = .white
     }
-    
 }
 
 extension UINavigationBar {
-    
     static func setCustomAppearance() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor(Color.darkBackground)
+        appearance.backgroundColor = UIColor(Color.primaryBackground)
         appearance.titleTextAttributes = [
             .font: UIFont.std(.headline),
             .foregroundColor: UIColor(Color.lightGray)
@@ -53,27 +51,21 @@ extension UINavigationBar {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().tintColor = UIColor.systemTeal
     }
-    
 }
 
 extension UITabBar {
-    
     static func setCustomAppearance() {
-        UITabBar.appearance().barTintColor = UIColor(Color.darkBackground)
+        UITabBar.appearance().barTintColor = UIColor(Color.primaryBackground)
         UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
         UITabBar.appearance().tintColor = UIColor(Color.teal)
     }
-    
 }
 
 extension UISegmentedControl {
-    
-    // TODO: Unselected segment text color changes with dark/light mode changes
     static func setCustomAppearance() {
         UISegmentedControl.appearance().selectedSegmentTintColor = .systemTeal
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black.withAlphaComponent(0.95)], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
         UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.std(.subheadline)], for: .normal)
     }
-    
 }

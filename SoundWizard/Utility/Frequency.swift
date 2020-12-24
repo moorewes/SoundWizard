@@ -8,11 +8,9 @@
 import Foundation
 
 typealias Frequency = Float
-
 typealias FrequencyRange = ClosedRange<Frequency>
 
 extension Frequency {
-    
     /// A frequency string with one decimal place and the unit, aka 3.2 kHz or 300 Hz
     var decimalString: String {
         if self / 1000.0 >= 1 {
@@ -91,14 +89,7 @@ extension Frequency {
         return octave / upperOctave
     }
     
-//    func percentage(in range: FrequencyRange) -> Float {
-//        let octave = AudioMath.octave(fromFreq: self, baseOctaveFreq: range.lowerBound, roundingPlaces: 2)
-//        let upperOctave = AudioMath.octave(fromFreq: range.upperBound, baseOctaveFreq: range.lowerBound, roundingPlaces: 2)
-//        return octave / upperOctave
-//    }
-    
     static func random(in range: FrequencyRange, disfavoring disfavored: Frequency?, repelEdges: Bool) -> Frequency {
         return AudioMath.randomFreq(in: range, disfavoring: disfavored, repelEdges: repelEdges)
     }
-    
 }

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct FrequencyGraph: View {
-    
     let range: FrequencyRange
     let referenceFrequencies: [Frequency]
     
@@ -16,12 +15,10 @@ struct FrequencyGraph: View {
     
     var body: some View {
         GeometryReader { geometry in
-            
             referenceLines(size: geometry.size)
                 .stroke(Color.teal.opacity(0.5))
             
             referenceLabels(size: geometry.size)
-            
         }
     }
     

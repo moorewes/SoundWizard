@@ -8,7 +8,6 @@
 import Foundation
 
 struct AudioMath {
-    
     // MARK: - Static Properties
     
     static let baseFrequency: Frequency = 20.0
@@ -112,18 +111,6 @@ struct AudioMath {
         return Float(random) / multiplier
     }
     
-//    static func octaveRange(from range: ClosedRange<Frequency>,
-//                            within octaves: Float,
-//                            decimalPlaces: Int) -> ClosedRange<Float> {
-//        let minOctave = AudioMath.octave(fromFreq: range.lowerBound, decimalPlaces: decimalPlaces)
-//        let minPercentage = minOctave / octaves
-//
-//        let maxOctave = AudioMath.octave(fromFreq: range.upperBound, decimalPlaces: decimalPlaces)
-//        let maxPercentage = maxOctave / octaves
-//
-//        return minPercentage...maxPercentage
-//    }
-    
     static func octaveRange(from freqRange: FrequencyRange,
                                     decimalPlaces: Int) -> ClosedRange<Float> {
         let lowerBound = AudioMath.octave(fromFreq: freqRange.lowerBound).rounded(places: decimalPlaces)
@@ -134,11 +121,9 @@ struct AudioMath {
     static func octaves(in range: FrequencyRange) -> Octave {
         return octave(fromFreq: range.upperBound, baseOctaveFreq: range.lowerBound)
     }
-    
 }
 
 extension Float {
-    
     mutating func round(places: Int) {
         let divisor = pow(10.0, Float(places))
         self = (self * divisor).rounded() / divisor
@@ -148,11 +133,9 @@ extension Float {
         let divisor = pow(10.0, Float(places))
         return (self * divisor).rounded() / divisor
     }
-    
 }
 
 extension FloatingPoint {
-    
     /**
      Returns this value rounded to the nearest multiple of the provided value.
      Useful when you want to round to certain numbers instead of digits or decimal places.
@@ -165,7 +148,6 @@ extension FloatingPoint {
     func rounded(to value: Self) -> Self {
        (self / value).rounded() * value
     }
-    
 }
 
 

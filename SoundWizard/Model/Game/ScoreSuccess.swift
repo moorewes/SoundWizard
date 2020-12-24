@@ -18,7 +18,6 @@ struct GameScore {
 }
 
 enum ScoreSuccess: Int, CaseIterable, Comparable {
-    
     case failed = 0, justMissed, fair, great, perfect
     
     init(score: Double) {
@@ -42,5 +41,4 @@ enum ScoreSuccess: Int, CaseIterable, Comparable {
     static func < (lhs: ScoreSuccess, rhs: ScoreSuccess) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
-    
 }

@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct PreGameView: View {
-    
     let level: Level
     let gameHandler: GameStartHandling
                                 
     var body: some View {
         VStack {
-                        
             Text("Top Score")
                 .font(.mono(.headline))
                 .foregroundColor(.lightGray)
@@ -33,11 +31,14 @@ struct PreGameView: View {
             
             Spacer()
             
-            PlayButton() {
+            PlayButton(title: "PLAY") {
                 gameHandler.play()
             }
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 40, trailing: 10))
             
+            PlayButton(title: "PRACTICE") {
+                gameHandler.practice()
+            }
+            .padding(EdgeInsets(top: 20, leading: 10, bottom: 40, trailing: 10))
         }
     }
     

@@ -13,7 +13,6 @@
         <attribute name="filterGainDB" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="filterQ" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="id_" optional="YES" attributeType="String"/>
-        <attribute name="isStock" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="number_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="scores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
         <attribute name="starScores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
@@ -21,6 +20,6 @@
     </entity>
     <elements>
         <element name="AudioSource" positionX="-505.4921875" positionY="-84.515625" width="128" height="118"/>
-        <element name="EQDetectiveLevel" positionX="-338.734375" positionY="-17.86328125" width="128" height="193"/>
+        <element name="EQDetectiveLevel" positionX="-338.734375" positionY="-17.86328125" width="128" height="178"/>
     </elements>
 </model>

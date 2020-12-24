@@ -8,7 +8,6 @@
 import SwiftUI
 
 extension UserDefaults {
-    
     func optionalBool(forKey defaultsName: String) -> Bool? {
         if let value = value(forKey: defaultsName) {
             return value as? Bool
@@ -16,7 +15,6 @@ extension UserDefaults {
             return nil
         }
     }
-    
 }
 
 extension Comparable {
@@ -29,9 +27,7 @@ extension Float {
     var uiString: String {
         let isInt = self - Float(Int(self)) == 0
         return isInt ? "\(Int(self))" : String(format: "%.1f", self)
-    }
-    
-    
+    }    
 }
 
 extension Array {

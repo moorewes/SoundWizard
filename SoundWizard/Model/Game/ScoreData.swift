@@ -8,10 +8,8 @@
 import Foundation
 
 struct ScoreData {
-    
     let starScores: [Int]
     var scores: [Int]
-    
     var topScore = 0
     var starsEarned = 0
     var newStars = [Int]()

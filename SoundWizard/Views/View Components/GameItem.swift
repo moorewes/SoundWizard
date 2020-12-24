@@ -18,7 +18,6 @@ struct GameItem: Identifiable {
     var id: String {
         title
     }
- 
 }
 
 struct GameCell: View {

@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct GameShellView: View {
-    
     var game: GameHandling
-    
     @State var showInfoView = false
         
     var body: some View {
@@ -25,12 +23,12 @@ struct GameShellView: View {
                 PreGameView(level: game.level, gameHandler: game.startHandler)
             }
         }
+        .transition(.opacity)
         .fullScreenCover(isPresented: $showInfoView) {
             infoView
                 .primaryBackground()
         }
     }
-    
 
     // TODO: Build Settings and Tutorial View
     var infoView: some View {
@@ -39,9 +37,7 @@ struct GameShellView: View {
 }
 
 extension GameShellView {
-    
     struct NavBar: View {
-        
         let game: GameHandling
         let rightBarButtonAction: () -> Void
         
@@ -68,7 +64,6 @@ extension GameShellView {
                         .foregroundColor(.extraLightGray)
                         .imageScale(.large)
                 })
-                
             }
             .padding(EdgeInsets(top: 5,
                                 leading: 30,
@@ -83,15 +78,14 @@ extension GameShellView {
         var quitText: String {
             game.state.isInGame ? "Quit" : "Back"
         }
-        
     }
-    
 }
-
 
 struct EQDetectiveShellView_Previews: PreviewProvider {
     static var previews: some View {
         GameShellView(game: TestData.GameHandler(state: .preGame))
-            .primaryBackground()
+            .background(Color.init(hue: 0.62,
+                                   saturation: 0.3,
+                                   brightness: 0.18).ignoresSafeArea())
     }
 }

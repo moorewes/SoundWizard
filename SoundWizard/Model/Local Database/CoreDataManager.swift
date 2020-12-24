@@ -9,7 +9,6 @@ import Foundation
 import CoreData
 
 class CoreDataManager {
-    
     // MARK: - Shared Instance
     
     static let shared = CoreDataManager()
@@ -18,6 +17,8 @@ class CoreDataManager {
     
     var viewContext: NSManagedObjectContext { container.viewContext }
     var container: NSPersistentContainer
+    
+    @Published var audioFiles: [AudioMetadata] = []
     
     // MARK: Internal
     
@@ -30,6 +31,7 @@ class CoreDataManager {
     init() {
         self.container = NSPersistentContainer(name: storeName)
         setupPersistentContainer()
+        audioFiles = AudioSource.allSources(context: viewContext).map(\.asMetadata)
     }
     
     // MARK: - Methods
@@ -37,7 +39,19 @@ class CoreDataManager {
     // MARK: Internal
     
     func allEQDLevels() -> [Level] {
-        EQDetectiveLevel.levels(context: viewContext).map { $0.level }
+        var levels = EQDetectiveLevel.levels(context: viewContext).map { $0.level }
+        if let source = AudioSource.allUserSources(context: viewContext).first?.asMetadata {
+            print(source)
+            levels.append(
+                EQDLevel(id: "", game: .eqDetective, number: 999, difficulty: .moderate, audioMetadata: [source], scoreData: ScoreData(starScores: [400, 600, 800], scores: []), bandFocus: .all, filterGain: 8, filterQ: 8, octaveErrorRange: 2)
+            )
+        }
+        
+        return levels
+    }
+    
+    func allAudioFiles() -> [AudioMetadata] {
+        AudioSource.allSources(context: viewContext).map { $0.asMetadata }
     }
     
     func loadInitialLevels() {
@@ -57,14 +71,17 @@ class CoreDataManager {
         }
         
     }
-        
-    func save() {
-        guard container.viewContext.hasChanges else { return }
+    
+    // TODO: Handle save fails
+    @discardableResult
+    func save() -> Bool {
+        guard container.viewContext.hasChanges else { return false }
         do {
             try container.viewContext.save()
-            print("Saved Level Progress")
+            return true
         } catch {
             print(error.localizedDescription)
+            return false
         }
     }
     
@@ -88,23 +105,18 @@ class CoreDataManager {
             return EQDetectiveLevel.level(level.number)
         }
     }
-    
-    
 }
 
 extension CoreDataManager: LevelFetching {
-    
     func fetchLevels(for game: Game) -> [Level] {
         switch game {
         case .eqDetective:
             return allEQDLevels()
         }
     }
-    
 }
 
 extension CoreDataManager: LevelStoring {
-    
     func add(level: Level) {
         if let level = level as? EQDLevel {
             EQDetectiveLevel.createNew(level: level,
@@ -124,4 +136,35 @@ extension CoreDataManager: LevelStoring {
     func delete(level: Level) {
         
     }
+}
+
+extension CoreDataManager: UserAudioStore {
+    var userAudioFiles: [AudioMetadata] {
+        AudioSource.allUserSources(context: viewContext).map { $0.asMetadata }
+    }
+    
+    func addUserAudioFile(name: String, url: URL) {
+        let filename = url.lastPathComponent
+        guard filename.isNotEmpty else {
+            return
+        }
+        guard AudioFileManager.shared.storeUserFile(url: url) else {
+            print("failed to store audio data")
+            return
+        }
+        let metadata = AudioMetadata(id: "User.\(name)", name: name, filename: filename, isStock: false, url: url)
+        AudioSource.createNew(in: viewContext, from: metadata)
+        save()
+    }
+    
+    func removeUserAudioFile(_ metadata: AudioMetadata) {
+        guard let source = AudioSource.source(id: metadata.id, context: viewContext) else {
+            print("couldn't find audio source to delete: ", metadata.filename)
+            return
+        }
+        viewContext.delete(source)
+        if save() {
+            AudioFileManager.shared.deleteUserFile(metadata)
+        }
+    } 
 }

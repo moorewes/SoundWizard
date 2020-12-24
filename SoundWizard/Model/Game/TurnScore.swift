@@ -8,13 +8,11 @@
 import Foundation
 
 struct TurnScore {
-    
     var value: Double
     var successLevel: ScoreSuccess
     
     func randomFeedbackString() -> String {
         return ScoreFeedback.randomString(for: successLevel)
     }
-    
 }
 

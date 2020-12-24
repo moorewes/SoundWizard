@@ -9,7 +9,6 @@ import AVFoundation
 import AudioKit
 
 class Conductor {
-    
     // MARK: - Shared Instance
     
     static let master = Conductor()
@@ -102,8 +101,6 @@ class Conductor {
             self.mixer.removeInput(node)
         }
         gameConductor = nil
-    }
-    
-    
+    }    
 }
 

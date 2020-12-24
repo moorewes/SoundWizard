@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct GameBrowser: View {
-    
     let gameItems: [GameItem]
     
     var body: some View {
@@ -23,7 +22,6 @@ struct GameBrowser: View {
                         })
                 }
                 .listRowBackground(Color.secondaryBackground)
-                
             }
             .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Games", displayMode: .inline)
@@ -42,3 +40,5 @@ struct GamesUIView_Previews: PreviewProvider {
         GameBrowser(gameItems: [GameItem(game: .eqDetective, stars: StarProgress(total: 12, earned: 8))])
     }
 }
+
+

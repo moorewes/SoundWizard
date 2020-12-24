@@ -7,8 +7,16 @@
 
 import Foundation
 
+protocol LivesBased {
+    var lives: Lives { get set }
+    var remainingLives: Int { get }
+}
+
+extension LivesBased {
+    var remainingLives: Int { lives.remaining }
+}
+
 struct Lives {
-    
     let starting = 2
     let max = 3
     var streakTarget = 3
@@ -27,8 +35,6 @@ struct Lives {
         }
     }
     
-    
-    
     init() {
         remaining = starting
     }
@@ -41,22 +47,4 @@ struct Lives {
             streak += 1
         }
     }
-    
-}
-
-protocol LivesBased {
-    
-    var lives: Lives { get set }
-    var remainingLives: Int { get }
-    
-}
-
-extension LivesBased {
-    
-    var remainingLives: Int {
-        get {
-            return lives.remaining
-        }
-    }
-
 }

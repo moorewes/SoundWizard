@@ -9,16 +9,13 @@ import SwiftUI
 
 // TODO: Cleanup
 struct PostGameView: View {
-    
     let scoreData: ScoreData
     let gameHandler: GameStartHandling
     
     @State private var animated = false
             
     var body: some View {
-        
         VStack {
-                        
             Text("Your Score")
                 .font(.mono(.headline))
                 .foregroundColor(.lightGray)
@@ -33,8 +30,8 @@ struct PostGameView: View {
                 .font(.mono(.headline))
                 .foregroundColor(.lightGray)
                 .padding(.top, 60)
-            // TODO: Fix animation
-            MovingCounter(number: animated ? scoreData.topScore : scoreData.previousTopScore,
+
+            MovingCounter(number: animated ? scoreData.topScore : previousTopScore,
                                  font: .mono(.largeTitle, sizeModifier: 16),
                                  duration: 1.5)
             
@@ -43,8 +40,13 @@ struct PostGameView: View {
             
             Spacer()
             
-            PlayButton() {
+            PlayButton(title: "PLAY") {
                 gameHandler.play()
+            }
+            .padding(.bottom, 10)
+            
+            PlayButton(title: "PRACTICE") {
+                gameHandler.practice()
             }
                 .padding(.bottom, 40)
             
@@ -68,7 +70,7 @@ struct PostGameView: View {
         let isEarned = scoreData.starsEarned >= number
         let animationDelay = 1.5 + 1.0 * Double(animationIndex ?? 0) * timeBetweenStarAnimations
         let shouldAnimate = animationIndex != nil
-        print("animating star ", number, "is earned: ", isEarned, shouldAnimate, " after delay: ", animationDelay)
+        
         return VStack {
             Star(filled: isEarned, number: number, animated: shouldAnimate, animationDelay: animationDelay)
                 .font(.system(size: 42))
@@ -84,18 +86,15 @@ struct PostGameView: View {
         !scoreData.newStars.isEmpty
     }
     
-    private let timeBetweenStarAnimations = 0.3
-    private let starAnimationDuration = 0.7
+    private var previousTopScore: Int {
+        var previousScoreData = scoreData
+        guard previousScoreData.scores.count > 1 else { return 0 }
+        
+        previousScoreData.scores.removeLast()
+        
+        return previousScoreData.scores.sorted().last ?? 0
+    }
     
+    private let timeBetweenStarAnimations = 0.4
+    private let starAnimationDuration = 0.7
 }
-
-//struct PostGameView_Previews: PreviewProvider {
-//    static let level = TestLevel()
-//    static var previews: some View {
-//        PostGameView(level: level, gameViewState: .constant(.gameCompleted))
-//            .preferredColorScheme(.dark)
-//            .onAppear {
-//                scores = []
-//            }
-//    }
-//}

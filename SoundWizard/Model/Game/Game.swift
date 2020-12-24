@@ -8,12 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum Game: Int, CaseIterable, Identifiable {
-    typealias LevelType = EQDLevel
-    
-    
-    static let starCount = 3
-    
+enum Game: Int, CaseIterable, Identifiable {        
     case eqDetective = 0
 
     var id: Int { return self.rawValue }
@@ -23,12 +18,4 @@ enum Game: Int, CaseIterable, Identifiable {
         case .eqDetective: return "EQ Detective"
         }
     }
-    
 }
-
-struct GameplayViewBuilder {
-    
-    
-    
-}
-

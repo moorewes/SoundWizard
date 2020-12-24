@@ -9,7 +9,6 @@ import SwiftUI
 
 
 struct RoundedRectButton: View {
-    
     let title: String
     var textColor = Color.black
     var backgroundColor = Color.teal
@@ -27,7 +26,6 @@ struct RoundedRectButton: View {
                 .cornerRadius(10)
         })
     }
-    
 }
 
 struct RoundedRectButton_Previews: PreviewProvider {

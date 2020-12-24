@@ -12,7 +12,6 @@ class ScratchViewModel: ObservableObject {
 }
 
 struct Scratchpad: View {
-    
     @ObservedObject var model = ScratchViewModel()
     
     var score: Int { model.score }

@@ -8,9 +8,7 @@
 import Foundation
 
 struct TestData {
-        
     static var eqdLevel = EQDLevel(id: "test level",
-                                   isStock: true,
                                    game: .eqDetective,
                                    number: 1,
                                    difficulty: .easy,
@@ -22,14 +20,12 @@ struct TestData {
                                    filterQ: 8,
                                    octaveErrorRange: 2)
     
-    static var audioMetadata = AudioMetadata(id: "stock.Pink Noise", name: "Pink Noise", filename: "Pink.aif", isStock: true, fileFetcher: AudioFileManager.shared)
-
+    static var audioMetadata = AudioMetadata(id: "stock.Pink Noise", name: "Pink Noise", filename: "Pink.aif", isStock: true, url: URL(string: "")!)
 }
 
 // MARK: - Game Handling
 
 extension TestData {
-    
     static var stateController = TestStateController(levelStore: LevelStore())
     
     struct GameHandler: GameHandling {
@@ -80,14 +76,5 @@ extension TestData {
         func fetchLevels(for game: Game) -> [Level] {
             return [TestData.eqdLevel]
         }
-        
-        
-        
-        
     }
-    
 }
-
-
-
-

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AudioFileFetcher {
-    func url(for source: AudioMetadata) -> URL
+    func url(filename: String, isStock: Bool) -> URL
 }
 
 protocol DefaultsStore {
@@ -19,7 +19,6 @@ protocol DefaultsStore {
 extension UserDefaults: DefaultsStore {}
 
 class AudioFileManager: AudioFileFetcher {
-    
     static let shared = AudioFileManager()
     
     private enum DirectoryName {
@@ -52,18 +51,43 @@ class AudioFileManager: AudioFileFetcher {
     
     private init() {}
     
-    func url(for metaData: AudioMetadata) -> URL {
-        
-        let dir = metaData.isStock ? stockDirectoryURL : userDirectoryURL
-        return dir.appendingPathComponent(metaData.filename, isDirectory: false)
+    func url(filename: String, isStock: Bool) -> URL {
+        let dir = isStock ? stockDirectoryURL : userDirectoryURL
+        return dir.appendingPathComponent(filename, isDirectory: false)
     }
-
+    
+    func storeUserFile(url: URL) -> Bool {
+        guard url.startAccessingSecurityScopedResource() else {
+            print("denied access")
+            return false
+        }
+        defer { url.stopAccessingSecurityScopedResource() }
+        print("begin process with ", url.absoluteURL)
+        let destination = userDirectoryURL.appendingPathComponent(url.lastPathComponent)
+        
+        do {
+            let data = try Data(contentsOf: url)
+            try data.write(to: destination)
+            print("copied: ", url.lastPathComponent)
+        } catch {
+            print(error.localizedDescription)
+            return false
+        }
+        return true
+    }
+    
+    func deleteUserFile(_ metadata: AudioMetadata) {
+        do {
+            try fileManager.removeItem(at: metadata.url)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
 
 // MARK: Initial App Setup
 
 extension AudioFileManager {
-    
     private enum DefaultsKeys {
         static let directoriesAreSetup = "audioFileDirectoriesAreSetup"
         static let bundleFilesAreCopied = "bundleAudioFilesAreCopied"
@@ -162,8 +186,5 @@ extension AudioFileManager {
         }
         
         handler(succeeded)
-        
     }
-    
 }
-

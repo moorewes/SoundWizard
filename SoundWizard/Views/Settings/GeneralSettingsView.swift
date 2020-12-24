@@ -10,16 +10,15 @@ import SwiftUI
 struct GeneralSettingsView: View {
     
     var body: some View {
-        NavigationView {
-            List() {
-                SettingsNavigationCell(title: "Imported Audio") {
-                    ImportedAudioView()
-                }
+        List() {
+            SettingsNavigationCell(title: "Imported Audio") {
+                ImportedAudioView().primaryBackground()
             }
-            .listStyle(InsetGroupedListStyle())
-            .navigationBarTitle("Settings")
-            .navigationBarTitleDisplayMode(.inline)
+            .listRowBackground(Color.secondaryBackground)
         }
+        .listStyle(InsetGroupedListStyle())
+        .navigationBarTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

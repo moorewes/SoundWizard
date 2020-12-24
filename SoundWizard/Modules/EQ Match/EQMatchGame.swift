@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-class EQMatchGame: StandardGame {    
-
-    
+class EQMatchGame: StandardGame {
     typealias LevelType = EQMatchLevel
     typealias ConductorType = EQMatchConductor
     
@@ -33,24 +31,18 @@ class EQMatchGame: StandardGame {
         self.lives = Lives()
         self.scoreMultiplier = ScoreMultiplier()
     }
-    
-    
 }
 
 extension EQMatchGame {
-    
     typealias TurnType = Turn
     
     struct Turn: GameTurn {
-        
         var number: Int
         var score: TurnScore?
-        
     }
 }
 
 class EQMatchLevel: Level {
-    
     var game = Game.eqMatch
     var progressManager = UserProgressManager.shared
     
@@ -81,8 +73,6 @@ class EQMatchLevel: Level {
     func updateProgress(score: Int) {
         
     }
-    
-    
 }
 
 extension EQMatchGame: InteractiveFilterDataSource {
@@ -113,12 +103,9 @@ extension EQMatchGame: InteractiveFilterDataSource {
     var filterQ: Float {
         4.0
     }
-    
-    
 }
 
 extension EQMatchLevel {
-    
     static func starScores(for difficulty: LevelDifficulty) -> [Int] {
         switch difficulty {
         case .easy:
@@ -132,9 +119,7 @@ extension EQMatchLevel {
 }
 
 extension EQMatchLevel {
-    
     static let levels: [EQMatchLevel] = [
         EQMatchLevel(number: 1, audioSource: .acousticDrums, difficulty: .easy)
     ]
-    
 }

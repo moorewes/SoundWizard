@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PlayButton: View {
-    
+    let title: String
     let action: () -> Void
         
     var body: some View {
@@ -20,11 +20,10 @@ struct PlayButton: View {
                     .foregroundColor(.teal)
                     .cornerRadius(10)
                     .frame(width: 200, height: 50, alignment: .center)
-                Text("PLAY")
+                Text(title)
                     .font(.mono(.headline))
-                    .foregroundColor(.darkBackground)
+                    .foregroundColor(.primaryBackground)
             }
-            
         })
     }
 }

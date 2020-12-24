@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct BackButton: View {
-    
     @Environment(\.presentationMode) var presentation
     
     var body: some View {
@@ -16,13 +15,11 @@ struct BackButton: View {
             Button(action: {
                 withAnimation {
                     presentation.wrappedValue.dismiss()
-                    
                 }
             }, label: {
                 Text("Quit")
                     .font(.mono(.headline))
             })
-            
         }
     }
 }

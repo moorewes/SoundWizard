@@ -11,7 +11,6 @@ import CoreData
 
 @objc(EQDetectiveLevel)
 public final class EQDetectiveLevel: NSManagedObject {
-    
     static let game = Game.eqDetective
     
     lazy var scoreData = ScoreData(starScores: starScores, scores: scores)
@@ -21,29 +20,16 @@ public final class EQDetectiveLevel: NSManagedObject {
         set { bandFocus_ = Int16(newValue.rawValue) }
     }
     
-    lazy var octaveErrorRange: Octave = {
-        switch difficulty {
-        case .easy:
-            return bandFocus.octaveSpan / 4
-        case .moderate:
-            return bandFocus.octaveSpan / 6
-        case .hard:
-            return bandFocus.octaveSpan / 8
-        }
-    }()
-    
     func addScore(score: Int) {
         scoreData.addScore(score)
         scores = scoreData.scores
         try! managedObjectContext?.save()
     }
-
 }
 
 // MARK: - Fetches
 
 extension EQDetectiveLevel {
-    
     static func levels(matching predicate: NSPredicate? = nil, context: NSManagedObjectContext) -> [EQDetectiveLevel] {
         let request: NSFetchRequest<EQDetectiveLevel> = EQDetectiveLevel.fetchRequest()
         request.predicate = predicate
@@ -65,13 +51,11 @@ extension EQDetectiveLevel {
             fatalError("Couldn't fetch levels, \(error.localizedDescription)")
         }
     }
-        
 }
 
 // MARK: - Level Conformance
 
 extension EQDetectiveLevel {
-    
     public var id: String {
         get { id_! }
         set { id_ = newValue}
@@ -104,13 +88,11 @@ extension EQDetectiveLevel {
         get { starScores_ ?? [] }
         set { starScores_ = newValue }
     }
-    
 }
 
 // MARK: LevelStorageObject Conformance
 
 extension EQDetectiveLevel: LevelStorageObject {
-    
     typealias LevelType = EQDLevel
     typealias AudioSourceType = AudioSource
     typealias ObjectContext = NSManagedObjectContext
@@ -118,7 +100,6 @@ extension EQDetectiveLevel: LevelStorageObject {
     var level: LevelType {
             EQDLevel(
                 id: id,
-                isStock: isStock,
                 game: game,
                 number: number,
                 difficulty: difficulty,
@@ -134,7 +115,6 @@ extension EQDetectiveLevel: LevelStorageObject {
         let result = EQDetectiveLevel(context: context)
         result.id = level.id
         result.number = level.number
-        result.isStock = level.isStock
         result.difficulty = level.difficulty
         result.bandFocus = level.bandFocus
         result.filterGainDB = level.filterGain
@@ -142,7 +122,6 @@ extension EQDetectiveLevel: LevelStorageObject {
         result.starScores = level.scoreData.starScores
         audioSources.forEach { result.addToAudioSources_($0) }
     }
-
 }
 
 

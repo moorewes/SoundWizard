@@ -9,7 +9,6 @@ import SwiftUI
 import CoreData
 
 struct HomeView: View {
-    
     @EnvironmentObject var stateController: StateController
         
     var body: some View {

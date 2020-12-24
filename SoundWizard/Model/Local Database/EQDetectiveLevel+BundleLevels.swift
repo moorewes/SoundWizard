@@ -10,7 +10,6 @@ import CoreData
 // MARK: Bundle Levels Core Data Importing
 
 extension EQDetectiveLevel {
-    
     private enum DefaultsKey {
         static let bundleLevelsAreInDatabase = "bundleEQDetectiveLevelsAreInDatabase"
     }
@@ -26,7 +25,6 @@ extension EQDetectiveLevel {
     
     convenience init(context: NSManagedObjectContext,
                      number: Int,
-                     isStock: Bool,
                      difficulty: LevelDifficulty,
                      bandFocus: BandFocus,
                      filterGainDB: Float,
@@ -34,15 +32,13 @@ extension EQDetectiveLevel {
                      starScores: [Int],
                      audioSources: [AudioSource]) {
         self.init(context: context)
-        self.id = EQDLevel.makeID(isStock: isStock, number: number, audioSources: audioSources.map { $0.asMetadata })
+        self.id = EQDLevel.makeStockID(number: number, audioSources: audioSources.map { $0.asMetadata })
         self.number = number
-        self.isStock = isStock
         self.difficulty = difficulty
         self.bandFocus = bandFocus
         self.filterGainDB = filterGainDB
         self.filterQ = filterQ
         self.starScores = starScores
-        
         audioSources.forEach { addToAudioSources_($0) }
     }
     
@@ -60,7 +56,6 @@ extension EQDetectiveLevel {
                         let _ = EQDetectiveLevel(
                             context: context,
                             number: index,
-                            isStock: true,
                             difficulty: difficulty,
                             bandFocus: focus,
                             filterGainDB: gain,
@@ -87,7 +82,7 @@ extension EQDetectiveLevel {
     
     private class func starScores(for difficulty: LevelDifficulty) -> [Int] {
         switch difficulty {
-        case .easy: return [300, 500, 700]
+        case .easy, .custom: return [300, 500, 700]
         case .moderate: return [500, 800, 1100]
         case .hard: return [600, 900, 1200]
         }
@@ -95,7 +90,7 @@ extension EQDetectiveLevel {
     
     private class func gainValues(for difficulty: LevelDifficulty) -> [Float] {
         switch difficulty {
-        case .easy: return [8]
+        case .easy, .custom: return [8]
         case .moderate: return [6, -16]
         case .hard: return [4, -12]
         }
@@ -104,10 +99,21 @@ extension EQDetectiveLevel {
     private class func qValue(for difficulty: LevelDifficulty, gain: Float) -> Float {
         let boost = gain > 0
         switch difficulty {
-        case .easy: return boost ? 8 : 6
+        case .easy, .custom: return boost ? 8 : 6
         case .moderate: return boost ? 6 : 2
         case .hard: return boost ? 4 : 4
         }
     }
-   
+}
+
+// MARK: ID Factory
+
+private extension EQDLevel {
+    static func makeStockID(number: Int, audioSources: [AudioMetadata]) -> String {
+        let sourceString = audioSources.count == 1 ?
+                            audioSources.first!.name :
+                            "multipleAudioSources"
+        
+        return "\(Game.eqDetective.id).stock.\(number).\(sourceString)"
+    }
 }

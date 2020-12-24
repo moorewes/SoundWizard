@@ -15,7 +15,6 @@
 import SwiftUI
 
 protocol InteractiveFilterDataSource {
-    
     var frequencyRange: FrequencyRange { get }
     var octavesShaded: Float { get }
     var solutionFreq: Frequency? { get }
@@ -27,7 +26,6 @@ protocol InteractiveFilterDataSource {
 }
 
 struct InteractiveFilter: View {
-    
     private var data: InteractiveFilterDataSource
     
     @Binding var frequency: Frequency
@@ -69,9 +67,7 @@ struct InteractiveFilter: View {
                 .foregroundColor(Color(white: 1, opacity: 0.001))
                 .gesture(dragGesture(size: geometry.size))
         }
-    
     }
-    
     
     // MARK: - Sub views
   

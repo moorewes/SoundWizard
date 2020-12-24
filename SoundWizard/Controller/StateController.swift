@@ -9,7 +9,6 @@ import SwiftUI
 
 // TODO: Make dynamic for other level types
 class StateController: ObservableObject {
-    
     private let levelStore: LevelFetching & LevelStoring
     
     private var allLevels = [Level]()
@@ -68,27 +67,31 @@ class StateController: ObservableObject {
     private func level(matching level: Level) -> Level? {
         allLevels.first { $0.id == level.id }
     }
-
 }
 
 // MARK: - Game Handling
 
 extension StateController: GameTransitionHandling {
-    
     struct GameHandler: GameHandling {
         var level: Level
-        var state: GameViewState
+        private(set) var state: GameViewState
         var gameBuilder: GameBuilding
         private(set) var startHandler: GameStartHandling
         private(set) var completionHandler: GameCompletionHandling
+        
+        mutating func setState(_ state: GameViewState) {
+            withAnimation {
+                self.state = state
+            }
+        }
     }
     
     func play() {
-        gameHandler?.state = .playing
+        gameHandler?.setState(.playing)
     }
     
     func practice() {
-        gameHandler?.state = .practicing
+        gameHandler?.setState(.practicing)
     }
     
     // TODO: Store score success array for useful statistics
@@ -96,7 +99,7 @@ extension StateController: GameTransitionHandling {
         guard let level = gameHandler?.level,
               let index = index(for: level)  else { return }
         allLevels[index].scoreData.addScore(score.value)
-        gameHandler?.state = .completed
+        gameHandler?.setState(.completed)
         gameHandler?.level = allLevels[index]
         
         levelStore.update(level: allLevels[index])
@@ -105,7 +108,7 @@ extension StateController: GameTransitionHandling {
     func quit() {
         switch gameHandler?.state {
         case .playing, .practicing:
-            gameHandler?.state = .quitted
+            gameHandler?.setState(.quitted)
         default:
             deselectLevel()
         }
