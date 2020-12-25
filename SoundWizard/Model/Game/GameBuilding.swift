@@ -20,3 +20,27 @@ extension EQDLevel: GameBuilding {
         return AnyView(EQDetectiveGameplayView(game: game))
     }
 }
+
+extension EQMatchLevel: GameBuilding {
+    func buildGame(gameHandler handler: GameHandling) -> AnyView {
+        let game = EQMatchGame(
+            level: self,
+            practice: handler.state == .practicing,
+            completionHandler: handler.completionHandler
+        )
+        return AnyView(EQMatchGameplayView(game: game))
+    }
+    
+    var initialFilterData: [EQBellFilterData] {
+        Array(0..<filterCount).map { index in
+            let frequency = centerFrequency(filterNumber: index)
+            return EQBellFilterData(frequency: frequency, gain: Gain(dB: 0), q: 4)
+        }
+    }
+    
+    private func centerFrequency(filterNumber: Int) -> Frequency {
+        let percentage = Float(filterNumber) / Float(filterCount) + 0.5 / Float(filterCount)
+        return AudioMath.frequency(percent: percentage, in: bandFocus.range)
+    }
+    
+}

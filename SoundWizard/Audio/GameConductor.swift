@@ -25,7 +25,7 @@ class Conductor {
     private let fxPlayer = AudioPlayer()
     private let mixer: Mixer
     private var gameConductor: GameConductor?
-    private var volume: AUValue = AudioMath.dBToPercent(dB: -8)
+    private var volume: AUValue = Gain(dB: -8).percentage
     
     // MARK: - Initializers
     

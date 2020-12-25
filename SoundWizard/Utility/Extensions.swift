@@ -18,8 +18,11 @@ extension UserDefaults {
 }
 
 extension Comparable {
-    func clamped(to limits: ClosedRange<Self>) -> Self {
-        return min(max(self, limits.lowerBound), limits.upperBound)
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        return min(max(self, range.lowerBound), range.upperBound)
+    }
+    mutating func clamp(to range: ClosedRange<Self>) {
+        self = self.clamped(to: range)
     }
 }
 

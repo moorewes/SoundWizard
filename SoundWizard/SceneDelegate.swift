@@ -26,7 +26,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .environment(\.managedObjectContext, context)
                 .environmentObject(stateController)
             //let testView = NavigationView {EQDCustomLevelDetailView(level: EQDLevel.newCustomLevel(), completionHandler: {_ in})}.listRowBackground(Color.secondaryBackground)
-            window.rootViewController = UIHostingController(rootView: view)
+//            let filters: [EQBellFilterData] = [
+//                EQBellFilterData(frequency: 300, gain: Gain(dB: 4), q: 2),
+//                EQBellFilterData(frequency: 1000, gain: Gain(dB: 4), q: 8),
+//                EQBellFilterData(frequency: 5000, gain: Gain(dB: 4), q: 1)
+//            ]
+            //let filterView = InteractiveEQPlot(filters: filters)
+            let level = TestData.eqMatchLevel
+            let game = level.buildGame(gameHandler: TestData.GameHandler(state: .playing))
+            window.rootViewController = UIHostingController(rootView: game)
             self.window = window
             window.makeKeyAndVisible()
         }

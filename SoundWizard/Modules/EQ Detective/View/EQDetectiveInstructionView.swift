@@ -44,7 +44,7 @@ struct EQDetectiveInstructionView: View {
     }
     
     private var filterGainDescription: String {
-        let gain = Int(level.filterGain)
+        let gain = Int(level.filterGain.dB)
         let suffix = gain > 0 ? "Peak" : "Cut"
         return "\(gain)dB \(suffix)"
     }
@@ -64,7 +64,7 @@ struct EQDetectiveInstructionView: View {
     }
     
     private func bellY(x: CGFloat, size: CGSize) -> CGFloat {
-        let a = CGFloat(level.filterGain * 1.5)
+        let a = CGFloat(level.filterGain.dB * 1.5)
         let b = size.width / 2
         let c = size.width / (3 * CGFloat(level.filterQ))
         let startY = bellStart(size: size).y
@@ -72,7 +72,7 @@ struct EQDetectiveInstructionView: View {
     }
     
     private func bellStart(size: CGSize) -> CGPoint {
-        let y = level.filterGain < 0 ? size.height / 4 : size.height
+        let y = level.filterGain.dB < 0 ? size.height / 4 : size.height
         return CGPoint(x: 0, y: y)
     }
     

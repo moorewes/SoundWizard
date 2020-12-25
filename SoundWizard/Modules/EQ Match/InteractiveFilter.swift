@@ -169,10 +169,10 @@ struct InteractiveFilter: View {
     private func sliderLabel(size: CGSize) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 0) {
             Text(sliderFrequency.decimalString)
-                .font(.monoSemiBold(18))
+                .font(.mono(.subheadline))
                 .foregroundColor(Color.white)
             Text(" " + sliderFrequency.unitString)
-                .font(.monoSemiBold(15))
+                .font(.mono(.subheadline))
                 .foregroundColor(Color.white)
         }
     }
@@ -252,12 +252,12 @@ struct InteractiveFilter: View {
     
 }
 
-struct InteractiveFilter_Previews: PreviewProvider {
-    static var game = EQMatchGame(level: EQMatchLevel.levels.first!, gameViewState: .constant(.inGame))
-
-    static var previews: some View {
-        InteractiveFilter(data: game, frequency: .constant(1000), gain: .constant(1))
-            .preferredColorScheme(.dark)
-            .frame(width: 330, height: 300, alignment: .center)
-    }
-}
+//struct InteractiveFilter_Previews: PreviewProvider {
+//    //static var game = EQMatchGame(level: EQMatchLevel.levels.first!, gameViewState: .constant(.inGame))
+//
+//    static var previews: some View {
+//        InteractiveFilter(data: game, frequency: .constant(1000), gain: .constant(1))
+//            .preferredColorScheme(.dark)
+//            .frame(width: 330, height: 300, alignment: .center)
+//    }
+//}

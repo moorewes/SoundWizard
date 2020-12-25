@@ -23,7 +23,7 @@ class EQDetectiveConductor: GameConductor {
     private(set) var filterQ: AUValue
     let outputFader: Fader
     
-    lazy var volume: AUValue = AudioMath.dBToPercent(dB: -8)
+    lazy var volume: AUValue = Gain(dB: -8).percentage
     
     var isMuted = false {
         didSet {
@@ -40,7 +40,7 @@ class EQDetectiveConductor: GameConductor {
     private let filter: EqualizerFilter
     private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.25
-    private let dimVolume: AUValue = AudioMath.dBToPercent(dB: -6)
+    private let dimVolume: AUValue = Gain(dB: -6).percentage
     private let defaultFadeTime: Float = 1.5
     
     // MARK: - Initializers
@@ -115,7 +115,7 @@ class EQDetectiveConductor: GameConductor {
     }
     
     func set(filterGainDB: AUValue) {
-        let gainPercentage = AudioMath.dBToPercent(dB: filterGainDB)
+        let gainPercentage = Gain(dB: filterGainDB).percentage
         filter.$gain.ramp(to: gainPercentage, duration: filterRampTime)
     }
     

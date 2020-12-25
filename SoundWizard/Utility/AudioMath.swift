@@ -69,11 +69,7 @@ struct AudioMath {
                                    baseOctaveFreq: range.lowerBound,
                                    rounded: true)
     }
-    
-    static func dBToPercent(dB: Float) -> Float {
-        return powf(10, dB/10)
-    }
-    
+        
     static func randomFreq(in range: FrequencyRange,
                            disfavoring disfavoredFreq: Float? = nil,
                            repelEdges: Bool) -> Float {

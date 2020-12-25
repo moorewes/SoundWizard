@@ -42,7 +42,7 @@ struct EQDCustomLevelDetailView: View {
             level.id = name.isEmpty ? Date().description : name
             level.audioMetadata = selectedAudioFiles
             level.bandFocus = bandFocus
-            level.filterGain = Float(filter.gain)
+            level.filterGain = Gain(dB: Float(filter.gain))
             level.filterQ = Float(filter.q)
             completionHandler(level)
             presentation.wrappedValue.dismiss()
@@ -89,7 +89,7 @@ struct EQDCustomLevelDetailView_Previews: PreviewProvider {
 extension EQDLevel {
     
     static func newCustomLevel() -> EQDLevel {
-        EQDLevel(id: UUID().uuidString, game: .eqDetective, number: -1, difficulty: .custom, audioMetadata: [], scoreData: ScoreData(starScores: [300, 500, 700], scores: []), bandFocus: .all, filterGain: 9, filterQ: 8, octaveErrorRange: 2)
+        EQDLevel(id: UUID().uuidString, game: .eqDetective, number: -1, difficulty: .custom, audioMetadata: [], scoreData: ScoreData(starScores: [300, 500, 700], scores: []), bandFocus: .all, filterGain: Gain(dB: 9), filterQ: 8, octaveErrorRange: 2)
     }
     
 }

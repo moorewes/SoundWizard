@@ -16,7 +16,7 @@ struct EQDLevel: Level, Identifiable {
     var scoreData: ScoreData
         
     var bandFocus: BandFocus
-    var filterGain: Float
+    var filterGain: Gain
     var filterQ: Float
     
     lazy var octaveErrorRange: Octave = {
@@ -33,6 +33,6 @@ struct EQDLevel: Level, Identifiable {
     }()
     
     var filterBoosts: Bool {
-        filterGain > 0
+        filterGain.percentage > 0
     }
 }

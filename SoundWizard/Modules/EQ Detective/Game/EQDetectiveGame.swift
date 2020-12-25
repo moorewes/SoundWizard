@@ -108,7 +108,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
         lives = Lives()
         
         gameConductor = EQDetectiveConductor(source: level.audioMetadata[0],
-                                             filterGainDB: level.filterGain,
+                                             filterGainDB: level.filterGain.dB,
                                              filterQ: level.filterQ)
         
         selectedFreq = level.bandFocus.referenceFrequencies.centerItem!.uiRounded

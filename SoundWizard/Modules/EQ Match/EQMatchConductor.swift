@@ -17,44 +17,42 @@ class EQMatchConductor: GameConductor {
     
     // MARK: Internal
     
-    private(set) var filterGainDB: AUValue
-    private(set) var filterQ: AUValue
-    let outputFader: Fader
+    var outputFader: Fader
     
-    lazy var volume: AUValue = AudioMath.dBToPercent(dB: -8)
-    
-    var isMuted = false {
-        didSet {
-            if isMuted != oldValue {
-                mute(isMuted)
-            }
-        }
-    }
+    lazy var playerGain: AUValue = Gain.percentage(dB: -8)
+
         
     // MARK: Private
-    private let conductor = Conductor.shared
+    private let conductor = Conductor.master
     private let player = AudioPlayer()
-    private let filter: EqualizerFilter
+    private var filters = [EqualizerFilter]()
+    private var filterData: [EQBellFilterData]
     private let buffer: AVAudioPCMBuffer
-    private let filterRampTime: AUValue = 0.05
-    private let dimVolume: AUValue = AudioMath.dBToPercent(dB: -6)
-
+    private var dryFader: Fader!
+    private var wetFader: Fader!
+    private var mixer: Mixer!
+    
+    private let rampTime: AUValue = 0.05
+    private let dimVolume: AUValue = Gain.percentage(dB: -6)
     
     // MARK: - Initializers
     
-    init(source: AudioFile = AudioFile.acousticDrums) {
-        buffer = Cookbook.buffer(for: source.url)
-        self.filterGainDB = 1
-        self.filterQ = 1
-
-        filter = EqualizerFilter(player)
-        filter.centerFrequency = 1000
-        filter.gain = 1
-        filter.bandwidth = 1000
-        
-        outputFader = Fader(filter, gain: 0)
+    init(source: AudioMetadata, filterData: [EQBellFilterData]) {
+        self.buffer = Cookbook.buffer(for: source.url)
+        self.filterData = filterData
+        self.outputFader = Fader(player)
+        for data in filterData {
+            let filter = EqualizerFilter(filters.last ?? player)
+            update(filter: filter, with: data)
+            filters.append(filter)
+        }
+        wetFader = Fader(filters.last ?? player, gain: 1)
+        dryFader = Fader(player, gain: 0)
+        mixer = Mixer([dryFader, wetFader])
+        outputFader = Fader(wetFader, gain: 0)
                 
-        player.volume = volume
+        player.volume = playerGain
+        conductor.patchIn(self)
     }
     
     // MARK: - Methods
@@ -62,7 +60,6 @@ class EQMatchConductor: GameConductor {
     // MARK: Internal
     
     func startPlaying() {
-        conductor.start(with: self)
         player.scheduleBuffer(buffer, at: nil, options: .loops)
         player.start()
         fadeIn()
@@ -80,36 +77,32 @@ class EQMatchConductor: GameConductor {
         }
     }
     
-    func toggleMute() {
-        isMuted.toggle()
-    }
-    
     func setFilterBypass(_ bypass: Bool) {
-        let gain = bypass ? 1.0 : filterGainDB
-        set(filterGainDB: gain)
+        let dryGain: AUValue = bypass ? 1 : 0
+        [dryFader.$leftGain, dryFader.$rightGain].forEach { $0.ramp(to: dryGain, duration: rampTime)}
+        
+        let wetGain: AUValue = bypass ? 0 : 1
+        [wetFader.$leftGain, wetFader.$rightGain].forEach { $0.ramp(to: wetGain, duration: rampTime)}
     }
     
     func setDim(dimmed: Bool) {
-        let gain = dimmed ? dimVolume : volume
+        let gain = dimmed ? dimVolume : 1
         
         outputFader.$leftGain.ramp(to: gain, duration: 0.3)
         outputFader.$rightGain.ramp(to: gain, duration: 0.3)
     }
-        
-    func set(filterFreq: AUValue) {
-        let bandwidth = filterFreq / filterQ
-        filter.$centerFrequency.ramp(to: filterFreq, duration: filterRampTime)
-        filter.$bandwidth.ramp(to: bandwidth, duration: filterRampTime)
+    
+    func update(data: [EQBellFilterData]) {
+        self.filterData = data
+        for (index, data) in filterData.enumerated() {
+            update(filter: filters[index], with: data)
+        }
     }
     
-    func set(filterGainDB: AUValue) {
-        let gainPercentage = AudioMath.dBToPercent(dB: filterGainDB)
-        filter.$gain.ramp(to: gainPercentage, duration: filterRampTime)
-    }
-    
-    func set(filterQ: AUValue) {
-        self.filterQ = filterQ
-        set(filterFreq: filter.centerFrequency)
+    func update(filter: EqualizerFilter, with data: EQBellFilterData) {
+        filter.$centerFrequency.ramp(to: data.frequency, duration: rampTime)
+        filter.$bandwidth.ramp(to: data.frequency / data.q, duration: rampTime)
+        filter.$gain.ramp(to: data.gain.percentage, duration: rampTime)
     }
     
     // MARK: Private
@@ -134,10 +127,8 @@ class EQMatchConductor: GameConductor {
         outputFader.$rightGain.ramp(to: 0, duration: duration)
         DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + Double(duration)) { [weak self] in
             self?.player.stop()
-            self?.conductor.stop()
+            self?.conductor.endGame()
         }
     }
-
-
 }
 

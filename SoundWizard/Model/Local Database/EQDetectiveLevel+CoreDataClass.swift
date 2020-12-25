@@ -106,7 +106,7 @@ extension EQDetectiveLevel: LevelStorageObject {
                 audioMetadata: audioMetadata,
                 scoreData: scoreData,
                 bandFocus: bandFocus,
-                filterGain: filterGainDB,
+                filterGain: Gain(dB: filterGainDB),
                 filterQ: filterQ
             )
     }
@@ -117,7 +117,7 @@ extension EQDetectiveLevel: LevelStorageObject {
         result.number = level.number
         result.difficulty = level.difficulty
         result.bandFocus = level.bandFocus
-        result.filterGainDB = level.filterGain
+        result.filterGainDB = level.filterGain.dB
         result.filterQ = level.filterQ
         result.starScores = level.scoreData.starScores
         audioSources.forEach { result.addToAudioSources_($0) }

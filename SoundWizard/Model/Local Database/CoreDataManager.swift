@@ -43,7 +43,7 @@ class CoreDataManager {
         if let source = AudioSource.allUserSources(context: viewContext).first?.asMetadata {
             print(source)
             levels.append(
-                EQDLevel(id: "", game: .eqDetective, number: 999, difficulty: .moderate, audioMetadata: [source], scoreData: ScoreData(starScores: [400, 600, 800], scores: []), bandFocus: .all, filterGain: 8, filterQ: 8, octaveErrorRange: 2)
+                EQDLevel(id: "", game: .eqDetective, number: 999, difficulty: .moderate, audioMetadata: [source], scoreData: ScoreData(starScores: [400, 600, 800], scores: []), bandFocus: .all, filterGain: Gain(dB: 8), filterQ: 8, octaveErrorRange: 2)
             )
         }
         
