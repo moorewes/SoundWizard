@@ -20,7 +20,21 @@ struct EQMatchGameplayView: View {
                 .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
                 .opacity(game.practicing ? 0 : 1)
             
-            InteractiveEQPlot(filters: $game.filterData, canAdjustGain: true, canAdjustFrequency: game.level.changesFrequency)
+            HStack {
+                ForEach(game.guessFilterData, id: \.self) { data in
+                    Text(data.frequency.uiString)
+                }
+            }
+            
+            InteractiveEQPlot(filters: $game.guessFilterData, canAdjustGain: true, canAdjustFrequency: game.level.changesFrequency)
+                .padding(.vertical, 30)
+            
+            Button("SUBMIT") {
+                game.submitGuess()
+            }
+            .buttonStyle(ActionButtonStyle())
+            .padding(.vertical, 30)
+            
         }
     }
 }

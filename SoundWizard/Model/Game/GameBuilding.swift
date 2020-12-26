@@ -33,14 +33,28 @@ extension EQMatchLevel: GameBuilding {
     
     var initialFilterData: [EQBellFilterData] {
         Array(0..<filterCount).map { index in
-            let frequency = centerFrequency(filterNumber: index)
-            return EQBellFilterData(frequency: frequency, gain: Gain(dB: 0), q: 4)
+            let frequency = startFrequency(filterNumber: index)
+            let range = frequencyRange(filterNumber: index)
+            
+            return EQBellFilterData(frequency: frequency, gain: Gain(dB: 0), q: 4, frequencyRange: range)
         }
     }
     
-    private func centerFrequency(filterNumber: Int) -> Frequency {
+    private func startFrequency(filterNumber: Int) -> Frequency {
+        if let staticFreqs = staticFrequencies {
+            return staticFreqs[filterNumber]
+        }
+        
         let percentage = Float(filterNumber) / Float(filterCount) + 0.5 / Float(filterCount)
         return AudioMath.frequency(percent: percentage, in: bandFocus.range)
     }
     
+    private func frequencyRange(filterNumber: Int) -> FrequencyRange {
+        let startPercentage = Float(filterNumber) / Float(filterCount)
+        let endPercentage = Float(filterNumber + 1) / Float(filterCount)
+        let startFreq = AudioMath.frequency(percent: startPercentage, in: bandFocus.range)
+        let endFreq = AudioMath.frequency(percent: endPercentage, in: bandFocus.range)
+        
+        return startFreq...endFreq
+    }
 }

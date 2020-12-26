@@ -15,3 +15,10 @@ struct EQBellFilterData {
     var frequencyRange: FrequencyRange = BandFocus.all.range
     var dBGainRange: ClosedRange<Float> = -12...12
 }
+
+extension EQBellFilterData: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(frequency)
+        hasher.combine(frequencyRange)
+    }
+}

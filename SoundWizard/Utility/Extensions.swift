@@ -41,7 +41,6 @@ extension Array {
     }
 }
 
-
 extension View {
     @ViewBuilder func hidden(_ shouldHide: Bool) -> some View {
         switch shouldHide {
