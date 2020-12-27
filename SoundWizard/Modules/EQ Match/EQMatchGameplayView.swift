@@ -20,23 +20,54 @@ struct EQMatchGameplayView: View {
                 .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
                 .opacity(game.practicing ? 0 : 1)
             
-            HStack {
-                ForEach(game.guessFilterData, id: \.self) { data in
-                    Text(data.frequency.uiString)
-                }
-            }
+            GuessLabels(data: game.guessFilterData)
             
             InteractiveEQPlot(filters: $game.guessFilterData, canAdjustGain: true, canAdjustFrequency: game.level.changesFrequency)
                 .padding(.vertical, 30)
             
-            Button("SUBMIT") {
-                game.submitGuess()
-            }
-            .buttonStyle(ActionButtonStyle())
-            .padding(.vertical, 30)
+            ActionButton(game: game)
+                .padding(.vertical, 30)
             
         }
     }
+}
+
+extension EQMatchGameplayView {
+    struct GuessLabels: View {
+        let data: [EQBellFilterData]
+        
+        var body: some View {
+            HStack {
+                Spacer()
+                ForEach(data, id: \.self) { data in
+                    VStack {
+                        Text(data.gain.dB.uiString + "dB")
+                            .font(.mono(.body))
+                            .foregroundColor(.white)
+                        Text(data.frequency.decimalStringWithUnit)
+                            .font(.mono(.body))
+                            .foregroundColor(.white)
+                    }
+                    Spacer()
+                }
+            }
+        }
+    }
+}
+
+extension EQMatchGameplayView {
+    
+    struct ActionButton: View {
+        let game: EQMatchGame
+        
+        var body: some View {
+            Button(game.actionButtonTitle) {
+                game.action()
+            }
+            .buttonStyle(ActionButtonStyle())
+        }
+    }
+    
 }
 
 struct EQMatchGameplayView_Previews: PreviewProvider {

@@ -29,6 +29,14 @@ class EQMatchGame: ObservableObject, StandardGame {
         }
     }
     
+    var isPracticingBetweenTurns: Bool {
+        practicing && turns.last?.isComplete ?? false
+    }
+    
+    var actionButtonTitle: String {
+        isPracticingBetweenTurns ? "Continue" : "Submit"
+    }
+    
     init(level: EQMatchLevel, practice: Bool, completionHandler: GameCompletionHandling) {
         self.level = level
         self.practicing = practice
@@ -42,7 +50,7 @@ class EQMatchGame: ObservableObject, StandardGame {
         turns.append(Turn(number: turns.count, solution: newSolution()))
     }
     
-    func submitGuess() {
+    func action() {
         
     }
     

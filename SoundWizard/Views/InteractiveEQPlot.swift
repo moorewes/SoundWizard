@@ -7,20 +7,14 @@
 
 import SwiftUI
 
-private extension EQBellFilterData {
-    func x(in range: FrequencyRange) -> CGFloat {
-        CGFloat(frequency.percentage(in: range))
-    }
-    func y(in range: ClosedRange<Float>) -> CGFloat {
-        CGFloat(gain.dB / range.upperBound) / 2 + 0.5
-    }
-}
-
 struct InteractiveEQPlot: View {
     @Binding var filters: [EQBellFilterData]
     var canAdjustGain = true
     var canAdjustFrequency = true
-    
+    var frequencyRange: FrequencyRange {
+        filters.frequencyRange
+    }
+
     var body: some View {
         ZStack {
             BellPath(filters: filterCGData)
@@ -29,6 +23,7 @@ struct InteractiveEQPlot: View {
             HStack(spacing: 0) {
                 ForEach(filters.indices, id: \.self) { index in
                     DragZone(filter: $filters[index],
+                             frequencyRange: frequencyRange,
                              xRange: xRange(for: index),
                              yRange: yRange(for: index))
                 }
@@ -42,13 +37,17 @@ struct InteractiveEQPlot: View {
     
     private func xRange(for index: Int) -> ClosedRange<CGFloat> {
         let filter = filters[index]
+        
         guard canAdjustFrequency else {
-            let value = CGFloat(filter.x(in: filter.frequencyRange))
+            let value = CGFloat(filter.x(in: frequencyRange))
             return value...value
         }
-        let span = 1 / CGFloat(filters.count)
-        let start = span * CGFloat(index)
-        return start...(start + span)
+        
+        let minF = filter.frequencyRange.lowerBound
+        let maxF = filter.frequencyRange.upperBound
+        let minX = CGFloat(minF.percentage(in: frequencyRange))
+        let maxX = CGFloat(maxF.percentage(in: frequencyRange))
+        return minX...maxX
     }
     
     private func yRange(for index: Int) -> ClosedRange<CGFloat> {
@@ -64,6 +63,7 @@ struct InteractiveEQPlot: View {
 extension InteractiveEQPlot {
     struct DragZone: View {
         @Binding var filter: EQBellFilterData
+        let frequencyRange: FrequencyRange
         let xRange: ClosedRange<CGFloat>
         let yRange: ClosedRange<CGFloat>
         
@@ -92,8 +92,8 @@ extension InteractiveEQPlot {
             let yOffset = -translation.height / size.height
             let x = (dragStart!.x + xOffset).clamped(to: xRange)
             let y = (dragStart!.y + yOffset).clamped(to: yRange)
-            
-            filter.frequency = AudioMath.frequency(percent: Float(x), in: filter.frequencyRange)
+            print(x)
+            filter.frequency = AudioMath.frequency(percent: Float(x), in: frequencyRange)
             filter.gain.dB = filter.dBGainRange.upperBound * Float(y - 0.5) * 2
         }
     }
@@ -111,6 +111,31 @@ struct CGFilterData: Hashable {
         x = CGFloat(data.frequency.percentage(in: data.frequencyRange))
         y = CGFloat(data.gain.dB / data.dBGainRange.upperBound) / 2 + 0.5
         q = CGFloat(data.q)
+    }
+}
+
+private extension Array where Element == EQBellFilterData {
+    var frequencyRange: FrequencyRange {
+        if self.isEmpty { return BandFocus.all.range }
+        let min = self.reduce(BandFocus.all.range.upperBound) { min, data in
+            let this = data.frequencyRange.lowerBound
+            return this < min ? this : min
+        }
+        let max = self.reduce(BandFocus.all.range.lowerBound) { max, data in
+            let this = data.frequencyRange.upperBound
+            return this > max ? this : max
+        }
+        return min...max
+    }
+}
+
+private extension EQBellFilterData {
+    func x(in range: FrequencyRange) -> CGFloat {
+        CGFloat(frequency.percentage(in: range))
+    }
+    
+    func y(in range: ClosedRange<Float>) -> CGFloat {
+        CGFloat(gain.dB / range.upperBound) / 2 + 0.5
     }
 }
 
