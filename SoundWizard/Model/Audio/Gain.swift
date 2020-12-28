@@ -45,3 +45,17 @@ extension Gain: Equatable, Comparable {
         return lhs.percentage == rhs.percentage
     }
 }
+
+extension Gain {
+    var valueString: String {
+        dB.uiString
+    }
+    
+    var intValueString: String {
+        String(Int(dB))
+    }
+    
+    var unitString: String {
+        "dB"
+    }
+}

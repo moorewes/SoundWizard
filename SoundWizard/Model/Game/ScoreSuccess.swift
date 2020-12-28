@@ -9,9 +9,9 @@ import Foundation
 
 struct GameScore {
     var value: Int
-    var turns: [TurnScore]
+    var turns: [Score]
     
-    init(turnScores: [TurnScore]) {
+    init(turnScores: [Score]) {
         self.turns = turnScores
         self.value = turnScores.reduce(0) { $0 + Int($1.value) }
     }

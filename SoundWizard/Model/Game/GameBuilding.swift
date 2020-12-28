@@ -35,8 +35,8 @@ extension EQMatchLevel: GameBuilding {
         Array(0..<filterCount).map { index in
             let frequency = startFrequency(filterNumber: index)
             let range = frequencyRange(filterNumber: index)
-            
-            return EQBellFilterData(frequency: frequency, gain: Gain(dB: 0), q: 4, frequencyRange: range)
+            print(range)
+            return EQBellFilterData(frequency: frequency, gain: Gain(dB: 0), q: 2, frequencyRange: range)
         }
     }
     

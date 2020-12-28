@@ -18,6 +18,8 @@ class EQMatchGame: ObservableObject, StandardGame {
 
     var turnsPerStage = 5
     var timeBetweenTurns: Double = 1.2
+    private let baseOctaveErrorMultiplier: Float = 0.7
+    
     var scoreMultiplier = ScoreMultiplier()
     var lives = Lives()
     
@@ -29,13 +31,28 @@ class EQMatchGame: ObservableObject, StandardGame {
         }
     }
     
+    var turnResult: Turn.Result? {
+        turns.last?.result
+    }
+    
     var isPracticingBetweenTurns: Bool {
         practicing && turns.last?.isComplete ?? false
     }
     
     var actionButtonTitle: String {
-        isPracticingBetweenTurns ? "Continue" : "Submit"
+        isPracticingBetweenTurns ? "CONTINUE" : "SUBMIT"
     }
+    
+    // MARK: Private
+    
+    private var maxOctaveError: Octave {
+        return level.maxOctaveError * maxOctaveErrorMultiplier
+    }
+        
+    private var maxOctaveErrorMultiplier: Octave {
+        return powf(baseOctaveErrorMultiplier, Float(stage))
+    }
+    
     
     init(level: EQMatchLevel, practice: Bool, completionHandler: GameCompletionHandling) {
         self.level = level
@@ -46,19 +63,26 @@ class EQMatchGame: ObservableObject, StandardGame {
         conductor?.startPlaying()
     }
     
+    // MARK: - Methods
+    
+    // MARK: User Actions
+    
     func startTurn() {
-        turns.append(Turn(number: turns.count, solution: newSolution()))
+        turns.append(Turn(number: turns.count, maxOctaveError: maxOctaveError, solution: newSolution()))
     }
     
     func action() {
         
     }
     
+    // MARK: Private Methods
+    
+    // TODO: Prevent adjacent bands from generating random frequencies that are close
     private func newSolution() -> [EQBellFilterData] {
         var solution = guessFilterData
         for i in 0..<solution.count {
             solution[i].shuffleGain()
-            if level.changesFrequency {
+            if level.variesFrequency {
                 solution[i].shuffleFrequency()
             }
         }
@@ -66,14 +90,6 @@ class EQMatchGame: ObservableObject, StandardGame {
         return solution
     }
     
-}
-
-extension EQMatchGame {
-    struct Turn: GameTurn {
-        var number: Int
-        let solution: [EQBellFilterData]
-        var score: TurnScore?
-    }
 }
 
 private extension EQBellFilterData {
@@ -86,18 +102,4 @@ private extension EQBellFilterData {
         let freq = Frequency.random(in: frequencyRange, disfavoring: frequency, repelEdges: true)
         frequency = freq
     }
-}
-
-struct EQMatchLevel: Level {
-    var id: String
-    var game: Game
-    var number: Int
-    var audioMetadata: [AudioMetadata]
-    var difficulty: LevelDifficulty
-    var scoreData: ScoreData
-    
-    var bandFocus: BandFocus
-    let filterCount: Int
-    let staticFrequencies: [Frequency]?
-    var changesFrequency: Bool { staticFrequencies == nil }
 }

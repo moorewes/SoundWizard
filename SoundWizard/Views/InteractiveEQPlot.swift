@@ -17,22 +17,15 @@ struct InteractiveEQPlot: View {
 
     var body: some View {
         ZStack {
-            BellPath(filters: filterCGData)
+            BellPath(filters: CGFilters(filters: filters))
                 .zIndex(0)
             
             HStack(spacing: 0) {
                 ForEach(filters.indices, id: \.self) { index in
-                    DragZone(filter: $filters[index],
-                             frequencyRange: frequencyRange,
-                             xRange: xRange(for: index),
-                             yRange: yRange(for: index))
+                    DragZone(filter: $filters[index])
                 }
             }
         }
-    }
-    
-    private var filterCGData: [CGFilterData] {
-        filters.map { CGFilterData(data: $0) }
     }
     
     private func xRange(for index: Int) -> ClosedRange<CGFloat> {
@@ -63,11 +56,11 @@ struct InteractiveEQPlot: View {
 extension InteractiveEQPlot {
     struct DragZone: View {
         @Binding var filter: EQBellFilterData
-        let frequencyRange: FrequencyRange
-        let xRange: ClosedRange<CGFloat>
-        let yRange: ClosedRange<CGFloat>
+        //let frequencyRange: FrequencyRange
+        //let xRange: ClosedRange<CGFloat>
+        //let yRange: ClosedRange<CGFloat>
         
-        @State private var dragStart: CGFilterData?
+        @State private var dragStart: (x: CGFloat, y: CGFloat)?
         
         var body: some View {
             GeometryReader { geometry in
@@ -85,34 +78,44 @@ extension InteractiveEQPlot {
         }
         
         func handleDragChange(translation: CGSize, size: CGSize) {
-            if dragStart == nil {
-                dragStart = CGFilterData(data: filter)
+            if dragStart == nil { // TODO: Following lines are copied code
+                let x = CGFloat(filter.frequency.percentage(in: filter.frequencyRange))
+                let y = CGFloat(filter.gain.dB / filter.dBGainRange.upperBound) / 2 + 0.5
+                dragStart = (x, y)
             }
             let xOffset = translation.width / size.width
             let yOffset = -translation.height / size.height
-            let x = (dragStart!.x + xOffset).clamped(to: xRange)
-            let y = (dragStart!.y + yOffset).clamped(to: yRange)
+            let x = (dragStart!.x + xOffset).clamped(to: 0...1)
+            let y = (dragStart!.y + yOffset).clamped(to: 0...1)
             print(x)
-            filter.frequency = AudioMath.frequency(percent: Float(x), in: frequencyRange)
+            filter.frequency = AudioMath.frequency(percent: Float(x), in: filter.frequencyRange)
             filter.gain.dB = filter.dBGainRange.upperBound * Float(y - 0.5) * 2
         }
     }
 }
 
-struct CGFilterData: Hashable {
-    var x: CGFloat { didSet { x.clamp(to: xRange) } }
-    var y: CGFloat { didSet { y.clamp(to: yRange) } }
-    var q: CGFloat
+struct CGFilters {
+    var data: [CGFilterData]
     
-    var xRange: ClosedRange<CGFloat> = 0...1
-    var yRange: ClosedRange<CGFloat> = 0...1
-    
-    init(data: EQBellFilterData) {
-        x = CGFloat(data.frequency.percentage(in: data.frequencyRange))
-        y = CGFloat(data.gain.dB / data.dBGainRange.upperBound) / 2 + 0.5
-        q = CGFloat(data.q)
+    init(filters: [EQBellFilterData]) {
+        let frequencyRange = filters.frequencyRange
+        let gainRange = filters.gainRange
+        data = filters.enumerated().map { (index, filter) in
+            let x = CGFloat(filter.frequency.percentage(in: frequencyRange))
+            let y = CGFloat(filter.gain.dB / gainRange.upperBound) / 2 + 0.5
+            return CGFilterData(index: index, x: x, y: y, q: CGFloat(filter.q))
+        }
     }
 }
+
+struct CGFilterData: Hashable {
+    let index: Int
+    let x: CGFloat
+    let y: CGFloat
+    let q: CGFloat
+}
+
+
 
 private extension Array where Element == EQBellFilterData {
     var frequencyRange: FrequencyRange {
@@ -124,6 +127,21 @@ private extension Array where Element == EQBellFilterData {
         let max = self.reduce(BandFocus.all.range.lowerBound) { max, data in
             let this = data.frequencyRange.upperBound
             return this > max ? this : max
+        }
+        return min...max
+    }
+    
+    var gainRange: ClosedRange<Float> {
+        if self.isEmpty { return 0...0 }
+        var min: Float = 0
+        var max: Float = 0
+        self.forEach { data in
+            if data.dBGainRange.lowerBound < min {
+                min = data.dBGainRange.lowerBound
+            }
+            if data.dBGainRange.upperBound > max {
+                max = data.dBGainRange.upperBound
+            }
         }
         return min...max
     }

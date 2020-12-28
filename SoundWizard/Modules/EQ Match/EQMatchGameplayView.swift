@@ -20,43 +20,69 @@ struct EQMatchGameplayView: View {
                 .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
                 .opacity(game.practicing ? 0 : 1)
             
-            GuessLabels(data: game.guessFilterData)
+            Rectangle()
+                .opacity(0)
+                .frame(width: 200, height: 150, alignment: .center)
             
-            InteractiveEQPlot(filters: $game.guessFilterData, canAdjustGain: true, canAdjustFrequency: game.level.changesFrequency)
-                .padding(.vertical, 30)
+            FilterInfo(guessData: game.guessFilterData)//, result: game.turnResult)
+                .padding(.top, 40)
+            
+            InteractiveEQPlot(filters: $game.guessFilterData, canAdjustGain: true, canAdjustFrequency: game.level.variesFrequency)
+                .padding(.bottom, 60)
             
             ActionButton(game: game)
-                .padding(.vertical, 30)
-            
+                .padding(.bottom, 60)
         }
     }
 }
 
 extension EQMatchGameplayView {
-    struct GuessLabels: View {
-        let data: [EQBellFilterData]
+    struct FilterInfo: View {
+        let guessData: [EQBellFilterData]
+        let resultData: EQMatchGame.Turn.Result? = EQMatchGame.Turn.Result()
         
         var body: some View {
             HStack {
-                Spacer()
-                ForEach(data, id: \.self) { data in
+                ForEach(guessData.indices, id: \.self) { index in
                     VStack {
-                        Text(data.gain.dB.uiString + "dB")
-                            .font(.mono(.body))
-                            .foregroundColor(.white)
-                        Text(data.frequency.decimalStringWithUnit)
-                            .font(.mono(.body))
-                            .foregroundColor(.white)
+                        ValuesRow(data: gainData(for: index))
+                        ValuesRow(data: freqData(for: index))
                     }
-                    Spacer()
+                    .padding(.horizontal)
+                    
                 }
             }
+        }
+        
+        private func freqData(for index: Int) -> RowData {
+            let frequency = guessData[index].frequency
+            let guess = frequency.decimalString
+            let unit = frequency.unitString
+            guard let result = resultData?.bands[index] else {
+                return RowData(guess: guess, unit: unit)
+            }
+            
+            let solution = result.solution.frequency.decimalString
+            let color = Color.successLevelColor(result.successLevel.frequency)
+            return RowData(guess: guess, unit: unit, solution: solution, solutionColor: color)
+        }
+        
+        private func gainData(for index: Int) -> RowData {
+            let gain = guessData[index].gain
+            let guess = gain.intValueString
+            let unit = gain.unitString
+            guard let result = resultData?.bands[index] else {
+                return RowData(guess: guess, unit: unit)
+            }
+            
+            let solution = result.solution.gain.intValueString
+            let color = Color.successLevelColor(result.successLevel.frequency)
+            return RowData(guess: guess, unit: unit, solution: solution, solutionColor: color)
         }
     }
 }
 
 extension EQMatchGameplayView {
-    
     struct ActionButton: View {
         let game: EQMatchGame
         
@@ -67,7 +93,6 @@ extension EQMatchGameplayView {
             .buttonStyle(ActionButtonStyle())
         }
     }
-    
 }
 
 struct EQMatchGameplayView_Previews: PreviewProvider {

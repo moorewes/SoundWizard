@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TurnScore {
+struct Score {
     var value: Double
     var successLevel: ScoreSuccess
     

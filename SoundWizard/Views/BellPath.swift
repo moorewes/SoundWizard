@@ -8,20 +8,34 @@
 import SwiftUI
 
 struct BellPath: View {
-    let filters: [CGFilterData]
+    let filters: CGFilters
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                ForEach(filters.indices, id: \.self) { index in
-                    fillPath(for: filters[index], size: geometry.size)
+                ForEach(filters.data, id: \.self) { data in
+                    fillPath(for: data, size: geometry.size)
                     .fill(
-                        LinearGradient(gradient: gradient(for: index), startPoint: .top, endPoint: .bottom)
+                        LinearGradient(gradient: gradient(for: data.index), startPoint: .top, endPoint: .bottom)
                     )
                     .blendMode(BlendMode.lighten)
                 }
                 
-                linePath(size: geometry.size).stroke(Color.white.opacity(0.8), lineWidth: 2)
+                linePath(size: geometry.size)
+                    .stroke(Color.white.opacity(0.8), lineWidth: 2)
+                
+                separatorPath(size: geometry.size)
+                    .stroke(Color.teal.opacity(0.2), lineWidth: 1)
+            }
+        }
+    }
+    
+    func separatorPath(size: CGSize) -> Path {
+        Path { path in
+            for i in 1..<filters.data.count {
+                let x = CGFloat(i) / CGFloat(filters.data.count) * size.width
+                path.move(to: CGPoint(x: x, y: 0))
+                path.addLine(to: CGPoint(x: x, y: size.height))
             }
         }
     }
@@ -51,7 +65,7 @@ struct BellPath: View {
     }
     
     func linePoint(x: CGFloat, size: CGSize) -> CGPoint {
-        let y = filters.reduce(size.height / 2) { $0 + yOffset(for: $1, x: x, size: size) }
+        let y = filters.data.reduce(size.height / 2) { $0 + yOffset(for: $1, x: x, size: size) }
         return CGPoint(x: x, y: y)
     }
     

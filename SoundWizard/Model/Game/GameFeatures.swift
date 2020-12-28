@@ -10,12 +10,12 @@ import Foundation
 import Foundation
 
 protocol ScoreBased {
-    var turnScores: [TurnScore] { get }
+    var turnScores: [Score] { get }
     var score: Int { get }
 }
 
 extension ScoreBased where Self: TurnBased {
-    var turnScores: [TurnScore] {
+    var turnScores: [Score] {
         turns.compactMap { $0.score }
     }
     
@@ -40,7 +40,7 @@ extension TurnBased  {
 
 protocol GameTurn {
     var number: Int { get }
-    var score: TurnScore? { get }
+    var score: Score? { get }
     var isComplete: Bool { get }
 }
 
