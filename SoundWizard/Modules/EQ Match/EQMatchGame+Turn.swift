@@ -11,7 +11,7 @@ extension EQMatchGame {
     struct Turn: GameTurn {
         let number: Int
         let maxOctaveError: Float?
-        let solution: [EQBellFilterData]
+        let guessError = EQMatchLevel.GuessError
         var score: Score?
         var result: Result?
         
@@ -23,11 +23,11 @@ extension EQMatchGame {
             result = Result(turn: self, guessData: guess)
         }
         
-        private func frequencyResult(guess: Frequency, solution: Frequency) -> (octaveError: Float, success: ScoreSuccess) {
-            let error = guess.octaves(to: solution)
-            let success = ScoreEngine.score(frequencyOctaveError: Double(error), against: Double(maxOctaveError))
-            
-        }
+//        private func frequencyResult(guess: Frequency, solution: Frequency) -> (octaveError: Float, success: ScoreSuccess) {
+//            let error = guess.octaves(to: solution)
+//            let success = ScoreEngine.score(frequencyOctaveError: Double(error), against: Double(maxOctaveError!))
+//            
+//        }
     }
 }
 

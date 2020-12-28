@@ -24,10 +24,10 @@ struct EQMatchGameplayView: View {
                 .opacity(0)
                 .frame(width: 200, height: 150, alignment: .center)
             
-            FilterInfo(guessData: game.guessFilterData)//, result: game.turnResult)
+            FilterInfo(guessData: game.guessFilterData, result: game.turnResult)
                 .padding(.top, 40)
             
-            InteractiveEQPlot(filters: $game.guessFilterData, canAdjustGain: true, canAdjustFrequency: game.level.variesFrequency)
+            InteractiveEQPlot(filters: $game.guessFilterData)
                 .padding(.bottom, 60)
             
             ActionButton(game: game)
@@ -39,7 +39,7 @@ struct EQMatchGameplayView: View {
 extension EQMatchGameplayView {
     struct FilterInfo: View {
         let guessData: [EQBellFilterData]
-        let resultData: EQMatchGame.Turn.Result? = EQMatchGame.Turn.Result()
+        let resultData: EQMatchGame.Turn.Result?// = EQMatchGame.Turn.Result()
         
         var body: some View {
             HStack {
@@ -48,7 +48,7 @@ extension EQMatchGameplayView {
                         ValuesRow(data: gainData(for: index))
                         ValuesRow(data: freqData(for: index))
                     }
-                    .padding(.horizontal)
+                    Spacer()
                     
                 }
             }

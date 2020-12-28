@@ -9,11 +9,6 @@ import SwiftUI
 
 struct InteractiveEQPlot: View {
     @Binding var filters: [EQBellFilterData]
-    var canAdjustGain = true
-    var canAdjustFrequency = true
-    var frequencyRange: FrequencyRange {
-        filters.frequencyRange
-    }
 
     var body: some View {
         ZStack {
@@ -27,39 +22,11 @@ struct InteractiveEQPlot: View {
             }
         }
     }
-    
-    private func xRange(for index: Int) -> ClosedRange<CGFloat> {
-        let filter = filters[index]
-        
-        guard canAdjustFrequency else {
-            let value = CGFloat(filter.x(in: frequencyRange))
-            return value...value
-        }
-        
-        let minF = filter.frequencyRange.lowerBound
-        let maxF = filter.frequencyRange.upperBound
-        let minX = CGFloat(minF.percentage(in: frequencyRange))
-        let maxX = CGFloat(maxF.percentage(in: frequencyRange))
-        return minX...maxX
-    }
-    
-    private func yRange(for index: Int) -> ClosedRange<CGFloat> {
-        let filter = filters[index]
-        guard canAdjustGain else {
-            let value = CGFloat(filter.y(in: filter.dBGainRange))
-            return value...value
-        }
-        return 0...1
-    }
 }
 
 extension InteractiveEQPlot {
     struct DragZone: View {
         @Binding var filter: EQBellFilterData
-        //let frequencyRange: FrequencyRange
-        //let xRange: ClosedRange<CGFloat>
-        //let yRange: ClosedRange<CGFloat>
-        
         @State private var dragStart: (x: CGFloat, y: CGFloat)?
         
         var body: some View {
@@ -69,25 +36,25 @@ extension InteractiveEQPlot {
                     .gesture(
                         DragGesture(minimumDistance: 0)
                             .onChanged { value in
-                                handleDragChange(translation: value.translation, size: geometry.size)
+                                handleDrag(
+                                    x: value.translation.width / geometry.size.width,
+                                    y: value.translation.height / geometry.size.height
+                                )
                             }
                             .onEnded { _ in dragStart = nil }
                     )
             }
-           
         }
         
-        func handleDragChange(translation: CGSize, size: CGSize) {
-            if dragStart == nil { // TODO: Following lines are copied code
+        func handleDrag(x dragX: CGFloat, y dragY: CGFloat) {
+            if dragStart == nil {
                 let x = CGFloat(filter.frequency.percentage(in: filter.frequencyRange))
                 let y = CGFloat(filter.gain.dB / filter.dBGainRange.upperBound) / 2 + 0.5
                 dragStart = (x, y)
             }
-            let xOffset = translation.width / size.width
-            let yOffset = -translation.height / size.height
-            let x = (dragStart!.x + xOffset).clamped(to: 0...1)
-            let y = (dragStart!.y + yOffset).clamped(to: 0...1)
-            print(x)
+            let x = (dragStart!.x + dragX).clamped(to: 0...1)
+            let y = (dragStart!.y - dragY).clamped(to: 0...1)
+            
             filter.frequency = AudioMath.frequency(percent: Float(x), in: filter.frequencyRange)
             filter.gain.dB = filter.dBGainRange.upperBound * Float(y - 0.5) * 2
         }
@@ -148,13 +115,13 @@ private extension Array where Element == EQBellFilterData {
 }
 
 private extension EQBellFilterData {
-    func x(in range: FrequencyRange) -> CGFloat {
-        CGFloat(frequency.percentage(in: range))
-    }
-    
-    func y(in range: ClosedRange<Float>) -> CGFloat {
-        CGFloat(gain.dB / range.upperBound) / 2 + 0.5
-    }
+//    func x(in range: FrequencyRange) -> CGFloat {
+//        CGFloat(frequency.percentage(in: range))
+//    }
+//
+//    func y(in range: ClosedRange<Float>) -> CGFloat {
+//        CGFloat(gain.dB / range.upperBound) / 2 + 0.5
+//    }
 }
 
 struct PeakingFilterSlider_Previews: PreviewProvider {

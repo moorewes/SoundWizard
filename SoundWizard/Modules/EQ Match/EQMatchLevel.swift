@@ -18,18 +18,31 @@ struct EQMatchLevel: Level {
     var bandFocus: BandFocus
     let filterCount: Int
     let staticFrequencies: [Frequency]?
-    var variesFrequency: Bool { staticFrequencies == nil }
     
-    lazy var maxOctaveError: Float = {
-        switch difficulty {
-        case .easy:
-            return bandFocus.octaveSpan / 4
-        case .moderate:
-            return bandFocus.octaveSpan / 6
-        case .hard:
-            return bandFocus.octaveSpan / 8
-        case .custom:
-            return bandFocus.octaveSpan / 4
+    lazy var guessError = GuessError(difficulty: difficulty)
+    var variesFrequency: Bool { staticFrequencies == nil }
+}
+
+extension EQMatchLevel {
+    struct GuessError {
+        var gain: Float
+        var octaves: Float
+        
+        init(difficulty: LevelDifficulty) {
+            switch difficulty {
+            case .easy:
+                octaves = bandFocus.octaveSpan / 4
+                gain = 5
+            case .moderate:
+                octaves = bandFocus.octaveSpan / 6
+                gain = 4
+            case .hard:
+                octaves = bandFocus.octaveSpan / 8
+                gain = 3
+            case .custom:
+                octaves = bandFocus.octaveSpan / 4
+                gain = 5
+            }
         }
-    }()
+    }
 }
