@@ -26,9 +26,9 @@ extension Comparable {
     }
 }
 
-extension Float {
+extension Double {
     var uiString: String {
-        let isInt = self - Float(Int(self)) == 0
+        let isInt = self - Double(Int(self)) == 0
         return isInt ? "\(Int(self))" : String(format: "%.1f", self)
     }    
 }
@@ -53,6 +53,12 @@ extension View {
 extension Numeric where Self: CVarArg {
     func scoreString(digits: Int) -> String {
         return String(format: "%0\(digits)d", self)
+    }
+}
+
+extension Collection where Element == Double {
+    var mean: Double {
+        reduce(0, +) / Double(count)
     }
 }
 

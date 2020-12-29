@@ -42,8 +42,8 @@ struct EQDCustomLevelDetailView: View {
             level.id = name.isEmpty ? Date().description : name
             level.audioMetadata = selectedAudioFiles
             level.bandFocus = bandFocus
-            level.filterGain = Gain(dB: Float(filter.gain))
-            level.filterQ = Float(filter.q)
+            level.filterGain = Gain(dB: Double(filter.gain))
+            level.filterQ = Double(filter.q)
             completionHandler(level)
             presentation.wrappedValue.dismiss()
         }

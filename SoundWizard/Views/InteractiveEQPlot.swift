@@ -52,12 +52,15 @@ extension InteractiveEQPlot {
                 let y = CGFloat(filter.gain.dB / filter.dBGainRange.upperBound) / 2 + 0.5
                 dragStart = (x, y)
             }
-            let x = (dragStart!.x + dragX).clamped(to: 0...1)
-            let y = (dragStart!.y - dragY).clamped(to: 0...1)
+            let x = (dragStart!.x + dragX * xDragPrecisionFactor).clamped(to: bounds)
+            let y = (dragStart!.y - dragY).clamped(to: bounds)
             
-            filter.frequency = AudioMath.frequency(percent: Float(x), in: filter.frequencyRange)
-            filter.gain.dB = filter.dBGainRange.upperBound * Float(y - 0.5) * 2
+            filter.frequency = AudioMath.frequency(percent: Double(x), in: filter.frequencyRange)
+            filter.gain.dB = filter.dBGainRange.upperBound * Double(y - 0.5) * 2
         }
+        
+        private let xDragPrecisionFactor: CGFloat = 0.85
+        private let bounds: ClosedRange<CGFloat> = 0...1
     }
 }
 
@@ -80,48 +83,6 @@ struct CGFilterData: Hashable {
     let x: CGFloat
     let y: CGFloat
     let q: CGFloat
-}
-
-
-
-private extension Array where Element == EQBellFilterData {
-    var frequencyRange: FrequencyRange {
-        if self.isEmpty { return BandFocus.all.range }
-        let min = self.reduce(BandFocus.all.range.upperBound) { min, data in
-            let this = data.frequencyRange.lowerBound
-            return this < min ? this : min
-        }
-        let max = self.reduce(BandFocus.all.range.lowerBound) { max, data in
-            let this = data.frequencyRange.upperBound
-            return this > max ? this : max
-        }
-        return min...max
-    }
-    
-    var gainRange: ClosedRange<Float> {
-        if self.isEmpty { return 0...0 }
-        var min: Float = 0
-        var max: Float = 0
-        self.forEach { data in
-            if data.dBGainRange.lowerBound < min {
-                min = data.dBGainRange.lowerBound
-            }
-            if data.dBGainRange.upperBound > max {
-                max = data.dBGainRange.upperBound
-            }
-        }
-        return min...max
-    }
-}
-
-private extension EQBellFilterData {
-//    func x(in range: FrequencyRange) -> CGFloat {
-//        CGFloat(frequency.percentage(in: range))
-//    }
-//
-//    func y(in range: ClosedRange<Float>) -> CGFloat {
-//        CGFloat(gain.dB / range.upperBound) / 2 + 0.5
-//    }
 }
 
 struct PeakingFilterSlider_Previews: PreviewProvider {

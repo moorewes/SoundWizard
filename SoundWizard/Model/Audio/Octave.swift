@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias Octave = Float
+typealias Octave = Double
 typealias OctaveRange = ClosedRange<Octave>
 
 extension Octave {
@@ -21,7 +21,7 @@ extension Octave {
 }
 
 struct Octave_ {
-    private(set) var value: Float
+    private(set) var value: Double
     private(set) var frequency: Frequency
     private(set) var baseFrequency: Frequency
     

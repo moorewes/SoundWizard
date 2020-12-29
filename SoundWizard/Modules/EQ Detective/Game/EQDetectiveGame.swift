@@ -19,7 +19,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
     var completionHandler: GameCompletionHandling
     
-    private let baseOctaveErrorMultiplier: Float = 0.7
+    private let baseOctaveErrorMultiplier: Double = 0.7
     
     // MARK: - Properties
 
@@ -28,7 +28,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     @Published var selectedFreq: Frequency {
         didSet {
             if inBetweenTurns && practicing {
-                gameConductor.set(filterFreq: selectedFreq)
+                gameConductor.set(filterFreq: selectedFreq.auValue)
             }
         }
     }
@@ -42,7 +42,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
                 feedbackText = score.randomFeedbackString()
             } else {
                 filterOnState = 1
-                gameConductor.set(filterFreq: turn.solution)
+                gameConductor.set(filterFreq: turn.solution.auValue)
             }
         }
     }
@@ -94,7 +94,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     }
         
     private var octaveErrorMultiplier: Octave {
-        return powf(baseOctaveErrorMultiplier, Float(stage))
+        return pow(baseOctaveErrorMultiplier, Double(stage))
     }
     
     // MARK: - Initializers
@@ -108,8 +108,8 @@ class EQDetectiveGame: ObservableObject, StandardGame {
         lives = Lives()
         
         gameConductor = EQDetectiveConductor(source: level.audioMetadata[0],
-                                             filterGainDB: level.filterGain.dB,
-                                             filterQ: level.filterQ)
+                                             filterGain: level.filterGain,
+                                             filterQ: level.filterQ.auValue)
         
         selectedFreq = level.bandFocus.referenceFrequencies.centerItem!.uiRounded
     }
@@ -161,7 +161,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     }
     
     private func randomFrequency() -> Frequency {
-        if testMode { return Float(1000) }
+        if testMode { return Frequency(1000) }
         return Frequency.random(in: level.bandFocus.range,
                                         disfavoring: turns.last?.solution,
                                         repelEdges: true)
@@ -184,7 +184,7 @@ extension EQDetectiveGame: FrequencySliderDataSource {
         level.bandFocus.range
     }
     
-    var octavesShaded: Float {
+    var octavesShaded: Double {
         level.octaveErrorRange * octaveErrorMultiplier * 2 
     }
     

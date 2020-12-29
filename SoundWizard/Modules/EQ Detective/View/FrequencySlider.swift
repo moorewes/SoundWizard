@@ -10,7 +10,7 @@ import SwiftUI
 protocol FrequencySliderDataSource {
     
     var frequencyRange: FrequencyRange { get }
-    var octavesShaded: Float { get }
+    var octavesShaded: Double { get }
     var solutionFreq: Frequency? { get }
     var solutionLineColor: Color { get }
     var referenceFreqs: [Frequency] { get }
@@ -24,7 +24,7 @@ struct FrequencySlider: View {
     
     @Binding var frequency: Frequency
     
-    private var octavesVisible: Float
+    private var octavesVisible: Double
             
     init(data: FrequencySliderDataSource, frequency: Binding<Frequency>) {
         self.data = data

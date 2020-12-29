@@ -19,37 +19,50 @@ class EQMatchConductor: GameConductor {
     
     var outputFader: Fader
     
-    lazy var playerGain: AUValue = Gain.percentage(dB: -8)
-
+    lazy var playerGain: AUValue = Gain(dB: -12).auValue
         
     // MARK: Private
     private let conductor = Conductor.master
-    private let player = AudioPlayer()
-    private var filters = [EqualizerFilter]()
-    private var filterData: [EQBellFilterData]
+    private let player: AudioPlayer
+    private var guessFilters = [EqualizerFilter]()
+    private var solutionFilters = [EqualizerFilter]()
+    private var guessFilterData: [AUBellFilterData]!
+    private var solutionFilterData: [AUBellFilterData]!
     private let buffer: AVAudioPCMBuffer
-    private var dryFader: Fader!
-    private var wetFader: Fader!
-    private var mixer: Mixer!
+    //private var dryFader: Fader!
+    //private var wetFader: Fader!
+    private var bypassMixer: DryWetMixer!
+    private var filterMixer: DryWetMixer!
     
     private let rampTime: AUValue = 0.05
-    private let dimVolume: AUValue = Gain.percentage(dB: -6)
+    private let dimVolume = AUValue(Gain.percentage(dB: -6))
     
     // MARK: - Initializers
     
-    init(source: AudioMetadata, filterData: [EQBellFilterData]) {
+    init(source: AudioMetadata, filterData: [AUBellFilterData]) {
         self.buffer = Cookbook.buffer(for: source.url)
-        self.filterData = filterData
+        self.player = AudioPlayer(url: source.url)!
+        self.guessFilterData = filterData
+        self.solutionFilterData = filterData
         self.outputFader = Fader(player)
+        
         for data in filterData {
-            let filter = EqualizerFilter(filters.last ?? player)
-            update(filter: filter, with: data)
-            filters.append(filter)
+            let guessFilter = EqualizerFilter(guessFilters.last ?? player)
+            let solutionFilter = EqualizerFilter(solutionFilters.last ?? player)
+            let filters = [guessFilter, solutionFilter]
+            filters.forEach { filter in
+                filter.centerFrequency = data.frequency
+                filter.gain = data.gain
+                filter.bandwidth = data.frequency / data.q
+            }
+            guessFilters.append(guessFilter)
+            solutionFilters.append(solutionFilter)
         }
-        wetFader = Fader(filters.last ?? player, gain: 1)
-        dryFader = Fader(player, gain: 0)
-        mixer = Mixer([dryFader, wetFader])
-        outputFader = Fader(wetFader, gain: 0)
+        
+        filterMixer = DryWetMixer(guessFilters.last ?? player, solutionFilters.last ?? player)
+        bypassMixer = DryWetMixer(player, filterMixer, balance: 1.0)
+        
+        outputFader = Fader(filterMixer, gain: 0)
                 
         player.volume = playerGain
         conductor.patchIn(self)
@@ -60,9 +73,13 @@ class EQMatchConductor: GameConductor {
     // MARK: Internal
     
     func startPlaying() {
-        player.scheduleBuffer(buffer, at: nil, options: .loops)
-        player.start()
-        fadeIn()
+        player.buffer = buffer
+        player.isLooping = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(rampTime)) {
+            self.player.start()
+            self.fadeIn()
+        }
+        
     }
         
     func stopPlaying() {
@@ -77,12 +94,15 @@ class EQMatchConductor: GameConductor {
         }
     }
     
-    func setFilterBypass(_ bypass: Bool) {
-        let dryGain: AUValue = bypass ? 1 : 0
-        [dryFader.$leftGain, dryFader.$rightGain].forEach { $0.ramp(to: dryGain, duration: rampTime)}
-        
-        let wetGain: AUValue = bypass ? 0 : 1
-        [wetFader.$leftGain, wetFader.$rightGain].forEach { $0.ramp(to: wetGain, duration: rampTime)}
+    func set(filterMode: EQMatchGame.FilterMode) {
+        switch filterMode {
+        case .bypassed:
+            bypassMixer.balance = 0.0
+        case .guess:
+            filterMixer.balance = 0.0
+        case .solution:
+            filterMixer.balance = 1.0
+        }
     }
     
     func setDim(dimmed: Bool) {
@@ -92,17 +112,25 @@ class EQMatchConductor: GameConductor {
         outputFader.$rightGain.ramp(to: gain, duration: 0.3)
     }
     
-    func update(data: [EQBellFilterData]) {
-        self.filterData = data
-        for (index, data) in filterData.enumerated() {
-            update(filter: filters[index], with: data)
+    func update(guess: [AUBellFilterData]) {
+        guessFilterData = guess
+        for (index, data) in guessFilterData.enumerated() {
+            update(filter: guessFilters[index], with: data)
         }
     }
     
-    func update(filter: EqualizerFilter, with data: EQBellFilterData) {
+    func update(solution: [AUBellFilterData]) {
+        solutionFilterData = solution
+        for (index, data) in solutionFilterData.enumerated() {
+            update(filter: solutionFilters[index], with: data)
+        }
+    }
+    
+    func update(filter: EqualizerFilter, with data: AUBellFilterData) {
+        print("updating filter, freq: ", data.frequency, " gain: ", data.gain)
         filter.$centerFrequency.ramp(to: data.frequency, duration: rampTime)
         filter.$bandwidth.ramp(to: data.frequency / data.q, duration: rampTime)
-        filter.$gain.ramp(to: data.gain.percentage, duration: rampTime)
+        filter.$gain.ramp(to: data.gain, duration: rampTime)
     }
     
     // MARK: Private

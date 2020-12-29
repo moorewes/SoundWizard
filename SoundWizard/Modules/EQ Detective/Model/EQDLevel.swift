@@ -17,7 +17,7 @@ struct EQDLevel: Level, Identifiable {
         
     var bandFocus: BandFocus
     var filterGain: Gain
-    var filterQ: Float
+    var filterQ: Double
     
     lazy var octaveErrorRange: Octave = {
         switch difficulty {

@@ -16,25 +16,25 @@ import SwiftUI
 
 protocol InteractiveFilterDataSource {
     var frequencyRange: FrequencyRange { get }
-    var octavesShaded: Float { get }
+    var octavesShaded: Double { get }
     var solutionFreq: Frequency? { get }
-    var solutionGain: Float { get }
+    var solutionGain: Double { get }
     var solutionLineColor: Color { get }
     var referenceFreqs: [Frequency] { get }
     var timeBetweenTurns: Double { get }
-    var filterQ: Float { get }
+    var filterQ: Double { get }
 }
 
 struct InteractiveFilter: View {
     private var data: InteractiveFilterDataSource
     
     @Binding var frequency: Frequency
-    @Binding var gain: Float
+    @Binding var gain: Double
     @GestureState private var dragPercentage: (x: CGFloat, y: CGFloat) = (0.0, 0.0)
         
     private var dragState = DragState()
     
-    init(data: InteractiveFilterDataSource, frequency: Binding<Frequency>, gain: Binding<Float>) {
+    init(data: InteractiveFilterDataSource, frequency: Binding<Frequency>, gain: Binding<Double>) {
         self.data = data
         _frequency = frequency
         _gain = gain
@@ -131,8 +131,8 @@ struct InteractiveFilter: View {
         return CGPoint(x: 0, y: size.height / 2)
     }
     
-    private func gain(for percentage: CGFloat) -> Float {
-        return  (Float(percentage) - 0.5) * dBRange
+    private func gain(for percentage: CGFloat) -> Double {
+        return  (Double(percentage) - 0.5) * dBRange
     }
     
     private func solutionLine(size: CGSize) -> some View {
@@ -184,7 +184,7 @@ struct InteractiveFilter: View {
     private let labelWidth: CGFloat = 80
     private let shadeCornerRadius: CGFloat = 10
     private let sliderLabelTopSpace: CGFloat = 5
-    private let dBRange: Float = 10
+    private let dBRange: Double = 10
     
     private var sliderFrequency: Frequency {
         if dragPercentage.x == 0 {
@@ -209,7 +209,7 @@ struct InteractiveFilter: View {
         return percentage(for: solutionFreq)
     }
     
-    private var octavesVisible: Float {
+    private var octavesVisible: Double {
         AudioMath.octaves(in: data.frequencyRange)
     }
     
@@ -225,7 +225,7 @@ struct InteractiveFilter: View {
         return CGFloat(freq.percentage(in: data.frequencyRange))
     }
     
-    private func gainPercentage(_ gain: Float) -> CGFloat {
+    private func gainPercentage(_ gain: Double) -> CGFloat {
         return CGFloat(0.5 + gain / dBRange) // perc - 0.5 * dbRange
     }
     
@@ -234,8 +234,8 @@ struct InteractiveFilter: View {
         return CGPoint(x: x, y: sliderLabelTopSpace)
     }
     
-    private func frequency(for percentage: CGFloat) -> Float {
-        let octave = Float(percentage) * octavesVisible
+    private func frequency(for percentage: CGFloat) -> Double {
+        let octave = Double(percentage) * octavesVisible
         return AudioMath.freq(fromOctave: octave, baseOctaveFreq: data.frequencyRange.lowerBound, rounded: true)
     }
     

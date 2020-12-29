@@ -8,28 +8,33 @@
 import Foundation
 
 struct Gain {
-    var dB: Float
-    var percentage: Float {
+    var dB: Double
+    var percentage: Double {
         Gain.percentage(dB: dB)
     }
+    var auValue: Float {
+        Float(percentage)
+    }
     
-    init(dB: Float) {
+    init(dB: Double) {
         self.dB = dB
     }
     
-    init(percentage: Float) {
+    init(percentage: Double) {
         self.dB = Gain.dB(percentage: percentage)
     }
+    
+    static let unity = Gain(dB: 0)
 }
 
 // MARK: Conversions
 
 extension Gain {
-    static func percentage(dB: Float) -> Float {
-        powf(10, dB/10)
+    static func percentage(dB: Double) -> Double {
+        pow(10, dB/10)
     }
     
-    static func dB(percentage: Float) -> Float {
+    static func dB(percentage: Double) -> Double {
         10 * log10(percentage)
     }
 }

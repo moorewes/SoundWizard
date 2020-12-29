@@ -7,10 +7,15 @@
 
 import Foundation
 
-typealias Frequency = Float
+typealias Frequency = Double
 typealias FrequencyRange = ClosedRange<Frequency>
 
 extension Frequency {
+    // Self converted to Float for use in AU contexts
+    var auValue: Float {
+        Float(self)
+    }
+    
     /// A frequency string with one decimal place and the unit, aka 3.2 kHz or 300 Hz
     var decimalString: String {
         if self / 1000.0 >= 1 {
@@ -44,7 +49,7 @@ extension Frequency {
             return String(Int(self))
         } else {
             let kValue = (self / 1000).rounded(places: 1)
-            if kValue == Float(Int(kValue)) {
+            if kValue == Double(Int(kValue)) {
                 return String(Int(kValue)) + "k"
             } else {
                 return String(format: "%.1f", kValue) + "k"
@@ -80,10 +85,10 @@ extension Frequency {
      - Returns: An octave representing the distance to the provided frequency
      */
     func octaves(to otherFreq: Frequency) -> Octave {
-        return logf(self / otherFreq) / logf(2.0)
+        return log(self / otherFreq) / log(2.0)
     }
     
-    func percentage(in range: FrequencyRange) -> Float {
+    func percentage(in range: FrequencyRange) -> Double {
         let octave = AudioMath.octave(fromFreq: self, baseOctaveFreq: range.lowerBound)
         let upperOctave = AudioMath.octave(fromFreq: range.upperBound, baseOctaveFreq: range.lowerBound)
         return octave / upperOctave

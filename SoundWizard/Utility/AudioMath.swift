@@ -29,7 +29,7 @@ struct AudioMath {
     static func octave(fromFreq freq: Frequency,
                        baseOctaveFreq: Frequency = baseFrequency,
                        roundingPlaces: Int? = nil) -> Octave {
-        var octave = logf(freq / baseOctaveFreq) / logf(2.0)
+        var octave = log(freq / baseOctaveFreq) / log(2.0)
         
         if let places = roundingPlaces {
             octave.round(places: places)
@@ -52,7 +52,7 @@ struct AudioMath {
     static func freq(fromOctave octave: Octave,
                      baseOctaveFreq: Frequency = baseFrequency,
                      rounded: Bool = true) -> Frequency {
-        var freq = baseOctaveFreq * powf(2, octave)
+        var freq = baseOctaveFreq * pow(2, octave)
         if rounded {
             freq = freq.uiRounded
         }
@@ -60,7 +60,7 @@ struct AudioMath {
         return freq
     }
     
-    static func frequency(percent: Float,
+    static func frequency(percent: Double,
                           in range: FrequencyRange,
                           uiRounded: Bool = false) -> Frequency {
         let octaves = AudioMath.octaves(in: range)
@@ -71,8 +71,8 @@ struct AudioMath {
     }
         
     static func randomFreq(in range: FrequencyRange,
-                           disfavoring disfavoredFreq: Float? = nil,
-                           repelEdges: Bool) -> Float {
+                           disfavoring disfavoredFreq: Frequency? = nil,
+                           repelEdges: Bool) -> Frequency {
         let octaveRange = AudioMath.octaveRange(from: range, decimalPlaces: 1)
         var octave = randomOctave(in: octaveRange)
         
@@ -97,18 +97,18 @@ struct AudioMath {
         return AudioMath.freq(fromOctave: octave)
     }
     
-    static func randomOctave(in range: ClosedRange<Float>) -> Float {
-        let multiplier: Float = 1000.0
+    static func randomOctave(in range: ClosedRange<Octave>) -> Octave {
+        let multiplier: Double = 1000.0
         let minBound = Int(range.lowerBound * multiplier)
         let maxBound = Int(range.upperBound * multiplier)
         let intRange = minBound...maxBound
         let random = Int.random(in: intRange)
         
-        return Float(random) / multiplier
+        return Double(random) / multiplier
     }
     
     static func octaveRange(from freqRange: FrequencyRange,
-                                    decimalPlaces: Int) -> ClosedRange<Float> {
+                                    decimalPlaces: Int) -> ClosedRange<Frequency> {
         let lowerBound = AudioMath.octave(fromFreq: freqRange.lowerBound).rounded(places: decimalPlaces)
         let upperBound = AudioMath.octave(fromFreq: freqRange.upperBound).rounded(places: decimalPlaces)
         return lowerBound...upperBound
@@ -119,14 +119,14 @@ struct AudioMath {
     }
 }
 
-extension Float {
+extension Double {
     mutating func round(places: Int) {
-        let divisor = pow(10.0, Float(places))
+        let divisor = pow(10.0, Double(places))
         self = (self * divisor).rounded() / divisor
     }
     
-    func rounded(places: Int) -> Float {
-        let divisor = pow(10.0, Float(places))
+    func rounded(places: Int) -> Double {
+        let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor
     }
 }

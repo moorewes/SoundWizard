@@ -104,6 +104,8 @@
 		DE8C78CB2593BB6400915C44 /* MultiPickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8C78CA2593BB6400915C44 /* MultiPickerRow.swift */; };
 		DE8C78D02593CD8500915C44 /* EQDCustomLevelBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8C78CF2593CD8500915C44 /* EQDCustomLevelBrowser.swift */; };
 		DE90675525830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE90675325830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift */; };
+		DE971215259A8B5000C6C399 /* AUBellFilterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE971214259A8B5000C6C399 /* AUBellFilterData.swift */; };
+		DE97121A259ABE5500C6C399 /* EQMatchGame+FilterMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE971219259ABE5500C6C399 /* EQMatchGame+FilterMode.swift */; };
 		DE9CE84D25758F2D0023806C /* BandFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE84C25758F2D0023806C /* BandFocus.swift */; };
 		DE9CE8622575EBB10023806C /* LevelDifficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE8512575E9690023806C /* LevelDifficulty.swift */; };
 		DE9CE86A2575FC1C0023806C /* ScoreSuccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE8692575FC1C0023806C /* ScoreSuccess.swift */; };
@@ -264,6 +266,8 @@
 		DE8C78CA2593BB6400915C44 /* MultiPickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPickerRow.swift; sourceTree = "<group>"; };
 		DE8C78CF2593CD8500915C44 /* EQDCustomLevelBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDCustomLevelBrowser.swift; sourceTree = "<group>"; };
 		DE90675325830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQDetectiveLevel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DE971214259A8B5000C6C399 /* AUBellFilterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUBellFilterData.swift; sourceTree = "<group>"; };
+		DE971219259ABE5500C6C399 /* EQMatchGame+FilterMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQMatchGame+FilterMode.swift"; sourceTree = "<group>"; };
 		DE9CE84C25758F2D0023806C /* BandFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandFocus.swift; sourceTree = "<group>"; };
 		DE9CE8512575E9690023806C /* LevelDifficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelDifficulty.swift; sourceTree = "<group>"; };
 		DE9CE8692575FC1C0023806C /* ScoreSuccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSuccess.swift; sourceTree = "<group>"; };
@@ -419,6 +423,7 @@
 			children = (
 				DE2E51A4257D71C600F47DEE /* EQMatchGameplayView.swift */,
 				DE2E51B1257D730000F47DEE /* EQMatchConductor.swift */,
+				DE971219259ABE5500C6C399 /* EQMatchGame+FilterMode.swift */,
 				DECF50B7257EC7D800B30EC3 /* InteractiveFilter.swift */,
 				DE2E51DB257DB10300F47DEE /* EQMatchInstructionView.swift */,
 				DE4264DF2599742B001B18ED /* EQMatchGame+Turn.swift */,
@@ -494,6 +499,7 @@
 			children = (
 				DE537AD12595374800DEB638 /* Gain.swift */,
 				DE537AE32595386300DEB638 /* EQBellFilterData.swift */,
+				DE971214259A8B5000C6C399 /* AUBellFilterData.swift */,
 				DE60C18D256EF82B00CB20C8 /* Frequency.swift */,
 				DE60C19A256F117300CB20C8 /* Octave.swift */,
 				DE9CE84C25758F2D0023806C /* BandFocus.swift */,
@@ -959,6 +965,7 @@
 				DE671B52256DB1DC00044EDC /* LevelCellView.swift in Sources */,
 				DE671B5A256DD41C00044EDC /* EQDetectiveGame.swift in Sources */,
 				DE60C1AF256F284D00CB20C8 /* BackButton.swift in Sources */,
+				DE971215259A8B5000C6C399 /* AUBellFilterData.swift in Sources */,
 				DED15768258F0A8500C24641 /* LevelFetching.swift in Sources */,
 				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
 				DE6DB1152579D656004D654B /* GameConductor.swift in Sources */,
@@ -995,6 +1002,7 @@
 				DE4264D325994860001B18ED /* ValuesRow.swift in Sources */,
 				DE55314325785342007E4B3C /* Pulse.swift in Sources */,
 				DE6E07D5258C5C3F00AB2140 /* AudioSource.swift in Sources */,
+				DE97121A259ABE5500C6C399 /* EQMatchGame+FilterMode.swift in Sources */,
 				DE537AC125952EB100DEB638 /* InteractiveEQPlot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

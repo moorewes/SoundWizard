@@ -19,11 +19,11 @@ class EQDetectiveConductor: GameConductor {
     // MARK: - Properties
     // MARK: Internal
     
-    private(set) var filterGainDB: AUValue
+    private(set) var filterGain: Gain
     private(set) var filterQ: AUValue
     let outputFader: Fader
     
-    lazy var volume: AUValue = Gain(dB: -8).percentage
+    lazy var volume: AUValue = Gain(dB: -8).auValue
     
     var isMuted = false {
         didSet {
@@ -40,16 +40,16 @@ class EQDetectiveConductor: GameConductor {
     private let filter: EqualizerFilter
     private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.25
-    private let dimVolume: AUValue = Gain(dB: -6).percentage
+    private let dimVolume: AUValue = Gain(dB: -6).auValue
     private let defaultFadeTime: Float = 1.5
     
     // MARK: - Initializers
     
     init(source: AudioMetadata,
-         filterGainDB: AUValue,
+         filterGain: Gain,
          filterQ: AUValue) {
         self.buffer = Cookbook.buffer(for: source.url)
-        self.filterGainDB = filterGainDB
+        self.filterGain = filterGain
         self.filterQ = filterQ
 
         filter = EqualizerFilter(player)
@@ -91,8 +91,8 @@ class EQDetectiveConductor: GameConductor {
     }
     
     func setFilterBypass(_ bypass: Bool) {
-        let gain = bypass ? 1.0 : filterGainDB
-        set(filterGainDB: gain)
+        let gain = bypass ? Gain.unity : filterGain
+        set(filterGain: gain)
     }
     
     func setDim(dimmed: Bool) {
@@ -110,13 +110,12 @@ class EQDetectiveConductor: GameConductor {
         filter.$bandwidth.ramp(to: bandwidth, duration: filterRampTime)
         
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.filter.$gain.ramp(to: self.filterGainDB, duration: self.filterRampTime)
+            self.filter.$gain.ramp(to: self.filterGain.auValue, duration: self.filterRampTime)
         }
     }
     
-    func set(filterGainDB: AUValue) {
-        let gainPercentage = Gain(dB: filterGainDB).percentage
-        filter.$gain.ramp(to: gainPercentage, duration: filterRampTime)
+    func set(filterGain: Gain) {
+        filter.$gain.ramp(to: filterGain.auValue, duration: filterRampTime)
     }
     
     func set(filterQ: AUValue) {

@@ -33,11 +33,11 @@ struct FrequencyDragGesture: ViewModifier {
             dragStartPercentage = CGFloat(frequency.percentage(in: range))
         }
         let percentOffset = offset / width
-        let percent = Float(dragStartPercentage! + percentOffset)
+        let percent = Double(dragStartPercentage! + percentOffset)
         updateFrequency(percent: percent)
     }
     
-    func updateFrequency(percent: Float) {
+    func updateFrequency(percent: Double) {
         let freq = AudioMath.frequency(percent: percent, in: range, uiRounded: true)
         frequency = freq.clamped(to: range)
     }

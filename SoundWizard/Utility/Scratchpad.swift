@@ -6,24 +6,36 @@
 //
 
 import SwiftUI
-
-class ScratchViewModel: ObservableObject {
-    @Published var score = 20000
-}
+import AudioKit
 
 struct Scratchpad: View {
-    @ObservedObject var model = ScratchViewModel()
     
-    var score: Int { model.score }
+    var player: AudioPlayer
+    var filter: EqualizerFilter
+    var dryWetMixer: DryWetMixer!
+    var engine: AudioEngine
+//
+//    @State var mix: Float = 0 {
+//        didSet {
+//            mixer.balance = mix
+//        }
+//    }
+    
+    init() {
+        player = AudioPlayer()
+        filter = EqualizerFilter(player, centerFrequency: 2000, bandwidth: 1000, gain: 2)
+        dryWetMixer = DryWetMixer(player, filter)
+        engine = AudioEngine()
+        engine.output = dryWetMixer
+        try? engine.start()
+        let url = AudioFileManager.shared.url(filename: "Pink.aif", isStock: true)
+        player.buffer = Cookbook.buffer(for: url)
+        player.start()
+    }
     
     var body: some View {
-        VStack {
-            MovingCounter(number: score, font: Font.mono(.callout))
-                .animation(.easeIn)
-            Spacer()
-            Button("Toggle") {
-                model.score += 100
-            }
+        Button("toggle") {
+         //   mixer.balance = mixer.balance == 1 ? 0 : 1
         }
     }
 }

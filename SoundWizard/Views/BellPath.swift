@@ -9,20 +9,24 @@ import SwiftUI
 
 struct BellPath: View {
     let filters: CGFilters
+    var filled: Bool = true
+    var strokeColor: Color = .white
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                ForEach(filters.data, id: \.self) { data in
-                    fillPath(for: data, size: geometry.size)
-                    .fill(
-                        LinearGradient(gradient: gradient(for: data.index), startPoint: .top, endPoint: .bottom)
-                    )
-                    .blendMode(BlendMode.lighten)
+                if filled {
+                    ForEach(filters.data, id: \.self) { data in
+                        fillPath(for: data, size: geometry.size)
+                        .fill(
+                            LinearGradient(gradient: gradient(for: data.index), startPoint: .top, endPoint: .bottom)
+                        )
+                        .blendMode(BlendMode.lighten)
+                    }
                 }
                 
                 linePath(size: geometry.size)
-                    .stroke(Color.white.opacity(0.8), lineWidth: 2)
+                    .stroke(strokeColor.opacity(0.8), lineWidth: 2)
                 
                 separatorPath(size: geometry.size)
                     .stroke(Color.teal.opacity(0.2), lineWidth: 1)

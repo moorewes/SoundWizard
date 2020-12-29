@@ -12,28 +12,30 @@ extension EQMatchGameplayView.FilterInfo {
         let guess: String
         let unit: String
         let solution: String
-        let solutionColor: Color
+        let valueColor: Color
         let valueCharCount = 4
         
         init(data: RowData) {
             self.guess = data.guess.padded(to: valueCharCount)
             self.unit = data.unit
             self.solution = (data.solution ?? "").padded(to: valueCharCount)
-            self.solutionColor = data.solutionColor ?? Color.clear
+            self.valueColor = data.valueColor ?? Color.white
         }
         
         var body: some View {
             HStack {
-                Text(solution)
-                    .font(.mono(.headline))
-                    .foregroundColor(solutionColor)
-                    .padding(.leading)
+
                 Text(guess)
                     .font(.mono(.headline))
                     .foregroundColor(.white)
+                   // .padding(.leading)
                 Text(unit)
                     .font(.std(.subheadline))
                     .foregroundColor(.teal)
+                Text(solution)
+                    .font(.mono(.subheadline))
+                    .foregroundColor(valueColor)
+                    //.padding(.leading)
             }
         }
     }
@@ -42,7 +44,7 @@ extension EQMatchGameplayView.FilterInfo {
         var guess: String
         var unit: String
         var solution: String?
-        var solutionColor: Color?
+        var valueColor: Color?
     }
 }
 extension String {
@@ -58,16 +60,16 @@ extension String {
 struct ValuesRow_Previews: PreviewProvider {
     static var data = [
         EQMatchGameplayView.FilterInfo.RowData(
-            guess: "2", unit: "dB", solution: "3", solutionColor: .green
+            guess: "2", unit: "dB", solution: "3", valueColor: .green
         ),
         EQMatchGameplayView.FilterInfo.RowData(
-            guess: "400", unit: "Hz", solution: "600", solutionColor: .red
+            guess: "400", unit: "Hz", solution: "600", valueColor: .red
         ),
         EQMatchGameplayView.FilterInfo.RowData(
-            guess: "2", unit: "dB", solution: nil, solutionColor: nil
+            guess: "2", unit: "dB", solution: nil, valueColor: nil
         ),
         EQMatchGameplayView.FilterInfo.RowData(
-            guess: "400", unit: "Hz", solution: nil, solutionColor: nil
+            guess: "400", unit: "Hz", solution: nil, valueColor: nil
         )
     ]
     static var previews: some View {

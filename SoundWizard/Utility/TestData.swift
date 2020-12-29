@@ -8,21 +8,39 @@
 import Foundation
 
 struct TestData {
-    static var eqdLevel = EQDLevel(id: "test level",
-                                   game: .eqDetective,
-                                   number: 1,
-                                   difficulty: .easy,
-                                   audioMetadata: [audioMetadata],
-                                   scoreData: ScoreData(starScores: [300, 600, 900],
-                                                        scores: [400, 100]),
-                                   bandFocus: .all,
-                                   filterGain: Gain(dB: 8),
-                                   filterQ: 8,
-                                   octaveErrorRange: 2)
+    static var eqdLevel = EQDLevel(
+        id: "test level",
+        game: .eqDetective,
+        number: 1,
+        difficulty: .easy,
+        audioMetadata: [audioMetadata],
+        scoreData: ScoreData(starScores: [300, 600, 900],
+                             scores: [400, 100]),
+        bandFocus: .all,
+        filterGain: Gain(dB: 8),
+        filterQ: 8,
+        octaveErrorRange: 2
+    )
     
-    static var eqMatchLevel = EQMatchLevel(id: "test level", game: .eqDetective, number: 1, audioMetadata: [audioMetadata], difficulty: .easy, scoreData: ScoreData(starScores: [300, 600, 900], scores: [400, 100]), bandFocus: .all, filterCount: 2, staticFrequencies: nil)
+    static var eqMatchLevel = EQMatchLevel(
+        id: "test level",
+        game: .eqDetective,
+        number: 1,
+        audioMetadata: [audioMetadata],
+        difficulty: .easy,
+        scoreData: ScoreData(starScores: [300, 600, 900],
+                             scores: [400, 100]),
+        bandFocus: .all,
+        filterCount: 2
+    )
     
-    static var audioMetadata = AudioMetadata(id: "stock.Pink Noise", name: "Pink Noise", filename: "Pink.aif", isStock: true, url: AudioFileManager.shared.url(filename: "Drums.wav", isStock: true))
+    static var audioMetadata = AudioMetadata(
+        id: "stock.Pink Noise",
+        name: "Pink Noise",
+        filename: "Pink.aif",
+        isStock: true,
+        url: AudioFileManager.shared.url(filename: "Drums.wav", isStock: true)
+    )
 }
 
 // MARK: - Game Handling

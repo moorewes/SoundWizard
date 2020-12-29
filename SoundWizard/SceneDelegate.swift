@@ -33,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //            ]
             //let filterView = InteractiveEQPlot(filters: filters)
             let level = TestData.eqMatchLevel
-            let game = level.buildGame(gameHandler: TestData.GameHandler(state: .practicing))
+            let game = level.buildGame(gameHandler: TestData.GameHandler(state: .playing))
             window.rootViewController = UIHostingController(rootView: game)
             self.window = window
             window.makeKeyAndVisible()

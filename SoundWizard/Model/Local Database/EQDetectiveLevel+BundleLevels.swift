@@ -27,8 +27,8 @@ extension EQDetectiveLevel {
                      number: Int,
                      difficulty: LevelDifficulty,
                      bandFocus: BandFocus,
-                     filterGainDB: Float,
-                     filterQ: Float,
+                     filterGainDB: Double,
+                     filterQ: Double,
                      starScores: [Int],
                      audioSources: [AudioSource]) {
         self.init(context: context)
@@ -88,7 +88,7 @@ extension EQDetectiveLevel {
         }
     }
     
-    private class func gainValues(for difficulty: LevelDifficulty) -> [Float] {
+    private class func gainValues(for difficulty: LevelDifficulty) -> [Double] {
         switch difficulty {
         case .easy, .custom: return [8]
         case .moderate: return [6, -16]
@@ -96,7 +96,7 @@ extension EQDetectiveLevel {
         }
     }
     
-    private class func qValue(for difficulty: LevelDifficulty, gain: Float) -> Float {
+    private class func qValue(for difficulty: LevelDifficulty, gain: Double) -> Double {
         let boost = gain > 0
         switch difficulty {
         case .easy, .custom: return boost ? 8 : 6

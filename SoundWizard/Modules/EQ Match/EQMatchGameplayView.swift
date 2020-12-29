@@ -12,7 +12,8 @@ struct EQMatchGameplayView: View {
     @ObservedObject var game: EQMatchGame
     
     @State var frequency: Frequency = 1000
-    @State var gain: Float = 0
+    @State var gain: Double = 0
+    @State var mode: String = "bypassed"
     
     var body: some View {
         VStack() {
@@ -22,28 +23,76 @@ struct EQMatchGameplayView: View {
             
             Rectangle()
                 .opacity(0)
-                .frame(width: 200, height: 150, alignment: .center)
+                .frame(width: 200, height: 50, alignment: .center)
             
-            FilterInfo(guessData: game.guessFilterData, result: game.turnResult)
+            FilterInfo(guesses: game.solutionFilterData, results: game.turnResult)
                 .padding(.top, 40)
+                .opacity(game.showingResults ? 0 : 0)
             
-            InteractiveEQPlot(filters: $game.guessFilterData)
-                .padding(.bottom, 60)
+            FilterInfo(guesses: game.guessFilterData, results: game.turnResult)
+                .padding(.top, 40)
+
+            ZStack {
+                InteractiveEQPlot(filters: $game.guessFilterData)
+                    .padding(.bottom, 20)
+                if game.showingResults {
+                    BellPath(filters: CGFilters(filters: game.solutionFilterData),
+                             filled: false,
+                             strokeColor: game.solutionLineColor)
+                        .padding(.bottom, 20)
+                }
+                
+            }
             
-            ActionButton(game: game)
-                .padding(.bottom, 60)
+            FilterPicker(mode: $game.filterMode)
+                .padding(.horizontal, 25)
+                .padding(.vertical, 20)
+            
+            Button(game.actionButtonTitle) {
+                game.action()
+            }
+                .buttonStyle(ActionButtonStyle())
+                .padding(20)
+            
+            Spacer(minLength: 40)
+        }
+    }
+}
+
+extension EQMatchGameplayView {
+    struct FilterPicker: View {
+        @Binding var mode: EQMatchGame.FilterMode
+        var body: some View {
+            Picker("", selection: $mode) {
+                ForEach(EQMatchGame.FilterMode.allCases) { mode in
+                    Text(title(for: mode)).tag(mode)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+        }
+        
+        private func title(for mode: EQMatchGame.FilterMode) -> String {
+            switch mode {
+            case .bypassed:
+                return "Bypass"
+            case .solution:
+                return "Solution"
+            case .guess:
+                return "Guess"
+            }
         }
     }
 }
 
 extension EQMatchGameplayView {
     struct FilterInfo: View {
-        let guessData: [EQBellFilterData]
-        let resultData: EQMatchGame.Turn.Result?// = EQMatchGame.Turn.Result()
+        let guesses: [EQBellFilterData]
+        let results: EQMatchGame.Turn.Result?// = EQMatchGame.Turn.Result()
         
         var body: some View {
             HStack {
-                ForEach(guessData.indices, id: \.self) { index in
+                ForEach(guesses.indices, id: \.self) { index in
+                    Spacer()
                     VStack {
                         ValuesRow(data: gainData(for: index))
                         ValuesRow(data: freqData(for: index))
@@ -55,42 +104,31 @@ extension EQMatchGameplayView {
         }
         
         private func freqData(for index: Int) -> RowData {
-            let frequency = guessData[index].frequency
+            let frequency = guesses[index].frequency
             let guess = frequency.decimalString
             let unit = frequency.unitString
-            guard let result = resultData?.bands[index] else {
+            guard let result = results?.bands[index],
+                  let score = result.scores.frequency else {
                 return RowData(guess: guess, unit: unit)
             }
             
             let solution = result.solution.frequency.decimalString
-            let color = Color.successLevelColor(result.successLevel.frequency)
-            return RowData(guess: guess, unit: unit, solution: solution, solutionColor: color)
+            let color = Color.successLevelColor(score.successLevel)
+            return RowData(guess: guess, unit: unit, solution: solution, valueColor: color)
         }
         
         private func gainData(for index: Int) -> RowData {
-            let gain = guessData[index].gain
+            let gain = guesses[index].gain
             let guess = gain.intValueString
             let unit = gain.unitString
-            guard let result = resultData?.bands[index] else {
+            guard let result = results?.bands[index],
+                  let score = result.scores.gain else {
                 return RowData(guess: guess, unit: unit)
             }
             
             let solution = result.solution.gain.intValueString
-            let color = Color.successLevelColor(result.successLevel.frequency)
-            return RowData(guess: guess, unit: unit, solution: solution, solutionColor: color)
-        }
-    }
-}
-
-extension EQMatchGameplayView {
-    struct ActionButton: View {
-        let game: EQMatchGame
-        
-        var body: some View {
-            Button(game.actionButtonTitle) {
-                game.action()
-            }
-            .buttonStyle(ActionButtonStyle())
+            let color = Color.successLevelColor(score.successLevel)
+            return RowData(guess: guess, unit: unit, solution: solution, valueColor: color)
         }
     }
 }
@@ -102,3 +140,26 @@ struct EQMatchGameplayView_Previews: PreviewProvider {
         level.buildGame(gameHandler: TestData.GameHandler(state: .playing))
     }
 }
+
+fileprivate extension EQMatchGame.Turn.Result {
+    init() {
+        var bands = [BandData]()
+        for _ in 0...1 {
+            bands.append(
+                BandData(solution: EQBellFilterData(frequency: 100,
+                                                    gain: Gain(dB: 5),
+                                                    q: 4),
+                         guess: EQBellFilterData(frequency: 1000,
+                                                 gain: Gain(dB: -5),
+                                                 q: 4),
+                         scores: (Score(value: 40, successLevel: .fair),
+                                   Score(value: 80, successLevel: .great))
+                )
+            )
+        }
+        self.bands = bands
+        score = Score(value: 100, successLevel: .fair)
+    }
+}
+
+

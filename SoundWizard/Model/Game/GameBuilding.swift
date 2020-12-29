@@ -45,13 +45,13 @@ extension EQMatchLevel: GameBuilding {
             return staticFreqs[filterNumber]
         }
         
-        let percentage = Float(filterNumber) / Float(filterCount) + 0.5 / Float(filterCount)
+        let percentage = Double(filterNumber) / Double(filterCount) + 0.5 / Double(filterCount)
         return AudioMath.frequency(percent: percentage, in: bandFocus.range)
     }
     
     private func frequencyRange(filterNumber: Int) -> FrequencyRange {
-        let startPercentage = Float(filterNumber) / Float(filterCount)
-        let endPercentage = Float(filterNumber + 1) / Float(filterCount)
+        let startPercentage = Double(filterNumber) / Double(filterCount)
+        let endPercentage = Double(filterNumber + 1) / Double(filterCount)
         let startFreq = AudioMath.frequency(percent: startPercentage, in: bandFocus.range)
         let endFreq = AudioMath.frequency(percent: endPercentage, in: bandFocus.range)
         

@@ -42,3 +42,14 @@ enum ScoreSuccess: Int, CaseIterable, Comparable {
         return lhs.rawValue < rhs.rawValue
     }
 }
+
+extension Collection where Element == Score {
+    var meanValue: Double {
+        map { $0.value }.mean
+    }
+    
+    var meanSuccess: ScoreSuccess {
+        let mean = map { Double($0.successLevel.rawValue) }.mean
+        return ScoreSuccess(rawValue: Int(mean))! // TODO: Testing only, handle nil
+    }
+}

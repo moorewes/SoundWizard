@@ -10,49 +10,42 @@ import Foundation
 extension EQMatchGame {
     struct Turn: GameTurn {
         let number: Int
-        let maxOctaveError: Float?
-        let guessError = EQMatchLevel.GuessError
-        var score: Score?
+        var solution: [EQBellFilterData]
+        let guessError: EQMatchLevel.GuessError
+        var score: Score? { result?.score }
         var result: Result?
-        
-        var frequencyVaries: Bool {
-            maxOctaveError != nil
-        }
         
         mutating func endTurn(guess: [EQBellFilterData]) {
             result = Result(turn: self, guessData: guess)
         }
-        
-//        private func frequencyResult(guess: Frequency, solution: Frequency) -> (octaveError: Float, success: ScoreSuccess) {
-//            let error = guess.octaves(to: solution)
-//            let success = ScoreEngine.score(frequencyOctaveError: Double(error), against: Double(maxOctaveError!))
-//            
-//        }
     }
 }
 
 extension EQMatchGame.Turn {
     struct Result {
         let bands: [BandData]
+        let score: Score
         
+        // TODO: Refactor
         init(turn: EQMatchGame.Turn, guessData: [EQBellFilterData]) {
             bands = guessData.enumerated().map { (index, guess) in
                 let solution = turn.solution[index]
-                let freqSuccess = ScoreSuccess.perfect
-                let gainSuccess = ScoreSuccess.perfect
+                var scores: (frequency: Score?, gain: Score?)
+                if let maxOctaveError = turn.guessError.octaves {
+                    scores.frequency = ScoreEngine.score(guess: guess.frequency,
+                                                         solution: solution.frequency,
+                                                         maxOctaveError: maxOctaveError)
+                }
+                if let maxGainError = turn.guessError.gain {
+                    scores.gain = ScoreEngine.score(guess: guess.gain, solution: solution.gain, maxGainError: maxGainError)
+                }
                 return BandData(solution: solution,
                                 guess: guess,
-                                successLevel: (freqSuccess, gainSuccess))
+                                scores: scores)
             }
-        }
-
-        // TODO: Remove (canvas testing only)
-        init() {
-            var bands = [BandData]()
-            for _ in 0...1 {
-                bands.append(BandData(solution: EQBellFilterData(frequency: 100, gain: Gain(dB: 5), q: 4), guess: EQBellFilterData(frequency: 1000, gain: Gain(dB: -5), q: 4), successLevel: (frequency: .perfect, gain: .fair)))
-            }
-            self.bands = bands
+            print(bands)
+            score = EQMatchGame.Scoring.score(for: bands)
+            print(score)
         }
     }
 }
@@ -61,6 +54,20 @@ extension EQMatchGame.Turn.Result {
     struct BandData {
         let solution: EQBellFilterData
         let guess: EQBellFilterData
-        let successLevel: (frequency: ScoreSuccess, gain: ScoreSuccess)
+        let scores: (frequency: Score?, gain: Score?)
+    }
+}
+
+extension EQMatchGame {
+    enum Scoring {
+        static func score(for bands: [Turn.Result.BandData]) -> Score {
+            let scores = bands
+                .compactMap { [$0.scores.frequency, $0.scores.gain] }
+                .flatMap { $0 }
+                .compactMap { $0 }
+            
+            return Score(value: scores.meanValue, successLevel: scores.meanSuccess)
+        }
+        
     }
 }
