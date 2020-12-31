@@ -18,7 +18,6 @@ struct EQDetectiveTurn: GameTurn {
     private(set) var completionTime: TimeInterval?
     private(set) var guess: Frequency?
     private(set) var score: Score?
-    private(set) var octaveError: Double?
     
     var isComplete: Bool { guess != nil }
     
@@ -32,7 +31,7 @@ struct EQDetectiveTurn: GameTurn {
     mutating func finish(guess: Frequency) {
         self.guess = guess
         completionTime = Date().timeIntervalSince(startTime)
-        score = score(for: octaveError!)
+        score = score(for: octaveErrorRange)
     }
     
     mutating private func score(for guess: Frequency) -> Score {

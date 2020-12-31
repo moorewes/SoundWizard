@@ -13,7 +13,14 @@ class StateController: ObservableObject {
     
     private var allLevels = [Level]()
     var dailyLevels: [Level] {
-        return allLevels.filter { $0.number < 5}
+        let eqmLevels = levels(for: .eqMatch)
+        var result = [Level]()
+        while result.count < 10 {
+            let int = Int.random(in: 0..<eqmLevels.count)
+            result.append(eqmLevels[int])
+        }
+        return result
+        //Array(allLevels.shuffled().prefix(5))
     }
     
     @Published var gameState: GameViewState = .none
@@ -37,7 +44,9 @@ class StateController: ObservableObject {
     
     init(levelStore: LevelFetching & LevelStoring) {
         self.levelStore = levelStore
-        allLevels = levelStore.fetchLevels(for: .eqDetective)
+        allLevels = Game.allCases.flatMap {
+            levelStore.fetchLevels(for: $0)
+        }
     }
     
     func openLevel(_ level: Level) {

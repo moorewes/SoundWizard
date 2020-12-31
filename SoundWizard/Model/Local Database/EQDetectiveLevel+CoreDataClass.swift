@@ -10,20 +10,12 @@ import Foundation
 import CoreData
 
 @objc(EQDetectiveLevel)
-public final class EQDetectiveLevel: NSManagedObject {
-    static let game = Game.eqDetective
-    
-    lazy var scoreData = ScoreData(starScores: starScores, scores: scores)
-        
+public final class EQDetectiveLevel: NSManagedObject, CDLevel {
+    let game = Game.eqDetective
+            
     var bandFocus: BandFocus {
         get { BandFocus(rawValue: Int(bandFocus_))! }
         set { bandFocus_ = Int16(newValue.rawValue) }
-    }
-    
-    func addScore(score: Int) {
-        scoreData.addScore(score)
-        scores = scoreData.scores
-        try! managedObjectContext?.save()
     }
 }
 
@@ -33,6 +25,7 @@ extension EQDetectiveLevel {
     static func levels(matching predicate: NSPredicate? = nil, context: NSManagedObjectContext) -> [EQDetectiveLevel] {
         let request: NSFetchRequest<EQDetectiveLevel> = EQDetectiveLevel.fetchRequest()
         request.predicate = predicate
+        request.relationshipKeyPathsForPrefetching = ["audioSources_"]
         request.sortDescriptors = [NSSortDescriptor(key: "number_", ascending: true)]
         do {
             return try context.fetch(request)
@@ -41,8 +34,7 @@ extension EQDetectiveLevel {
         }
     }
     
-    static func level(_ number: Int) -> EQDetectiveLevel? {
-        let context = CoreDataManager.shared.container.viewContext
+    static func level(_ number: Int, context: NSManagedObjectContext) -> EQDetectiveLevel? {
         let request: NSFetchRequest<EQDetectiveLevel> = EQDetectiveLevel.fetchRequest()
         request.predicate = NSPredicate(format: "number_ = %ld", number)
         do {
@@ -53,46 +45,9 @@ extension EQDetectiveLevel {
     }
 }
 
-// MARK: - Level Conformance
+// MARK: DatabaseLevel Conformance
 
-extension EQDetectiveLevel {
-    public var id: String {
-        get { id_! }
-        set { id_ = newValue}
-    }
-        
-    var scores: [Int] {
-        get { scores_ ?? [] }
-        set { scores_ = newValue }
-    }
-    
-    var game: Game {
-        Self.game
-    }
-    
-    var audioMetadata: [AudioMetadata] {
-        (audioSources_ ?? []).compactMap { ($0 as? AudioSource)?.asMetadata }
-    }
-    
-    var difficulty: LevelDifficulty {
-        get { LevelDifficulty(rawValue: Int(difficulty_))! }
-        set { difficulty_ = Int16(newValue.rawValue) }
-    }
-    
-    var number: Int {
-        get { Int(number_) }
-        set { number_ = Int64(newValue) }
-    }
-    
-    var starScores: [Int] {
-        get { starScores_ ?? [] }
-        set { starScores_ = newValue }
-    }
-}
-
-// MARK: LevelStorageObject Conformance
-
-extension EQDetectiveLevel: LevelStorageObject {
+extension EQDetectiveLevel: DatabaseLevel {
     typealias LevelType = EQDLevel
     typealias AudioSourceType = AudioSource
     typealias ObjectContext = NSManagedObjectContext

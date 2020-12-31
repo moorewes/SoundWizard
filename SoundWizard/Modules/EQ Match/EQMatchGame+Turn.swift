@@ -43,9 +43,7 @@ extension EQMatchGame.Turn {
                                 guess: guess,
                                 scores: scores)
             }
-            print(bands)
             score = EQMatchGame.Scoring.score(for: bands)
-            print(score)
         }
     }
 }

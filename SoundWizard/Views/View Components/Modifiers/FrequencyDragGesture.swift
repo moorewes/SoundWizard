@@ -30,7 +30,7 @@ struct FrequencyDragGesture: ViewModifier {
     
     func handleDragChange(offset: CGFloat, width: CGFloat) {
         if dragStartPercentage == nil {
-            dragStartPercentage = CGFloat(frequency.percentage(in: range))
+            dragStartPercentage = CGFloat(frequency.octavePercentage(in: range) ?? 0)
         }
         let percentOffset = offset / width
         let percent = Double(dragStartPercentage! + percentOffset)

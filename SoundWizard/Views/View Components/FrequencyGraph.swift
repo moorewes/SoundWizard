@@ -43,7 +43,7 @@ struct FrequencyGraph: View {
     }
     
     private func x(for freq: Frequency, width: CGFloat) -> CGFloat {
-        return CGFloat(freq.percentage(in: range)) * width
+        CGFloat(freq.octavePercentage(in: range) ?? 0) * width
     }
 }
 

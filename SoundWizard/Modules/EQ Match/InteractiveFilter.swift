@@ -160,9 +160,7 @@ struct InteractiveFilter: View {
                 let percentage = self.sliderPercentage + dragState.dragXEndPercentage
                 frequency = frequency(for: percentage.clamped(to: 0...1))
                 let gainPercentage = self.gainPercentage + dragState.dragYEndPercentage
-                print(dragState.dragYEndPercentage)
                 gain = gain(for: gainPercentage)
-                print("end gesture gain: \(gain)")
             }
     }
     

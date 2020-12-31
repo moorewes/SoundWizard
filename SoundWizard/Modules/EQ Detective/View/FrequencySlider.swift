@@ -129,7 +129,7 @@ struct FrequencySlider: View {
     }
     
     private func x(for freq: Frequency, width: CGFloat) -> CGFloat {
-        return CGFloat(freq.percentage(in: data.frequencyRange)) * width
+        return CGFloat(freq.octavePercentage(in: data.frequencyRange) ?? 0) * width
     }
     
     private func sliderX(in size: CGSize) -> CGFloat {
@@ -137,7 +137,7 @@ struct FrequencySlider: View {
     }
     
     private func percentage(for freq: Frequency) -> CGFloat {
-        return CGFloat(freq.percentage(in: data.frequencyRange))
+        return CGFloat(freq.octavePercentage(in: data.frequencyRange) ?? 0)
     }
     
     private func sliderLabelPosition(in size: CGSize) -> CGPoint {

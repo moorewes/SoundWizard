@@ -18,7 +18,9 @@ protocol LevelStoring {
     func delete(level: Level) -> Void
 }
 
-protocol LevelStorageObject {
+/// A layer of abstraction between a level model and a corresponding
+/// database level model, such as a Core Data object
+protocol DatabaseLevel {
     associatedtype LevelType: Level
     associatedtype AudioSourceType
     associatedtype ObjectContext

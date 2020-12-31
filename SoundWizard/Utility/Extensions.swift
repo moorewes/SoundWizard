@@ -33,6 +33,24 @@ extension Double {
     }    
 }
 
+extension Double {
+    init(percent: Double, in range: ClosedRange<Double>) {
+        let span = range.upperBound - range.lowerBound
+        let distanceFromLowerBound = span * percent
+        self = range.lowerBound + distanceFromLowerBound
+    }
+    
+    func percentage(in range: ClosedRange<Double>) -> Double? {
+        guard range.contains(self) else { return nil }
+
+        let distance = range.upperBound - range.lowerBound
+        guard distance != 0 else { return nil }
+        
+        let distanceFromLowerBound = self - range.lowerBound
+        return distanceFromLowerBound / distance
+    }
+}
+
 extension Array {
     var centerItem: Element? {
         guard self.count > 0 else { return nil }

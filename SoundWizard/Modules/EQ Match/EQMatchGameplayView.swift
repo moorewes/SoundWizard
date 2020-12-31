@@ -33,10 +33,14 @@ struct EQMatchGameplayView: View {
                 .padding(.top, 40)
 
             ZStack {
-                InteractiveEQPlot(filters: $game.guessFilterData)
+                InteractiveEQPlot(filters: $game.guessFilterData,
+                                  frequencyRange: game.frequencyRange,
+                                  gainRange: game.gainRange)
                     .padding(.bottom, 20)
                 if game.showingResults {
-                    BellPath(filters: CGFilters(filters: game.solutionFilterData),
+                    BellPath(filters: CGFilters(filters: game.solutionFilterData,
+                                                frequencyRange: game.frequencyRange,
+                                                gainRange: game.gainRange),
                              filled: false,
                              strokeColor: game.solutionLineColor)
                         .padding(.bottom, 20)
@@ -56,6 +60,9 @@ struct EQMatchGameplayView: View {
             
             Spacer(minLength: 40)
         }
+        .onDisappear() {
+            game.stopAudio()
+        }
     }
 }
 
@@ -73,8 +80,6 @@ extension EQMatchGameplayView {
         
         private func title(for mode: EQMatchGame.FilterMode) -> String {
             switch mode {
-            case .bypassed:
-                return "Bypass"
             case .solution:
                 return "Solution"
             case .guess:

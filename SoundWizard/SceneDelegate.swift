@@ -32,9 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //                EQBellFilterData(frequency: 5000, gain: Gain(dB: 4), q: 1)
 //            ]
             //let filterView = InteractiveEQPlot(filters: filters)
-            let level = TestData.eqMatchLevel
-            let game = level.buildGame(gameHandler: TestData.GameHandler(state: .playing))
-            window.rootViewController = UIHostingController(rootView: game)
+           // let level = TestData.eqMatchLevel
+         //   let game = level.buildGame(gameHandler: TestData.GameHandler(state: .playing))
+            window.rootViewController = UIHostingController(rootView: view)
             self.window = window
             window.makeKeyAndVisible()
         }

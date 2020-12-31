@@ -28,6 +28,10 @@ struct Lives {
         }
     }
     
+    var isDead: Bool {
+        remaining < 0
+    }
+    
     var streak = 0 {
         didSet {
             guard streak > 0 else { return }

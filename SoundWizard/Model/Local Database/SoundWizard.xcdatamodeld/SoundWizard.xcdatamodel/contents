@@ -5,7 +5,21 @@
         <attribute name="id_" optional="YES" attributeType="String"/>
         <attribute name="isStock" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name_" optional="YES" attributeType="String"/>
-        <relationship name="eqDetectiveLevelsSet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EQDetectiveLevel" inverseName="audioSources_" inverseEntity="EQDetectiveLevel"/>
+        <relationship name="eqDetectiveLevels_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EQDetectiveLevel" inverseName="audioSources_" inverseEntity="EQDetectiveLevel"/>
+        <relationship name="eqMatchLevels_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDEQMatchLevel" inverseName="audioSources_" inverseEntity="CDEQMatchLevel"/>
+    </entity>
+    <entity name="CDEQMatchLevel" representedClassName="CDEQMatchLevel" syncable="YES" codeGenerationType="category">
+        <attribute name="bandCount_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="bandFocus_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="difficulty_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id_" optional="YES" attributeType="String"/>
+        <attribute name="mode_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="number_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="scores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
+        <attribute name="starScores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
+        <attribute name="staticFrequencies" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Double&gt;"/>
+        <attribute name="staticGainValues" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Double&gt;"/>
+        <relationship name="audioSources_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AudioSource" inverseName="eqMatchLevels_" inverseEntity="AudioSource"/>
     </entity>
     <entity name="EQDetectiveLevel" representedClassName="EQDetectiveLevel" syncable="YES" codeGenerationType="category">
         <attribute name="bandFocus_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -16,10 +30,11 @@
         <attribute name="number_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="scores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
         <attribute name="starScores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
-        <relationship name="audioSources_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AudioSource" inverseName="eqDetectiveLevelsSet" inverseEntity="AudioSource"/>
+        <relationship name="audioSources_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AudioSource" inverseName="eqDetectiveLevels_" inverseEntity="AudioSource"/>
     </entity>
     <elements>
-        <element name="AudioSource" positionX="-505.4921875" positionY="-84.515625" width="128" height="118"/>
+        <element name="AudioSource" positionX="-505.4921875" positionY="-84.515625" width="128" height="133"/>
         <element name="EQDetectiveLevel" positionX="-338.734375" positionY="-17.86328125" width="128" height="178"/>
+        <element name="CDEQMatchLevel" positionX="-423" positionY="27" width="128" height="208"/>
     </elements>
 </model>

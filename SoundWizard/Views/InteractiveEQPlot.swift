@@ -9,10 +9,14 @@ import SwiftUI
 
 struct InteractiveEQPlot: View {
     @Binding var filters: [EQBellFilterData]
+    let frequencyRange: FrequencyRange
+    let gainRange: ClosedRange<Double>
 
     var body: some View {
         ZStack {
-            BellPath(filters: CGFilters(filters: filters))
+            BellPath(filters: CGFilters(filters: filters,
+                                        frequencyRange: frequencyRange,
+                                        gainRange: gainRange))
                 .zIndex(0)
             
             HStack(spacing: 0) {
@@ -48,15 +52,15 @@ extension InteractiveEQPlot {
         
         func handleDrag(x dragX: CGFloat, y dragY: CGFloat) {
             if dragStart == nil {
-                let x = CGFloat(filter.frequency.percentage(in: filter.frequencyRange))
-                let y = CGFloat(filter.gain.dB / filter.dBGainRange.upperBound) / 2 + 0.5
+                let x = CGFloat(filter.frequency.octavePercentage(in: filter.frequencyRange) ?? 0)
+                let y = CGFloat(filter.gain.dB.percentage(in: filter.dBGainRange) ?? 0)
                 dragStart = (x, y)
             }
             let x = (dragStart!.x + dragX * xDragPrecisionFactor).clamped(to: bounds)
             let y = (dragStart!.y - dragY).clamped(to: bounds)
             
             filter.frequency = AudioMath.frequency(percent: Double(x), in: filter.frequencyRange)
-            filter.gain.dB = filter.dBGainRange.upperBound * Double(y - 0.5) * 2
+            filter.gain.dB = Double(percent: Double(y), in: filter.dBGainRange)
         }
         
         private let xDragPrecisionFactor: CGFloat = 0.85
@@ -67,12 +71,12 @@ extension InteractiveEQPlot {
 struct CGFilters {
     var data: [CGFilterData]
     
-    init(filters: [EQBellFilterData]) {
-        let frequencyRange = filters.frequencyRange
-        let gainRange = filters.gainRange
+    init(filters: [EQBellFilterData],
+         frequencyRange: FrequencyRange,
+         gainRange: ClosedRange<Double>) {
         data = filters.enumerated().map { (index, filter) in
-            let x = CGFloat(filter.frequency.percentage(in: frequencyRange))
-            let y = CGFloat(filter.gain.dB / gainRange.upperBound) / 2 + 0.5
+            let x = CGFloat(filter.frequency.octavePercentage(in: frequencyRange) ?? 0)
+            let y = CGFloat(filter.gain.dB.percentage(in: gainRange) ?? 0)
             return CGFilterData(index: index, x: x, y: y, q: CGFloat(filter.q))
         }
     }
@@ -91,7 +95,9 @@ struct PeakingFilterSlider_Previews: PreviewProvider {
         EQBellFilterData(frequency: 5000, gain: Gain(dB: 4), q: 4)
     ]
     static var previews: some View {
-        InteractiveEQPlot(filters: $filters)
+        InteractiveEQPlot(filters: $filters,
+                          frequencyRange: BandFocus.all.range,
+                          gainRange: -9...9)
             .frame(width: 300, height: 300, alignment: .center)
     }
 }

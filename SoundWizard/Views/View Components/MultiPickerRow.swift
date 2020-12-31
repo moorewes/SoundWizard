@@ -13,8 +13,7 @@ struct MultiPickerRow<Item: UIDescribing & Hashable>: View {
     @Binding var selectedItems: [Item]
     
     var body: some View {
-        print(selectedItems.map { $0.uiDescription })
-        return NavigationLink(
+        NavigationLink(
             destination: DetailView(items: items, selection: $selectedItems),
             label: {
                 HStack {

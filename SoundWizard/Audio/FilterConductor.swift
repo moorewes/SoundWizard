@@ -60,7 +60,6 @@ class EQDetectiveConductor: GameConductor {
         outputFader = Fader(filter, gain: 0)
                         
         player.volume = volume
-        print("filter conductor init with data: ", source)
         masterConductor.patchIn(self)
     }
     

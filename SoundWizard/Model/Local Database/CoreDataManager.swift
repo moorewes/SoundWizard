@@ -40,8 +40,9 @@ class CoreDataManager {
     
     func allEQDLevels() -> [Level] {
         var levels = EQDetectiveLevel.levels(context: viewContext).map { $0.level }
+        
+        // TODO: Remove, testing only
         if let source = AudioSource.allUserSources(context: viewContext).first?.asMetadata {
-            print(source)
             levels.append(
                 EQDLevel(id: "", game: .eqDetective, number: 999, difficulty: .moderate, audioMetadata: [source], scoreData: ScoreData(starScores: [400, 600, 800], scores: []), bandFocus: .all, filterGain: Gain(dB: 8), filterQ: 8, octaveErrorRange: 2)
             )
@@ -55,7 +56,8 @@ class CoreDataManager {
     }
     
     func loadInitialLevels() {
-        EQDetectiveLevel.storeBundleLevelsIfNeeded(context: container.viewContext)
+        EQDetectiveLevel.storeBundleLevelsIfNeeded(context: viewContext)
+        CDEQMatchLevel.storeBundleLevelsIfNeeded(context: viewContext)
     }
     
     func audioSources(for metadata: [AudioMetadata]) -> [AudioSource] {
@@ -95,14 +97,12 @@ class CoreDataManager {
         }
     }
     
-    private func storeObject(matching level: Level) -> EQDetectiveLevel? {
-        let levels = viewContext.registeredObjects
-                        .compactMap { $0 as? EQDetectiveLevel }
-                        .filter { $0.id == level.id }
-        if let level = levels.first {
-            return level
-        } else {
-            return EQDetectiveLevel.level(level.number)
+    private func addScore(_ score: Int, to level: Level) {
+        switch level.game {
+        case .eqDetective:
+            EQDetectiveLevel.level(level.number, context: viewContext)?.addScore(score: score)
+        case .eqMatch:
+            CDEQMatchLevel.level(level.number, context: viewContext)?.addScore(score: score)
         }
     }
 }
@@ -112,6 +112,8 @@ extension CoreDataManager: LevelFetching {
         switch game {
         case .eqDetective:
             return allEQDLevels()
+        case .eqMatch:
+            return CDEQMatchLevel.levels(context: viewContext).map { $0.level }
         }
     }
 }
@@ -127,10 +129,7 @@ extension CoreDataManager: LevelStoring {
     
     func update(level: Level) {
         guard let score = level.scoreData.scores.last else { return }
-        guard let storageLevel = storeObject(matching: level) else {
-            fatalError("couldn't find matching core data object to update")
-        }
-        storageLevel.addScore(score: score)
+        addScore(score, to: level)
     }
     
     func delete(level: Level) {

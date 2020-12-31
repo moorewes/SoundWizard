@@ -29,9 +29,6 @@ class EQMatchConductor: GameConductor {
     private var guessFilterData: [AUBellFilterData]!
     private var solutionFilterData: [AUBellFilterData]!
     private let buffer: AVAudioPCMBuffer
-    //private var dryFader: Fader!
-    //private var wetFader: Fader!
-    private var bypassMixer: DryWetMixer!
     private var filterMixer: DryWetMixer!
     
     private let rampTime: AUValue = 0.05
@@ -60,12 +57,15 @@ class EQMatchConductor: GameConductor {
         }
         
         filterMixer = DryWetMixer(guessFilters.last ?? player, solutionFilters.last ?? player)
-        bypassMixer = DryWetMixer(player, filterMixer, balance: 1.0)
         
-        outputFader = Fader(filterMixer, gain: 0)
+        outputFader = Fader(filterMixer)
                 
         player.volume = playerGain
         conductor.patchIn(self)
+    }
+    
+    deinit {
+        print("eq match conductor deinit")
     }
     
     // MARK: - Methods
@@ -96,8 +96,6 @@ class EQMatchConductor: GameConductor {
     
     func set(filterMode: EQMatchGame.FilterMode) {
         switch filterMode {
-        case .bypassed:
-            bypassMixer.balance = 0.0
         case .guess:
             filterMixer.balance = 0.0
         case .solution:
@@ -127,7 +125,6 @@ class EQMatchConductor: GameConductor {
     }
     
     func update(filter: EqualizerFilter, with data: AUBellFilterData) {
-        print("updating filter, freq: ", data.frequency, " gain: ", data.gain)
         filter.$centerFrequency.ramp(to: data.frequency, duration: rampTime)
         filter.$bandwidth.ramp(to: data.frequency / data.q, duration: rampTime)
         filter.$gain.ramp(to: data.gain, duration: rampTime)
@@ -153,10 +150,21 @@ class EQMatchConductor: GameConductor {
     private func fadeOutAndStop(duration: Float) {
         outputFader.$leftGain.ramp(to: 0, duration: duration)
         outputFader.$rightGain.ramp(to: 0, duration: duration)
-        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + Double(duration)) { [weak self] in
-            self?.player.stop()
-            self?.conductor.endGame()
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(duration)) { [weak self] in
+            self?.tearDown()
         }
+    }
+    
+    private func tearDown() {
+        player.stop()
+        for filter in guessFilters {
+            filter.stop()
+        }
+        for filter in solutionFilters {
+            filter.stop()
+        }
+        
+        conductor.endGame()
     }
 }
 

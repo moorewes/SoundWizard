@@ -40,7 +40,6 @@ struct CutBoostPicker: View {
         .pickerStyle(SegmentedPickerStyle())
         .padding(.horizontal, 80)
         .padding(.bottom, 30)
-        .transition(.slide)
     }
 }
 
@@ -56,13 +55,13 @@ struct EQDetectiveLevelBrowser: View {
         self.openLevel = selectionHandler
     }
     
-    @State private var typeSelection: Int = 1
+    @State private var difficultySelection: Int = 1
     @State private var gainTypeSelection: Int = 1
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack() {
-                DifficultyPicker(selection: $typeSelection)
+                DifficultyPicker(selection: $difficultySelection)
                 
                 if showGainTypePicker {
                     CutBoostPicker(selection: $gainTypeSelection)
@@ -94,7 +93,7 @@ struct EQDetectiveLevelBrowser: View {
     }
     
     var showGainTypePicker: Bool {
-        typeSelection != 1
+        difficultySelection != 1
     }
     
     var selectedFilterBoost: Bool {
@@ -103,7 +102,7 @@ struct EQDetectiveLevelBrowser: View {
     }
     
     var selectedDifficulty: LevelDifficulty {
-        LevelDifficulty(rawValue: typeSelection)!
+        LevelDifficulty(rawValue: difficultySelection)!
     }
     
     var addLevelButton: some View {

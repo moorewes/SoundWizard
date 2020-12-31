@@ -43,7 +43,6 @@ struct ImportedAudioView: View {
         .fileImporter(isPresented: $showFileImporter, allowedContentTypes: [.audio]) { result in
             do {
                 fileURL = try result.get()
-                //userProvidedName = fileURL?.lastPathComponent ?? ""
                 showConfirmImportView = true
             } catch {
                 print(error.localizedDescription)

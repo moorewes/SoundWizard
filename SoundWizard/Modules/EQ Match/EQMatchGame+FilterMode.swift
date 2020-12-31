@@ -9,7 +9,7 @@ import Foundation
 
 extension EQMatchGame {
     enum FilterMode: String, CaseIterable, Identifiable {
-        case bypassed, solution, guess
+        case solution, guess
         
         var id: String { rawValue }
     }

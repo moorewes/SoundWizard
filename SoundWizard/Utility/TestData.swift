@@ -24,14 +24,12 @@ struct TestData {
     
     static var eqMatchLevel = EQMatchLevel(
         id: "test level",
-        game: .eqDetective,
         number: 1,
         audioMetadata: [audioMetadata],
         difficulty: .easy,
+        format: EQMatchLevel.Format(mode: .free, bandCount: .dual, bandFocus: .all),
         scoreData: ScoreData(starScores: [300, 600, 900],
-                             scores: [400, 100]),
-        bandFocus: .all,
-        filterCount: 2
+                             scores: [400, 100])
     )
     
     static var audioMetadata = AudioMetadata(
