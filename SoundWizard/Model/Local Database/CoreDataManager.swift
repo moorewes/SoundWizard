@@ -152,7 +152,8 @@ extension CoreDataManager: UserAudioStore {
             return
         }
         let metadata = AudioMetadata(id: "User.\(name)", name: name, filename: filename, isStock: false, url: url)
-        AudioSource.createNew(in: viewContext, from: metadata)
+        let source = AudioSource.createNew(in: viewContext, from: metadata)
+        CDEQMatchLevel.generateDBLevels(for: [source], context: viewContext)
         save()
     }
     
@@ -161,9 +162,12 @@ extension CoreDataManager: UserAudioStore {
             print("couldn't find audio source to delete: ", metadata.filename)
             return
         }
+        //source.associatedLevels.forEach { viewContext.delete($0) }
         viewContext.delete(source)
+        
         if save() {
             AudioFileManager.shared.deleteUserFile(metadata)
+            print("deleted source: ", metadata.name)
         }
     } 
 }

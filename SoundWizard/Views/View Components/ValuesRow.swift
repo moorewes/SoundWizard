@@ -26,14 +26,14 @@ extension EQMatchGameplayView.FilterInfo {
             HStack {
 
                 Text(guess)
-                    .font(.mono(.headline))
+                    .font(.mono(.subheadline))
                     .foregroundColor(.white)
                    // .padding(.leading)
                 Text(unit)
-                    .font(.std(.subheadline))
+                    .font(.std(.footnote))
                     .foregroundColor(.teal)
                 Text(solution)
-                    .font(.mono(.subheadline))
+                    .font(.mono(.footnote))
                     .foregroundColor(valueColor)
                     //.padding(.leading)
             }

@@ -15,10 +15,13 @@ struct ScoreData {
     var newStars = [Int]()
     
     var previousTopScore: Int {
-        guard !newStars.isEmpty && scores.count > 1 else {
-            return topScore
+        guard scores.count > 1 else {
+            return 0
         }
-        return scores[scores.count - 2]
+        var prevScores = scores
+        prevScores.removeLast()
+        
+        return prevScores.sorted().last!
     }
         
     init(starScores: [Int], scores: [Int]) {

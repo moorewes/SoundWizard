@@ -83,7 +83,7 @@ struct PostGameView: View {
     }
     
     private var justEarnedTopScore: Bool {
-        !scoreData.newStars.isEmpty
+        scoreData.previousTopScore < scoreData.topScore
     }
     
     private var previousTopScore: Int {

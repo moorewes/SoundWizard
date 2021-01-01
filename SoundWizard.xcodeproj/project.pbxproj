@@ -104,6 +104,7 @@
 		DE8BA67C25801F01004090E3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8BA67B25801F01004090E3 /* MainTabView.swift */; };
 		DE8BA68425802046004090E3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8BA68325802046004090E3 /* HomeView.swift */; };
 		DE8BA689258027FE004090E3 /* LevelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8BA688258027FE004090E3 /* LevelPicker.swift */; };
+		DE8C5404259E6D8700EBDC97 /* EQMatchInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2E51DB257DB10300F47DEE /* EQMatchInstructionView.swift */; };
 		DE8C78BB2593A61000915C44 /* EQDCustomLevelDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8C78BA2593A61000915C44 /* EQDCustomLevelDetailView.swift */; };
 		DE8C78C62593BAFA00915C44 /* PickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8C78C52593BAFA00915C44 /* PickerRow.swift */; };
 		DE8C78CB2593BB6400915C44 /* MultiPickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8C78CA2593BB6400915C44 /* MultiPickerRow.swift */; };
@@ -941,6 +942,7 @@
 				DE9CE86A2575FC1C0023806C /* ScoreSuccess.swift in Sources */,
 				DE4C4A29259D027C00273048 /* CDLevel.swift in Sources */,
 				DE6E07A4258C40C200AB2140 /* GameplayView.swift in Sources */,
+				DE8C5404259E6D8700EBDC97 /* EQMatchInstructionView.swift in Sources */,
 				DEC18670254A39DB00D730CC /* EQDetectiveTurn.swift in Sources */,
 				DE4C4A20259CFB3600273048 /* CDEQMatchLevel+CoreDataClass.swift in Sources */,
 				DE7C9E7825880A27009308AC /* RoundedRectButton.swift in Sources */,

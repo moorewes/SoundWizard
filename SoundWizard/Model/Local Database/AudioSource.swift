@@ -43,6 +43,13 @@ public class AudioSource: NSManagedObject {
         AudioMetadata(id: id, name: name, filename: filename, isStock: isStock, url: fileFetcher.url(filename: filename, isStock: isStock))
     }
     
+    var associatedLevels: [NSManagedObject] {
+        let eqmLevels = (eqMatchLevels_ ?? []).compactMap { $0 as? NSManagedObject }
+        let eqdLevels = (eqDetectiveLevels_ ?? []).compactMap { $0 as? NSManagedObject }
+        print("found eqmlevels: ", eqmLevels.count, "eqdlevels: ", eqdLevels.count)
+        return eqmLevels + eqdLevels
+    }
+    
     @discardableResult
     static func createNew(in context: NSManagedObjectContext, from metadata: AudioMetadata) -> AudioSource {
         let source = AudioSource(context: context)

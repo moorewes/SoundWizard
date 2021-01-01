@@ -5,8 +5,8 @@
         <attribute name="id_" optional="YES" attributeType="String"/>
         <attribute name="isStock" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name_" optional="YES" attributeType="String"/>
-        <relationship name="eqDetectiveLevels_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EQDetectiveLevel" inverseName="audioSources_" inverseEntity="EQDetectiveLevel"/>
-        <relationship name="eqMatchLevels_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDEQMatchLevel" inverseName="audioSources_" inverseEntity="CDEQMatchLevel"/>
+        <relationship name="eqDetectiveLevels_" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EQDetectiveLevel" inverseName="audioSources_" inverseEntity="EQDetectiveLevel"/>
+        <relationship name="eqMatchLevels_" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDEQMatchLevel" inverseName="audioSources_" inverseEntity="CDEQMatchLevel"/>
     </entity>
     <entity name="CDEQMatchLevel" representedClassName="CDEQMatchLevel" syncable="YES" codeGenerationType="category">
         <attribute name="bandCount_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -34,7 +34,7 @@
     </entity>
     <elements>
         <element name="AudioSource" positionX="-505.4921875" positionY="-84.515625" width="128" height="133"/>
-        <element name="EQDetectiveLevel" positionX="-338.734375" positionY="-17.86328125" width="128" height="178"/>
         <element name="CDEQMatchLevel" positionX="-423" positionY="27" width="128" height="208"/>
+        <element name="EQDetectiveLevel" positionX="-338.734375" positionY="-17.86328125" width="128" height="178"/>
     </elements>
 </model>

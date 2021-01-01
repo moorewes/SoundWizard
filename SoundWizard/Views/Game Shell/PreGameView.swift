@@ -78,6 +78,8 @@ struct PreGameView: View {
     private func instructionView() -> some View {
         if let level = level as? EQDLevel {
             EQDetectiveInstructionView(level: level)
+        } else if let level = level as? EQMatchLevel {
+            EQMatchInstructionView(level: level)
         }
     }
     

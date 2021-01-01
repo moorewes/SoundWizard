@@ -15,7 +15,7 @@ struct EQMatchLevelBrowser: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack() {
                 Filters(store: store)
-                    .padding(.vertical)
+                    .padding(.vertical, 25)
                 
                 ForEach(BandFocus.allCases) { focus in
                     let levels = store.filteredLevels(with: focus)
@@ -46,9 +46,10 @@ extension EQMatchLevelBrowser {
         
         var body: some View {
             VStack() {
-                EnumPicker($store.difficultySelection)
-                    .padding(pickerPadding)
-                
+                // Difficulty may be useless for this game?
+//                EnumPicker($store.difficultySelection)
+//                    .padding(pickerPadding)
+//
                 EnumPicker($store.bandCountSelection)
                     .padding(pickerPadding)
                 
@@ -76,8 +77,8 @@ enum BandCount: Int, CaseIterable, UIDescribing {
     var uiDescription: String {
         switch self {
         case .single: return "Single Band"
-        case .dual: return "Dual"
-        case .triple: return "Triple"
+        case .dual: return "Dual Band"
+        case .triple: return "Triple Band"
         }
     }
 }

@@ -8,15 +8,30 @@
 import SwiftUI
 
 struct EQMatchInstructionView: View {
-    let level = EQMatchLevel(number: 1, audioSource: .acousticDrums, difficulty: .easy)
+    let level: EQMatchLevel
     
     var body: some View {
-        EQDetectiveInstructionView(level: EQDetectiveLevel.level(1)!)
+        HStack {
+            VStack {
+                Text(level.audioSourceDescription).padding(5)
+                Text(level.format.bandCount.uiDescription).padding(5)
+                Text(frequencyDescription).padding(5)
+                Text(self.gainDescription).padding(5)
+            }
+            .font(.std(.subheadline))
+        }
+    }
+    
+    var frequencyDescription: String {
+        "Frequency: " + (level.format.mode != .fixedFrequency ? "Free" : "Fixed")
+    }
+    var gainDescription: String {
+        "Gain: " + (level.format.mode != .fixedGain ? "Free" : "Fixed")
     }
 }
 
 struct EQMatchInstructionView_Previews: PreviewProvider {
     static var previews: some View {
-        EQMatchInstructionView()
+        EQMatchInstructionView(level: TestData.eqMatchLevel)
     }
 }

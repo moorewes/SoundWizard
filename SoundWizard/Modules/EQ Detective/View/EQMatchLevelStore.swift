@@ -15,7 +15,7 @@ class EQMatchLevelStore: ObservableObject {
     
     func filteredLevels(with focus: BandFocus) -> [EQMatchLevel] {
         let format = EQMatchLevel.Format(mode: modeSelection, bandCount: bandCountSelection, bandFocus: focus)
-        return levels.filter { $0.format == format && $0.difficulty == difficultySelection }
+        return levels.filter { $0.format == format }
     }
     
     init(levels: [EQMatchLevel]) {
