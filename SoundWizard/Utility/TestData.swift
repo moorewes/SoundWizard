@@ -27,7 +27,7 @@ struct TestData {
         number: 1,
         audioMetadata: [audioMetadata],
         difficulty: .easy,
-        format: EQMatchLevel.Format(mode: .free, bandCount: .dual, bandFocus: .all),
+        format: EQMatchLevel.Format(mode: .fixedGain, bandCount: .dual, bandFocus: .all),
         scoreData: ScoreData(starScores: [300, 600, 900],
                              scores: [400, 100])
     )

@@ -23,6 +23,8 @@ class StateController: ObservableObject {
         //Array(allLevels.shuffled().prefix(5))
     }
     
+    var levelBrowsingStore: LevelBrowsingStore?
+    
     @Published var gameState: GameViewState = .none
     @Published var gameHandler: GameHandler?
     

@@ -39,16 +39,7 @@ class CoreDataManager {
     // MARK: Internal
     
     func allEQDLevels() -> [Level] {
-        var levels = EQDetectiveLevel.levels(context: viewContext).map { $0.level }
-        
-        // TODO: Remove, testing only
-        if let source = AudioSource.allUserSources(context: viewContext).first?.asMetadata {
-            levels.append(
-                EQDLevel(id: "", game: .eqDetective, number: 999, difficulty: .moderate, audioMetadata: [source], scoreData: ScoreData(starScores: [400, 600, 800], scores: []), bandFocus: .all, filterGain: Gain(dB: 8), filterQ: 8, octaveErrorRange: 2)
-            )
-        }
-        
-        return levels
+        EQDetectiveLevel.levels(context: viewContext).map { $0.level }
     }
     
     func allAudioFiles() -> [AudioMetadata] {

@@ -50,6 +50,6 @@ extension Collection where Element == Score {
     
     var meanSuccess: ScoreSuccess {
         let mean = map { Double($0.successLevel.rawValue) }.mean
-        return ScoreSuccess(rawValue: Int(mean))! // TODO: Testing only, handle nil
+        return ScoreSuccess(rawValue: Int(mean)) ?? .perfect
     }
 }

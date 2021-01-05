@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// TODO: Build visual EQ plot to display level details
 struct EQMatchInstructionView: View {
     let level: EQMatchLevel
     
@@ -18,8 +19,15 @@ struct EQMatchInstructionView: View {
                 Text(frequencyDescription).padding(5)
                 Text(self.gainDescription).padding(5)
             }
-            .font(.std(.subheadline))
+            Spacer()
+            VStack {
+                Text(level.difficulty.uiDescription).padding(5)
+                Text(level.format.bandFocus.uiDescription).padding(5)
+            }
+            
         }
+        .font(.std(.subheadline))
+        .padding(.horizontal)
     }
     
     var frequencyDescription: String {

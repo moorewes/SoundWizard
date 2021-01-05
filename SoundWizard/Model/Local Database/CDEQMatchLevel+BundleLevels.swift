@@ -35,7 +35,13 @@ extension CDEQMatchLevel {
                 for mode in EQMatchLevel.Mode.allCases {
                     for bandCount in BandCount.allCases {
                         let format = EQMatchLevel.Format(mode: mode, bandCount: bandCount, bandFocus: focus)
-                        var level = EQMatchLevel(id: "", number: index, audioMetadata: [], difficulty: .easy, format: format)
+                        let scoreData = EQMatchLevel.initialScoreData(difficulty: .easy)
+                        var level = EQMatchLevel(id: "",
+                                                 number: index,
+                                                 audioMetadata: [],
+                                                 difficulty: .easy,
+                                                 format: format,
+                                                 scoreData: scoreData)
                         level.setStockID(audioSources: [source])
                         CDEQMatchLevel.createNew(level: level, audioSources: [source], context: context)
                         index += 1

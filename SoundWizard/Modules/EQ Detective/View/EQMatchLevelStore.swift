@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class EQMatchLevelStore: ObservableObject {
+class EQMatchLevelStore: ObservableObject, LevelBrowsingStore {
     @Published var levels: [EQMatchLevel]
     @Published var difficultySelection: LevelDifficulty = .easy
     @Published var bandCountSelection: BandCount = .single
@@ -15,7 +15,7 @@ class EQMatchLevelStore: ObservableObject {
     
     func filteredLevels(with focus: BandFocus) -> [EQMatchLevel] {
         let format = EQMatchLevel.Format(mode: modeSelection, bandCount: bandCountSelection, bandFocus: focus)
-        return levels.filter { $0.format == format }
+        return levels.filter { $0.format == format && $0.difficulty == difficultySelection }
     }
     
     init(levels: [EQMatchLevel]) {

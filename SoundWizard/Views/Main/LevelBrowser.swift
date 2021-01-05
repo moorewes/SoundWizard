@@ -11,16 +11,16 @@ struct LevelBrowser: View {
     @EnvironmentObject private var stateController: StateController
     var game: Game
     
-    
     var body: some View {
         switch game {
         case .eqDetective:
             EQDetectiveLevelBrowser(levels: stateController.levels(),
                                     selectionHandler: stateController.openLevel)
         case .eqMatch:
-            let store = EQMatchLevelStore(levels: stateController.levels())
-            EQMatchLevelBrowser(store: store, openLevel: stateController.openLevel)
+            EQMatchLevelBrowser(levels: stateController.levels(),
+                                launchAction: stateController.openLevel)
         }
     }
-    
 }
+
+protocol LevelBrowsingStore {}

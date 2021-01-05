@@ -26,6 +26,14 @@ extension Comparable {
     }
 }
 
+extension Collection {
+
+    /// Returns the element at the specified index if it is within bounds, otherwise nil
+    subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
 extension Double {
     var uiString: String {
         let isInt = self - Double(Int(self)) == 0
@@ -48,6 +56,17 @@ extension Double {
         
         let distanceFromLowerBound = self - range.lowerBound
         return distanceFromLowerBound / distance
+    }
+    
+    static func randomInt(in range: ClosedRange<Double>, excluding exclusion: Int? = nil) -> Double {
+        let range = Int(range.lowerBound.rounded(.up))...Int(range.upperBound.rounded(.down))
+        
+        if let n = exclusion {
+            let value = Int.random(in: range)
+            return value == n ? Double(range.upperBound) : Double(value)
+        } else {
+            return Double(Int.random(in: range))
+        }
     }
 }
 

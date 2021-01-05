@@ -10,7 +10,7 @@ import Foundation
 struct EQDetectiveTurn: GameTurn {
     
     let number: Int
-    let octaveErrorRange: Octave // TODO: Use double and rename
+    let octaveErrorRange: Octave
     let solution: Frequency
     let scoreMultiplier: Double
     

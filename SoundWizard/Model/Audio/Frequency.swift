@@ -95,7 +95,7 @@ extension Frequency {
         return octave / upperOctave
     }
     
-    static func random(in range: FrequencyRange, disfavoring disfavored: Frequency?, repelEdges: Bool) -> Frequency {
+    static func random(in range: FrequencyRange, disfavoring disfavored: Frequency? = nil, repelEdges: Bool, uiRounded: Bool = false) -> Frequency {
         return AudioMath.randomFreq(in: range, disfavoring: disfavored, repelEdges: repelEdges)
     }
 }

@@ -24,7 +24,7 @@ struct ScoreData {
         return prevScores.sorted().last!
     }
         
-    init(starScores: [Int], scores: [Int]) {
+    init(starScores: [Int], scores: [Int] = []) {
         self.starScores = starScores
         self.scores = scores
         topScore = scores.sorted().last ?? 0

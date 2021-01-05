@@ -14,7 +14,7 @@ class FrequencyTests: XCTestCase {
         let range: FrequencyRange = 20...20_000
         let testFreq: Frequency = 40
         
-        let percentage = testFreq.percentage(in: range).rounded(places: 1)
+        let percentage = testFreq.octavePercentage(in: range)!.rounded(places: 1)
         
         XCTAssertEqual(percentage, 0.1)
     }
@@ -23,7 +23,7 @@ class FrequencyTests: XCTestCase {
         let range: FrequencyRange = 40...4_000
         let testFreq: Frequency = 40.0
         
-        let percentage = testFreq.percentage(in: range).rounded(places: 2)
+        let percentage = testFreq.octavePercentage(in: range)!.rounded(places: 2)
         
         XCTAssertEqual(percentage, 0.0)
     }
@@ -32,7 +32,7 @@ class FrequencyTests: XCTestCase {
         let range: FrequencyRange = 40...4_000
         let testFreq: Frequency = 4000.0
         
-        let percentage = testFreq.percentage(in: range).rounded(places: 2)
+        let percentage = testFreq.octavePercentage(in: range)!.rounded(places: 2)
         
         XCTAssertEqual(percentage, 1.0)
     }
@@ -41,7 +41,7 @@ class FrequencyTests: XCTestCase {
         let range: FrequencyRange = 40...4_000
         let testFreq: Frequency = 320.0
         
-        let percentage = testFreq.percentage(in: range).rounded(places: 2)
+        let percentage = testFreq.octavePercentage(in: range)!.rounded(places: 2)
         
         XCTAssertEqual(percentage, 0.45)
     }

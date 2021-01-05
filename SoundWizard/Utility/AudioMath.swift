@@ -51,7 +51,7 @@ struct AudioMath {
      */
     static func freq(fromOctave octave: Octave,
                      baseOctaveFreq: Frequency = baseFrequency,
-                     rounded: Bool = true) -> Frequency {
+                     rounded: Bool = false) -> Frequency {
         var freq = baseOctaveFreq * pow(2, octave)
         if rounded {
             freq = freq.uiRounded
@@ -67,7 +67,7 @@ struct AudioMath {
         let octave = percent * octaves
         return AudioMath.freq(fromOctave: octave,
                                    baseOctaveFreq: range.lowerBound,
-                                   rounded: true)
+                                   rounded: uiRounded)
     }
         
     static func randomFreq(in range: FrequencyRange,

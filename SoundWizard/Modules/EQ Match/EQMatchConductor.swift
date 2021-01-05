@@ -64,10 +64,6 @@ class EQMatchConductor: GameConductor {
         conductor.patchIn(self)
     }
     
-    deinit {
-        print("eq match conductor deinit")
-    }
-    
     // MARK: - Methods
     
     // MARK: Internal

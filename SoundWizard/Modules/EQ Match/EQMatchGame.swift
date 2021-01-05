@@ -12,18 +12,17 @@ class EQMatchGame: ObservableObject, StandardGame {
     typealias TurnType = Turn
     
     var level: EQMatchLevel
+    var solutions: SolutionGenerator
     var conductor: EQMatchConductor?
-    
-    var practicing: Bool
-    var completionHandler: GameCompletionHandling
-
-    var turnsPerStage = 5
-    var timeBetweenTurns: Double = 1.2
-    private let baseOctaveErrorMultiplier: Double = 0.7
-    private let minOctaveDistanceBetweenSolutionFrequencies = 0.5
-    
+    let isPracticing: Bool
+    let completionHandler: GameCompletionHandling
     var scoreMultiplier = ScoreMultiplier()
     var lives = Lives()
+    
+    let gameStartDelay = 1.0
+    let turnsPerStage = 5
+    var timeBetweenTurns: Double = 1.2
+    private let baseOctaveErrorMultiplier: Double = 0.7
     
     @Published var turns = [Turn]() {
         didSet {
@@ -36,6 +35,7 @@ class EQMatchGame: ObservableObject, StandardGame {
             }
         }
     }
+    
     @Published var solutionFilterData = [EQBellFilterData]()
     
     @Published var guessFilterData = [EQBellFilterData]() {
@@ -67,7 +67,7 @@ class EQMatchGame: ObservableObject, StandardGame {
     
     // TODO: Determine whether this is constant for all levels
     var gainRange: ClosedRange<Double> {
-        return -9...9
+        return solutions.fullGainRange
     }
     
     var turnResult: Turn.Result? {
@@ -100,16 +100,20 @@ class EQMatchGame: ObservableObject, StandardGame {
         return pow(baseOctaveErrorMultiplier, Double(stage))
     }
     
-    init(level: EQMatchLevel, practice: Bool, completionHandler: GameCompletionHandling) {
+    init(level: EQMatchLevel,
+         practice: Bool,
+         completionHandler: GameCompletionHandling,
+         conductor: EQMatchConductor? = nil) {
         self.level = level
-        self.practicing = practice
-        self.guessFilterData = level.initialFilterData
+        self.solutions = SolutionGenerator(level: level)
+        self.isPracticing = practice
+        self.guessFilterData = solutions.solutionTemplate
         self.completionHandler = completionHandler
         self.conductor = EQMatchConductor(source: level.audioMetadata[0],
-                                          filterData: guessFilterData.auData)
+                                              filterData: guessFilterData.auData)
         
         startTurn()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + gameStartDelay) {
             self.conductor?.startPlaying()
         }
     }
@@ -119,8 +123,8 @@ class EQMatchGame: ObservableObject, StandardGame {
     // MARK: User Actions
     
     func startTurn() {
-        let solution = newSolution()
-        setupGuessData(for: solution)
+        let solution = solutions.nextSolution()
+        resetGuessData(for: solution)
         conductor?.update(solution: solution.auData)
         turns.append(Turn(number: turns.count, solution: solution, guessError: maxGuessError))
         solutionFilterData = solution
@@ -153,73 +157,20 @@ class EQMatchGame: ObservableObject, StandardGame {
     
     // MARK: Private Methods
     
-    private func setupGuessData(for solution: [EQBellFilterData]) {
-        for i in 0..<guessFilterData.count {
+    private func resetGuessData(for solution: [EQBellFilterData]) {
+        guessFilterData = solutions.solutionTemplate.enumerated().map { (index, filter) in
+            var filter = filter
+            
             switch level.format.mode {
-            case .free:
-                guessFilterData[i].gain = Gain.unity
-                guessFilterData[i].frequency = level.startFrequency(filterNumber: i)
-            case .fixedFrequency:
-                guessFilterData[i].gain = Gain.unity
             case .fixedGain:
-                let gain = solution[i].gain
-                guessFilterData[i].gain = gain
-                guessFilterData[i].dBGainRange = gain.dB...gain.dB
-                guessFilterData[i].frequency = level.startFrequency(filterNumber: i)
+                let gain = solution[index].gain
+                filter.gain = gain
+                filter.dBGainRange = gain.dB...gain.dB
+            default:
+                break
             }
+            
+            return filter
         }
     }
-    
-    // TODO: Prevent adjacent bands from generating random frequencies that are close
-    private func newSolution() -> [EQBellFilterData] {
-        var solution = guessFilterData
-        for i in 0..<solution.count {
-            solution[i].dBGainRange = gainRange
-            solution[i].shuffleGainToNonZeroInt()
-            solution[i].dBGainRange = -9...9 // TODO: Magic numbers
-            if level.variesFrequency {
-                if i > 0 {
-                    solution[i].shuffleFrequency(minOctaveDistance: minOctaveDistanceBetweenSolutionFrequencies,
-                                                 to: solution[i-1].frequency)
-                } else {
-                    solution[i].shuffleFrequency()
-                }
-            }
-        }
-        
-        return solution
-    }
-    
 }
-
-private extension EQBellFilterData {
-    mutating func shuffleGainToNonZeroInt() {
-        // Quit if range is 0...0
-        guard !(dBGainRange.lowerBound == 0 && dBGainRange.upperBound == 0) else {
-            return
-        }
-        
-        let dBValue = Int.random(in: Int(dBGainRange.lowerBound)...Int(dBGainRange.upperBound))
-        
-        // 0 dB would make it impossible to guess frequency
-        guard dBValue != 0 else {
-            shuffleGainToNonZeroInt()
-            return
-        }
-        gain.dB = Double(dBValue)
-    }
-    
-    mutating func shuffleFrequency(minOctaveDistance: Double? = nil, to otherFreq: Frequency? = nil) {
-        frequency = Frequency.random(in: frequencyRange, disfavoring: frequency, repelEdges: true)
-        
-        // If adjacent bands have very close frequencies, the game quality suffers, so reshuffle
-        if let minDistance = minOctaveDistance,
-           let otherFreq = otherFreq,
-           abs(otherFreq.octaves(to: frequency)) < minDistance {
-            print(otherFreq.octaves(to: frequency))
-            shuffleFrequency(minOctaveDistance: minDistance * 0.95, to: otherFreq)
-        }
-    }
-    
-}
-

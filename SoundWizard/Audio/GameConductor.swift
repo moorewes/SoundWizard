@@ -43,11 +43,11 @@ class Conductor {
     
     func start() {
         guard !engine.avEngine.isRunning else { return }
+        configure()
         
         engine.avEngine.prepare()
         do {
             try engine.start()
-            print(engine.connectionTreeDescription)
         } catch let err {
             print(err)
             fatalError("couldn't start engine")
@@ -66,7 +66,6 @@ class Conductor {
         mixer.addInput(gameConductor.outputFader)
         self.gameConductor = gameConductor
         start()
-        print(engine.connectionTreeDescription)
     }
     
     func fireScoreFeedback(successLevel: ScoreSuccess) {
@@ -83,6 +82,15 @@ class Conductor {
     }
     
     // MARK: Private
+    
+    private func configure() {
+        do {
+            try Settings.setSession(category: .playback)
+        } catch {
+            print(error.localizedDescription)
+        }
+        Settings.bluetoothOptions = .allowBluetoothA2DP
+    }
     
     private func play(_ buffer: AVAudioPCMBuffer) {
         fxPlayer.stop()
@@ -104,7 +112,7 @@ class Conductor {
             // FIXME: Following line causes crash, but only when node
             // is a dryWet mixer.
 //            mixer.removeInput(node)
-            print("A node should have been removed and released, but wasn't: ", node.connectionTreeDescription)
+            print("A node should have been removed and released, but wasn't")
         }
         gameConductor = nil
     }    
