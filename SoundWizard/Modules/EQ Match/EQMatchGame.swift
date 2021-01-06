@@ -40,7 +40,12 @@ class EQMatchGame: ObservableObject, StandardGame {
     
     @Published var guessFilterData = [EQBellFilterData]() {
         didSet {
-            conductor?.update(guess: guessFilterData.auData)
+            let data: [EQBellFilterData] = guessFilterData.map { data in
+                var data = data
+                data.frequency = data.frequency.uiRounded
+                return data
+            }
+            conductor?.update(guess: data.auData)
         }
     }
     
@@ -124,8 +129,9 @@ class EQMatchGame: ObservableObject, StandardGame {
     
     func startTurn() {
         let solution = solutions.nextSolution()
+        print(solution)
         resetGuessData(for: solution)
-        conductor?.update(solution: solution.auData)
+        conductor?.update(solution: solutionAUData(filters: solution))
         turns.append(Turn(number: turns.count, solution: solution, guessError: maxGuessError))
         solutionFilterData = solution
         filterMode = .solution
@@ -156,6 +162,14 @@ class EQMatchGame: ObservableObject, StandardGame {
     }
     
     // MARK: Private Methods
+    
+    private func solutionAUData(filters: [EQBellFilterData]) -> [AUBellFilterData] {
+        filters.map { filter in
+            var filter = filter
+            filter.gain.dB *= -1
+            return filter
+        }.auData
+    }
     
     private func resetGuessData(for solution: [EQBellFilterData]) {
         guessFilterData = solutions.solutionTemplate.enumerated().map { (index, filter) in

@@ -133,7 +133,7 @@ extension EQMatchGame {
                 range = lowerBound...range.upperBound
             }
             
-            let freq = Frequency.random(in: range, repelEdges: true)
+            let freq = Frequency.random(in: range, repelEdges: true).uiRounded
             return freq
         }
     }

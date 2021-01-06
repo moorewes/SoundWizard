@@ -24,6 +24,7 @@ class EQMatchConductor: GameConductor {
     // MARK: Private
     private let conductor = Conductor.master
     private let player: AudioPlayer
+    private var filters = [EqualizerFilter]()
     private var guessFilters = [EqualizerFilter]()
     private var solutionFilters = [EqualizerFilter]()
     private var guessFilterData: [AUBellFilterData]!
@@ -43,23 +44,29 @@ class EQMatchConductor: GameConductor {
         self.solutionFilterData = filterData
         self.outputFader = Fader(player)
         
+        let filterCount = filterData.count * 2
+        for i in 0..<filterCount {
+            let filter = EqualizerFilter(filters.last ?? player)
+            filters.append(filter)
+            if i < filterData.count {
+                solutionFilters.append(filter)
+            } else {
+                guessFilters.append(filter)
+            }
+        }
+        
         for data in filterData {
-            let guessFilter = EqualizerFilter(guessFilters.last ?? player)
-            let solutionFilter = EqualizerFilter(solutionFilters.last ?? player)
-            let filters = [guessFilter, solutionFilter]
             filters.forEach { filter in
                 filter.centerFrequency = data.frequency
                 filter.gain = data.gain
                 filter.bandwidth = data.frequency / data.q
             }
-            guessFilters.append(guessFilter)
-            solutionFilters.append(solutionFilter)
         }
         
-        filterMixer = DryWetMixer(guessFilters.last ?? player, solutionFilters.last ?? player)
+        filterMixer = DryWetMixer(player, filters.last ?? player)
         
         outputFader = Fader(filterMixer)
-                
+        print(outputFader!.connectionTreeDescription)
         player.volume = playerGain
         conductor.patchIn(self)
     }
@@ -96,9 +103,9 @@ class EQMatchConductor: GameConductor {
     func set(filterMode: EQMatchGame.FilterMode) {
         switch filterMode {
         case .guess:
-            filterMixer.balance = 0.0
-        case .solution:
             filterMixer.balance = 1.0
+        case .solution:
+            filterMixer.balance = 0.0
         }
     }
     
@@ -119,14 +126,21 @@ class EQMatchConductor: GameConductor {
     func update(solution: [AUBellFilterData]) {
         solutionFilterData = solution
         for (index, data) in solutionFilterData.enumerated() {
+            
             update(filter: solutionFilters[index], with: data)
         }
+        print((filters).map { $0.centerFrequency.description + ", " + $0.gain.description })
     }
     
     func update(filter: EqualizerFilter, with data: AUBellFilterData) {
-        filter.$centerFrequency.ramp(to: data.frequency, duration: rampTime)
-        filter.$bandwidth.ramp(to: data.frequency / data.q, duration: rampTime)
-        filter.$gain.ramp(to: data.gain, duration: rampTime)
+        //print("changing filter to", data)
+//        filter.$centerFrequency.ramp(to: data.frequency, duration: rampTime)
+//        filter.$bandwidth.ramp(to: data.frequency / data.q, duration: rampTime)
+//        filter.$gain.ramp(to: data.gain, duration: rampTime)
+        filter.centerFrequency = data.frequency
+        filter.gain = data.gain
+        filter.bandwidth = data.frequency / data.q
+        print((filters).map { $0.centerFrequency.description + ", " + $0.gain.description + ", " + $0.bandwidth.description })
     }
     
     // MARK: Private
