@@ -17,7 +17,7 @@ class EQMatchConductor: GameConductor {
     
     // MARK: Internal
     
-    var outputFader: Fader
+    var outputFader: Fader?
     
     lazy var playerGain: AUValue = Gain(dB: -12).auValue
         
@@ -28,7 +28,7 @@ class EQMatchConductor: GameConductor {
     private var solutionFilters = [EqualizerFilter]()
     private var guessFilterData: [AUBellFilterData]!
     private var solutionFilterData: [AUBellFilterData]!
-    private let buffer: AVAudioPCMBuffer
+    private let audio: AudioMetadata
     private var filterMixer: DryWetMixer!
     
     private let rampTime: AUValue = 0.05
@@ -37,7 +37,7 @@ class EQMatchConductor: GameConductor {
     // MARK: - Initializers
     
     init(source: AudioMetadata, filterData: [AUBellFilterData]) {
-        self.buffer = Cookbook.buffer(for: source.url)
+        self.audio = source
         self.player = AudioPlayer(url: source.url)!
         self.guessFilterData = filterData
         self.solutionFilterData = filterData
@@ -69,17 +69,20 @@ class EQMatchConductor: GameConductor {
     // MARK: Internal
     
     func startPlaying() {
-        player.buffer = buffer
-        player.isLooping = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double(rampTime)) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.setupPlayer()
             self.player.start()
             self.fadeIn()
         }
-        
+    }
+    
+    func setupPlayer() {
+        player.buffer = Cookbook.buffer(for: self.audio.url)
+        player.isLooping = true
     }
         
     func stopPlaying() {
-        fadeOutAndStop(duration: 2)
+        fadeOutAndStop(duration: 1.5)
     }
     
     func mute(_ muted: Bool) {
@@ -102,8 +105,8 @@ class EQMatchConductor: GameConductor {
     func setDim(dimmed: Bool) {
         let gain = dimmed ? dimVolume : 1
         
-        outputFader.$leftGain.ramp(to: gain, duration: 0.3)
-        outputFader.$rightGain.ramp(to: gain, duration: 0.3)
+        outputFader?.$leftGain.ramp(to: gain, duration: 0.3)
+        outputFader?.$rightGain.ramp(to: gain, duration: 0.3)
     }
     
     func update(guess: [AUBellFilterData]) {
@@ -139,13 +142,13 @@ class EQMatchConductor: GameConductor {
     private func fade(fadeIn: Bool) {
         let gain: AUValue = fadeIn ? 1 : 0
         
-        outputFader.$leftGain.ramp(to: gain, duration: 0.3)
-        outputFader.$rightGain.ramp(to: gain, duration: 0.3)
+        outputFader?.$leftGain.ramp(to: gain, duration: 0.3)
+        outputFader?.$rightGain.ramp(to: gain, duration: 0.3)
     }
     
     private func fadeOutAndStop(duration: Float) {
-        outputFader.$leftGain.ramp(to: 0, duration: duration)
-        outputFader.$rightGain.ramp(to: 0, duration: duration)
+        outputFader?.$leftGain.ramp(to: 0, duration: duration)
+        outputFader?.$rightGain.ramp(to: 0, duration: duration)
         DispatchQueue.main.asyncAfter(deadline: .now() + Double(duration)) { [weak self] in
             self?.tearDown()
         }
@@ -153,12 +156,17 @@ class EQMatchConductor: GameConductor {
     
     private func tearDown() {
         player.stop()
+        player.buffer = nil
+        player.reset()
         for filter in guessFilters {
+            filter.internalAU?.stop()
             filter.stop()
         }
         for filter in solutionFilters {
+            filter.internalAU?.stop()
             filter.stop()
         }
+        outputFader = nil
         
         conductor.endGame()
     }

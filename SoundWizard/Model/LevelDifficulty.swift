@@ -14,9 +14,9 @@ enum LevelDifficulty: Int, CaseIterable, Identifiable, UIDescribing {
     
     var uiDescription: String {
         switch self {
-        case .easy: return "Easy"
-        case .moderate: return "Moderate"
-        case .hard: return "Hard"
+        case .easy: return "Beginner"
+        case .moderate: return "Intermediate"
+        case .hard: return "Expert"
         case .custom: return "Custom"
         }
     }

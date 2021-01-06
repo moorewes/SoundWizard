@@ -19,32 +19,32 @@ struct PreGameView: View {
                 .padding()
             
             topScore
-                .padding(.bottom, 50)
+                //.padding(.bottom)
                         
             stars
-            
-            Spacer()
-                        
+                .padding()
+                                    
             instructionView()
                 .foregroundColor(.lightGray)
                 .padding(.horizontal, 50)
-            
-            Spacer()
+                .padding(.vertical, 30)
+                
             
             PlayButton(title: "PLAY") {
                 gameHandler.play()
             }
+            .padding(.vertical, 20)
             
             PlayButton(title: "PRACTICE") {
                 gameHandler.practice()
             }
-            .padding(EdgeInsets(top: 20, leading: 10, bottom: 40, trailing: 10))
+            .padding(.bottom, 20)
         }
     }
     
     private var topScore: some View {
         MovingCounter(number: level.scoreData.topScore,
-                      font: .mono(.largeTitle, sizeModifier: 16),
+                      font: .mono(.largeTitle, sizeModifier: 0),
                       duration: 1.5)
     }
     
@@ -52,10 +52,8 @@ struct PreGameView: View {
         HStack(spacing: 0) {
             Spacer()
             ForEach(0..<3) { i in
-                if i > 0 {
-                    Spacer()
-                }
                 star(number: i + 1)
+                    .padding(.horizontal)
             }
             Spacer()
         }
@@ -65,8 +63,8 @@ struct PreGameView: View {
         let isEarned = level.scoreData.starsEarned >= number
         return VStack {
             Star(filled: isEarned, number: number, animated: false)
-                .font(.system(size: 42))
-                .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8))
+                .font(.system(size: 30))
+                .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                         
             Text("\(level.scoreData.starScores[number - 1])")
                 .foregroundColor(.teal)
@@ -91,6 +89,6 @@ struct PreGameView: View {
 
 struct PreGameView_Previews: PreviewProvider {
     static var previews: some View {
-        PreGameView(level: TestData.eqdLevel, gameHandler: TestData.GameStartHandler())
+        PreGameView(level: TestData.eqMatchLevel, gameHandler: TestData.GameStartHandler())
     }
 }

@@ -9,21 +9,14 @@ import SwiftUI
 
 class EQMatchLevelStore: ObservableObject, LevelBrowsingStore {
     @Published var levels: [EQMatchLevel]
-    @Published var difficultySelection: LevelDifficulty = .easy
-    @Published var bandCountSelection: BandCount = .single
-    @Published var modeSelection: EQMatchLevel.Mode = .free
     
-    func filteredLevels(with focus: BandFocus) -> [EQMatchLevel] {
-        let format = EQMatchLevel.Format(mode: modeSelection, bandCount: bandCountSelection, bandFocus: focus)
-        return levels.filter { $0.format == format && $0.difficulty == difficultySelection }
+    func filteredLevels(format: EQMatchLevel.Format) -> [EQMatchLevel] {
+        levels.filter {
+            $0.format == format
+        }
     }
     
     init(levels: [EQMatchLevel]) {
         self.levels = levels
     }
-    
-    // TODO: Deinit called when game shell starts
-    deinit {
-        print("deinit eqmatchelevelstore")
-    }    
 }

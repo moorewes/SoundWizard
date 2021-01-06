@@ -12,6 +12,7 @@ class StateController: ObservableObject {
     private let levelStore: LevelFetching & LevelStoring
     
     private var allLevels = [Level]()
+    
     var dailyLevels: [Level] {
         let eqmLevels = levels(for: .eqMatch)
         var result = [Level]()
@@ -20,7 +21,6 @@ class StateController: ObservableObject {
             result.append(eqmLevels[int])
         }
         return result
-        //Array(allLevels.shuffled().prefix(5))
     }
     
     var levelBrowsingStore: LevelBrowsingStore?
@@ -127,6 +127,7 @@ extension StateController: GameTransitionHandling {
     
     private func deselectLevel() {
         gameHandler = nil
+        Conductor.master.stop()
     }
         
 }

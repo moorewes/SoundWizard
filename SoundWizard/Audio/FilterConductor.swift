@@ -10,7 +10,7 @@ import AudioKit
 import AVFoundation
 
 protocol GameConductor {
-    var outputFader: Fader { get }
+    var outputFader: Fader? { get }
     func startPlaying()
     func stopPlaying()
 }
@@ -21,7 +21,7 @@ class EQDetectiveConductor: GameConductor {
     
     private(set) var filterGain: Gain
     private(set) var filterQ: AUValue
-    let outputFader: Fader
+    let outputFader: Fader?
     
     lazy var volume: AUValue = Gain(dB: -8).auValue
     
@@ -97,8 +97,8 @@ class EQDetectiveConductor: GameConductor {
     func setDim(dimmed: Bool) {
         let gain = dimmed ? dimVolume : volume
         
-        outputFader.$leftGain.ramp(to: gain, duration: 0.3)
-        outputFader.$rightGain.ramp(to: gain, duration: 0.3)
+        outputFader?.$leftGain.ramp(to: gain, duration: 0.3)
+        outputFader?.$rightGain.ramp(to: gain, duration: 0.3)
     }
         
     func set(filterFreq: AUValue) {
@@ -133,13 +133,13 @@ class EQDetectiveConductor: GameConductor {
     }
     
     private func fade(to gain: AUValue) {
-        outputFader.$leftGain.ramp(to: gain, duration: 0.3)
-        outputFader.$rightGain.ramp(to: gain, duration: 0.3)
+        outputFader?.$leftGain.ramp(to: gain, duration: 0.3)
+        outputFader?.$rightGain.ramp(to: gain, duration: 0.3)
     }
     
     private func fadeOutAndStop(duration: Float) {
-        outputFader.$leftGain.ramp(to: 0, duration: duration)
-        outputFader.$rightGain.ramp(to: 0, duration: duration)
+        outputFader?.$leftGain.ramp(to: 0, duration: duration)
+        outputFader?.$rightGain.ramp(to: 0, duration: duration)
         
         DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + Double(duration)) { [weak self] in
             self?.player.stop()

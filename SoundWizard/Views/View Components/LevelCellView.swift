@@ -17,7 +17,7 @@ struct LevelCellView: View {
                 Spacer()
                 
                 Text(title)
-                    .font(.mono(.footnote))
+                    .font(.std(.footnote))
                     .foregroundColor(.teal)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 8)

@@ -18,3 +18,9 @@ enum BandCount: Int, CaseIterable, UIDescribing {
         }
     }
 }
+
+extension BandCount: Comparable {
+    static func < (lhs: BandCount, rhs: BandCount) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+}

@@ -99,6 +99,8 @@
 		DE7C9E7325880210009308AC /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7C9E7225880210009308AC /* Appearance.swift */; };
 		DE7C9E7825880A27009308AC /* RoundedRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7C9E7725880A27009308AC /* RoundedRectButton.swift */; };
 		DE7C9E7D258855A5009308AC /* ScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7C9E7C258855A5009308AC /* ScoreData.swift */; };
+		DE86DD0825A53572006DADEC /* EQMatchLevelBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE86DD0725A53572006DADEC /* EQMatchLevelBuilderView.swift */; };
+		DE86DD1025A5565B006DADEC /* DetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE86DD0F25A5565B006DADEC /* DetailRow.swift */; };
 		DE88E0AA258409CA006D73FA /* EQDetectiveLevel+BundleLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE88E0A9258409CA006D73FA /* EQDetectiveLevel+BundleLevels.swift */; };
 		DE88E0C025842664006D73FA /* EQDetectiveLevelBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE70709C255F5BEB0068B808 /* EQDetectiveLevelBrowser.swift */; };
 		DE8BA67C25801F01004090E3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8BA67B25801F01004090E3 /* MainTabView.swift */; };
@@ -122,6 +124,7 @@
 		DEA119F6257987EC00F17FCC /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA119F5257987EC00F17FCC /* Scratchpad.swift */; };
 		DEA6119525A3C53E00C4C035 /* EQMatchGame+SolutionGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA6119425A3C53E00C4C035 /* EQMatchGame+SolutionGenerator.swift */; };
 		DEB1C18C257034C10075BAEE /* OctaveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB1C18B257034C10075BAEE /* OctaveTests.swift */; };
+		DEB28B9825A5037900054AE4 /* EQMatchLevel+Formats.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB28B9725A5037900054AE4 /* EQMatchLevel+Formats.swift */; };
 		DEBB785C257F1E8E000B9064 /* FrequencyGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBB785B257F1E8E000B9064 /* FrequencyGraph.swift */; };
 		DEBEDC3F25671B0C0019165E /* SoundFXManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBEDC3E25671B0C0019165E /* SoundFXManager.swift */; };
 		DEBEDC4925671D630019165E /* TurnResult_Great.wav in Resources */ = {isa = PBXBuildFile; fileRef = DEBEDC4525671D630019165E /* TurnResult_Great.wav */; };
@@ -274,6 +277,8 @@
 		DE7C9E7225880210009308AC /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		DE7C9E7725880A27009308AC /* RoundedRectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedRectButton.swift; sourceTree = "<group>"; };
 		DE7C9E7C258855A5009308AC /* ScoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreData.swift; sourceTree = "<group>"; };
+		DE86DD0725A53572006DADEC /* EQMatchLevelBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMatchLevelBuilderView.swift; sourceTree = "<group>"; };
+		DE86DD0F25A5565B006DADEC /* DetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRow.swift; sourceTree = "<group>"; };
 		DE88E0A9258409CA006D73FA /* EQDetectiveLevel+BundleLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQDetectiveLevel+BundleLevels.swift"; sourceTree = "<group>"; };
 		DE8BA67B25801F01004090E3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		DE8BA68325802046004090E3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -295,6 +300,7 @@
 		DEA119F5257987EC00F17FCC /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		DEA6119425A3C53E00C4C035 /* EQMatchGame+SolutionGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQMatchGame+SolutionGenerator.swift"; sourceTree = "<group>"; };
 		DEB1C18B257034C10075BAEE /* OctaveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctaveTests.swift; sourceTree = "<group>"; };
+		DEB28B9725A5037900054AE4 /* EQMatchLevel+Formats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQMatchLevel+Formats.swift"; sourceTree = "<group>"; };
 		DEBB785B257F1E8E000B9064 /* FrequencyGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyGraph.swift; sourceTree = "<group>"; };
 		DEBEDC3E25671B0C0019165E /* SoundFXManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundFXManager.swift; sourceTree = "<group>"; };
 		DEBEDC4525671D630019165E /* TurnResult_Great.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = TurnResult_Great.wav; sourceTree = "<group>"; };
@@ -399,6 +405,7 @@
 				DEBB785B257F1E8E000B9064 /* FrequencyGraph.swift */,
 				DEBEDC50256737D40019165E /* MovingCounter.swift */,
 				DE8C78C52593BAFA00915C44 /* PickerRow.swift */,
+				DE86DD0F25A5565B006DADEC /* DetailRow.swift */,
 				DE8C78CA2593BB6400915C44 /* MultiPickerRow.swift */,
 				DED7086C25A445E4003C3B3D /* EnumPicker.swift */,
 				DE60C1AE256F284D00CB20C8 /* BackButton.swift */,
@@ -450,11 +457,12 @@
 				DE2E51AC257D71FB00F47DEE /* EQMatchGame.swift */,
 				DEA6119425A3C53E00C4C035 /* EQMatchGame+SolutionGenerator.swift */,
 				DE971219259ABE5500C6C399 /* EQMatchGame+FilterMode.swift */,
+				DEB28B9725A5037900054AE4 /* EQMatchLevel+Formats.swift */,
 				DE4264DF2599742B001B18ED /* EQMatchGame+Turn.swift */,
 				DE2E51B1257D730000F47DEE /* EQMatchConductor.swift */,
 				DE2E51B6257D81B200F47DEE /* EQMatchLevel.swift */,
 				DE93E86D25A3CE1500151CAD /* EQMatchLevel+GuessError.swift */,
-				DEA6118D25A3C41F00C4C035 /* Views */,
+				DEA6118D25A3C41F00C4C035 /* View */,
 			);
 			path = "EQ Match";
 			sourceTree = "<group>";
@@ -594,14 +602,15 @@
 			path = EQMatch;
 			sourceTree = "<group>";
 		};
-		DEA6118D25A3C41F00C4C035 /* Views */ = {
+		DEA6118D25A3C41F00C4C035 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				DE2E51A4257D71C600F47DEE /* EQMatchGameplayView.swift */,
 				DE4C4A14259CE0EA00273048 /* EQMatchLevelBrowser.swift */,
+				DE86DD0725A53572006DADEC /* EQMatchLevelBuilderView.swift */,
 				DE2E51DB257DB10300F47DEE /* EQMatchInstructionView.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		DEBEDC4325671D370019165E /* FX */ = {
@@ -969,6 +978,7 @@
 				DE3392302589B31B00ECE7A7 /* StarProgress.swift in Sources */,
 				DEBEDC51256737D40019165E /* MovingCounter.swift in Sources */,
 				DE624AE5258192A200253D83 /* ImportedAudioView.swift in Sources */,
+				DE86DD0825A53572006DADEC /* EQMatchLevelBuilderView.swift in Sources */,
 				DE93E86E25A3CE1500151CAD /* EQMatchLevel+GuessError.swift in Sources */,
 				DE8BA689258027FE004090E3 /* LevelPicker.swift in Sources */,
 				DE8BA67C25801F01004090E3 /* MainTabView.swift in Sources */,
@@ -1025,6 +1035,7 @@
 				DEC18681254A3A1A00D730CC /* FilterConductor.swift in Sources */,
 				DE6DB1152579D656004D654B /* GameConductor.swift in Sources */,
 				DE8BA68425802046004090E3 /* HomeView.swift in Sources */,
+				DE86DD1025A5565B006DADEC /* DetailRow.swift in Sources */,
 				DE6E07B6258C563500AB2140 /* LevelBrowser.swift in Sources */,
 				DE88E0C025842664006D73FA /* EQDetectiveLevelBrowser.swift in Sources */,
 				DE3392282589A97A00ECE7A7 /* GameItem.swift in Sources */,
@@ -1055,6 +1066,7 @@
 				DE9CE8622575EBB10023806C /* LevelDifficulty.swift in Sources */,
 				DE3392232589A93900ECE7A7 /* NavigationBarItems.swift in Sources */,
 				DE1F19D82564778000CF923A /* PreGameView.swift in Sources */,
+				DEB28B9825A5037900054AE4 /* EQMatchLevel+Formats.swift in Sources */,
 				DE57EBF52595BE7200C35DE7 /* EQMatchGameplayView.swift in Sources */,
 				DEA6119525A3C53E00C4C035 /* EQMatchGame+SolutionGenerator.swift in Sources */,
 				DE4264D325994860001B18ED /* ValuesRow.swift in Sources */,

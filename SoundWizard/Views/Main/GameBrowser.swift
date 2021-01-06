@@ -23,8 +23,14 @@ struct GameBrowser: View {
                 }
                 .listRowBackground(Color.secondaryBackground)
             }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Games")
+                        .font(.std(.title2))
+                        .foregroundColor(.teal)
+                }
+            }
             .listStyle(InsetGroupedListStyle())
-            .navigationBarTitle("Games", displayMode: .inline)
             .navigationBarItems(trailing: settingsBarItem)
         }
     }
@@ -37,7 +43,8 @@ struct GameBrowser: View {
 
 struct GamesUIView_Previews: PreviewProvider {
     static var previews: some View {
-        GameBrowser(gameItems: [GameItem(game: .eqDetective, stars: StarProgress(total: 12, earned: 8))])
+        GameBrowser(gameItems: [GameItem(game: .eqDetective,
+                                         stars: StarProgress(total: 12, earned: 8))])
     }
 }
 

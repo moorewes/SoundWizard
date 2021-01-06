@@ -17,9 +17,18 @@ struct LevelBrowser: View {
             EQDetectiveLevelBrowser(levels: stateController.levels(),
                                     selectionHandler: stateController.openLevel)
         case .eqMatch:
-            EQMatchLevelBrowser(levels: stateController.levels(),
-                                launchAction: stateController.openLevel)
+            eqMatchLevelBrowser
+                .onDisappear {
+                    stateController.levelBrowsingStore = nil
+                }
         }
+    }
+    
+    private var eqMatchLevelBrowser: some View {
+        let store = EQMatchLevelStore(levels: stateController.levels())
+        stateController.levelBrowsingStore = store
+        
+        return EQMatchLevelBrowser(store: store, launch: stateController.openLevel)
     }
 }
 

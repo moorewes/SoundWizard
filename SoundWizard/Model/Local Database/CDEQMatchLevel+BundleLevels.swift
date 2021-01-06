@@ -31,20 +31,24 @@ extension CDEQMatchLevel {
     class func generateDBLevels(for sources: [AudioSource], context: NSManagedObjectContext) {
         var index = 1
         for source in sources {
-            for focus in BandFocus.allCases {
-                for mode in EQMatchLevel.Mode.allCases {
+            let diffs: [LevelDifficulty] = [.easy, .moderate, .hard]
+            for difficulty in diffs {
+                for focus in BandFocus.allCases {
                     for bandCount in BandCount.allCases {
-                        let format = EQMatchLevel.Format(mode: mode, bandCount: bandCount, bandFocus: focus)
-                        let scoreData = EQMatchLevel.initialScoreData(difficulty: .easy)
-                        var level = EQMatchLevel(id: "",
-                                                 number: index,
-                                                 audioMetadata: [],
-                                                 difficulty: .easy,
-                                                 format: format,
-                                                 scoreData: scoreData)
-                        level.setStockID(audioSources: [source])
-                        CDEQMatchLevel.createNew(level: level, audioSources: [source], context: context)
-                        index += 1
+                        let modes = EQMatchLevel.supportedModes(difficulty: difficulty, bandCount: bandCount)
+                        for mode in modes {
+                            let format = EQMatchLevel.Format(mode: mode, bandCount: bandCount, bandFocus: focus)
+                            let scoreData = EQMatchLevel.initialScoreData(difficulty: .easy)
+                            var level = EQMatchLevel(id: "",
+                                                     number: index,
+                                                     audioMetadata: [],
+                                                     difficulty: difficulty,
+                                                     format: format,
+                                                     scoreData: scoreData)
+                            level.setStockID(audioSources: [source])
+                            CDEQMatchLevel.createNew(level: level, audioSources: [source], context: context)
+                            index += 1
+                        }
                     }
                 }
             }
@@ -58,6 +62,17 @@ extension CDEQMatchLevel {
             print(error.localizedDescription)
         }
     }
+
+    
+    
+//    private class func bandFoci(for difficulty: LevelDifficulty) -> [BandFocus] {
+//        var foci = [BandFocus.all]
+//        switch difficulty {
+//        case .hard, .custom:
+//            foci = BandFocus.allCases
+//        case .moderate
+//        }
+//    }
 }
 
 private extension EQMatchLevel {

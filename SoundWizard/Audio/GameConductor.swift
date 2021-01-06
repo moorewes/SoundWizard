@@ -25,7 +25,7 @@ class Conductor {
     private let fxPlayer = AudioPlayer()
     private let mixer: Mixer
     private var gameConductor: GameConductor?
-    private var volume: AUValue = Gain(dB: -12).auValue
+    private var volume: AUValue = Gain(dB: -20).auValue
     
     // MARK: - Initializers
     
@@ -54,6 +54,11 @@ class Conductor {
         }
     }
     
+    func stop() {
+        guard engine.avEngine.isRunning else { return }
+        engine.stop()
+    }
+    
     func pauseEngine() {
         self.engine.avEngine.pause()
     }
@@ -63,7 +68,7 @@ class Conductor {
     }
     
     func patchIn(_ gameConductor: GameConductor) {
-        mixer.addInput(gameConductor.outputFader)
+        mixer.addInput(gameConductor.outputFader!) // TODO: Remove !
         self.gameConductor = gameConductor
         start()
     }

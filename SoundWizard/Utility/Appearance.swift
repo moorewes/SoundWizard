@@ -63,9 +63,9 @@ extension UITabBar {
 
 extension UISegmentedControl {
     static func setCustomAppearance() {
-        UISegmentedControl.appearance().selectedSegmentTintColor = .systemTeal
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(.teal).withAlphaComponent(0.9)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black.withAlphaComponent(0.95)], for: .selected)
         UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.std(.subheadline)], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.std(.footnote)], for: .normal)
     }
 }
