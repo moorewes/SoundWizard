@@ -19,7 +19,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     var timeBetweenTurns: Double { testMode ? 0.2 : 1.2 }
     var completionHandler: GameCompletionHandling
     
-    private let baseOctaveErrorMultiplier: Double = 0.7
+    let baseErrorMultiplier: Double = 0.7
     
     // MARK: - Properties
 
@@ -90,11 +90,7 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     // MARK: Private
     
     private var octaveErrorRange: Octave {
-        return level.octaveErrorRange * octaveErrorMultiplier
-    }
-        
-    private var octaveErrorMultiplier: Octave {
-        return pow(baseOctaveErrorMultiplier, Double(stage))
+        return level.octaveErrorRange * guessErrorMultiplier
     }
     
     // MARK: - Initializers
@@ -185,7 +181,7 @@ extension EQDetectiveGame: FrequencySliderDataSource {
     }
     
     var octavesShaded: Double {
-        level.octaveErrorRange * octaveErrorMultiplier * 2 
+        level.octaveErrorRange * guessErrorMultiplier * 2 
     }
     
     var solutionFreq: Frequency? {

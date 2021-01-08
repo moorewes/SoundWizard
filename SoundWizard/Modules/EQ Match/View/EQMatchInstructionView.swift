@@ -42,7 +42,7 @@ struct EQMatchInstructionView: View {
     }
     
     private var cgFilters: CGFilters {
-        var filters = EQMatchGame.SolutionGenerator(level: level).solutionTemplate
+        var filters = level.normalledFilterData
         for (i, _) in filters.enumerated() {
             filters[i].gain.dB = 1
         }

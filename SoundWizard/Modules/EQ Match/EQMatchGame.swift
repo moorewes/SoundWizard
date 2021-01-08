@@ -11,19 +11,17 @@ class EQMatchGame: ObservableObject, StandardGame {
     typealias ConductorType = EQMatchConductor
     typealias TurnType = Turn
     
-    var level: EQMatchLevel
-    var solutions: SolutionGenerator
-    var conductor: EQMatchConductor?
     let isPracticing: Bool
     let completionHandler: GameCompletionHandling
+    
+    var level: EQMatchLevel
+    var engine: Engine
+    var conductor: EQMatchConductor?
     var scoreMultiplier = ScoreMultiplier()
     var lives = Lives()
     
-    let gameStartDelay = 1.0
-    let turnsPerStage = 5
-    var timeBetweenTurns: Double = 1.2
-    private let baseOctaveErrorMultiplier: Double = 0.7
-    
+    // MARK: Published Properties
+        
     @Published var turns = [Turn]() {
         didSet {
             guard let turn = turns.last else { return }
@@ -35,17 +33,10 @@ class EQMatchGame: ObservableObject, StandardGame {
             }
         }
     }
-    
-    @Published var solutionFilterData = [EQBellFilterData]()
-    
-    @Published var guessFilterData = [EQBellFilterData]() {
+        
+    @Published var rawGuess = [EQBellFilterData]() {
         didSet {
-            let data: [EQBellFilterData] = guessFilterData.map { data in
-                var data = data
-                data.frequency = data.frequency.uiRounded
-                return data
-            }
-            conductor?.update(guess: data.auData)
+            conductor?.update(guess: rawGuess.roundingFreqs.auData)
         }
     }
     
@@ -55,92 +46,26 @@ class EQMatchGame: ObservableObject, StandardGame {
         }
     }
     
-    var displayedFilterData: [EQBellFilterData] {
-        guard showingResults else { return guessFilterData }
-        
-        switch filterMode {
-        case .guess:
-            return guessFilterData
-        case .solution:
-            return solutionFilterData
-        }
-    }
-    
-    var frequencyRange: FrequencyRange {
-        level.format.bandFocus.range
-    }
-    
-    // TODO: Determine whether this is constant for all levels
-    var gainRange: ClosedRange<Double> {
-        return solutions.fullGainRange
-    }
-    
-    var turnResult: Turn.Result? {
-        turns.last?.result
-    }
-    
-    var solutionLineColor: Color {
-        guard let successLevel = turnResult?.score.successLevel else {
-            return .clear
-        }
-        return Color.successLevelColor(successLevel)
-    }
-    
-    var showingResults: Bool {
-        turns.last?.isComplete ?? false
-    }
-    
-    var actionButtonTitle: String {
-        !showingResults ? "SUBMIT" : lives.isDead ? "FINISH" : "NEXT"
-    }
-    
-    // MARK: Private
-    
-    private var maxGuessError: EQMatchLevel.GuessError {
-        level.guessError.applyingMultiplier(guessErrorMultiplier)
-    }
-    
-    // TODO: Can probably be refactored to default protocol implementation
-    private var guessErrorMultiplier: Octave {
-        return pow(baseOctaveErrorMultiplier, Double(stage))
-    }
+    // MARK: - Initializer
     
     init(level: EQMatchLevel,
          practice: Bool,
          completionHandler: GameCompletionHandling,
          conductor: EQMatchConductor? = nil) {
         self.level = level
-        self.solutions = SolutionGenerator(level: level)
+        self.engine = Engine(level: level)
         self.isPracticing = practice
-        self.guessFilterData = solutions.solutionTemplate
         self.completionHandler = completionHandler
         self.conductor = EQMatchConductor(source: level.audioMetadata[0],
-                                              filterData: guessFilterData.auData)
+                                          filterData: level.normalledFilterData.auData)
         
         startTurn()
-        DispatchQueue.main.asyncAfter(deadline: .now() + gameStartDelay) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Parameters.gameStartDelay) {
             self.conductor?.startPlaying()
         }
     }
-    
-    // MARK: - Methods
-    
-    // MARK: User Actions
-    
-    func startTurn() {
-        let solution = solutions.nextSolution()
-        print(solution)
-        resetGuessData(for: solution)
-        conductor?.update(solution: solutionAUData(filters: solution))
-        turns.append(Turn(number: turns.count, solution: solution, guessError: maxGuessError))
-        solutionFilterData = solution
-        filterMode = .solution
-    }
-    
-    func endTurn() {
-        turns[turns.count - 1].endTurn(guess: guessFilterData)
-        fireFeedback()
-    }
+        
+    // MARK: - User Actions
     
     func action() {
         if lives.isDead {
@@ -160,31 +85,89 @@ class EQMatchGame: ObservableObject, StandardGame {
     func stopAudio() {
         conductor?.stopPlaying()
     }
+}
+
+// MARK: Turns
+
+extension EQMatchGame: TurnBased {
+    var timeBetweenTurns: Double { Parameters.timeBetweenTurns }
     
-    // MARK: Private Methods
-    
-    private func solutionAUData(filters: [EQBellFilterData]) -> [AUBellFilterData] {
-        filters.map { filter in
-            var filter = filter
-            filter.gain.dB *= -1
-            return filter
-        }.auData
+    func startTurn() {
+        let data = engine.newTurn()
+        conductor?.update(solution: data.solution.auData)
+        rawGuess = data.baseGuess
+        
+        let error = level.guessError.applyingMultiplier(guessErrorMultiplier)
+        turns.append(Turn(number: turns.count, solution: data.solution, guessError: error))
+        
+        filterMode = .solution
     }
     
-    private func resetGuessData(for solution: [EQBellFilterData]) {
-        guessFilterData = solutions.solutionTemplate.enumerated().map { (index, filter) in
-            var filter = filter
-            
-            switch level.format.mode {
-            case .fixedGain:
-                let gain = solution[index].gain
-                filter.gain = gain
-                filter.dBGainRange = gain.dB...gain.dB
-            default:
-                break
-            }
-            
-            return filter
+    func endTurn() {
+        turns[turns.count - 1].endTurn(guess: rawGuess)
+        fireFeedback()
+    }
+}
+
+// MARK: - View Properties
+
+extension EQMatchGame {
+    var solutionFilterData: [EQBellFilterData] {
+        turns.last!.solution
+    }
+    
+    var displayedFilterData: [EQBellFilterData] {
+        guard showingResults else { return rawGuess }
+        
+        switch filterMode {
+        case .guess:
+            return rawGuess
+        case .solution:
+            return solutionFilterData
         }
+    }
+    
+    var frequencyRange: FrequencyRange {
+        level.format.bandFocus.range
+    }
+    
+    var gainRange: ClosedRange<Double> {
+        Parameters.fullGainRange
+    }
+    
+    var turnResult: Turn.Result? {
+        currentTurn?.result
+    }
+    
+    var solutionLineColor: Color {
+        guard let successLevel = turnResult?.score.successLevel else {
+            return .clear
+        }
+        return Color.successLevelColor(successLevel)
+    }
+    
+    var showingResults: Bool {
+        currentTurn?.isComplete ?? false
+    }
+    
+    var actionButtonTitle: String {
+        !showingResults ? "SUBMIT" : lives.isDead ? "FINISH" : "NEXT"
+    }
+}
+
+// MARK: - Stages
+
+extension EQMatchGame: StageBased {
+    var turnsPerStage: Int { Parameters.turnsPerStage }
+    var baseErrorMultiplier: Double { Parameters.baseErrorMultiplier }
+}
+
+// MARK: - Filter Mode
+
+extension EQMatchGame {
+    enum FilterMode: String, CaseIterable, Identifiable {
+        case solution, guess
+        
+        var id: String { rawValue }
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-import Foundation
+// MARK: - Score Based
 
 protocol ScoreBased {
     var turnScores: [Score] { get }
@@ -24,6 +24,8 @@ extension ScoreBased where Self: TurnBased {
     }
 }
 
+// MARK: - Turn Based
+
 protocol TurnBased {
     associatedtype TurnType: GameTurn
     
@@ -38,6 +40,8 @@ extension TurnBased  {
     }
 }
 
+// MARK: - Game Turn
+
 protocol GameTurn {
     var number: Int { get }
     var score: Score? { get }
@@ -49,13 +53,23 @@ extension GameTurn {
         return score != nil
     }
 }
+
+// MARK: - Stage Based
+
 protocol StageBased: TurnBased {
     var stage: Int { get }
     var turnsPerStage: Int { get }
+    var baseErrorMultiplier: Double { get }
 }
 
 extension StageBased {
     var stage: Int {
        (turns.count - 1) / turnsPerStage
+    }
+}
+
+extension StageBased where Self: ScoreBased {
+    var guessErrorMultiplier: Octave {
+        return pow(baseErrorMultiplier, Double(stage))
     }
 }

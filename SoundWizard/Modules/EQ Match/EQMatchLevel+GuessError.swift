@@ -21,15 +21,16 @@ extension EQMatchLevel {
             let octavesPerBand = level.format.bandFocus.octaveSpan /
                 Double(level.format.bandCount.rawValue)
             let includeGain = level.format.mode != .fixedGain
+            let includeFreq = level.format.mode != .fixedFrequency
             switch level.difficulty {
             case .easy, .custom:
-                octaves = level.variesFrequency ? octavesPerBand / 4 : nil
+                octaves = includeFreq ? octavesPerBand / 4 : nil
                 gain = includeGain ? Gain(dB: 6) : nil
             case .moderate:
-                octaves = level.variesFrequency ? octavesPerBand / 5 : nil
+                octaves = includeFreq ? octavesPerBand / 5 : nil
                 gain = includeGain ? Gain(dB: 5) : nil
             case .hard:
-                octaves = level.variesFrequency ? octavesPerBand / 6 : nil
+                octaves = includeFreq ? octavesPerBand / 6 : nil
                 gain = includeGain ? Gain(dB: 4) : nil
             }
         }

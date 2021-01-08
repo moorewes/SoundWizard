@@ -23,8 +23,6 @@ struct EQMatchLevel: Level {
     var staticGainValues: [Double]?
     
     lazy var guessError = GuessError(level: self)
-    
-    var variesFrequency: Bool { format.mode != .fixedFrequency }
 }
 
 extension EQMatchLevel {

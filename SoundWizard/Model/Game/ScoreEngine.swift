@@ -8,7 +8,6 @@
 import Foundation
 
 enum ScoreEngine {
-    
     static func score(guess: Frequency, solution: Frequency, maxOctaveError: Double) -> Score {
         let error = abs(guess.octaves(to: solution))
         let scoreRatio = 1 - error / maxOctaveError

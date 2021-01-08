@@ -88,6 +88,10 @@ extension Frequency {
         return log(self / otherFreq) / log(2.0)
     }
     
+    func addingOctave(_ octave: Octave) -> Frequency {
+        AudioMath.freq(fromOctave: octave, baseOctaveFreq: self, rounded: false)
+    }
+    
     func octavePercentage(in range: FrequencyRange) -> Double? {
         let octave = AudioMath.octave(fromFreq: self, baseOctaveFreq: range.lowerBound)
         let upperOctave = AudioMath.octave(fromFreq: range.upperBound, baseOctaveFreq: range.lowerBound)

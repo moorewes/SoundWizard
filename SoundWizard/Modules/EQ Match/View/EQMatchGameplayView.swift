@@ -29,11 +29,11 @@ struct EQMatchGameplayView: View {
                 .padding(.top, 40)
                 .opacity(game.showingResults ? 0 : 0)
             
-            FilterInfo(guesses: game.guessFilterData, results: game.turnResult)
+            FilterInfo(guesses: game.rawGuess, results: game.turnResult)
                 .padding(.top, 40)
 
             ZStack {
-                InteractiveEQPlot(filters: $game.guessFilterData,
+                InteractiveEQPlot(filters: $game.rawGuess,
                                   frequencyRange: game.frequencyRange,
                                   gainRange: game.gainRange)
                     .padding(.bottom, 20)

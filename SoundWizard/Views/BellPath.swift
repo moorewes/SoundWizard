@@ -10,7 +10,7 @@ import SwiftUI
 struct BellPath: View {
     let filters: CGFilters
     var filled: Bool = true
-    var strokeColor: Color = .white
+    var strokeColor: Color = Design.strokeColor
     
     var body: some View {
         GeometryReader { geometry in
@@ -26,10 +26,10 @@ struct BellPath: View {
                 }
                 
                 linePath(size: geometry.size)
-                    .stroke(strokeColor.opacity(0.8), lineWidth: 2)
+                    .stroke(strokeColor, lineWidth: Design.curveLineWidth)
                 
                 separatorPath(size: geometry.size)
-                    .stroke(Color.teal.opacity(0.2), lineWidth: 1)
+                    .stroke(Design.bandSeparatorColor, lineWidth: Design.bandSeparatorWidth)
             }
         }
     }
@@ -74,33 +74,33 @@ struct BellPath: View {
     }
     
     func yOffset(for filter: CGFilterData, x: CGFloat, size: CGSize) -> CGFloat {
-        // Curve height
-        let a = 2 * (filter.y - 0.5) * size.height / 2
-        // Curve center x
-        let b = size.width * filter.x
-        // Curve width
-        let c = size.width / filter.q / 6
+        let a = 2 * (filter.y - 0.5) * size.height / 2  // Curve height
+        let b = size.width * filter.x                   // Curve center x
+        let c = size.width / filter.q / 6               // Curve width
 
         return -a * exp(-pow(x - b, 2) / (2 * pow(c, 2)))
     }
     
     private func gradient(for index: Int) -> Gradient {
-        let color = self.color(for: index)
+        let color = Design.fillColor(index: index)
         return Gradient(stops: [
             Gradient.Stop(color: color, location: 0),
             Gradient.Stop(color: color.opacity(0.5), location: 0.5),
             Gradient.Stop(color: color, location: 1)
         ])
     }
-    
-    private func color(for index: Int) -> Color {
-        switch index {
-        case 0:
-            return Color.teal
-        case 1:
-            return Color(red: 0.6, green: 0.3, blue: 0.8, opacity: 1)
-        default:
-            return Color(red: 0.8, green: 0.7, blue: 0.1)
+}
+
+extension BellPath {
+    enum Design {
+        static let strokeColor = Color.white
+        static let bandSeparatorColor = Color.teal.opacity(0.2)
+        
+        static let curveLineWidth: CGFloat = 2.0
+        static let bandSeparatorWidth: CGFloat = 1.0
+        
+        static func fillColor(index: Int) -> Color {
+            Color.eqBandFillColor(index: index)
         }
     }
 }
