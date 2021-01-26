@@ -62,30 +62,31 @@ extension CDEQMatchLevel {
             print(error.localizedDescription)
         }
     }
-
-    
-    
-//    private class func bandFoci(for difficulty: LevelDifficulty) -> [BandFocus] {
-//        var foci = [BandFocus.all]
-//        switch difficulty {
-//        case .hard, .custom:
-//            foci = BandFocus.allCases
-//        case .moderate
-//        }
-//    }
 }
 
 private extension EQMatchLevel {
     mutating func setStockID(audioSources: [AudioSource]) {
         let sourceString = audioSources.count == 1 ?
             audioSources.first!.name :
-            "multipleAudioSources"
-        id = "stock" +
-            number.description +
-            difficulty.uiDescription +
-            format.mode.uiDescription +
-            format.bandCount.uiDescription +
-            format.bandCount.uiDescription +
-            sourceString
+            "MultipleAudioSources"
+        id = game.name.idFormatted +
+            "Stock".idFormatted +
+            number.description.idFormatted +
+            difficulty.uiDescription.idFormatted +
+            format.mode.uiDescription.idFormatted +
+            format.bandCount.uiDescription.idFormatted +
+            format.bandCount.uiDescription.idFormatted +
+            sourceString.idFormatted
+        id.removeLast()
+    }
+}
+
+private extension String {
+    /// Remove whitespace and append a "."
+    var idFormatted: String {
+        var string = self
+        string.removeAll { $0 == " " }
+        string.append(".")
+        return string
     }
 }

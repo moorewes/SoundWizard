@@ -37,9 +37,9 @@ struct ImportedAudioView: View {
             .navigationBarTitle("Imported Audio", displayMode: .inline)
             .navigationBarItems(trailing: addButton)
 
-            
             Spacer()
         }
+        .background(Gradient.background.ignoresSafeArea())
         .fileImporter(isPresented: $showFileImporter, allowedContentTypes: [.audio]) { result in
             do {
                 fileURL = try result.get()

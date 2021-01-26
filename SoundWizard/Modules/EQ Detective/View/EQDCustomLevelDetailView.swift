@@ -80,7 +80,6 @@ struct EQDCustomLevelDetailView_Previews: PreviewProvider {
         //UITableViewCell.appearance()
         return NavigationView {
             EQDCustomLevelDetailView(level: EQDLevel.newCustomLevel()) {_ in }
-                .primaryBackground()
         }
         
     }

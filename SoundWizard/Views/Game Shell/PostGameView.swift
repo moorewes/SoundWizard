@@ -72,7 +72,7 @@ struct PostGameView: View {
         let shouldAnimate = animationIndex != nil
         
         return VStack {
-            Star(filled: isEarned, number: number, animated: shouldAnimate, animationDelay: animationDelay)
+            AnimatedStar(filled: isEarned, number: number, animated: shouldAnimate, animationDelay: animationDelay)
                 .font(.system(size: 42))
                 .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
                         

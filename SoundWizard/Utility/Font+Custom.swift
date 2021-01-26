@@ -17,6 +17,13 @@ extension Font {
         let fontData = style.stdFontData
         return Font.custom(fontData.name, size: fontData.size + sizeModifier, relativeTo: style)
     }
+    
+    static func stdBlack(style: TextStyle) -> Font {
+        let name = "WorkSans-Bold"
+        let size = style.stdFontData.size
+        
+        return Font.custom(name, size: size, relativeTo: style)
+    }
 }
 
 extension UIFont {
@@ -66,13 +73,13 @@ extension Font.TextStyle {
         case .body:
             return ("WorkSans-Regular", 18)
         case .largeTitle:
-            return ("WorkSans-SemiBold", 32)
+            return ("WorkSans-Bold", 32)
         case .title:
-            return ("WorkSans-SemiBold", 28)
+            return ("WorkSans-Bold", 28)
         case .title2:
-            return ("WorkSans-SemiBold", 24)
+            return ("WorkSans-Bold", 24)
         case .title3:
-            return ("WorkSans-SemiBold", 22)
+            return ("WorkSans-Bold", 22)
         case .headline:
             return ("WorkSans-SemiBold", 18)
         case .subheadline:

@@ -36,7 +36,7 @@ struct LevelCellView: View {
     var starsView: some View {
         HStack {
             ForEach(0..<stars.total) { i in
-                Star(filled: stars.earned > i, animated: false)
+                AnimatedStar(filled: stars.earned > i, animated: false)
                     .font(.system(size: 12))
             }
         }
@@ -44,6 +44,13 @@ struct LevelCellView: View {
     
     func titlePosition(in size: CGSize) -> CGPoint {
         return CGPoint(x: size.width / 2, y: size.height / 4)
+    }
+}
+
+extension LevelCellView {
+    init(_ level: Level) {
+        self.title = level.audioSourceDescription
+        self.stars = level.stars
     }
 }
 

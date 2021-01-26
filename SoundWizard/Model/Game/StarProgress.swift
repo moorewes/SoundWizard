@@ -8,28 +8,37 @@
 import Foundation
 
 struct StarProgress {
-    static let levelMax = 3
-    
     let total: Int
     let earned: Int
-    
-    var formatted: String {
+}
+
+extension StarProgress {
+    static let levelMax = 3
+}
+
+extension StarProgress: UIDescribing {
+    var uiDescription: String {
         "\(earned)/\(total)"
     }
 }
 
+extension StarProgress {
+    init(combining stars: [StarProgress]) {
+        let total = stars.reduce(0) { $0 + $1.total }
+        let earned = stars.reduce(0) { $0 + $1.earned }
+        
+        self.init(total: total, earned: earned)
+    }
+}
+
 extension Collection where Element == Level {
-    var stars: StarProgress {
-        let total = self.count * StarProgress.levelMax
-        let earned = self.reduce(0) { $0 + $1.scoreData.starsEarned }
-        return StarProgress(total: total, earned: earned)
+    var starProgress: StarProgress {
+        StarProgress(combining: self.map { $0.stars })
     }
 }
 
 extension Collection where Element: Level {
-    var stars: StarProgress {
-        let total = self.count * StarProgress.levelMax
-        let earned = self.reduce(0) { $0 + $1.scoreData.starsEarned }
-        return StarProgress(total: total, earned: earned)
+    var starProgress: StarProgress {
+        StarProgress(combining: self.map { $0.stars })
     }
 }

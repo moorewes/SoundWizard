@@ -69,7 +69,7 @@ struct EQDetectiveLevelBrowser: View {
                 ForEach(BandFocus.allCases) { focus in
                     let levels = filteredLevels(focus: focus)
                     if levels.isNotEmpty {
-                        LevelListHeader(title: focus.uiDescription, stars: levels.stars)
+                        LevelListHeader(title: focus.uiDescription, stars: levels.starProgress)
                         
                         LevelPicker(levels: levels) { level in
                             openLevel(level)
@@ -121,6 +121,5 @@ struct EQDetectiveLevelBrowser: View {
 struct EQDetectiveLevelBrowser_Previews: PreviewProvider {
     static var previews: some View {
         EQDetectiveLevelBrowser(levels: [TestData.eqdLevel], selectionHandler: {_ in})
-            .primaryBackground()
     }
 }

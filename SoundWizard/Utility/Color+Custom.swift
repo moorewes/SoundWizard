@@ -7,14 +7,32 @@
 
 import SwiftUI
 
+extension Gradient {
+    static let background = LinearGradient(
+        gradient: Gradient(colors: [
+            Color.ocean,
+            Color.violet
+        ]),
+        startPoint: .top, endPoint: .bottom
+    )
+}
+
 extension Color {
-    static let teal = Color(UIColor.systemTeal)
+    static var swAccentColor: Color { teal }
     
-    static let primaryBackground = Color.init(hue: 0.62, saturation: 0.3, brightness: 0.18)
-    static let secondaryBackground = Color.init(hue: 0.6, saturation: 0.3, brightness: 0.33)
+    static let ocean = Color(hue: 0.54, saturation: 0.8, brightness: 0.2)
+    static let teal = Color(UIColor.systemTeal)
+    static let purple = Color(red: 0.6, green: 0.3, blue: 0.8, opacity: 1)
+    static let violet = Color(hue: 0.75, saturation: 0.8, brightness: 0.2)
+    static let darkViolet = Color(hue: 0.75, saturation: 0.8, brightness: 0.1)
+    static let yellow = Color(red: 0.8, green: 0.7, blue: 0.1)
+    
+    static let primaryBackground = Color(hue: 0.54, saturation: 0.8, brightness: 0.2)
+    static let secondaryBackground = Color.init(hue: 0.6, saturation: 0.5, brightness: 0.33)
+    static let tertiaryBackground = Color.init(hue: 0.6, saturation: 0.5, brightness: 0.8)
     static let listRowBackground = Color(white: 0.3)
     
-    static let extraDarkGray = Color(white: 0.08)
+    static let extraDarkGray = Color(white: 0.05)
     static let darkGray = Color(white: 0.4)
     static let extraLightGray = Color(white: 0.9)
     static let lightGray = Color(white: 0.8)
@@ -38,8 +56,8 @@ extension Color {
     
     private static let eqBandFillColors = [
         Color.teal,
-        Color(red: 0.6, green: 0.3, blue: 0.8, opacity: 1),
-        Color(red: 0.8, green: 0.7, blue: 0.1),
-        Color.teal
+        Color.purple,
+        Color.yellow,
+        Color.green
     ]
 }

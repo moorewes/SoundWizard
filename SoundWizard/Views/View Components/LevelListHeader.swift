@@ -17,11 +17,11 @@ struct LevelListHeader: View {
                 .font(.std(.callout))
                 .foregroundColor(.white)
             
-            Star(filled: true, animated: false)
+            AnimatedStar(filled: true, animated: false)
                 .font(.system(size: 14))
                 .padding(.leading, 10)
             
-            Text(stars.formatted)
+            Text(stars.uiDescription)
                 .font(.mono(.subheadline))
                 .foregroundColor(.lightGray)
             
@@ -32,7 +32,7 @@ struct LevelListHeader: View {
     }
 }
 
-struct SectionHeader_Previews: PreviewProvider {
+struct LevelListHeader_Previews: PreviewProvider {
     static var previews: some View {
         LevelListHeader(title: "Mids", stars: StarProgress(total: 30, earned: 15))
     }

@@ -23,10 +23,11 @@ struct GameShellView: View {
                 PreGameView(level: game.level, gameHandler: game.startHandler)
             }
         }
+        .background(Gradient.background.ignoresSafeArea())
         .transition(.opacity)
         .fullScreenCover(isPresented: $showInfoView) {
             infoView
-                .primaryBackground()
+                .background(Gradient.background)
         }
     }
 

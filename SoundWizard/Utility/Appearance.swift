@@ -18,7 +18,7 @@ enum Appearance {
 
 extension UITableView {
     static func setCustomAppearance() {
-        UITableView.appearance().backgroundColor = UIColor(Color.primaryBackground)
+        UITableView.appearance().backgroundColor = UIColor.clear //(Color.primaryBackground)
         UITableViewCell.appearance().backgroundColor = UIColor(Color.primaryBackground)
         
         let selectedCellView = UIView()
@@ -33,8 +33,10 @@ extension UITableView {
 
 extension UINavigationBar {
     static func setCustomAppearance() {
+        UINavigationBar.appearance().isTranslucent = true
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor(Color.primaryBackground)
+        
+        appearance.backgroundColor = UIColor(Color.primaryBackground.opacity(0.9))
         appearance.titleTextAttributes = [
             .font: UIFont.std(.headline),
             .foregroundColor: UIColor(Color.lightGray)
@@ -49,15 +51,17 @@ extension UINavigationBar {
         ]
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+       
         UINavigationBar.appearance().tintColor = UIColor.systemTeal
+        UINavigationBar.appearance().isTranslucent = true
     }
 }
 
 extension UITabBar {
     static func setCustomAppearance() {
-        UITabBar.appearance().barTintColor = UIColor(Color.primaryBackground)
-        UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
-        UITabBar.appearance().tintColor = UIColor(Color.teal)
+        UITabBar.appearance().barTintColor = UIColor(Color.extraDarkGray)
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray)
+        UITabBar.appearance().tintColor = UIColor(Color.white)
     }
 }
 

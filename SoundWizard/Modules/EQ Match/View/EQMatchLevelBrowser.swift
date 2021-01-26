@@ -40,7 +40,7 @@ extension EQMatchLevelBrowser {
                 ForEach(LevelDifficulty.allCases) { difficulty in
                     let levels = self.levels.filter { $0.difficulty == difficulty }
                     if levels.isNotEmpty {
-                        LevelListHeader(title: difficulty.uiDescription, stars: levels.stars)
+                        LevelListHeader(title: difficulty.uiDescription, stars: levels.starProgress)
                         
                         LevelPicker(levels: levels) { level in
                             launch(level)
@@ -61,7 +61,7 @@ extension EQMatchLevelBrowser {
             VStack {
                 HStack {
                     PickerRow(title: "Range", items: BandFocus.allCases, selectedItem: $format.bandFocus)
-                    Image(systemName: "chevron.right")
+                    RightChevronImage()
                         .font(.std(.footnote))
                         .foregroundColor(.darkGray)
                 }

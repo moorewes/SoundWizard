@@ -27,7 +27,7 @@ extension EQMatchLevel {
             switch self {
             case .fixedGain: return "Freq"
             case .fixedFrequency: return "Gain"
-            case .free: return "Both"
+            case .free: return "Dual"
             }
         }
     }

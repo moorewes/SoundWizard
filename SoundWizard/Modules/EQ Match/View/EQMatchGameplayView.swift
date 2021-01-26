@@ -11,10 +11,6 @@ struct EQMatchGameplayView: View {
     
     @ObservedObject var game: EQMatchGame
     
-    @State var frequency: Frequency = 1000
-    @State var gain: Double = 0
-    @State var mode: String = "bypassed"
-    
     var body: some View {
         VStack() {
             StatusBar(game: game)

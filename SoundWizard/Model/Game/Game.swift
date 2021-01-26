@@ -19,4 +19,44 @@ enum Game: Int, CaseIterable, Identifiable {
         case .eqMatch: return "EQ Match"
         }
     }
+    
+    var shortName: String {
+        switch self {
+        case .eqDetective: return "EQ Detect"
+        case .eqMatch: return name
+        }
+    }
 }
+
+extension Game {
+    struct Data {
+        let game: Game
+        let title: String
+        let shortTitle: String
+        let stars: StarProgress
+        
+        init(game: Game, stars: StarProgress) {
+            self.game = game
+            self.title = game.name
+            self.shortTitle = game.shortName
+            self.stars = stars
+        }
+    }
+}
+
+extension Game.Data: Identifiable {
+    var id: String { title }
+}
+
+//struct GameItem: Identifiable {
+//    var game: Game
+//    var stars: StarProgress
+//    
+//    var title: String {
+//        return game.name
+//    }
+//    
+//    var id: String {
+//        title
+//    }
+//}

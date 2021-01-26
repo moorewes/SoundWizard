@@ -62,7 +62,7 @@ struct PreGameView: View {
     private func star(number: Int) -> some View {
         let isEarned = level.scoreData.starsEarned >= number
         return VStack {
-            Star(filled: isEarned, number: number, animated: false)
+            AnimatedStar(filled: isEarned, number: number, animated: false)
                 .font(.system(size: 30))
                 .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                         

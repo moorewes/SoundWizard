@@ -8,44 +8,80 @@
 import SwiftUI
 
 struct GameBrowser: View {
-    let gameItems: [GameItem]
+    let games: [Game.Data]
+    @State private var showSettings = false
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(gameItems) { item in
-                    NavigationLink(destination:
-                            LevelBrowser(game: item.game)
-                                .primaryBackground()
-                        , label: {
-                            GameCell(game: item)
-                        })
-                }
-                .listRowBackground(Color.secondaryBackground)
-            }
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Games")
-                        .font(.std(.title2))
-                        .foregroundColor(.teal)
-                }
-            }
-            .listStyle(InsetGroupedListStyle())
-            .navigationBarItems(trailing: settingsBarItem)
+            List(games: games)
+                .navigationLink(isActive: $showSettings) { MainSettingsView() }
+                .background(Gradient.background.ignoresSafeArea())
+                .navigationBarHidden(true)
         }
     }
-
-    private var settingsBarItem: some View {
-        SettingsNavLink(destination: GeneralSettingsView())
-    }
-    
 }
+
+// MARK: - List
+
+extension GameBrowser {
+    struct List: View {
+        let games: [Game.Data]
+        
+        var body: some View {
+            ScrollView {
+                VStack {
+                    SectionSimpleHeader(title: "Games")
+                    
+                    ForEach(games) { game in
+                        Cell(game: game) {
+                            LevelBrowser(game: game.game)
+                                .background(Gradient.background.ignoresSafeArea())
+                        }
+                    }
+                    .padding(.horizontal)
+                    .background(Color.secondaryBackground)
+                    .cornerRadius(12)
+                    .padding(.horizontal)
+                    .padding(.top, 10)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - List Cell
+
+extension GameBrowser.List {
+    struct Cell<Destination: View>: View {
+        let game: Game.Data
+        let destination: () -> Destination
+        
+        var body: some View {
+            NavigationLink(destination: destination()) {
+                RowCell {
+                    HStack {
+                        Text(game.title)
+                            .font(.std(.headline))
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        StarImage()
+                        Text(game.stars.uiDescription)
+                            .font(.mono(.subheadline))
+                            .foregroundColor(.teal)
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Preview
 
 struct GamesUIView_Previews: PreviewProvider {
     static var previews: some View {
-        GameBrowser(gameItems: [GameItem(game: .eqDetective,
+        GameBrowser(games: [Game.Data(game: Game.eqMatch,
                                          stars: StarProgress(total: 12, earned: 8))])
     }
 }
-
-

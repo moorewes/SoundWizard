@@ -13,26 +13,48 @@ struct MainTabView: View {
     var body: some View {
         TabView() {
             HomeView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
-                }
+                .tabItem { HomeItem() }
             
-            GameBrowser(gameItems: stateController.gameItems)
-                .tabItem {
-                    Image(systemName: "star.fill")
-                        .background(Color.darkGray)
-                    Text("All Games")
-                }
+            GameBrowser(games: stateController.gameData)
+                .tabItem { GameBrowserItem() }
+            
+            MainSettingsView()
+                .tabItem { SettingsItem() }
         }
-        .primaryBackground()
+        .accentColor(.white)
         .fullScreenCover(isPresented: $stateController.isPresentingLevel) {
             GameShellView(game: stateController.gameHandler!)
-                .primaryBackground()
                 .transition(.opacity)
         }
     }
 }
+
+// MARK: - Tab Bar Images
+
+extension MainTabView {
+    struct HomeItem: View {
+        var body: some View {
+            Image(systemName: "house.fill")
+            Text("Home")
+        }
+    }
+    
+    struct GameBrowserItem: View {
+        var body: some View {
+            Image(systemName: "star.fill")
+            Text("All Games")
+        }
+    }
+    
+    struct SettingsItem: View {
+        var body: some View {
+            Image(systemName: "gearshape.fill")
+            Text("Settings")
+        }
+    }
+}
+
+// MARK: - Preview
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {

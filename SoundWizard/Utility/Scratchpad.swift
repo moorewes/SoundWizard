@@ -10,32 +10,21 @@ import AudioKit
 
 struct Scratchpad: View {
     
-    var player: AudioPlayer
-    var filter: EqualizerFilter
-    var dryWetMixer: DryWetMixer!
-    var engine: AudioEngine
-//
-//    @State var mix: Float = 0 {
-//        didSet {
-//            mixer.balance = mix
-//        }
-//    }
-    
-    init() {
-        player = AudioPlayer()
-        filter = EqualizerFilter(player, centerFrequency: 2000, bandwidth: 1000, gain: 2)
-        dryWetMixer = DryWetMixer(player, filter)
-        engine = AudioEngine()
-        engine.output = dryWetMixer
-        try? engine.start()
-        let url = AudioFileManager.shared.url(filename: "Pink.aif", isStock: true)
-        player.buffer = Cookbook.buffer(for: url)
-        player.start()
-    }
-    
     var body: some View {
-        Button("toggle") {
-         //   mixer.balance = mixer.balance == 1 ? 0 : 1
+        NavigationView {
+            ScrollView {
+                Rectangle()
+                    .foregroundColor(.ocean)
+            }
+//            .navigationBarTitle("Title")
+//            .navigationBarItems(trailing:
+//                Text("HI")
+//            )
+            .toolbar(content: {
+                ToolbarItem(placement: ToolbarItemPlacement.navigation) {
+                    Text("Title")
+                }
+            })
         }
     }
 }

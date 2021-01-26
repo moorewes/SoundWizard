@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// TODO: Make dynamic for other level types
+// TODO: Organize once architecture determined
 class StateController: ObservableObject {
     private let levelStore: LevelFetching & LevelStoring
     
@@ -25,6 +25,8 @@ class StateController: ObservableObject {
     
     var levelBrowsingStore: LevelBrowsingStore?
     
+    @Published var levelPacks = [LevelPack]()
+    
     @Published var gameState: GameViewState = .none
     @Published var gameHandler: GameHandler?
     
@@ -37,10 +39,10 @@ class StateController: ObservableObject {
         }
     }
     
-    var gameItems: [GameItem] {
+    var gameData: [Game.Data] {
         Game.allCases.map { game in
-            let stars = levels(for: game).stars
-            return GameItem(game: game, stars: stars)
+            let stars = levels(for: game).starProgress
+            return Game.Data(game: game, stars: stars)
         }
     }
     
@@ -49,6 +51,7 @@ class StateController: ObservableObject {
         allLevels = Game.allCases.flatMap {
             levelStore.fetchLevels(for: $0)
         }
+        makeTestPacks()
     }
     
     func openLevel(_ level: Level) {
@@ -77,6 +80,11 @@ class StateController: ObservableObject {
     
     private func level(matching level: Level) -> Level? {
         allLevels.first { $0.id == level.id }
+    }
+    
+    private func makeTestPacks() {
+        levelPacks.append(LevelPack(name: "Starter Pack", id: "pack1", levels: Array(allLevels.prefix(5))))
+        levelPacks.append(LevelPack(name: "Frequency Freak", id: "pack2", levels: Array(allLevels.suffix(5))))
     }
 }
 

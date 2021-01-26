@@ -1,5 +1,5 @@
 //
-//  Star.swift
+//  AnimatedStar.swift
 //  SoundWizard
 //
 //  Created by Wes Moore on 12/2/20.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Star: View {
+struct AnimatedStar: View {
     var filled: Bool
     var number: Int?
     var animated: Bool
@@ -54,7 +54,7 @@ struct Star_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.primaryBackground.ignoresSafeArea()
-            Star(filled: true, number: 1, animated: true, animationDelay: 0)
+            AnimatedStar(filled: true, number: 1, animated: true, animationDelay: 0)
                 .frame(width: 50, height: 50, alignment: .center)
                 .font(.system(size: 80))
                 .transition(.slide)
