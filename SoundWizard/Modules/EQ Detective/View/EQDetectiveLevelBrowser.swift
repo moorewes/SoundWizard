@@ -43,10 +43,7 @@ struct CutBoostPicker: View {
     }
 }
 
-
-
 struct EQDetectiveLevelBrowser: View {
-    
     var levels: [EQDLevel]
     var openLevel: (Level) -> Void
     
@@ -115,7 +112,6 @@ struct EQDetectiveLevelBrowser: View {
                     .padding(.trailing, 10)
             })
     }
-    
 }
 
 struct EQDetectiveLevelBrowser_Previews: PreviewProvider {

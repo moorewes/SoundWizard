@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct EQDetectiveInstructionView: View {
-    
     var level: EQDLevel
     
     var body: some View {
@@ -40,7 +39,6 @@ struct EQDetectiveInstructionView: View {
                 .multilineTextAlignment(.center)
                 .padding()
         }
-        
     }
     
     private var filterGainDescription: String {
@@ -75,14 +73,4 @@ struct EQDetectiveInstructionView: View {
         let y = level.filterGain.dB < 0 ? size.height / 4 : size.height
         return CGPoint(x: 0, y: y)
     }
-    
 }
-
-//
-//struct EQDetectiveInstructionView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EQDetectiveInstructionView(level: EQDetectiveLevel.level(1)!)
-//            .preferredColorScheme(.dark)
-//            .foregroundColor(.lightGray)
-//    }
-//}

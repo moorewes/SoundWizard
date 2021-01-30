@@ -47,6 +47,7 @@ extension EQMatchGameplayView.FilterInfo {
         var valueColor: Color?
     }
 }
+
 extension String {
     func padded(to count: Int) -> String {
         var result = self
@@ -85,7 +86,5 @@ struct ValuesRow_Previews: PreviewProvider {
             }
             Spacer()
         }
-        
-        //.frame(width: nil, height: 60, alignment: .center)
     }
 }

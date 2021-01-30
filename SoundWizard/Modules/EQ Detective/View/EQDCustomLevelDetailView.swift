@@ -33,7 +33,6 @@ struct EQDCustomLevelDetailView: View {
         .navigationBarTitle("Edit Level")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing: saveButton)
-        
     }
     
     var saveButton: some View {
@@ -58,7 +57,6 @@ struct EQDCustomLevelDetailView: View {
         FilterData(gain: -9, q: 6),
         FilterData(gain: -12, q: 9)
     ]
-    
 }
 
 struct FilterData: UIDescribing, Hashable {
@@ -72,23 +70,18 @@ struct FilterData: UIDescribing, Hashable {
 }
 
 struct EQDCustomLevelDetailView_Previews: PreviewProvider {
-    
     static let newLevel = EQDLevel.newCustomLevel()
     
     static var previews: some View {
         Appearance.setup()
-        //UITableViewCell.appearance()
         return NavigationView {
             EQDCustomLevelDetailView(level: EQDLevel.newCustomLevel()) {_ in }
         }
-        
     }
 }
 
 extension EQDLevel {
-    
     static func newCustomLevel() -> EQDLevel {
         EQDLevel(id: UUID().uuidString, game: .eqDetective, number: -1, difficulty: .custom, audioMetadata: [], scoreData: ScoreData(starScores: [300, 500, 700], scores: []), bandFocus: .all, filterGain: Gain(dB: 9), filterQ: 8, octaveErrorRange: 2)
     }
-    
 }

@@ -8,19 +8,21 @@
 import Foundation
 
 struct EQDetectiveTurn: GameTurn {
-    
     let number: Int
     let octaveErrorRange: Octave
     let solution: Frequency
     let scoreMultiplier: Double
     
-    private var startTime = Date()
-    private(set) var completionTime: TimeInterval?
-    private(set) var guess: Frequency?
-    private(set) var score: Score?
-    
     var isComplete: Bool { guess != nil }
     
+    private(set) var guess: Frequency? {
+        didSet {
+            calculateScore()
+        }
+    }
+    
+    private(set) var score: Score?
+
     init(number: Int, octaveErrorRange: Octave, solution: Frequency, scoreMultiplier: Double) {
         self.number = number
         self.octaveErrorRange = octaveErrorRange
@@ -30,17 +32,14 @@ struct EQDetectiveTurn: GameTurn {
 
     mutating func finish(guess: Frequency) {
         self.guess = guess
-        completionTime = Date().timeIntervalSince(startTime)
-        score = score(for: octaveErrorRange)
     }
     
-    mutating private func score(for guess: Frequency) -> Score {
+    mutating private func calculateScore() {
+        guard let guess = guess else { return }
+        
         var score = ScoreEngine.score(guess: guess, solution: solution, maxOctaveError: Double(octaveErrorRange))
         score.value *= scoreMultiplier
         
-        return score
+        self.score = score
     }
-    
 }
-
-

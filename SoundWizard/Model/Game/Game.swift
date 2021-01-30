@@ -47,16 +47,3 @@ extension Game {
 extension Game.Data: Identifiable {
     var id: String { title }
 }
-
-//struct GameItem: Identifiable {
-//    var game: Game
-//    var stars: StarProgress
-//    
-//    var title: String {
-//        return game.name
-//    }
-//    
-//    var id: String {
-//        title
-//    }
-//}

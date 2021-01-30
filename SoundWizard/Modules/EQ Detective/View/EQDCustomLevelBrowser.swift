@@ -29,7 +29,6 @@ class CustomLevels: ObservableObject {
 }
 
 struct EQDCustomLevelBrowser: View {
-    
     @ObservedObject var controller = CustomLevels()
     @State var levels: [EQDLevel]
     @State var selectedLevel: EQDLevel?
@@ -51,7 +50,6 @@ struct EQDCustomLevelBrowser: View {
                     })
             }
             .listRowBackground(Color.secondaryBackground)
-            
         }
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("Custom Levels")
@@ -66,10 +64,6 @@ struct EQDCustomLevelBrowser: View {
                 }
             }
         }
-        
-//        .sheet(item: $selectedLevel) { level in
-//            EQDCustomLevelDetailView(level: level)
-//        }
     }
     
     var addLevelButton: some View {
@@ -81,9 +75,7 @@ struct EQDCustomLevelBrowser: View {
             .font(.std(.title2))
             .foregroundColor(.teal)
             .padding(.trailing, 10)
-        
     }
-
 }
 
 struct EQDCustomLevelBrowser_Previews: PreviewProvider {

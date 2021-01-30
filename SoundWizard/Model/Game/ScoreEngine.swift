@@ -40,5 +40,4 @@ enum ScoreEngine {
         
         return Score(value: value, successLevel: successLevel)
     }
-    
 }

@@ -78,8 +78,6 @@ struct EQDetectiveGameplayView: View {
         }
     }
     
-
-    
     private var togglePicker: some View {
         Picker("", selection: $game.filterOnState) {
             Text(firstPickerItemText).tag(0)
@@ -102,7 +100,6 @@ struct EQDetectiveGameplayView: View {
         guard let success = game.currentTurn?.score?.successLevel else { return Color.clear }
         return .successLevelColor(success)
     }
-    
 }
 
 struct GameplayView_Previews: PreviewProvider {

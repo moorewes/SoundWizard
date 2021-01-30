@@ -11,8 +11,6 @@ enum LevelDifficulty: Int, CaseIterable, Identifiable {
     case easy = 1, moderate, hard, custom
     
     var id: Int { self.rawValue }
-    
-    
 }
 
 extension LevelDifficulty: UIDescribing {

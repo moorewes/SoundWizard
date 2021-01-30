@@ -23,6 +23,7 @@ struct MainTabView: View {
         }
         .accentColor(.white)
         .fullScreenCover(isPresented: $stateController.isPresentingLevel) {
+            // TODO: Refactor to avoid force unwrapping
             GameShellView(game: stateController.gameHandler!)
                 .transition(.opacity)
         }

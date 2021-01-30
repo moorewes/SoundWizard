@@ -150,7 +150,6 @@ class EQDetectiveGame: ObservableObject, StandardGame {
     private func endTurn() {
         let index = turns.endIndex - 1
         turns[index].finish(guess: selectedFreq)
-        
         fireFeedback()
         
         scheduleEndOfTurnAction()

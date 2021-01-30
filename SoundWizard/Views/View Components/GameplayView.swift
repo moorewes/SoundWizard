@@ -13,5 +13,4 @@ struct GameplayView: View {
     var body: some View {
         game.gameBuilder.buildGame(gameHandler: game)
     }
-    
 }

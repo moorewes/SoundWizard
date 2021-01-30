@@ -8,24 +8,19 @@
 import SwiftUI
 
 protocol FrequencySliderDataSource {
-    
     var frequencyRange: FrequencyRange { get }
     var octavesShaded: Double { get }
     var solutionFreq: Frequency? { get }
     var solutionLineColor: Color { get }
     var referenceFreqs: [Frequency] { get }
     var timeBetweenTurns: Double { get }
-    
 }
 
 struct FrequencySlider: View {
-    
     private var data: FrequencySliderDataSource
-    
-    @Binding var frequency: Frequency
-    
     private var octavesVisible: Double
-            
+    @Binding var frequency: Frequency
+   
     init(data: FrequencySliderDataSource, frequency: Binding<Frequency>) {
         self.data = data
         _frequency = frequency
@@ -34,7 +29,6 @@ struct FrequencySlider: View {
     
     var body: some View {
         GeometryReader { geometry in
-            
             let graphRect = graphFrame(size: geometry.size)
             
             FrequencyGraph(range: data.frequencyRange, referenceFrequencies: data.referenceFreqs)
@@ -59,9 +53,7 @@ struct FrequencySlider: View {
                 .foregroundColor(Color(white: 1, opacity: 0.001))
                 .frequencyDragGesture(frequency: $frequency, range: data.frequencyRange)
         }
-    
     }
-    
     
     // MARK: - Sub views
     
@@ -111,7 +103,6 @@ struct FrequencySlider: View {
     // MARK - Drawing Constants
     
     private let graphVerticalPadding: CGFloat = 30
-
     private let shadeCornerRadius: CGFloat = 10
     private let sliderLabelTopSpace: CGFloat = 5
     
@@ -144,5 +135,4 @@ struct FrequencySlider: View {
         let x = sliderX(in: size)
         return CGPoint(x: x, y: sliderLabelTopSpace)
     }
-    
 }

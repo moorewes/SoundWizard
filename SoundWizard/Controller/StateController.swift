@@ -137,5 +137,4 @@ extension StateController: GameTransitionHandling {
         gameHandler = nil
         Conductor.master.stop()
     }
-        
 }

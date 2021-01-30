@@ -15,4 +15,3 @@ struct Score {
         return ScoreFeedback.randomString(for: successLevel)
     }
 }
-

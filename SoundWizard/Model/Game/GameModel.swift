@@ -27,5 +27,3 @@ extension GameModel where Self: TurnBased {
         HapticGenerator.main.fire(successLevel: successLevel)
     }
 }
-
-

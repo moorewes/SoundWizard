@@ -21,7 +21,6 @@ struct RightChevronImage: View {
     }
 }
 
-
 struct StarImage_Previews: PreviewProvider {
     static var previews: some View {
         StarImage()

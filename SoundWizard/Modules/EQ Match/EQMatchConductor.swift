@@ -171,4 +171,3 @@ class EQMatchConductor: GameConductor {
         conductor.endGame()
     }
 }
-

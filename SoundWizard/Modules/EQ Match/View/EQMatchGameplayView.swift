@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct EQMatchGameplayView: View {
-    
     @ObservedObject var game: EQMatchGame
     
     var body: some View {
@@ -33,6 +32,7 @@ struct EQMatchGameplayView: View {
                                   frequencyRange: game.frequencyRange,
                                   gainRange: game.gainRange)
                     .padding(.bottom, 20)
+                
                 if game.showingResults {
                     BellPath(filters: CGFilters(filters: game.solutionFilterData,
                                                 frequencyRange: game.frequencyRange,
@@ -41,7 +41,6 @@ struct EQMatchGameplayView: View {
                              strokeColor: game.solutionLineColor)
                         .padding(.bottom, 20)
                 }
-                
             }
             
             FilterPicker(mode: $game.filterMode)
@@ -141,26 +140,3 @@ struct EQMatchGameplayView_Previews: PreviewProvider {
         level.buildGame(gameHandler: TestData.GameHandler(state: .playing))
     }
 }
-
-fileprivate extension EQMatchGame.Turn.Result {
-    init() {
-        var bands = [BandData]()
-        for _ in 0...1 {
-            bands.append(
-                BandData(solution: EQBellFilterData(frequency: 100,
-                                                    gain: Gain(dB: 5),
-                                                    q: 4),
-                         guess: EQBellFilterData(frequency: 1000,
-                                                 gain: Gain(dB: -5),
-                                                 q: 4),
-                         scores: (Score(value: 40, successLevel: .fair),
-                                   Score(value: 80, successLevel: .great))
-                )
-            )
-        }
-        self.bands = bands
-        score = Score(value: 100, successLevel: .fair)
-    }
-}
-
-

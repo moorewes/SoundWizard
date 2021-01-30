@@ -68,12 +68,9 @@ struct ImportedAudioView: View {
         .font(.std(.title))
         .padding(.trailing, 15)
     }
-    
-    
 }
 
 struct AudioImportConfirmationView: View {
-    
     @Binding var isPresented: Bool
     @Binding var fileTitle: String
     let placeholder: String
@@ -121,7 +118,6 @@ struct AudioImportConfirmationView: View {
             
         }
     }
-    
 }
 
 struct ImportedAudioView_Previews: PreviewProvider {
@@ -132,14 +128,7 @@ struct ImportedAudioView_Previews: PreviewProvider {
     }
 }
 
-//struct ImportedAudioView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AudioImportConfirmationView(isPresented: .constant(true), fileTitle: .constant("name"),placeholder: "placeholder") {}
-//    }
-//}
-
 class UserAudioManager: ObservableObject {
-    
     private var store: UserAudioStore
     
     @Published var audioFiles: [AudioMetadata] = []

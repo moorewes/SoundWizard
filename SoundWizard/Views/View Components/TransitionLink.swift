@@ -50,5 +50,4 @@ extension View {
         self.modifier(ModaLinkViewModifier(isPresented: isPresented,
                                            destination: destination))
     }
-
 }
