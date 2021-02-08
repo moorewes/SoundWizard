@@ -9,12 +9,10 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        Appearance.setup()
+        UIKitAppearance.setup()
         AudioFileManager.shared.performInitialSetupIfNeeded()
         CoreDataManager.shared.loadInitialLevels()
         
@@ -38,6 +36,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Conductor.master.pauseEngine()
         CoreDataManager.shared.save()
     }
-
 }
-
