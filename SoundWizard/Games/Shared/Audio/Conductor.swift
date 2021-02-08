@@ -113,12 +113,12 @@ class Conductor {
     }
     
     private func disconnectGameConductor() {
-        if let node = self.gameConductor?.outputFader {
-            // FIXME: Following line causes crash, but only when node
-            // is a dryWet mixer.
+        // FIXME: AudioKit bug? Following node removal causes crash, but only
+        // when node is a dryWet mixer.
+//        if let node = self.gameConductor?.outputFader {
 //            mixer.removeInput(node)
-            print("A node should have been removed and released, but wasn't")
-        }
+//        }
+        print("A node should have been removed and released, but wasn't")
         gameConductor = nil
     }    
 }

@@ -32,7 +32,6 @@ class EQDetectiveConductor: GameConductor {
     private let masterConductor = Conductor.master
     private let player = AudioPlayer()
     private let filter: EqualizerFilter
-    private let buffer: AVAudioPCMBuffer
     private let filterRampTime: AUValue = 0.25
     private let dimVolume: AUValue = Gain(dB: -6).auValue
     private let defaultFadeTime: Float = 1.5
@@ -42,7 +41,6 @@ class EQDetectiveConductor: GameConductor {
     init(source: AudioMetadata,
          filterGain: Gain,
          filterQ: AUValue) {
-        self.buffer = source.buffer!
         self.filterGain = filterGain
         self.filterQ = filterQ
 
@@ -53,6 +51,7 @@ class EQDetectiveConductor: GameConductor {
         
         outputFader = Fader(filter, gain: 0)
                         
+        player.buffer = source.buffer
         player.volume = volume
         masterConductor.patchIn(self)
     }
@@ -62,7 +61,8 @@ class EQDetectiveConductor: GameConductor {
     // MARK: Internal
     
     func startPlaying() {
-        player.scheduleBuffer(buffer, at: nil, options: .loops)
+        player.isLooping = true
+        player.schedule()
         player.start()
         fadeIn()
     }
