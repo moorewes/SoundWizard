@@ -12,8 +12,8 @@ struct EQMatchGameplayView: View {
     
     var body: some View {
         VStack() {
-            StatusBar(game: game)
-                .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+            GameStatusBar(provider: game)
+                .padding(.horizontal, 30)
                 .opacity(game.isPracticing ? 0 : 1)
             
             Rectangle()

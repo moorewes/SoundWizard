@@ -13,9 +13,9 @@ struct EQDetectiveGameplayView: View {
     
     var body: some View {
         VStack() {
-            StatusBar(game: game)
-                .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
-                .opacity(game.practicing ? 0 : 1)
+//            StatusBar(game: game)
+//                .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+//                .opacity(game.practicing ? 0 : 1)
             
             gameInfoView
                 .padding()

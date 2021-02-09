@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class EQMatchGame: ObservableObject, StandardGame {
+class EQMatchGame: ObservableObject, GameModel, ScoreMultipliable {
     typealias ConductorType = EQMatchConductor
     typealias TurnType = Turn
     

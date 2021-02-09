@@ -7,15 +7,9 @@
 
 import SwiftUI
 
-protocol GameModelType {}
+//protocol StandardGame: GameModel, StageBased, ScoreMultipliable {}
 
-protocol InstructionViewType {}
-
-protocol StandardGame: GameModel, StageBased, ScoreBased, ScoreMultipliable, LivesBased {}
-
-protocol GameModel: GameStatusPublisher {
-    func fireFeedback()
-}
+protocol GameModel: GameStatusProviding, ScoreBased, LivesBased, TurnBased {}
 
 extension GameModel where Self: TurnBased {
     func fireFeedback() {

@@ -39,6 +39,20 @@ struct TestData {
         isStock: true,
         url: AudioFileManager.shared.url(filename: "Drums.wav", isStock: true)
     )
+    
+    static var fourMCItemsHidden = [
+        ChoiceItem(title: "Choice 1", status: .standby, action: {}),
+        ChoiceItem(title: "Choice 2", status: .standby, action: {}),
+        ChoiceItem(title: "Choice 3", status: .standby, action: {}),
+        ChoiceItem(title: "Choice 4", status: .standby, action: {}),
+    ]
+    
+    static var fourMCItemsRevealed = [
+        ChoiceItem(title: "Choice 1", status: .revealed(isCorrect: false), action: {}),
+        ChoiceItem(title: "Choice 2", status: .revealed(isCorrect: true), action: {}),
+        ChoiceItem(title: "Choice 3", status: .revealed(isCorrect: false), action: {}),
+        ChoiceItem(title: "Choice 4", status: .revealed(isCorrect: false), action: {}),
+    ]
 }
 
 // MARK: - Game Handling

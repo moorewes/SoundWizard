@@ -7,20 +7,20 @@
 
 import Foundation
 
-protocol GameStatusPublisher {
+protocol GameStatusProviding {
     var score: Int { get }
-    var scoreMultiplierValue: Double { get }
+    var scoreMultiplierValue: Double? { get }
     var maxLives: Int { get }
     var remainingLives: Int { get }
 }
 
-extension GameStatusPublisher where Self: ScoreMultipliable {
-    var scoreMultiplierValue: Double {
+extension GameStatusProviding where Self: ScoreMultipliable {
+    var scoreMultiplierValue: Double? {
         scoreMultiplier.value
     }
 }
 
-extension GameStatusPublisher where Self: LivesBased {
+extension GameStatusProviding where Self: LivesBased {
     var maxLives: Int {
         return lives.max
     }
