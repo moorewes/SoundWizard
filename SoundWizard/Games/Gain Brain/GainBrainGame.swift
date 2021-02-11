@@ -7,10 +7,12 @@
 
 import SwiftUI
 
-struct GainBrainGame: MultipleChoiceGame {
+struct GainBrainGame: MultipleChoiceGame, StageBased {
+    var turnsPerStage: Int = 4
+    var baseErrorMultiplier: Double = 1.0
+    
     var instructionText = "How much gain was applied?"
     var timeBetweenTurns: Double = 2.0
-    var choicesCount = 2
     
     let conductor: GainBrainConductor
     var turns = [Turn]()
@@ -53,19 +55,8 @@ struct GainBrainGame: MultipleChoiceGame {
     
     // MARK: - Helper Methods
     private mutating func newTurn() -> Turn {
-        Turn(number: turns.count, choices: newChoices())
-    }
-    
-    private mutating func newChoices() -> [Choice] {
-        var options = Choice.possibleChoices.shuffled()
-        var solution = options.removeLast()
-        solution.isCorrect = true
-        
-        let gain = solution.gain
-        options = options.filter { gain > 0 ? $0.gain > 0 : $0.gain < 0 }
-        
-        let choices = [solution] + options.shuffled().prefix(choicesCount - 1)
-        return choices.shuffled()
+        let choices = ChoiceGenerator.generate(stage: stage)
+        return Turn(number: turns.count, choices: choices)
     }
     
     private func score(choice: Choice) -> Score {

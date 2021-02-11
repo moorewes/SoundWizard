@@ -21,6 +21,8 @@ struct LevelBrowser: View {
                 .onDisappear {
                     stateController.levelBrowsingStore = nil
                 }
+        case .gainBrain:
+            EmptyView()
         }
     }
     

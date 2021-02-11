@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum Game: Int, CaseIterable, Identifiable {        
-    case eqDetective = 0, eqMatch
+    case eqDetective = 0, eqMatch, gainBrain
 
     var id: Int { return self.rawValue }
 
@@ -17,6 +17,7 @@ enum Game: Int, CaseIterable, Identifiable {
         switch self {
         case .eqDetective: return "EQ Detective"
         case .eqMatch: return "EQ Match"
+        case .gainBrain: return "Gain Brain"
         }
     }
     
@@ -24,6 +25,7 @@ enum Game: Int, CaseIterable, Identifiable {
         switch self {
         case .eqDetective: return "EQ Detect"
         case .eqMatch: return name
+        case .gainBrain: return name
         }
     }
 }
