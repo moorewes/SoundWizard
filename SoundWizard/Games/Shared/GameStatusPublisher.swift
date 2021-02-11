@@ -14,7 +14,7 @@ protocol GameStatusProviding {
     var remainingLives: Int { get }
 }
 
-extension GameStatusProviding where Self: ScoreMultipliable {
+extension GameStatusProviding where Self: ScoreBased {
     var scoreMultiplierValue: Double? {
         scoreMultiplier.value
     }

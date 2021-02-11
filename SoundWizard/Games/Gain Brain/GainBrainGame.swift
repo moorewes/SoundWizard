@@ -7,43 +7,84 @@
 
 import SwiftUI
 
-class GainBrainGame: ObservableObject, MultipleChoiceGame {
-    let engine = Engine()
-    let choicesCount = 4
+struct GainBrainGame: MultipleChoiceGame {
+    var instructionText = "How much gain was applied?"
+    var timeBetweenTurns: Double = 2.0
+    var choicesCount = 2
     
-    // MARK: Turns
-    typealias TurnType = Turn
+    let conductor: GainBrainConductor
+    var turns = [Turn]()
+    var lives = Lives()
+    var scoreMultiplier = ScoreMultiplier()
     
-    let timeBetweenTurns = 2.0
-    var turns: [Turn] = [] {
+    var currentSolution: Choice? { currentTurn?.solution ?? nil }
+    var currentChoices: [Choice] { currentTurn?.choices ?? [] }
+    
+    var auditionState = AuditionState.before {
         didSet {
-            
+            conductor.setDryWet(wet: auditionState == .after)
         }
     }
     
-    // MARK: Scoring
-    var scoreMultiplierValue: Double?
+    // MARK: - Actions
+    mutating func startPlaying() {
+        conductor.startPlaying()
+        startNewTurn()
+    }
     
-    // MARK: Lives
-    var lives: Lives = Lives()
+    mutating func startNewTurn() {
+        turns.append(newTurn())
+        conductor.setWetGain(currentSolution!.gain)
+        conductor.changeAudio()
+    }
     
-    // MARK: UI Data
-    let instructionText: String = "How much gain has been applied?"
+    mutating func submitGuess(choice: Choice) {
+        let score = self.score(choice: choice)
+        turns[turns.count - 1].end(score: score)
+        lives.update(for: score.successLevel)
+        scoreMultiplier.update(for: score.successLevel)
+        fireFeedback()
+    }
     
-    @Published var auditionState: AuditionState = .before
+    // MARK: - Initializer
+    init(audio: [AudioMetadata]) {
+        conductor = GainBrainConductor(audio: audio)
+    }
     
-    var choiceItems: [ChoiceItem] {
-        guard let choices = currentTurn?.choices else { return [] }
+    // MARK: - Helper Methods
+    private mutating func newTurn() -> Turn {
+        Turn(number: turns.count, choices: newChoices())
+    }
+    
+    private mutating func newChoices() -> [Choice] {
+        var options = Choice.possibleChoices.shuffled()
+        var solution = options.removeLast()
+        solution.isCorrect = true
         
-        return choices.map { ChoiceItem(title: "\(Int($0.gain)) dB") }
+        let gain = solution.gain
+        options = options.filter { gain > 0 ? $0.gain > 0 : $0.gain < 0 }
+        
+        let choices = [solution] + options.shuffled().prefix(choicesCount - 1)
+        return choices.shuffled()
     }
     
-    // MARK: User Intents
+    private func score(choice: Choice) -> Score {
+        let value = choice.isCorrect ? 100.0 : 0.0
+        let success: ScoreSuccess = choice.isCorrect ? .perfect : .failed
+        return Score(value: value, successLevel: success)
+    }
+}
 
-    // MARK: Life Cycle
-    
-    func startGame() {
-        turns.append(engine.newTurn(number: turns.count, choicesCount: choicesCount))
+// MARK: - Turn
+extension GainBrainGame {
+    struct Turn: MultipleChoiceGameTurn {
+        var number: Int
+        var choices: [GainBrainGame.Choice]
+        var score: Score?
+        var solution: GainBrainGame.Choice { choices.first { $0.isCorrect }! }
+        
+        mutating func end(score: Score) {
+            self.score = score
+        }
     }
-    
 }

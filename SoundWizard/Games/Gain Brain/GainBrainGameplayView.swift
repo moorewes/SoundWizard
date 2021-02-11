@@ -8,19 +8,30 @@
 import SwiftUI
 
 struct GainBrainGameplayView: View {
-    @ObservedObject var game: GainBrainGame
+    @ObservedObject var viewModel: MultipleChoiceGameViewModel<GainBrainGame>
+    
+    init(game: GainBrainGame) {
+        viewModel = MultipleChoiceGameViewModel(game: game)
+    }
     
     var body: some View {
-        MultipleChoiceGameShell(game: game, auditionState: $game.auditionState) {
-            Text(game.instructionText)
+        MultipleChoiceGameShell(viewModel: viewModel) {
+            Content(title: viewModel.game.instructionText)
         }
     }
 }
 
-
+extension GainBrainGameplayView {
+    struct Content: View {
+        let title: String
+        var body: some View {
+            Text(title)
+        }
+    }
+}
 
 struct GainBrainGameplayView_Previews: PreviewProvider {
-    static let game = GainBrainGame()
+    static let game = GainBrainGame(audio: TestData.audioMetadataArray)
     
     static var previews: some View {
         GainBrainGameplayView(game: game)

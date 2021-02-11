@@ -11,7 +11,7 @@ import SwiftUI
 
 protocol GameModel: GameStatusProviding, ScoreBased, LivesBased, TurnBased {}
 
-extension GameModel where Self: TurnBased {
+extension ScoreBased where Self: TurnBased {
     func fireFeedback() {
         guard let successLevel = currentTurn?.score?.successLevel else {
             fatalError("Couldn't find score to fire feedback)")

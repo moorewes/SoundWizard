@@ -7,27 +7,31 @@
 
 import SwiftUI
 
-struct MultipleChoiceGameShell<Content: View>: View {
-    var statusProvider: GameStatusProviding
-    var choices: [ChoiceItem]
-    @Binding var auditionState: AuditionState
+struct MultipleChoiceGameShell<Game: MultipleChoiceGame, Content: View>: View {
+    @ObservedObject var viewModel: MultipleChoiceGameViewModel<Game>
     var content: () -> Content
     
     var body: some View {
         VStack {
-            GameStatusBar(provider: statusProvider)
+            // Status
+            GameStatusBar(provider: viewModel.statusProvider)
                 .padding(.top, topSpace)
                 .padding(.horizontal, statusBarHorizPadding)
             Spacer()
             
+            // Specific Game Content
             content()
             Spacer()
             
-            MultipleChoicePicker(choices: choices)
+            // Multiple Choices
+            MultipleChoicePicker(choices: viewModel.choices,
+                                 shouldReveal: viewModel.shouldRevealChoices) { selection in
+                viewModel.choose(selection)
+                
+            }.padding()
             
-            Spacer()
-            
-            BeforeAfterPicker(state: $auditionState)
+            // Pre/Post Audition Switch
+            BeforeAfterSwitch(state: $viewModel.auditionState)
                 .padding(.bottom, bottomSpace)
                 .padding(.horizontal, statusBarHorizPadding)
         }
@@ -36,14 +40,4 @@ struct MultipleChoiceGameShell<Content: View>: View {
     private let topSpace: CGFloat = 40
     private let bottomSpace: CGFloat = 50
     private let statusBarHorizPadding: CGFloat = 30
-}
-
-// MARK: Convenience Init
-extension MultipleChoiceGameShell {
-    init<Game: MultipleChoiceGame>(game: Game, auditionState: Binding<AuditionState>, content: @escaping () -> Content) {
-        self.statusProvider = game
-        self.choices = game.choiceItems
-        self._auditionState = auditionState
-        self.content = content
-    }
 }

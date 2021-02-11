@@ -101,19 +101,21 @@
 		DE6E07B6258C563500AB2140 /* LevelBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E07B5258C563500AB2140 /* LevelBrowser.swift */; };
 		DE6E07D5258C5C3F00AB2140 /* AudioSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6E07D4258C5C3F00AB2140 /* AudioSource.swift */; };
 		DE707090255F59CC0068B808 /* GameBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE70708F255F59CC0068B808 /* GameBrowser.swift */; };
-		DE78650125D1EDCE002C7C2A /* ChoiceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78650025D1EDCE002C7C2A /* ChoiceItem.swift */; };
 		DE78650725D200E5002C7C2A /* GainBrainGameplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78650625D200E5002C7C2A /* GainBrainGameplayView.swift */; };
 		DE78650C25D203EB002C7C2A /* GainBrainGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78650B25D203EB002C7C2A /* GainBrainGame.swift */; };
-		DE78651725D20980002C7C2A /* BeforeAfterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78651625D20980002C7C2A /* BeforeAfterPicker.swift */; };
+		DE78651725D20980002C7C2A /* BeforeAfterSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78651625D20980002C7C2A /* BeforeAfterSwitch.swift */; };
 		DE78651C25D209AE002C7C2A /* AuditionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78651B25D209AE002C7C2A /* AuditionState.swift */; };
 		DE78652425D2198A002C7C2A /* MultipleChoiceGameShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78652325D2198A002C7C2A /* MultipleChoiceGameShell.swift */; };
-		DE78652925D21A5E002C7C2A /* GainBrainGame+Turn.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78652825D21A5E002C7C2A /* GainBrainGame+Turn.swift */; };
-		DE78652E25D21AC7002C7C2A /* MultipleChoiceGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78652D25D21AC7002C7C2A /* MultipleChoiceGame.swift */; };
+		DE78652925D21A5E002C7C2A /* GainBrainGame+Choice.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78652825D21A5E002C7C2A /* GainBrainGame+Choice.swift */; };
+		DE78652E25D21AC7002C7C2A /* MultipleChoiceGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78652D25D21AC7002C7C2A /* MultipleChoiceGameViewModel.swift */; };
 		DE78653325D21B02002C7C2A /* GainBrainGame+Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE78653225D21B02002C7C2A /* GainBrainGame+Engine.swift */; };
 		DE79EC9D2559E63900515824 /* EQDetectiveGameplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE79EC9C2559E63900515824 /* EQDetectiveGameplayView.swift */; };
 		DE7C9E7325880210009308AC /* UIKitAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7C9E7225880210009308AC /* UIKitAppearance.swift */; };
 		DE7C9E7825880A27009308AC /* RoundedRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7C9E7725880A27009308AC /* RoundedRectButton.swift */; };
 		DE7C9E7D258855A5009308AC /* ScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7C9E7C258855A5009308AC /* ScoreData.swift */; };
+		DE8561D825D4757C00FA3992 /* MultipleChoiceGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8561D725D4757C00FA3992 /* MultipleChoiceGame.swift */; };
+		DE8561E025D475CD00FA3992 /* MultipleChoiceGame+Turn.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8561DF25D475CD00FA3992 /* MultipleChoiceGame+Turn.swift */; };
+		DE8561F725D4BB2900FA3992 /* GainBrainConductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8561F625D4BB2900FA3992 /* GainBrainConductor.swift */; };
 		DE86DD0825A53572006DADEC /* EQMatchLevelBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE86DD0725A53572006DADEC /* EQMatchLevelBuilderView.swift */; };
 		DE86DD1025A5565B006DADEC /* DetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE86DD0F25A5565B006DADEC /* DetailRow.swift */; };
 		DE88E0AA258409CA006D73FA /* EQDetectiveLevel+BundleLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE88E0A9258409CA006D73FA /* EQDetectiveLevel+BundleLevels.swift */; };
@@ -299,19 +301,21 @@
 		DE6E07D4258C5C3F00AB2140 /* AudioSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSource.swift; sourceTree = "<group>"; };
 		DE70708F255F59CC0068B808 /* GameBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBrowser.swift; sourceTree = "<group>"; };
 		DE70709C255F5BEB0068B808 /* EQDetectiveLevelBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveLevelBrowser.swift; sourceTree = "<group>"; };
-		DE78650025D1EDCE002C7C2A /* ChoiceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceItem.swift; sourceTree = "<group>"; };
 		DE78650625D200E5002C7C2A /* GainBrainGameplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GainBrainGameplayView.swift; sourceTree = "<group>"; };
 		DE78650B25D203EB002C7C2A /* GainBrainGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GainBrainGame.swift; sourceTree = "<group>"; };
-		DE78651625D20980002C7C2A /* BeforeAfterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeAfterPicker.swift; sourceTree = "<group>"; };
+		DE78651625D20980002C7C2A /* BeforeAfterSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeAfterSwitch.swift; sourceTree = "<group>"; };
 		DE78651B25D209AE002C7C2A /* AuditionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditionState.swift; sourceTree = "<group>"; };
 		DE78652325D2198A002C7C2A /* MultipleChoiceGameShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceGameShell.swift; sourceTree = "<group>"; };
-		DE78652825D21A5E002C7C2A /* GainBrainGame+Turn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GainBrainGame+Turn.swift"; sourceTree = "<group>"; };
-		DE78652D25D21AC7002C7C2A /* MultipleChoiceGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceGame.swift; sourceTree = "<group>"; };
+		DE78652825D21A5E002C7C2A /* GainBrainGame+Choice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GainBrainGame+Choice.swift"; sourceTree = "<group>"; };
+		DE78652D25D21AC7002C7C2A /* MultipleChoiceGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceGameViewModel.swift; sourceTree = "<group>"; };
 		DE78653225D21B02002C7C2A /* GainBrainGame+Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GainBrainGame+Engine.swift"; sourceTree = "<group>"; };
 		DE79EC9C2559E63900515824 /* EQDetectiveGameplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDetectiveGameplayView.swift; sourceTree = "<group>"; };
 		DE7C9E7225880210009308AC /* UIKitAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitAppearance.swift; sourceTree = "<group>"; };
 		DE7C9E7725880A27009308AC /* RoundedRectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedRectButton.swift; sourceTree = "<group>"; };
 		DE7C9E7C258855A5009308AC /* ScoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreData.swift; sourceTree = "<group>"; };
+		DE8561D725D4757C00FA3992 /* MultipleChoiceGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleChoiceGame.swift; sourceTree = "<group>"; };
+		DE8561DF25D475CD00FA3992 /* MultipleChoiceGame+Turn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MultipleChoiceGame+Turn.swift"; sourceTree = "<group>"; };
+		DE8561F625D4BB2900FA3992 /* GainBrainConductor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GainBrainConductor.swift; sourceTree = "<group>"; };
 		DE86DD0725A53572006DADEC /* EQMatchLevelBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMatchLevelBuilderView.swift; sourceTree = "<group>"; };
 		DE86DD0F25A5565B006DADEC /* DetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRow.swift; sourceTree = "<group>"; };
 		DE88E0A9258409CA006D73FA /* EQDetectiveLevel+BundleLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQDetectiveLevel+BundleLevels.swift"; sourceTree = "<group>"; };
@@ -456,7 +460,7 @@
 				DEB7BB2725BF8B9F0065097F /* SectionHeader.swift */,
 				DE8BA688258027FE004090E3 /* LevelPicker.swift */,
 				DE671B51256DB1DC00044EDC /* LevelCellView.swift */,
-				DE78651625D20980002C7C2A /* BeforeAfterPicker.swift */,
+				DE78651625D20980002C7C2A /* BeforeAfterSwitch.swift */,
 				DE47FC1425A9344700213A89 /* LargeLevelCell.swift */,
 				DE7C9E7725880A27009308AC /* RoundedRectButton.swift */,
 				DE45157F257AE26B006D59EC /* TransitionLink.swift */,
@@ -720,10 +724,11 @@
 		DE67F4B225D1C97F005C5B5E /* Multiple Choice Game */ = {
 			isa = PBXGroup;
 			children = (
+				DE8561D725D4757C00FA3992 /* MultipleChoiceGame.swift */,
+				DE78652D25D21AC7002C7C2A /* MultipleChoiceGameViewModel.swift */,
+				DE8561DF25D475CD00FA3992 /* MultipleChoiceGame+Turn.swift */,
 				DE67F4B325D1C9B6005C5B5E /* MultipleChoicePicker.swift */,
-				DE78650025D1EDCE002C7C2A /* ChoiceItem.swift */,
 				DE78652325D2198A002C7C2A /* MultipleChoiceGameShell.swift */,
-				DE78652D25D21AC7002C7C2A /* MultipleChoiceGame.swift */,
 			);
 			path = "Multiple Choice Game";
 			sourceTree = "<group>";
@@ -751,10 +756,11 @@
 		DE78650525D20056002C7C2A /* Gain Brain */ = {
 			isa = PBXGroup;
 			children = (
-				DE78650625D200E5002C7C2A /* GainBrainGameplayView.swift */,
 				DE78650B25D203EB002C7C2A /* GainBrainGame.swift */,
+				DE78652825D21A5E002C7C2A /* GainBrainGame+Choice.swift */,
+				DE8561F625D4BB2900FA3992 /* GainBrainConductor.swift */,
 				DE78653225D21B02002C7C2A /* GainBrainGame+Engine.swift */,
-				DE78652825D21A5E002C7C2A /* GainBrainGame+Turn.swift */,
+				DE78650625D200E5002C7C2A /* GainBrainGameplayView.swift */,
 			);
 			path = "Gain Brain";
 			sourceTree = "<group>";
@@ -1131,6 +1137,7 @@
 				DE93E86E25A3CE1500151CAD /* EQMatchLevel+GuessError.swift in Sources */,
 				DE8BA689258027FE004090E3 /* LevelPicker.swift in Sources */,
 				DE8BA67C25801F01004090E3 /* MainTabView.swift in Sources */,
+				DE8561F725D4BB2900FA3992 /* GainBrainConductor.swift in Sources */,
 				DE9CE86A2575FC1C0023806C /* ScoreSuccess.swift in Sources */,
 				DE4C4A29259D027C00273048 /* CDLevel.swift in Sources */,
 				DE6E07A4258C40C200AB2140 /* GameplayView.swift in Sources */,
@@ -1150,7 +1157,6 @@
 				DEBEF0212551D3C70095134B /* CoreDataManager.swift in Sources */,
 				DEC18631254A399D00D730CC /* SceneDelegate.swift in Sources */,
 				DE78650C25D203EB002C7C2A /* GainBrainGame.swift in Sources */,
-				DE78650125D1EDCE002C7C2A /* ChoiceItem.swift in Sources */,
 				DE0295E82550BD8E00D901D0 /* Level.swift in Sources */,
 				DE451580257AE26B006D59EC /* TransitionLink.swift in Sources */,
 				DE707090255F59CC0068B808 /* GameBrowser.swift in Sources */,
@@ -1168,7 +1174,7 @@
 				DE624AE02581774200253D83 /* MainSettingsView.swift in Sources */,
 				DE2E51D2257DABF900F47DEE /* Lives.swift in Sources */,
 				DE57EBED2595AAC400C35DE7 /* EQMatchConductor.swift in Sources */,
-				DE78652925D21A5E002C7C2A /* GainBrainGame+Turn.swift in Sources */,
+				DE78652925D21A5E002C7C2A /* GainBrainGame+Choice.swift in Sources */,
 				DE60C1B4256F287D00CB20C8 /* GameStatusBar.swift in Sources */,
 				DE78650725D200E5002C7C2A /* GainBrainGameplayView.swift in Sources */,
 				DE67F4B425D1C9B6005C5B5E /* MultipleChoicePicker.swift in Sources */,
@@ -1188,7 +1194,7 @@
 				DE3163322565FCFF008558A4 /* Font+Custom.swift in Sources */,
 				DE2E51CD257D9BAA00F47DEE /* ScoreMultipliable.swift in Sources */,
 				DE671B52256DB1DC00044EDC /* LevelCellView.swift in Sources */,
-				DE78651725D20980002C7C2A /* BeforeAfterPicker.swift in Sources */,
+				DE78651725D20980002C7C2A /* BeforeAfterSwitch.swift in Sources */,
 				DE78653325D21B02002C7C2A /* GainBrainGame+Engine.swift in Sources */,
 				DE671B5A256DD41C00044EDC /* EQDetectiveGame.swift in Sources */,
 				DE971215259A8B5000C6C399 /* AUBellFilterData.swift in Sources */,
@@ -1208,6 +1214,7 @@
 				DE8C78CB2593BB6400915C44 /* MultiPickerRow.swift in Sources */,
 				DE60C19B256F117300CB20C8 /* Octave.swift in Sources */,
 				DE7C9E7325880210009308AC /* UIKitAppearance.swift in Sources */,
+				DE8561E025D475CD00FA3992 /* MultipleChoiceGame+Turn.swift in Sources */,
 				DE1803A3258A82E200FAE928 /* LevelListHeader.swift in Sources */,
 				DE5531482578572C007E4B3C /* AnimatedStar.swift in Sources */,
 				DEBB785C257F1E8E000B9064 /* FrequencyGraph.swift in Sources */,
@@ -1216,6 +1223,7 @@
 				DE8C78BB2593A61000915C44 /* EQDCustomLevelDetailView.swift in Sources */,
 				DE361EE1258D8C3C006C9FBE /* GameHandling.swift in Sources */,
 				DE8C78D02593CD8500915C44 /* EQDCustomLevelBrowser.swift in Sources */,
+				DE8561D825D4757C00FA3992 /* MultipleChoiceGame.swift in Sources */,
 				DED7087225A4461A003C3B3D /* BandCount.swift in Sources */,
 				DED5CF9B2581ACEE001C0846 /* SoundWizard.xcdatamodeld in Sources */,
 				DE47FC1A25A93D1800213A89 /* ExtraViewModifiers.swift in Sources */,
@@ -1225,7 +1233,7 @@
 				DE78651C25D209AE002C7C2A /* AuditionState.swift in Sources */,
 				DEBF5CE2254A49A200818B86 /* Extensions.swift in Sources */,
 				DE537AD22595374800DEB638 /* Gain.swift in Sources */,
-				DE78652E25D21AC7002C7C2A /* MultipleChoiceGame.swift in Sources */,
+				DE78652E25D21AC7002C7C2A /* MultipleChoiceGameViewModel.swift in Sources */,
 				DE3162DF2565A46E008558A4 /* HapticGenerator.swift in Sources */,
 				DEBEDC3F25671B0C0019165E /* SoundFXManager.swift in Sources */,
 				DED7086D25A445E4003C3B3D /* EnumPicker.swift in Sources */,

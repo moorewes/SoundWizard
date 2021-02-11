@@ -24,7 +24,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let view = MainTabView()
                 .environmentObject(stateController)
                 //.accentColor(.swAccentColor)
-            window.rootViewController = UIHostingController(rootView: view)
+            let game = GainBrainGame(audio: TestData.audioMetadataArray)
+            let v = GainBrainGameplayView(game: game)
+                .accentColor(.teal)
+                .font(.std(.subheadline))
+                .background(Gradient.background.ignoresSafeArea())
+            window.rootViewController = UIHostingController(rootView: v)
             self.window = window
             window.makeKeyAndVisible()
         }

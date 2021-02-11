@@ -43,6 +43,6 @@ private extension EQMatchLevel.Format {
 
 struct EQMatchLevelBuilderView_Previews: PreviewProvider {
     static var previews: some View {
-        EQMatchLevelBuilderView(audioMetadata: [TestData.audioMetadata])
+        EQMatchLevelBuilderView(audioMetadata: [TestData.drumAudioMetadata])
     }
 }

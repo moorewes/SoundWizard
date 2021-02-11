@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class EQDetectiveGame: ObservableObject, GameModel, ScoreMultipliable, StageBased {
+class EQDetectiveGame: ObservableObject, GameModel, StageBased {
     typealias TurnType = EQDetectiveTurn
     typealias ConductorType = EQDetectiveConductor
     

@@ -7,70 +7,72 @@
 
 import SwiftUI
 
-struct MultipleChoicePicker: View {
-    var choices: [ChoiceItem]
-    var shouldDisplayResults = false
+// MARK: Picker
+struct MultipleChoicePicker<Choice: MultipleChoiceGameChoice>: View {
+    var choices: [Choice]
+    var shouldReveal: Bool
+    let selectChoice: (Choice) -> Void
     
     var body: some View {
-        LazyVGrid(columns: columns) {
-            ForEach(choices) { choice in
-                ChoiceButton(choice: choice)
-            }
+        Grid(choices: choices) { choice in
+            ChoiceButton(choice: choice, isRevealed: shouldReveal, action: selectChoice)
+                .foregroundColor(buttonColor(for: choice))
         }
-        .padding(.horizontal)
     }
     
-    private var columns: [GridItem] {
-        Array(repeating: GridItem(.flexible()), count: columnsCount)
+    private func buttonColor(for choice: Choice) -> Color {
+        shouldReveal ? choice.isCorrect ? successColor : failureColor : unrevealedColor
     }
     
-    private func itemWidth(viewWidth: CGFloat) -> CGFloat {
-        viewWidth / CGFloat(columnsCount) - CGFloat(columnsCount) * choicesHorizSpacing
+    private let unrevealedColor = Color.teal
+    private let successColor = Color.green
+    private let failureColor = Color.red
+}
+
+// MARK: Grid
+extension MultipleChoicePicker {
+    struct Grid<Content: View>: View {
+        let choices: [Choice]
+        let content: (Choice) -> Content
+        
+        var body: some View {
+            LazyVGrid(columns: columns) {
+                ForEach(choices, content: content)
+            }
+            .padding(.horizontal)
+        }
+        
+        private var columns: [GridItem] {
+            Array(repeating: GridItem(.flexible()), count: columnsCount)
+        }
+        
+        private let columnsCount: Int = 2
     }
-    
-    private let choicesHorizSpacing: CGFloat = 20
-    private let columnsCount: Int = 2
 }
 
 // MARK: Choice Button
 extension MultipleChoicePicker {
     struct ChoiceButton: View {
-        var choice: ChoiceItem
-        @State var animationColor: Color?
+        var choice: Choice
+        var isRevealed: Bool
+        let action: (Choice) -> Void
         
         var body: some View {
             ZStack {
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .foregroundColor(animationColor ?? defaultBackgroundColor)
-                    .animation(.easeIn(duration: 0.2))
+                    .animation(.easeOut(duration: 0.1))
                 
-                Button(action: choice.action, label: {
+                Button(action: {
+                    action(choice)
+                }, label: {
                     Text(choice.title)
                 })
                 .foregroundColor(.black)
                 .padding(.vertical)
             }
             .padding()
-            .onAppear {
-                switch choice.status {
-                case .revealed(let isCorrect):
-                    animationColor = isCorrect ? .green : .red
-                case .standby:
-                    break
-                }
-            }
         }
         
-        private let defaultBackgroundColor = Color.teal
         private let cornerRadius: CGFloat = 20
     }
 }
-
-struct MultipleChoiceGameplayView_Previews: PreviewProvider {
-    static var previews: some View {
-        MultipleChoicePicker(choices: TestData.fourMCItemsHidden)
-            .background(Gradient.background)
-            .font(.std(.subheadline))
-    }
-}
-

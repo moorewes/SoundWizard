@@ -12,6 +12,7 @@ import Foundation
 protocol ScoreBased {
     var turnScores: [Score] { get }
     var score: Int { get }
+    var scoreMultiplier: ScoreMultiplier { get }
 }
 
 extension ScoreBased where Self: TurnBased {

@@ -13,7 +13,7 @@ struct TestData {
         game: .eqDetective,
         number: 1,
         difficulty: .easy,
-        audioMetadata: [audioMetadata],
+        audioMetadata: [drumAudioMetadata],
         scoreData: ScoreData(starScores: [300, 600, 900],
                              scores: [400, 100]),
         bandFocus: .all,
@@ -25,14 +25,14 @@ struct TestData {
     static var eqMatchLevel = EQMatchLevel(
         id: "test level",
         number: 1,
-        audioMetadata: [audioMetadata],
+        audioMetadata: [drumAudioMetadata],
         difficulty: .easy,
         format: EQMatchLevel.Format(mode: .free, bandCount: .dual, bandFocus: .all),
         scoreData: ScoreData(starScores: [300, 600, 900],
                              scores: [400, 100])
     )
     
-    static var audioMetadata = AudioMetadata(
+    static var drumAudioMetadata = AudioMetadata(
         id: "stock.Pink Noise",
         name: "Pink Noise",
         filename: "Pink.aif",
@@ -40,18 +40,26 @@ struct TestData {
         url: AudioFileManager.shared.url(filename: "Drums.wav", isStock: true)
     )
     
-    static var fourMCItemsHidden = [
-        ChoiceItem(title: "Choice 1", status: .standby, action: {}),
-        ChoiceItem(title: "Choice 2", status: .standby, action: {}),
-        ChoiceItem(title: "Choice 3", status: .standby, action: {}),
-        ChoiceItem(title: "Choice 4", status: .standby, action: {}),
-    ]
+    static var cryAudioMetadata = AudioMetadata(
+        id: "stock.Cry",
+        name: "Cry",
+        filename: "Cry.wav",
+        isStock: true,
+        url: AudioFileManager.shared.url(filename: "Cry.wav", isStock: true)
+    )
     
-    static var fourMCItemsRevealed = [
-        ChoiceItem(title: "Choice 1", status: .revealed(isCorrect: false), action: {}),
-        ChoiceItem(title: "Choice 2", status: .revealed(isCorrect: true), action: {}),
-        ChoiceItem(title: "Choice 3", status: .revealed(isCorrect: false), action: {}),
-        ChoiceItem(title: "Choice 4", status: .revealed(isCorrect: false), action: {}),
+    static var dawnAudioMetadata = AudioMetadata(
+        id: "stock.Dawn",
+        name: "Dawn",
+        filename: "Dawn.wav",
+        isStock: true,
+        url: AudioFileManager.shared.url(filename: "Dawn.wav", isStock: true)
+    )
+    
+    static var audioMetadataArray = [
+        drumAudioMetadata,
+        cryAudioMetadata,
+        dawnAudioMetadata
     ]
 }
 

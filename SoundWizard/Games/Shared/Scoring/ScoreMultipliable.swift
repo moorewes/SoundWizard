@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol ScoreMultipliable {
-    var scoreMultiplier: ScoreMultiplier { get set }
-}
-
 struct ScoreMultiplier {
     let max: Double = 4
     let turnSuccessNeededForStreak = ScoreSuccess.fair
