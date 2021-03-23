@@ -81,7 +81,7 @@ private extension EQMatchLevel {
     }
 }
 
-private extension String {
+extension String {
     /// Remove whitespace and append a "."
     var idFormatted: String {
         var string = self

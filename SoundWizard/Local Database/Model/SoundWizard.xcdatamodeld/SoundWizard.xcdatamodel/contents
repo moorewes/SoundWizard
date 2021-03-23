@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H15" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="SoundWizard">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H512" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="SoundWizard">
     <entity name="AudioSource" representedClassName="AudioSource" syncable="YES" codeGenerationType="category">
         <attribute name="filename_" optional="YES" attributeType="String"/>
         <attribute name="id_" optional="YES" attributeType="String"/>
@@ -7,6 +7,8 @@
         <attribute name="name_" optional="YES" attributeType="String"/>
         <relationship name="eqDetectiveLevels_" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EQDetectiveLevel" inverseName="audioSources_" inverseEntity="EQDetectiveLevel"/>
         <relationship name="eqMatchLevels_" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CDEQMatchLevel" inverseName="audioSources_" inverseEntity="CDEQMatchLevel"/>
+        <relationship name="gainBrainLevels_" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDGainBrainLevel" inverseName="audioSources_" inverseEntity="CDGainBrainLevel"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="audioSources_" inverseEntity="User"/>
     </entity>
     <entity name="CDEQMatchLevel" representedClassName="CDEQMatchLevel" syncable="YES" codeGenerationType="category">
         <attribute name="bandCount_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -20,6 +22,16 @@
         <attribute name="staticFrequencies" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Double&gt;"/>
         <attribute name="staticGainValues" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Double&gt;"/>
         <relationship name="audioSources_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AudioSource" inverseName="eqMatchLevels_" inverseEntity="AudioSource"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="eqmLevels_" inverseEntity="User"/>
+    </entity>
+    <entity name="CDGainBrainLevel" representedClassName="CDGainBrainLevel" syncable="YES" codeGenerationType="class">
+        <attribute name="difficulty_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id_" optional="YES" attributeType="String"/>
+        <attribute name="number_" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="scores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
+        <attribute name="starScores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
+        <relationship name="audioSources_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AudioSource" inverseName="gainBrainLevels_" inverseEntity="AudioSource"/>
+        <relationship name="user" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="gainBrainLevels_" inverseEntity="User"/>
     </entity>
     <entity name="EQDetectiveLevel" representedClassName="EQDetectiveLevel" syncable="YES" codeGenerationType="category">
         <attribute name="bandFocus_" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -31,10 +43,19 @@
         <attribute name="scores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
         <attribute name="starScores_" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromDataTransformerName" customClassName="Array&lt;Int&gt;"/>
         <relationship name="audioSources_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AudioSource" inverseName="eqDetectiveLevels_" inverseEntity="AudioSource"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="eqdLevels_" inverseEntity="User"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
+        <relationship name="audioSources_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AudioSource" inverseName="user" inverseEntity="AudioSource"/>
+        <relationship name="eqdLevels_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EQDetectiveLevel" inverseName="user" inverseEntity="EQDetectiveLevel"/>
+        <relationship name="eqmLevels_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDEQMatchLevel" inverseName="user" inverseEntity="CDEQMatchLevel"/>
+        <relationship name="gainBrainLevels_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDGainBrainLevel" inverseName="user" inverseEntity="CDGainBrainLevel"/>
     </entity>
     <elements>
-        <element name="AudioSource" positionX="-505.4921875" positionY="-84.515625" width="128" height="133"/>
-        <element name="CDEQMatchLevel" positionX="-423" positionY="27" width="128" height="208"/>
-        <element name="EQDetectiveLevel" positionX="-338.734375" positionY="-17.86328125" width="128" height="178"/>
+        <element name="AudioSource" positionX="-505.4921875" positionY="-84.515625" width="128" height="163"/>
+        <element name="CDEQMatchLevel" positionX="-423" positionY="27" width="128" height="28"/>
+        <element name="EQDetectiveLevel" positionX="-338.734375" positionY="-17.86328125" width="128" height="28"/>
+        <element name="CDGainBrainLevel" positionX="-423" positionY="63" width="128" height="148"/>
+        <element name="User" positionX="-414" positionY="72" width="128" height="103"/>
     </elements>
 </model>

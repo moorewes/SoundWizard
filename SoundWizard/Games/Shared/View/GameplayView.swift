@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct GameplayView: View {
-    let game: GameHandling
+    let handler: GameHandling
     
     var body: some View {
-        game.gameBuilder.buildGame(gameHandler: game)
+        Game.build(handler: handler)
     }
 }

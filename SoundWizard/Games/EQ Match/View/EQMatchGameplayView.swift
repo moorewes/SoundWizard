@@ -137,6 +137,6 @@ struct EQMatchGameplayView_Previews: PreviewProvider {
     static let level: EQMatchLevel = TestData.eqMatchLevel
     
     static var previews: some View {
-        level.buildGame(gameHandler: TestData.GameHandler(state: .playing))
+        Game.build(handler: TestData.GameHandler(state: .playing))
     }
 }

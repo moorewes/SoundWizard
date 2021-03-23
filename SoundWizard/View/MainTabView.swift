@@ -22,16 +22,13 @@ struct MainTabView: View {
                 .tabItem { SettingsItem() }
         }
         .accentColor(.white)
-        .fullScreenCover(isPresented: $stateController.isPresentingLevel) {
-            // TODO: Refactor to avoid force unwrapping
-            GameShellView(game: stateController.gameHandler!)
-                .transition(.opacity)
-        }
+        .fullScreenCover(item: $stateController.gameHandler, content: { handler in
+            GameShellView(gameHandler: handler)
+        })
     }
 }
 
 // MARK: - Tab Bar Items
-
 extension MainTabView {
     struct HomeItem: View {
         var body: some View {
@@ -56,7 +53,6 @@ extension MainTabView {
 }
 
 // MARK: - Preview
-
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitAppearance.setup()

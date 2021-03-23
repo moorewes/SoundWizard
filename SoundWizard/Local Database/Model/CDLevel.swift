@@ -7,7 +7,7 @@
 
 import CoreData
 
-protocol CDLevel: class, Identifiable, LevelInfoProviding, ScoreUpdating {
+protocol CDLevel: class, Identifiable, LevelInfoProviding, ScoreUpdating, Level {
     var managedObjectContext: NSManagedObjectContext? { get }
     var game: Game { get }
     var id_: String? { get set }
@@ -63,7 +63,13 @@ extension CDLevel {
     }
     
     var scoreData: ScoreData {
-        ScoreData(starScores: starScores, scores: scores)
+        get {
+            ScoreData(starScores: starScores, scores: scores)
+        }
+        set {
+            starScores = newValue.starScores
+            scores = newValue.scores
+        }
     }
     
     func addScore(score: Int) {

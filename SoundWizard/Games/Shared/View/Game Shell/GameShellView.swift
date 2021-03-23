@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct GameShellView: View {
-    var game: GameHandling
+    var gameHandler: GameHandling
     @State var showInfoView = false
         
     var body: some View {
         VStack {
-            NavBar(game: game, rightBarButtonAction: { showInfoView.toggle() })
+            NavBar(game: gameHandler, rightBarButtonAction: { showInfoView.toggle() })
             
-            if game.state.isInGame {
-                GameplayView(game: game)
-            } else if game.state == .completed {
-                PostGameView(scoreData: game.level.scoreData, gameHandler: game.startHandler)
+            if gameHandler.state.isInGame {
+                GameplayView(handler: gameHandler)
+            } else if gameHandler.state == .completed {
+                PostGameView(scoreData: gameHandler.level.scoreData, gameHandler: gameHandler.startHandler)
             } else {
-                PreGameView(level: game.level, gameHandler: game.startHandler)
+                PreGameView(level: gameHandler.level, gameHandler: gameHandler.startHandler)
             }
         }
         .background(Gradient.background.ignoresSafeArea())
@@ -84,7 +84,7 @@ extension GameShellView {
 
 struct EQDetectiveShellView_Previews: PreviewProvider {
     static var previews: some View {
-        GameShellView(game: TestData.GameHandler(state: .preGame))
+        GameShellView(gameHandler: TestData.GameHandler(state: .preGame))
             .background(Color.init(hue: 0.62,
                                    saturation: 0.3,
                                    brightness: 0.18).ignoresSafeArea())

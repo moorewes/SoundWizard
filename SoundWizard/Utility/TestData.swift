@@ -69,9 +69,9 @@ extension TestData {
     static var stateController = TestStateController(levelStore: LevelStore())
     
     struct GameHandler: GameHandling {
-        var level: Level & GameBuilding = TestData.eqdLevel
+        var level: Level = TestData.eqdLevel
         var startHandler: GameStartHandling = GameStartHandler()
-        var gameBuilder: GameBuilding { return level }
+        //var gameBuilder: GameBuilding { return level }
         var completionHandler: GameCompletionHandling = GameCompletionHandler()
         var state: GameViewState
     }

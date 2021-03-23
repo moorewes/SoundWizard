@@ -10,7 +10,7 @@ import SwiftUI
 protocol GameHandling {
     var level: Level { get }
     var state: GameViewState { get }
-    var gameBuilder: GameBuilding { get }
+   // var gameBuilder: GameBuilding { get }
     var startHandler: GameStartHandling { get }
     var completionHandler: GameCompletionHandling { get }
 }

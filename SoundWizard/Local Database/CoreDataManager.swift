@@ -38,6 +38,10 @@ class CoreDataManager {
     
     // MARK: Internal
     
+    func user() -> User {
+        try! viewContext.fetch(User.fetchRequest()).first!
+    }
+    
     func allEQDLevels() -> [Level] {
         EQDetectiveLevel.levels(context: viewContext).map { $0.level }
     }
@@ -49,6 +53,7 @@ class CoreDataManager {
     func loadInitialLevels() {
         EQDetectiveLevel.storeBundleLevelsIfNeeded(context: viewContext)
         CDEQMatchLevel.storeBundleLevelsIfNeeded(context: viewContext)
+        CDGainBrainLevel.storeBundleLevelsIfNeeded(context: viewContext)
     }
     
     func audioSources(for metadata: [AudioMetadata]) -> [AudioSource] {
@@ -94,6 +99,7 @@ class CoreDataManager {
             EQDetectiveLevel.level(level.number, context: viewContext)?.addScore(score: score)
         case .eqMatch:
             CDEQMatchLevel.level(level.number, context: viewContext)?.addScore(score: score)
+        default: break
         }
     }
 }
@@ -105,7 +111,10 @@ extension CoreDataManager: LevelFetching {
             return allEQDLevels()
         case .eqMatch:
             return CDEQMatchLevel.levels(context: viewContext).map { $0.level }
+        default:
+            return []
         }
+        
     }
 }
 

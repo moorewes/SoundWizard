@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .accentColor(.teal)
                 .font(.std(.subheadline))
                 .background(Gradient.background.ignoresSafeArea())
-            window.rootViewController = UIHostingController(rootView: v)
+            window.rootViewController = UIHostingController(rootView: view)
             self.window = window
             window.makeKeyAndVisible()
         }

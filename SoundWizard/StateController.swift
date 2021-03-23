@@ -11,6 +11,8 @@ import SwiftUI
 class StateController: ObservableObject {
     private let levelStore: LevelFetching & LevelStoring
     
+   // let user: User
+    
     private var allLevels = [Level]()
     
     var dailyLevels: [Level] {
@@ -26,7 +28,6 @@ class StateController: ObservableObject {
     var levelBrowsingStore: LevelBrowsingStore?
     
     @Published var levelPacks = [LevelPack]()
-    
     @Published var gameState: GameViewState = .none
     @Published var gameHandler: GameHandler?
     
@@ -48,6 +49,8 @@ class StateController: ObservableObject {
     
     init(levelStore: LevelFetching & LevelStoring) {
         self.levelStore = levelStore
+        
+        //self.user = CoreDataManager.shared.user()
         allLevels = Game.allCases.flatMap {
             levelStore.fetchLevels(for: $0)
         }
@@ -55,15 +58,10 @@ class StateController: ObservableObject {
     }
     
     func openLevel(_ level: Level) {
-        if let level = self.level(matching: level) {
-            gameHandler = GameHandler(level: level,
-                                      state: gameState,
-                                      gameBuilder: level,
-                                      startHandler: self,
-                                      completionHandler: self)
-        } else {
-            fatalError("Could not find level to select for play")
-        }
+        gameHandler = GameHandler(level: level,
+                                  state: gameState,
+                                  startHandler: self,
+                                  completionHandler: self)
     }
     
     func index(for level: Level) -> Int? {
@@ -71,19 +69,20 @@ class StateController: ObservableObject {
     }
     
     func levels(for game: Game) -> [Level] {
+       // user.levels(for: game)
         allLevels.filter { $0.game == game }
     }
     
     func levels<T: Level>() -> [T] {
         allLevels.compactMap { $0 as? T }
     }
-    
-    private func level(matching level: Level) -> Level? {
-        allLevels.first { $0.id == level.id }
-    }
+//
+//    private func level(matching level: Level) -> Level? {
+//        allLevels.first { $0.id == level.id }
+//    }
     
     private func makeTestPacks() {
-        levelPacks.append(LevelPack(name: "Starter Pack", id: "pack1", levels: Array(allLevels.prefix(5))))
+        levelPacks.append(LevelPack(name: "Starter Pack", id: "pack1", levels: Array(allLevels.prefix(5)) + levels(for: .gainBrain)))
         levelPacks.append(LevelPack(name: "Frequency Freak", id: "pack2", levels: Array(allLevels.suffix(5))))
     }
 }
@@ -91,10 +90,9 @@ class StateController: ObservableObject {
 // MARK: - Game Handling
 
 extension StateController: GameTransitionHandling {
-    struct GameHandler: GameHandling {
+    struct GameHandler: GameHandling, Identifiable {
         var level: Level
         private(set) var state: GameViewState
-        var gameBuilder: GameBuilding
         private(set) var startHandler: GameStartHandling
         private(set) var completionHandler: GameCompletionHandling
         
@@ -103,6 +101,8 @@ extension StateController: GameTransitionHandling {
                 self.state = state
             }
         }
+        
+        var id: String { level.id }
     }
     
     func play() {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-protocol Level: GameBuilding {
+protocol Level {
     var id: String { get }
     var game: Game { get }
     var number: Int { get }

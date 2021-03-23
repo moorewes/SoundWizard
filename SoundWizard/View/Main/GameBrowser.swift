@@ -22,7 +22,6 @@ struct GameBrowser: View {
 }
 
 // MARK: - List
-
 extension GameBrowser {
     struct List: View {
         let games: [Game.Data]
@@ -33,10 +32,14 @@ extension GameBrowser {
                     SectionSimpleHeader(title: "Games")
                     
                     ForEach(games) { game in
-                        Cell(game: game) {
-                            LevelBrowser(game: game.game)
-                                .background(Gradient.background.ignoresSafeArea())
-                        }
+                        
+                        NavigationLink(
+                            destination:
+                                LevelBrowser(game: game.game)
+                                .background(Gradient.background.ignoresSafeArea()),
+                            label: {
+                                Cell(title: game.game.name, starsLabel: game.stars.uiDescription)
+                            })
                     }
                     .padding(.horizontal)
                     .background(Color.secondaryBackground)
@@ -50,27 +53,24 @@ extension GameBrowser {
 }
 
 // MARK: - List Cell
-
 extension GameBrowser.List {
-    struct Cell<Destination: View>: View {
-        let game: Game.Data
-        let destination: () -> Destination
+    struct Cell: View {
+        let title: String
+        let starsLabel: String
         
         var body: some View {
-            NavigationLink(destination: destination()) {
-                RowCell {
-                    HStack {
-                        Text(game.title)
-                            .font(.std(.headline))
-                            .foregroundColor(.white)
-                        
-                        Spacer()
-                        
-                        StarImage()
-                        Text(game.stars.uiDescription)
-                            .font(.mono(.subheadline))
-                            .foregroundColor(.teal)
-                    }
+            RowCell {
+                HStack {
+                    Text(title)
+                        .font(.std(.headline))
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                    
+                    StarImage()
+                    Text(starsLabel)
+                        .font(.mono(.subheadline))
+                        .foregroundColor(.teal)
                 }
             }
         }
@@ -78,7 +78,6 @@ extension GameBrowser.List {
 }
 
 // MARK: - Preview
-
 struct GamesUIView_Previews: PreviewProvider {
     static var previews: some View {
         GameBrowser(games: [Game.Data(game: Game.eqMatch,
