@@ -10,20 +10,9 @@ import SwiftUI
 // TODO: Refactor once architecture determined
 class StateController: ObservableObject {
     private let levelStore: LevelFetching & LevelStoring
-    
-   // let user: User
+    private let gameRepo = GameRepo()
     
     private var allLevels = [Level]()
-    
-    var dailyLevels: [Level] {
-        let eqmLevels = levels(for: .eqMatch)
-        var result = [Level]()
-        while result.count < 10 {
-            let int = Int.random(in: 0..<eqmLevels.count)
-            result.append(eqmLevels[int])
-        }
-        return result
-    }
     
     var levelBrowsingStore: LevelBrowsingStore?
     

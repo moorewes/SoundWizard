@@ -1,5 +1,5 @@
 //
-//  User+CoreDataClass.swift
+//  GameData+CoreDataClass.swift
 //  SoundWizard
 //
 //  Created by Wes Moore on 2/12/21.
@@ -10,6 +10,18 @@ import Foundation
 import CoreData
 
 extension User {
+//    static func current() -> User {
+//        
+//    }
+}
+
+extension GameData {
+    func allLevels() -> [Level] {
+        Game.allCases.flatMap {
+            levels(for: $0)
+        }
+    }
+    
     func levels(for game: Game) -> [Level] {
         switch game {
         case .eqDetective: return eqdLevels

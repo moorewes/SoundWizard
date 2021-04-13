@@ -137,6 +137,7 @@
 		DE9CE84D25758F2D0023806C /* BandFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE84C25758F2D0023806C /* BandFocus.swift */; };
 		DE9CE8622575EBB10023806C /* LevelDifficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE8512575E9690023806C /* LevelDifficulty.swift */; };
 		DE9CE86A2575FC1C0023806C /* ScoreSuccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9CE8692575FC1C0023806C /* ScoreSuccess.swift */; };
+		DE9DFE1B261BF59600915916 /* GameRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9DFE1A261BF59600915916 /* GameRepo.swift */; };
 		DEA119F6257987EC00F17FCC /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA119F5257987EC00F17FCC /* Scratchpad.swift */; };
 		DEA36D4525D7122E00360468 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA36D4325D7122E00360468 /* User.swift */; };
 		DEA36D5125D7153900360468 /* CDGainBrainLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA36D5025D7153900360468 /* CDGainBrainLevel.swift */; };
@@ -337,6 +338,7 @@
 		DE9CE84C25758F2D0023806C /* BandFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandFocus.swift; sourceTree = "<group>"; };
 		DE9CE8512575E9690023806C /* LevelDifficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelDifficulty.swift; sourceTree = "<group>"; };
 		DE9CE8692575FC1C0023806C /* ScoreSuccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSuccess.swift; sourceTree = "<group>"; };
+		DE9DFE1A261BF59600915916 /* GameRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRepo.swift; sourceTree = "<group>"; };
 		DEA119F5257987EC00F17FCC /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		DEA36D4325D7122E00360468 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DEA36D5025D7153900360468 /* CDGainBrainLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDGainBrainLevel.swift; sourceTree = "<group>"; };
@@ -831,6 +833,7 @@
 				DEC1862E254A399D00D730CC /* AppDelegate.swift */,
 				DEC18630254A399D00D730CC /* SceneDelegate.swift */,
 				DEEFECEF258942BA007C94C6 /* StateController.swift */,
+				DE9DFE1A261BF59600915916 /* GameRepo.swift */,
 				DE2E5191257D6FE800F47DEE /* View */,
 				DE2E519F257D70F500F47DEE /* Local Database */,
 				DEC18667254A39C800D730CC /* Games */,
@@ -1163,6 +1166,7 @@
 				DEE75AF525A9587A0035579C /* HzCircleIcon.swift in Sources */,
 				DEBEF0212551D3C70095134B /* CoreDataManager.swift in Sources */,
 				DEC18631254A399D00D730CC /* SceneDelegate.swift in Sources */,
+				DE9DFE1B261BF59600915916 /* GameRepo.swift in Sources */,
 				DE78650C25D203EB002C7C2A /* GainBrainGame.swift in Sources */,
 				DE0295E82550BD8E00D901D0 /* Level.swift in Sources */,
 				DE451580257AE26B006D59EC /* TransitionLink.swift in Sources */,
