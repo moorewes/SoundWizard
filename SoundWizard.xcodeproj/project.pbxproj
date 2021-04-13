@@ -128,6 +128,7 @@
 		DE8C78C62593BAFA00915C44 /* PickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8C78C52593BAFA00915C44 /* PickerRow.swift */; };
 		DE8C78CB2593BB6400915C44 /* MultiPickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8C78CA2593BB6400915C44 /* MultiPickerRow.swift */; };
 		DE8C78D02593CD8500915C44 /* EQDCustomLevelBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8C78CF2593CD8500915C44 /* EQDCustomLevelBrowser.swift */; };
+		DE8E57FC262545C9008889ED /* InitialGameDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8E57FB262545C9008889ED /* InitialGameDataLoader.swift */; };
 		DE90675525830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE90675325830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift */; };
 		DE93E86E25A3CE1500151CAD /* EQMatchLevel+GuessError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE93E86D25A3CE1500151CAD /* EQMatchLevel+GuessError.swift */; };
 		DE93E87425A3FDE700151CAD /* EQMatchGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE93E87325A3FDE700151CAD /* EQMatchGameTests.swift */; };
@@ -329,6 +330,7 @@
 		DE8C78C52593BAFA00915C44 /* PickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerRow.swift; sourceTree = "<group>"; };
 		DE8C78CA2593BB6400915C44 /* MultiPickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPickerRow.swift; sourceTree = "<group>"; };
 		DE8C78CF2593CD8500915C44 /* EQDCustomLevelBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQDCustomLevelBrowser.swift; sourceTree = "<group>"; };
+		DE8E57FB262545C9008889ED /* InitialGameDataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialGameDataLoader.swift; sourceTree = "<group>"; };
 		DE90675325830916003FA9B5 /* EQDetectiveLevel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQDetectiveLevel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DE93E86D25A3CE1500151CAD /* EQMatchLevel+GuessError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EQMatchLevel+GuessError.swift"; sourceTree = "<group>"; };
 		DE93E87325A3FDE700151CAD /* EQMatchGameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EQMatchGameTests.swift; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 			children = (
 				DE4A7CFA25BF56BB006A8D9B /* Initial Data Loading */,
 				DEBEF0202551D3C70095134B /* CoreDataManager.swift */,
+				DE8E57FB262545C9008889ED /* InitialGameDataLoader.swift */,
 				DED15767258F0A8500C24641 /* LevelFetching.swift */,
 				DE67F48925D1BAE6005C5B5E /* Model */,
 			);
@@ -1198,6 +1201,7 @@
 				DED5CFA82581C4E7001C0846 /* AudioFileManager.swift in Sources */,
 				DEB7BB2D25BF92F60065097F /* ItemCell.swift in Sources */,
 				DE2E51BF257D99EF00F47DEE /* Score.swift in Sources */,
+				DE8E57FC262545C9008889ED /* InitialGameDataLoader.swift in Sources */,
 				DE1F19D02564709900CF923A /* GameShellView.swift in Sources */,
 				DE4264D82599709D001B18ED /* ScoreEngine.swift in Sources */,
 				DE4264E02599742B001B18ED /* EQMatchGame+Turn.swift in Sources */,

@@ -39,7 +39,16 @@ class CoreDataManager {
     // MARK: Internal
     
     func user() -> User {
-        try! viewContext.fetch(User.fetchRequest()).first!
+        do {
+            let request: NSFetchRequest<User> = User.fetchRequest()
+            if let user = try viewContext.fetch(request).first {
+                return user
+            }
+        }  catch {
+            print(error.localizedDescription)
+        }
+        
+        return InitialDataLoader.createNewUser(in: viewContext)
     }
     
     func allEQDLevels() -> [Level] {

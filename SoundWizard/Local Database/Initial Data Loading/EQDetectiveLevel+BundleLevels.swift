@@ -44,26 +44,28 @@ extension EQDetectiveLevel {
     
     // MARK: - Bundle levels constuctor
     
-    class func storeBundleLevelsIfNeeded(context: NSManagedObjectContext) {
-        guard !bundleLevelsAreInDatabase else { return }
+    @discardableResult
+    class func storeBundleLevelsIfNeeded(context: NSManagedObjectContext) -> [EQDetectiveLevel] {
+        guard !bundleLevelsAreInDatabase else { return [] }
         
-        var index = 1
+        var levels = [EQDetectiveLevel]()
         let context = CoreDataManager.shared.container.viewContext
         for source in AudioSource.allSources(context: context) {
             for focus in BandFocus.allCases {
                 for difficulty in LevelDifficulty.allCases {
                     for gain in gainValues(for: difficulty) {
-                        let _ = EQDetectiveLevel(
-                            context: context,
-                            number: index,
-                            difficulty: difficulty,
-                            bandFocus: focus,
-                            filterGainDB: gain,
-                            filterQ: qValue(for: difficulty, gain: gain),
-                            starScores: starScores(for: difficulty),
-                            audioSources: [source]
+                        levels.append(
+                            EQDetectiveLevel(
+                                context: context,
+                                number: levels.count + 1,
+                                difficulty: difficulty,
+                                bandFocus: focus,
+                                filterGainDB: gain,
+                                filterQ: qValue(for: difficulty, gain: gain),
+                                starScores: starScores(for: difficulty),
+                                audioSources: [source]
+                            )
                         )
-                        index += 1
                     }
                 }
             }
@@ -73,8 +75,9 @@ extension EQDetectiveLevel {
             try context.save()
             print("Stored bundle levels, count: \(context.registeredObjects.count)")
             bundleLevelsAreInDatabase = true
+            return levels
         } catch {
-            print(error.localizedDescription)
+            fatalError(error.localizedDescription)
         }
     }
     

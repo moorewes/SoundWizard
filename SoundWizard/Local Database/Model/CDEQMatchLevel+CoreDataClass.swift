@@ -70,14 +70,6 @@ extension CDEQMatchLevel {
 // MARK: - Database Level Conformance
 
 extension CDEQMatchLevel: DatabaseLevel {
-    typealias LevelType = EQMatchLevel
-    typealias AudioSourceType = AudioSource
-    typealias ObjectContext = NSManagedObjectContext
-    
-    var level: EQMatchLevel {
-        EQMatchLevel(id: id, number: number, audioMetadata: audioMetadata, difficulty: difficulty, format: format, scoreData: scoreData)
-    }
-    
     static func createNew(level: EQMatchLevel, audioSources: [AudioSource], context: NSManagedObjectContext) {
         let result = CDEQMatchLevel(context: context)
         result.id = level.id
@@ -88,6 +80,29 @@ extension CDEQMatchLevel: DatabaseLevel {
         result.staticFrequencies = level.staticFrequencies
         result.staticGainValues = level.staticGainValues
         audioSources.forEach { result.addToAudioSources_($0) }
+    }
+    
+    typealias LevelType = EQMatchLevel
+    typealias AudioSourceType = AudioSource
+    typealias ObjectContext = NSManagedObjectContext
+    
+    var level: EQMatchLevel {
+        EQMatchLevel(id: id, number: number, audioMetadata: audioMetadata, difficulty: difficulty, format: format, scoreData: scoreData)
+    }
+    
+    @discardableResult
+    static func createNew(level: EQMatchLevel, audioSources: [AudioSource], context: NSManagedObjectContext) -> CDEQMatchLevel {
+        let result = CDEQMatchLevel(context: context)
+        result.id = level.id
+        result.number = level.number
+        result.difficulty = level.difficulty
+        result.starScores = level.scoreData.starScores
+        result.format = level.format
+        result.staticFrequencies = level.staticFrequencies
+        result.staticGainValues = level.staticGainValues
+        audioSources.forEach { result.addToAudioSources_($0) }
+        
+        return result
     }
     
 }

@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UIKitAppearance.setup()
         AudioFileManager.shared.performInitialSetupIfNeeded()
-        CoreDataManager.shared.loadInitialLevels()
+       // CoreDataManager.shared.loadInitialLevels()
         
         return true
     }

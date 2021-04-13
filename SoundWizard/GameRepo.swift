@@ -13,12 +13,13 @@ class GameRepo {
     private let user: User!
     
     var dailyLevels: [Level] {
-        let eqmLevels = levels(for: .eqMatch)
+        let eqmLevels = levels(for: .eqDetective)
         var result = [Level]()
         while result.count < 10 {
             let int = Int.random(in: 0..<eqmLevels.count)
             result.append(eqmLevels[int])
         }
+        
         return result
     }
     
@@ -27,6 +28,7 @@ class GameRepo {
     init() {
         self.user = localDataSource.user()
         allLevels = user.gameData?.allLevels() ?? []
+        
         makeTestPacks()
     }
     
@@ -35,11 +37,11 @@ class GameRepo {
     }
     
     func levels<L: Level>() -> [L] {
-        allLevels.compactMap { $0 as? L}
+        allLevels.compactMap { $0 as? L }
     }
     
     private func makeTestPacks() {
         levelPacks.append(LevelPack(name: "Starter Pack", id: "pack1", levels: Array(allLevels.prefix(5)) + levels(for: .gainBrain)))
         levelPacks.append(LevelPack(name: "Frequency Freak", id: "pack2", levels: Array(allLevels.suffix(5))))
-    }    
+    }
 }

@@ -29,6 +29,8 @@ class StateController: ObservableObject {
         }
     }
     
+    var dailyLevels: [Level] { gameRepo.dailyLevels }
+    
     var gameData: [Game.Data] {
         Game.allCases.map { game in
             let stars = levels(for: game).starProgress

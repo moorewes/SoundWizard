@@ -21,15 +21,15 @@ extension CDEQMatchLevel {
     
     // MARK: - Bundle levels constuctor
     
-    class func storeBundleLevelsIfNeeded(context: NSManagedObjectContext) {
-        guard !bundleLevelsAreInDatabase else { return }
+    class func storeBundleLevelsIfNeeded(context: NSManagedObjectContext) -> [CDEQMatchLevel] {
+        guard !bundleLevelsAreInDatabase else { return [] }
         
         let sources = AudioSource.allSources(context: context)
-        generateDBLevels(for: sources, context: context)
+        return generateDBLevels(for: sources, context: context)
     }
     
-    class func generateDBLevels(for sources: [AudioSource], context: NSManagedObjectContext) {
-        var index = 1
+    class func generateDBLevels(for sources: [AudioSource], context: NSManagedObjectContext) -> [CDEQMatchLevel] {
+        var levels = [CDEQMatchLevel]()
         for source in sources {
             let diffs: [LevelDifficulty] = [.easy, .moderate, .hard]
             for difficulty in diffs {
@@ -40,14 +40,16 @@ extension CDEQMatchLevel {
                             let format = EQMatchLevel.Format(mode: mode, bandCount: bandCount, bandFocus: focus)
                             let scoreData = EQMatchLevel.initialScoreData(difficulty: .easy)
                             var level = EQMatchLevel(id: "",
-                                                     number: index,
+                                                     number: levels.count + 1,
                                                      audioMetadata: [],
                                                      difficulty: difficulty,
                                                      format: format,
                                                      scoreData: scoreData)
                             level.setStockID(audioSources: [source])
-                            CDEQMatchLevel.createNew(level: level, audioSources: [source], context: context)
-                            index += 1
+                            levels.append(
+                                CDEQMatchLevel.createNew(level: level, audioSources: [source], context: context)
+                            )
+                            
                         }
                     }
                 }
@@ -58,8 +60,9 @@ extension CDEQMatchLevel {
             try context.save()
             print("Stored bundle levels, count: \(context.registeredObjects.count)")
             bundleLevelsAreInDatabase = true
+            return levels
         } catch {
-            print(error.localizedDescription)
+            fatalError(error.localizedDescription)
         }
     }
 }
